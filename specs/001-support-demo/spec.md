@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.3. Status: current specification for the existing demonstration.
+Version: 0.4. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -13,10 +13,11 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U02 | Owner's editorial correction: concrete natural wording and faithful SDD application |
 | U03 | Owner's current request: complete the method, document tool use, incorporate the 20 research proposals and update pending work |
 | U04 | Owner's request: investigate useful interactive extensions and reuse opportunities; apply a black background, white text and a more personal visual structure now |
+| U05 | Owner requests menu, optional OpenAI API connection/Q&A and source continuity to another PC using USB/shared folder; no private runtime or credentials transfer |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
-U01–U04 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
+U01–U05 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
 
 ## Actors, data and permissions
 - Visitor: reads public documents and clones the repository.
@@ -79,6 +80,16 @@ Flow: run relevant tests and SDD checks → inspect results/limits → check sta
 Alternatives: test or publication guard fails → correct before publication; unrelated local drafts are preserved.
 Result: commit-associated evidence and updated continuity. A commit is not owner acceptance.
 
+### CU08 — Navigate the workspace
+Actor: visitor. Trigger: menu selection. Flow: choose demonstration, conversation, API connection or engineering → matching view appears and menu marks it active. Back/forward and direct hashes restore the view. Offline demonstration remains available without a key.
+
+### CU09 — Connect and ask a cloud model
+Actor: local operator using their own API key. Trigger: explicit connection consent and submit.
+Preconditions: OpenAI key, exact model ID and chosen output limit. Fixed HTTPS destination api.openai.com.
+Flow: validate fields → verify model access without generating text → create opaque local session → operator submits question → send bounded conversation to Responses API with store=false, no tools → render plain text and usage.
+Alternatives: missing consent, invalid model/key, rate limit, network failure or invalid response shows a sanitized error. No automatic retry or model fallback. One in-flight question per session; 20 requests per connection and 30-minute idle expiry. Clear history is local; disconnect removes local session. Disconnect during an in-flight call discards its result but cannot promise provider cancellation or billing reversal.
+Result: user can ask and read answers. Cloud chat cannot operate the demo or read project files. No secrets/transcripts are written by this app to disk or logs.
+
 ## Requirements
 
 | ID | Observable requirement | Source / decision status | Use cases | Acceptance |
@@ -98,18 +109,22 @@ Result: commit-associated evidence and updated continuity. A commit is not owner
 | R13 | Use descriptive copy and factual AI-assistance disclosure; render a black canvas, white text, clear personal identity, readable controls/focus and a responsive request/review/activity layout. | U02/U04 confirmed requests | CU01/CU06 | Editorial and desktop/narrow-width keyboard review |
 | R14 | Record active spec, versions, responsibilities, changes, next action and the 20-item expansion backlog at each relevant delivery. | U03 confirmed request | CU07 | Continuity/backlog validation |
 
+| R15 | Menu views, hashes and keyboard controls reach demo, chat, connection and method; original demo needs no key. | U05 | CU08 | Browser navigation and route checks |
+| R16 | Optional OpenAI connection and bounded Q&A require explicit consent, isolate sessions, sanitize errors, support local disconnect/history clearing and never expose keys in outputs. | U05 | CU09 | Transport/session/HTTP negatives and browser checks; live inference separately classified |
+| R17 | Provide portable source/startup instructions and a read-only destination check without credentials or implicit installation. | U05 | CU01/CU07 | Portable check and clean-directory verification |
+
 ## Attributes and exclusions
-- Privacy: fixtures only; no external runtime network requests. No public customer endpoint.
+- Privacy: demonstration uses fixtures only. Optional cloud chat transmits only the operator's bounded conversation to OpenAI after consent; no automatic file/context upload. No public customer endpoint.
 - Security: loopback and state-machine controls are tested. Real identity and durable audit remain expansion work.
 - Performance: no service-level latency or throughput promise. Test-run durations are observations, not business thresholds.
-- Cost: no model calls in the product; local computing still consumes resources. Development subscription/usage is not measured here.
+- Cost: the demonstration has no model calls. Optional cloud chat uses the operator's API account; output-token/request limits are not a currency budget. Development subscription/usage is separate.
 - Portability: Python 3.11+ is the intended range; actual verified environment is recorded per run. Other OS/version combinations are not inferred.
 - Accessibility: semantic labels/live status exist; keyboard/mobile observations and broader assessment remain separately classified.
 - Recovery: stop/restart resets synthetic session; receipts are not durable. No migrations or production backup are needed for disposable state.
 - Cancel: close browser/stop local server; no background worker or paid request continues in the product.
-- Excluded: live model, real refunds, authentication, distributed transaction guarantees, commercial results and public server deployment.
+- Excluded: real refunds, customer authentication, distributed transaction guarantees, commercial results and public server deployment. Cloud Q&A is separate from the deterministic demo.
 
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.3. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is S01 0.4. S02 is an expansion backlog; its higher number does not make it active or implemented.

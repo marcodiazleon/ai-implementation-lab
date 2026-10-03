@@ -1,6 +1,6 @@
 # S01 implementation and maintenance plan
 
-Version 0.3. Basis: spec.md 0.3. Scope: maintain the existing local example and complete SDD traceability.
+Version 0.4. Basis: spec.md 0.4. Scope: maintain the existing local example and complete SDD traceability.
 
 ## Components and contracts
 | Component | Files | Contract / requirement |
@@ -50,3 +50,8 @@ For a new feature, select its expansion task, resolve its listed dependencies, u
 Before changing the view, extend R13 and cases C052/C053. Change web/index.html and web/style.css: black canvas, white text, personal header, compact introduction and two work panels with activity below. Keep existing IDs and event handlers. Add real anchor links and a keyboard skip link; use a single-column layout on narrow screens. No external fonts, scripts or dependencies.
 Review the rendered desktop and narrow layout, focus visibility and existing approval/failure/retry flow using a separate synthetic server. Preserve the user's existing session. Record the specific viewport, result and source hash; no full accessibility certification.
 Investigate the expanded product separately. A concept derived from another project is not a verified reusable component; publication contains only original synthetic examples and public research. Record both plans and the relation to existing S02 tasks before implementing a new capability.
+
+## U05 — menu and optional OpenAI Q&A
+Use existing HTML/CSS/JS with hash-based view routing. cloud.py owns fixed-host HTTPS transport and isolated expiring in-memory sessions; server.py exposes exact JSON-only /api/cloud/connect, /ask, /clear and /disconnect paths. HTTP requests remain loopback-only with Host/Origin validation. No external SDK/dependency, arbitrary endpoint, auth-token discovery or environment-key loading.
+The connection form clears the key field after submitting; an opaque session token stays only in tab memory. The server holds credentials/transcript in memory and expires sessions on access. Cloud status is separate from demo receipts. Render model content with textContent. Tests inject a fake transport; live API use is NOT_TESTED until the operator supplies their own key and explicitly sends a question.
+Portable app scripts locate their own root. Destination checks read versions and files only; no installation, credentials, database, account or service changes. Multi-project travel material is private and outside this public repo.

@@ -4,9 +4,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 from .controller import Lab, ROOT, load_data
 from .models import RuleError
+from .cloud import CloudSessions, CloudError
 
-def make_server(port=8765):
+def make_server(port=8765, cloud=None):
     lab = Lab()
+    cloud = cloud or CloudSessions()
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_):
             pass
@@ -36,7 +38,7 @@ def make_server(port=8765):
             if path == "/api/scenarios":
                 return self.respond(200, load_data("scenarios.json"))
             assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"),
-                      "/style.css": ("style.css", "text/css")}
+                      "/style.css": ("style.css", "text/css"), "/cloud.js": ("cloud.js", "application/javascript")}
             if path in assets:
                 filename, mime = assets[path]
                 return self.respond(200, (ROOT / "web" / filename).read_bytes(), mime)
@@ -49,7 +51,8 @@ def make_server(port=8765):
                 return self.respond(415, {"error": "JSON_REQUIRED"})
             try:
                 length = int(self.headers.get("Content-Length", "0"))
-                if not 0 < length <= 4096:
+                body_limit = 16384 if urlsplit(self.path).path.startswith("/api/cloud/") else 4096
+                if not 0 < length <= body_limit:
                     return self.respond(413, {"error": "INVALID_BODY_SIZE"})
                 body = json.loads(self.rfile.read(length))
                 if not isinstance(body, dict):
@@ -58,6 +61,12 @@ def make_server(port=8765):
                 return self.respond(400, {"error": "INVALID_JSON"})
             path = urlsplit(self.path).path
             try:
+                if path.startswith("/api/cloud/"):
+                    handlers = {"/api/cloud/connect": cloud.connect, "/api/cloud/ask": cloud.ask,
+                                "/api/cloud/clear": cloud.clear, "/api/cloud/disconnect": cloud.disconnect}
+                    if path not in handlers:
+                        return self.respond(404, {"error": "NOT_FOUND"})
+                    return self.respond(200, handlers[path](body))
                 if path == "/api/request":
                     result = lab.request(body)
                 elif path == "/api/decision" and set(body) == {"proposal_id", "decision"}:
@@ -71,6 +80,8 @@ def make_server(port=8765):
                 else:
                     return self.respond(400, {"error": "INVALID_ACTION"})
                 self.respond(200, result)
+            except CloudError as exc:
+                self.respond(exc.status, {"error": exc.code})
             except RuleError as exc:
                 self.respond(409, {"status": "BLOCKED", "reason": exc.code})
             except (TypeError, ValueError):

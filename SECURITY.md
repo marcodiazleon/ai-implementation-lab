@@ -11,3 +11,7 @@ Real authentication or user isolation, encryption/key management, persistent aud
 The browser approval is a simulated role; any local process can send that request. A local Git hook can be bypassed and detects only a few patterns. A valid event hash chain does not prove who produced it or prevent full recomputation.
 
 Never paste sensitive information into issues or the demo. For a potential vulnerability, contact the owner through the GitHub profile to arrange a suitable disclosure channel before sharing sensitive details.
+
+## Conexión API opcional
+
+La clave se introduce explícitamente y permanece en memoria del servidor local. No se lee del entorno ni de archivos. Destino fijo api.openai.com; no hay redirecciones ni URL arbitraria. Sesiones, caducidad, límites y privacidad: [guía API](docs/OPENAI_API.md). Este servidor local no proporciona autenticación multiusuario ni aislamiento frente a otros procesos del mismo equipo; no se debe exponer en red. Las pruebas no utilizan credenciales reales.

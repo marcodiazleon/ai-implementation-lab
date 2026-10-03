@@ -12,7 +12,7 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
 The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.3; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+[Current status](docs/project-status.json) explicitly selects S01 0.4; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -85,7 +85,7 @@ reports/       human-readable interpretation of those results
 
 ## Current limits
 
-This is a deterministic integration demonstration, **not a deployed autonomous AI service**. There are no LLM calls, real customers, real refunds or external business connections. The reviewer role is simulated; any local caller can use the decision endpoint. State disappears on restart. Retry protection applies within one process, not to distributed transactions.
+This is a deterministic integration demonstration, **not a deployed autonomous AI service**. The refund demonstration has no LLM calls, real customers, real refunds or external business connections. A separate optional Q&A view can call OpenAI API after explicit configuration and consent. The reviewer role is simulated; any local caller can use the decision endpoint. State disappears on restart. Retry protection applies within one process, not to distributed transactions.
 
 The hash chain detects ordinary edits if hashes are left unchanged; it is not a signed, immutable audit log. The disallowed-tool case tests an allowlist, not resistance to arbitrary prompt injection. The MCP adapter is wire-tested for its documented subset, not certified or tested with a live assistant client.
 
@@ -97,3 +97,7 @@ This repository is public for inspection. No open-source license has been grante
 
 ## Next interactive experience
 The [product and visual plans](docs/PLAN_PRODUCTO_Y_DISENO.md) describe editable request analysis, comparison and a bounded sales workflow. The black/white visual update is delivered; these functional extensions remain planned. [Research and sources](docs/INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md).
+
+## Menú y conversación opcional
+
+El menú abre Demostración, Conversación, Conexión API y Cómo está construido. [Guía de conexión y traslado](docs/OPENAI_API.md). La conversación usa una clave propia de OpenAI API y puede generar cargos; la demostración sigue funcionando sin ella. Inicia con `INICIAR_LAB.cmd` en Windows o `python run.py serve`. La API real y el segundo equipo requieren sus respectivas verificaciones.

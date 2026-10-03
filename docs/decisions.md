@@ -16,7 +16,7 @@ Updated 2026-10-03. Source IDs U01–U03 are defined in the active specification
 | D10 | Incorporate all 20 expansion proposals | One canonical backlog with dependencies and closure criteria | U03 confirmed request | Assistant | DOCUMENTED; implementation states are separate |
 | D11 | Course layers 00–05 | Chapter 13 and corrected chapter 01 supersede older chapter-10 wording | Current method-source reconciliation | Assistant | RESOLVED_FOR_THIS_PROJECT; original book not edited |
 | D12 | Plain descriptive presentation | Replace slogan-like framing with task and result | U02 confirmed correction | Assistant | IMPLEMENTED; owner comprehension untested |
-| D13 | Active spec is S01 0.2 | A later numbered spec may be planning-only | Current method, U03 | Assistant | ACTIVE; S02 remains BACKLOG |
+| D13 | Active spec is S01 0.4 | A later numbered spec may be planning-only | Current method, U03 | Assistant | ACTIVE; S02 remains BACKLOG |
 | D14 | Model/provider budget and destination | Local model or approved remote service, compare before enabling | No provider/cost decision supplied | Marco | PENDING for EXP-A04 only |
 | D15 | Pilot identity and users | Choose actual roles/resources with the business owner | No live pilot currently in scope | Marco | PENDING for EXP-M04/A10 only |
 
@@ -24,3 +24,6 @@ Engineering choices above are identified separately from user approvals. Silence
 
 ## D16 — U04 product and visual direction
 2026-10-03. Marco requested a black/white visual redesign and research into a more useful interactive product. Apply the visual change to S01 now; new product functions remain proposals under S02. Compare extending request analysis with a bounded commercial workflow. Reuse generic concepts and original synthetic demonstrations; no private product code, customer data or unverified integration claim is included.
+
+## D17 — U05 optional API and portability
+2026-10-03. Add four menu views and an independent OpenAI API conversation using an operator-supplied key and exact model. Reimplement a generic connection form; do not import private product code. Fixed endpoint, explicit consent, bounded sessions and no automatic retries. Keep the deterministic exercise and S02 planner backlog separate. USB/shared-folder transfer uses source comparison and local prerequisites; credentials and destination runtime require local setup.

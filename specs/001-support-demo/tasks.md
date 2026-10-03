@@ -1,7 +1,7 @@
 # S01 tasks
 
-Version 0.3. Current spec: spec.md 0.3. Existing behavior is retained; this update completes method records and reproducible evidence.
-Source: U01–U03 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
+Version 0.4. Current spec: spec.md 0.4. Existing behavior is retained; this update completes method records and reproducible evidence.
+Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
 |---|---|---|---|---|---|---|
@@ -22,5 +22,8 @@ Source: U01–U03 in the spec. One implementing assistant writes shared artifact
 | T18 | R12,R14 | Delivery review and handoff | T13–T15,T17 | Implementing assistant | Structural and technical evidence, diff/privacy review and next task | IMPLEMENTED; see review report |
 | T19 | R11,R13 | Black/white personal visual layout | U04,T08 | Implementing assistant | C052/C053 browser observations and unchanged workflow checks | IMPLEMENTED; see visual review |
 | T20 | R14 | Product research and two bounded plans | U04,T17 | Implementing assistant | Primary-source findings, reuse limits and first useful increment | COMPLETE; see product plans |
+| T21 | R15 | Menu and view routing | U05,T19 | Implementing assistant | Demo/chat/connection/method views work by mouse and keyboard | IMPLEMENTED; local tests passed; live API and destination pending |
+| T22 | R16 | Optional API transport, sessions and Q&A | U05,T21 | Implementing assistant | Bounded consent-based flow and negative tests; live test status explicit | IMPLEMENTED; local tests passed; live API and destination pending |
+| T23 | R17 | Portable startup and destination check | U05 | Implementing assistant | Relative paths and dependency audit work without modifying destination | IMPLEMENTED; local tests passed; live API and destination pending |
 
 Task state describes work, not acceptance. Case states in acceptance.csv are authoritative for observed checks. Completed legacy behavior remains unchanged and its history is preserved. New expansion implementation uses S02 tasks after selecting the corresponding item.

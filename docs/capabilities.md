@@ -20,3 +20,7 @@ Current implementation: local synthetic example. Canonical tool details: [tools-
 | Expansion | 20 items with requirements, dependencies and acceptance | Planning is not implementation |
 
 See evidence/latest.json for current observed results and tests. Manual acceptance cases remain NO_PROBADO until their evidence is recorded.
+
+## U05 — Menú y conversación
+
+Menú de cuatro vistas y conversación opcional OpenAI API: [uso y límites](OPENAI_API.md). Sin integración del chat con las operaciones de devolución. La cobertura automatizada usa transporte simulado; conexión real pendiente.

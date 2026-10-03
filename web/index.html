@@ -7,6 +7,7 @@
   <title>AI Implementation Lab · Marco Díaz de León</title>
   <link rel="stylesheet" href="/style.css">
   <script src="/app.js" defer></script>
+  <script src="/cloud.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#workspace">Ir al área de trabajo</a>
@@ -16,12 +17,15 @@
     <span>MARCO DÍAZ DE LEÓN<small>AI IMPLEMENTATION LAB</small></span>
   </a>
   <nav aria-label="Secciones">
-    <a href="#workspace">Área de trabajo</a>
-    <a href="#trace">Registro</a>
+    <a href="#demo" data-view="demo">Demostración</a>
+    <a href="#chat" data-view="chat">Conversación</a>
+    <a href="#connection" data-view="connection">Conexión API</a>
+    <a href="#method" data-view="method">Cómo está construido</a>
     <span class="badge">DEMO LOCAL</span>
   </nav>
 </header>
 <main>
+<div id="view-demo" data-panel="demo">
   <section class="intro" aria-labelledby="page-title">
     <div>
       <p class="eyebrow">ESTRATEGIA E IMPLEMENTACIÓN DE IA <span>/</span> CASO 01</p>
@@ -74,6 +78,47 @@
     <p class="muted">Cada intento conserva su resultado. La comprobación de hashes detecta cambios parciales; no identifica al autor del registro.</p>
     <div class="table-wrap" role="region" aria-label="Eventos de la sesión" tabindex="0"><table><thead><tr><th scope="col">#</th><th scope="col">Evento</th><th scope="col">Acción</th><th scope="col">Resultado</th></tr></thead><tbody id="events"></tbody></table></div>
   </section>
+</div>
+<section id="view-chat" data-panel="chat" class="panel cloud-panel" hidden aria-labelledby="chat-title">
+  <p class="eyebrow">PREGUNTAS Y RESPUESTAS</p><h1 id="chat-title" tabindex="-1">Conversación con OpenAI</h1>
+  <p>Haz preguntas con tu propia conexión API. Esta conversación no consulta los archivos del proyecto ni ejecuta operaciones.</p>
+  <p id="chatStatus" role="status">Sin conexión. Configura tu clave y modelo en Conexión API.</p>
+  <a href="#connection">Configurar conexión</a>
+  <div id="messages" class="messages" role="log" aria-label="Conversación" aria-live="polite"></div>
+  <form id="chatForm">
+    <label for="question">Tu pregunta</label>
+    <textarea id="question" maxlength="2000" rows="4" placeholder="¿Cómo evaluarías una primera implementación de IA?" required disabled></textarea>
+    <p class="muted">Se enviará a OpenAI junto con el contexto reciente de esta conversación. Hasta 2.000 caracteres por pregunta y 20 intentos por conexión.</p>
+    <div class="buttons"><button id="sendQuestion" class="primary" disabled>Enviar a OpenAI</button><button id="clearChat" type="button" disabled>Vaciar conversación</button><button id="disconnectChat" type="button" disabled>Desconectar</button></div>
+  </form>
+  <p id="chatNotice" role="status"></p>
+</section>
+<section id="view-connection" data-panel="connection" class="panel cloud-panel" hidden aria-labelledby="connection-title">
+  <p class="eyebrow">CONEXIÓN OPCIONAL</p><h1 id="connection-title" tabindex="-1">OpenAI API · clave propia</h1>
+  <p>La demostración funciona sin conexión. Para conversar, utiliza una clave de API y el identificador de un modelo habilitado en tu proyecto de OpenAI.</p>
+  <form id="connectionForm">
+    <label for="apiKey">Clave de API</label><input id="apiKey" type="password" autocomplete="off" spellcheck="false" required minlength="20" maxlength="300">
+    <label for="apiModel">Identificador del modelo</label><input id="apiModel" type="text" autocomplete="off" spellcheck="false" required maxlength="100" placeholder="Identificador exacto de tu modelo">
+    <label for="tokenLimit">Máximo de tokens de salida por respuesta</label><select id="tokenLimit"><option>256</option><option selected>512</option><option>1024</option></select>
+    <p class="muted">Destino: https://api.openai.com. El límite incluye los tokens de razonamiento; no es un presupuesto monetario. No hay cambio automático de proveedor o modelo.</p>
+    <label class="check"><input id="apiConsent" type="checkbox" required> Autorizo comprobar la conexión y enviar mis preguntas a OpenAI. Entiendo que el uso de la API puede generar cargos.</label>
+    <div class="buttons"><button id="connectApi" class="primary">Comprobar y conectar</button><button id="disconnectApi" type="button" disabled>Desconectar</button></div>
+  </form>
+  <p id="connectionStatus" role="status">Sin conexión.</p>
+  <div class="policy"><h2>Datos de esta sesión</h2><p>La clave se conserva en la memoria del servidor local. No se guarda en archivos, registros, cookies ni almacenamiento del navegador. Desconectar elimina la referencia a la clave y el historial de la sesión.</p><p>La sesión caduca tras 30 minutos sin uso; el servidor retira las sesiones vencidas al atender otra operación. Reiniciar el servidor vacía todas las sesiones. Recargar la página pierde la conexión del navegador.</p><p>Las respuestas se solicitan con store:false. Esto no elimina las políticas de retención del proveedor. No introduzcas contraseñas, datos de clientes ni documentación privada en tus preguntas.</p></div>
+</section>
+<section id="view-method" data-panel="method" class="panel cloud-panel" hidden aria-labelledby="method-title">
+  <p class="eyebrow">DEL PROBLEMA A LA IMPLEMENTACIÓN</p><h1 id="method-title" tabindex="-1">Cómo está construido</h1>
+  <p>El recorrido conecta un problema, sus reglas, una implementación acotada y evidencia de lo que se probó.</p>
+  <ol class="steps">
+    <li><b>Definir el alcance</b><span>Casos de uso, requisitos y resultados esperados antes de implementar.</span></li>
+    <li><b>Construir por capas</b><span>Interfaz, controlador, reglas y conectores con responsabilidades distintas.</span></li>
+    <li><b>Probar los límites</b><span>Entradas inválidas, permisos, reintentos y fallos del proveedor.</span></li>
+    <li><b>Registrar lo observado</b><span>Resultados reproducibles, pendientes y diferencias entre simulación y uso real.</span></li>
+  </ol>
+  <div class="buttons"><a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/specs/001-support-demo/spec.md" target="_blank" rel="noopener noreferrer">Especificación</a><a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/docs/tools-and-capabilities.md" target="_blank" rel="noopener noreferrer">Herramientas</a><a href="https://github.com/marcodiazleon/ai-implementation-lab/tree/main/evidence" target="_blank" rel="noopener noreferrer">Evidencia</a></div>
+  <p class="muted">La conversación API es independiente del ejercicio de devoluciones. El servidor está diseñado para ejecutarse en tu equipo por loopback.</p>
+</section>
   <footer><span>MARCO DÍAZ DE LEÓN <span class="footer-divider">/</span> ESTRATEGIA E IMPLEMENTACIÓN DE IA</span><small>Sesión en memoria · Reiniciar el servidor restablece los escenarios · Uso local</small></footer>
 </main>
 </body>

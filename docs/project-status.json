@@ -3,17 +3,20 @@
   "project": "AI Implementation Lab",
   "updated": "2026-10-03",
   "active_spec": "specs/001-support-demo/spec.md",
-  "active_spec_version": "0.3",
+  "active_spec_version": "0.4",
   "expansion_spec": "specs/002-expansion/spec.md",
   "expansion_state": "BACKLOG",
   "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
   "owner": "Marco Diaz de Leon",
   "maintenance_owner": "Marco Diaz de Leon",
   "development_executor": "Current assistant session; manually read project instructions",
-  "runtime_model": "NONE",
+  "runtime_model": "OPTIONAL_OPENAI_OPERATOR_SELECTED",
   "acceptance": "OWNER_ACCEPTANCE_NOT_RECORDED",
   "independent_review": "NOT_PERFORMED",
   "next_task": "E-M02",
   "evidence": "evidence/latest.json",
-  "latest_delivery": "U04 visual redesign and product plans"
+  "latest_delivery": "U05 menu, optional OpenAI API Q&A and portable startup",
+  "current_task": "T21–T23 implemented; operator checks pending",
+  "live_api": "NOT_EXECUTED",
+  "other_pc_runtime": "NOT_EXECUTED"
 }

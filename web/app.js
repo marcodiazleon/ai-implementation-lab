@@ -52,7 +52,7 @@ byId("export").onclick=()=>{
  const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}));
  const link=document.createElement("a");link.href=url;link.download="demo-evidence.json";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
-function selection(){const s=scenarios.find(s=>s.id===byId("scenario").value);byId("scenarioDetail").textContent=s.request.order_id+" · resultado esperado: "+s.expected;}
+function selection(){current=null;byId("decisionBox").hidden=true;byId("failure").checked=false;byId("result").classList.remove("blocked");byId("result").textContent="Pulsa Analizar solicitud para revisar este caso.";const s=scenarios.find(s=>s.id===byId("scenario").value);byId("scenarioDetail").textContent=s.request.order_id+" · resultado esperado: "+s.expected;}
 byId("scenario").onchange=selection;
 action(async()=>{
  scenarios=await call("/api/scenarios");

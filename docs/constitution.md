@@ -1,10 +1,10 @@
 # Project constitution
 
 Version 0.2, 2026-10-03. Owner: Marco Díaz de León.
-Purpose: a public example of implementation work for clients and recruiters. Current runtime scope: local synthetic after-sales demonstration.
+Purpose: a public example of implementation work for clients and recruiters. Current runtime scope: local synthetic after-sales demonstration plus separate opt-in OpenAI text Q&A.
 
 ## Authority and data
-The owner's requests authorize the sample, its SDD documentation and publication in this repository. They do not authorize live customer operations, paid providers, credentials or external communications.
+The owner's requests authorize the sample, its SDD documentation and publication in this repository. U05 additionally authorizes an optional OpenAI API connection using an operator-supplied key and explicit in-app consent. No key is read automatically; no paid inference is run by the developer. Live customer operations and other external communications remain outside scope.
 Use original synthetic fixtures. Keep private source, customer records, credentials and local session state outside Git.
 The exercise's policy thresholds are engineering examples, not approved commercial rules.
 

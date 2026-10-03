@@ -52,3 +52,7 @@ Alternative stack: a web framework could help future authentication/deployment, 
 ## Product agent contract
 Current product: no autonomous reasoning agent. The planner is a deterministic controller function.
 Future EXP-A04 contract: human-triggered request → schema-validated proposal; data from approved synthetic context; no direct execution tool; explicit budget/timeout/cancellation; stop on invalid output, budget exhaustion or revoked access. Model and thresholds are unresolved branch-specific decisions, not blockers for the existing demo.
+
+## U05 — OpenAI API
+
+Adaptador opcional HTTPS a api.openai.com con Responses; sin SDK adicional, clave de sesión y modelo elegido por el operador. Referencia: [alcance y pruebas](OPENAI_API.md). El doble de pruebas no es una respuesta real del proveedor.

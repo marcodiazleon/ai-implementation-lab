@@ -38,3 +38,7 @@ No recurring automation, monitoring process or continuous Notion synchronization
 
 ## Handoff
 Read docs/project-status.json first. It names the active spec, backlog, current evidence and next task. Read docs/notebook.md for current decisions and unresolved items. A numbered newer spec is not automatically active.
+
+## Arranque portable
+
+Ejecuta `python scripts/check_environment.py` antes de `python run.py serve`, o usa `INICIAR_LAB.cmd`. [API y traslado](OPENAI_API.md). Las claves y conversaciones no se empaquetan.
