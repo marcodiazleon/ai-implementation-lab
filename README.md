@@ -6,7 +6,13 @@ I help teams define what they need, decide which systems to connect and organize
 
 The example uses fictional orders and a simulated refund process. Code was developed with AI assistance. My role is to define the problem, choose the scope and coordinate delivery.
 
-[Guía en español](docs/START_HERE_ES.md) · [Engineering guide](docs/engineering-guide.md) · [Evidence](evidence/latest.json) · [What is and is not implemented](docs/capabilities.md)
+[Método de ingeniería](docs/engineering-guide.md) · [Guía en español](docs/START_HERE_ES.md) · [Engineering guide](docs/engineering-guide.md) · [Evidence](evidence/latest.json) · [What is and is not implemented](docs/capabilities.md)
+
+## How the project is organized
+
+Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
+The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
+[Current status](docs/project-status.json) explicitly selects S01 0.2; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -52,7 +58,7 @@ python run.py mcp
 ## What is in the sample?
 
 - **Working application:** local web UI, domain rules, review state machine, simulated connector and retry protection.
-- **Project records:** requirements, test references, decisions and results. The initial SDD process is incomplete; see the [method review](docs/sdd-adoption.md).
+- **Project records:** requirements, test references, decisions and results. The current [method map](docs/sdd-adoption.md) links the use cases, tool choices, tasks and per-case evidence; it also records the initial process deviation.
 - **Hooks:** application lifecycle events and an optional Git pre-commit guard that inspects staged bytes.
 - **Data skill:** documented procedure plus an executable validator.
 - **MCP:** a limited, version-pinned stdio adapter exposing two read-only tools.
@@ -83,7 +89,7 @@ This is a deterministic integration demonstration, **not a deployed autonomous A
 
 The hash chain detects ordinary edits if hashes are left unchanged; it is not a signed, immutable audit log. The disallowed-tool case tests an allowlist, not resistance to arbitrary prompt injection. The MCP adapter is wire-tested for its documented subset, not certified or tested with a live assistant client.
 
-[Security boundaries](SECURITY.md) · [Ten expansion ideas and current status](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
+[Security boundaries](SECURITY.md) · [Ten additions, ten improvements and current status](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
 
 ## Reuse and contact
 

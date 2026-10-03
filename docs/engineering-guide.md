@@ -42,3 +42,12 @@ This exercise uses a fictional shop. It covers order lookup, refund review and a
 Discovery with actual operators, a baseline metric, data classification, identity and permission design, connector ownership, a limited pilot, deployment and recovery plans, training and an acceptance decision by the business owner.
 
 Those activities require client context. The sample supplies no fictional ROI, customer references, compliance badges or claimed production outcomes.
+
+## Follow an actual requirement
+R03 describes the approval sequence. CU04 and CU05 specify actors, preconditions and errors. T02 implements the transition rules in controller.py. C013/C018 and the other R03 rows in acceptance.csv point to positive and negative tests and their recorded results.
+For example, test_execute_requires_approval checks a pending proposal before any execution; its expected result is APPROVAL_REQUIRED and no receipt. The case records the exact test ID, environment and source version.
+
+## Tool choice and daily work
+Use the [tool register](tools-and-capabilities.md) to see why Python, Git, hooks and MCP are present and when a model would be justified.
+Open [project-status.json](project-status.json), recover [the notebook](notebook.md), choose the next task and follow its requirement through the plan to the expected check. Finish by updating evidence and the next action.
+The [method-equivalence map](sdd-adoption.md) explains the source-book coverage; [operations](operations.md) covers installation, data lifecycle and maintenance.

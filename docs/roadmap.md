@@ -1,23 +1,21 @@
-# Ten ideas to improve the showcase
+# Delivery priorities
 
-| # | Improvement | Version 0.1 status | Next useful increment |
+Updated 2026-10-03. [Canonical 20-item backlog](../specs/002-expansion/tasks.md) · [Requirements](../specs/002-expansion/spec.md) · [Research](INVESTIGACION_EXPANSION_2026-10-03.md).
+
+## Current delivery
+S01 0.2 maintains the local example and completes project-specific engineering documents: seven use cases, requirement sources, tasks, tool registry, per-case acceptance, method map and continuity.
+The initial historical process deviation is retained. Technical evidence and owner acceptance remain separate.
+
+## Next milestones
+| Order | Result | Tasks | Exit |
 |---|---|---|---|
-| 1 | Different paths for recruiters, clients and engineers | README routes delivered | Validate comprehension with three readers |
-| 2 | A working vertical slice | Local web/CLI demonstration delivered | Record a short owner-narrated demo |
-| 3 | Business rules made explicit | Fictional policy and cases delivered | Add a second exercise with different constraints |
-| 4 | Folder and architecture map | Guide, MVC/MCP distinction and diagram delivered | Add an annotated change walkthrough |
-| 5 | Requirement-to-evidence traceability | Acceptance CSV and source-hashed results delivered | Report changed requirements and affected tests |
-| 6 | Hooks that actually run | Application hooks and actual Git hook tested in a temporary repository | Add CI validation only when a workflow is needed |
-| 7 | Small reusable skills | Data quality and implementation review procedures delivered | Validate discovery in a chosen assistant client |
-| 8 | A bounded integration surface | Read-only stdio MCP adapter delivered | Verify a real client and define version compatibility |
-| 9 | Failure and recovery as part of the demo | Pre-effect failure, rejection, stale data and local retry tested | Add durable state and unknown-outcome reconciliation |
-| 10 | Honest, reproducible evidence | Verification script and capability ledger delivered | Add model evaluation only after provider, cost and scope are chosen |
+| 1 | A visitor can follow and reset the example clearly | E-M02,E-M03; remaining E-M01 | Scenario state unambiguous; keyboard/mobile checks; understandable explanation |
+| 2 | Evidence reproducible by another person | Remaining E-M07,E-M08,E-A08 | Individual checks, controlled CI/publication and visible traceability |
+| 3 | Public demonstration without installation | E-A01 | Static synthetic experience with parity checks |
+| 4 | Business reasoning visible | E-A02,E-A03 | Brief and benefit/cost assumptions reproducible |
+| 5 | Integration verified | E-M10,E-M06,E-A06,E-M09 | Read-only real endpoint plus actual MCP client evidence |
+| 6 | Model usefulness measured | E-A04,E-A05 | Budgeted, consented comparison and cited retrieval |
+| 7 | Pilot prerequisites | E-M04,E-M05,E-A10 | Identity, durable state and recovery before real effects |
+| 8 | Broader examples | E-A07,E-A09 | Reusable second workflow and explained strategy comparison |
 
-## Small milestones after this release
-- **M1 — Owner walkthrough:** Marco explains the case in ten minutes and identifies the limits.
-- **M2 — External readability:** one recruiter and one technical reviewer can find the right evidence.
-- **M3 — One real integration:** choose a read-only sandbox connector and validate actual interoperability.
-- **M4 — Model comparison:** add a bounded planner behind the same controller; compare against the deterministic baseline.
-- **M5 — Pilot readiness:** authenticate the reviewer, persist transactions, reconcile timeouts and define deployment/rollback.
-
-No calendar or commercial result is promised. Each milestone ends in one inspectable artifact or demonstrated behavior.
+These are milestones, not promised dates or scheduled jobs. The task table is the source for owner, dependency, status and done criterion.

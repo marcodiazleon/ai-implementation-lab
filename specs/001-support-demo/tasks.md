@@ -1,24 +1,24 @@
-# Delivery checklist
+# S01 tasks
 
-- [x] Synthetic data and controller
-- [x] Web interface and loopback HTTP adapter
-- [x] Read-only MCP stdio subset
-- [x] Workflow, HTTP and protocol tests
-- [x] Data validator and staged-content guard
-- [x] Engineering guide and acceptance matrix
-- [x] Complete browser walkthrough and record observations
-- [x] Final verification and publication record
+Version 0.2. Current spec: spec.md 0.2. Existing behavior is retained; this update completes method records and reproducible evidence.
+Source: U01–U03 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
-A checked item means the artifact exists or its named local check was performed; it does not imply production acceptance.
-
-## SDD correction — 2026-10-03
-
-The completed implementation checklist above is not SDD acceptance. The initial process and documentation gaps are recorded in docs/sdd-adoption.md.
-
-| ID | Deliverable | Requirement | Dependency | Responsible | Verification | Status |
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
 |---|---|---|---|---|---|---|
-| T12 | Replace slogan-like copy in UI, README and introduction | R11 + owner's editorial correction | Current copy | Implementing assistant | Search affected text and inspect rendered page | COMPLETE |
-| T13 | Record adopted method, deviations and continuity | R11 + method adoption | Current source book and repo | Implementing assistant | Source-to-artifact review, with open gaps preserved | COMPLETE |
-| T14 | Add structured use cases and requirement sources/status | R01–R11 | Provisional exercise decisions | Implementing assistant; owner for business choices | Trigger, preconditions, flow, alternatives, result and source per requirement | PENDING |
-| T15 | Complete task and acceptance traceability | R01–R11 | T14 | Implementing assistant | Task/requirement/case links, owner, environment and observed result | PENDING |
-| T16 | Review comprehension and close applicable SDD gaps | R11 | T12, T14, T15 | Owner; reviewer to be assigned if needed | Recorded review and unresolved findings | PENDING |
+| T01 | R01,R02 | Synthetic lookup and proposal controller | D01,D02 | Implementing assistant | Positive/negative contract and scenario cases pass | IMPLEMENTED |
+| T02 | R03,R04 | Review transitions and stale-data check | T01 | Implementing assistant | Decision/state/digest cases pass | IMPLEMENTED |
+| T03 | R05,R06 | Local receipt and retry behavior | T02 | Implementing assistant | Concurrent retry and failed-connector cases pass | IMPLEMENTED |
+| T04 | R07 | Application hooks and defensive snapshots | T01 | Implementing assistant | Pre-hook failure and audit/copy cases pass | IMPLEMENTED |
+| T05 | R08 | Loopback HTTP adapter | T01–T04 | Implementing assistant | Positive route and input/origin cases pass | IMPLEMENTED |
+| T06 | R09 | Read-only MCP subset | T01 | Implementing assistant | Protocol and subprocess cases pass | IMPLEMENTED |
+| T07 | R10 | Fixture validator and staged Git guard | T01 | Implementing assistant | Contract/pattern/staged/actual-hook cases pass | IMPLEMENTED |
+| T08 | R11,R13 | UI, startup guide and plain copy | T05 | Implementing assistant | Browser observations and working links recorded | IMPLEMENTED |
+| T12 | R13 | Editorial correction | U02 | Implementing assistant | Corrected UI/README and browser observation | COMPLETE; c4366a8 |
+| T13 | R12 | Method version and equivalence map | U03, source reading | Implementing assistant | Book areas mapped to artifacts or scope exclusions | COMPLETE; current update |
+| T14 | R01,R02,R03,R04,R05,R06,R07,R08,R09,R10,R11 | Use cases and requirement sources | T13, D01–D07 | Implementing assistant | Trigger/preconditions/flow/errors/result/source present | COMPLETE; current update |
+| T15 | R12,R14 | Traceability and per-case evidence | T14 | Implementing assistant | Cases include expectations, actual run results, version/environment | IMPLEMENTED; verify current evidence |
+| T16 | R11 | Owner/visitor comprehension and acceptance | T08,T15 | Marco / designated visitor | C045 observed and acceptance decision recorded | PENDING; no approval invented |
+| T17 | R14 | 20-item expansion backlog | U03, research | Implementing assistant | All A01–A10/M01–M10 have requirement, dependency, owner and closure | COMPLETE; current update |
+| T18 | R12,R14 | Delivery review and handoff | T13–T15,T17 | Implementing assistant | Structural and technical evidence, diff/privacy review and next task | IMPLEMENTED; see review report |
+
+Task state describes work, not acceptance. Case states in acceptance.csv are authoritative for observed checks. Completed legacy behavior remains unchanged and its history is preserved. New expansion implementation uses S02 tasks after selecting the corresponding item.

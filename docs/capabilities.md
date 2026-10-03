@@ -1,17 +1,22 @@
 # Capability ledger
 
-| Capability | Present evidence | Boundary |
-|---|---|---|
-| Business-to-implementation trace | Specification and acceptance CSV | Fictional stakeholder, no real commercial outcome |
-| Local browser journey | HTTP integration tests and documented visual walkthrough | No production browser compatibility certification |
-| Rules and scope | Workflow tests + seven scenario fixtures | Rule engine, not LLM evaluation |
-| Approval sequence | Tests deny premature execution and rejected proposals | Simulated reviewer, not authenticated authorization |
-| Retry control | Concurrent callers produce one in-memory receipt | No durable or distributed exactly-once claim |
-| Application hooks | Controller tests cover event integrity and pre-hook failure | Hash chain is unsigned and can be recomputed |
-| Git publication hook | Staged-byte tests and actual blocked/accepted commits in a temporary repository | Optional, bypassable and limited patterns |
-| Data skill | Executable fixture validator + SKILL.md | Automatic discovery by assistant clients not verified |
-| MCP | Unit and real subprocess stdio tests | Pinned protocol subset; no live assistant client validation |
-| AI integration | Architecture seam and deterministic baseline | Model provider and LLM quality evaluation not implemented |
-| Deployment | Local loopback server | No hosted application, customer pilot or security certification |
+Current implementation: local synthetic example. Canonical tool details: [tools-and-capabilities.md](tools-and-capabilities.md).
 
-Consult evidence/latest.json for the latest actual test count, failures and source hashes. It is a generated observation, not an independent audit.
+| Capability | Evidence | Limit / next item |
+|---|---|---|
+| Method structure and traceability | SDD map, structured spec/tasks/cases, evidence/sdd-check.json | Internal structural review; owner acceptance separate |
+| Local browser workflow | HTTP tests and browser reports | Broader accessibility and mobile coverage recorded separately |
+| Eligibility and scope | Tests and seven fixtures | Deterministic rules, not LLM quality |
+| Approval sequencing | Positive/negative state tests | Simulated identity; EXP-M04 |
+| Retry protection | Concurrent one-process receipt tests | No restart durability; EXP-M05 |
+| Application hooks | Pre-hook failure and event-integrity checks | Unsigned chain; no durable post-hook transaction |
+| Git guard | Actual blocked/accepted temporary commits | Limited patterns; bypassable; EXP-M08 |
+| Data skill | Manual read plus validator/evaluation | Native assistant discovery unverified |
+| Implementation-review skill | Manual read, traceability and diff review | Same implementing assistant, not independent QA |
+| MCP | Unit and subprocess wire exchange | Live assistant-client interoperability EXP-M09 |
+| Verification tooling | Per-case results, environment and source hashes | Windows local run; cross-platform CI still EXP-M07 |
+| Runtime model | None | EXP-A04; model/cost selection pending |
+| Deployment | Loopback server and public source repository | No public application server or customer service |
+| Expansion | 20 items with requirements, dependencies and acceptance | Planning is not implementation |
+
+See evidence/latest.json for current observed results and tests. Manual acceptance cases remain NO_PROBADO until their evidence is recorded.

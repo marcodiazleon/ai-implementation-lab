@@ -1,0 +1,44 @@
+# S02 — Expansion backlog
+
+Version 0.1. State: BACKLOG, not the active implementation spec.
+Authority: U03 requests incorporation and prioritization of the 20 researched proposals. This file defines their intended outcomes; it does not claim their implementation or authorize new paid providers/access by itself.
+
+## Purpose and actors
+Extend the same public engineering sample for visitors, local operators and maintainers. All examples remain fictional/original.
+Use-case families: discovery/value (A02/A03/A09), visitor access/evidence (A01/A08), knowledge/integration (A04/A05/A06/A07), pilot/operations (A10 and M04–M06), existing presentation/verification (M01–M03/M07–M10).
+
+## Boundaries
+Keep deterministic local operation. No customer data, real refund or personal credentials. Proposed budgets, live identity roles, hosting/provider and retention decisions are resolved before their dependent implementation.
+Select one item, refine its concrete scenario/inputs/errors in the active plan, then implement and evaluate. A new number alone does not select this spec.
+
+## Requirements and acceptance
+Each row is a proposed increment grounded in the owner's request and the expansion research. The expected outcome was written before its future implementation.
+
+| Requirement | Need and proposed change | Done when |
+|---|---|---|
+| EXP-A01 | Showroom estático, separado del servidor Python, que reproduzca casos con datos ficticios en el navegador. Facilita la entrada desde el perfil profesional.  | Otra persona completa un caso desde una URL sin Python, cuenta ni claves; los resultados coinciden con fixtures de contrato. |
+| EXP-A02 | Formulario sobre problema, usuario, sistema actual, frecuencia, restricciones y éxito esperado. Produce un brief editable y marca información faltante.  | Dos casos ficticios generan briefs diferentes y una respuesta incompleta no se presenta como requisito confirmado. |
+| EXP-A03 | Volumen, tiempo manual, tiempo asistido, tasa de revisión, implantación y operación; escenarios conservador/base/optimista. Hace visible el criterio de negocio.  | Fórmulas visibles, sensibilidad reproducible, unidades claras y todos los supuestos identificados; cero ahorro presentado como obtenido. |
+| EXP-A04 | Una única integración intercambiable con el motor determinista. El modelo propone; el controlador conserva la decisión sobre acciones permitidas.  | Evaluación separada de lenguaje, herramienta, estado final y seguridad; repetir casos para medir variabilidad; coste/límites visibles, cancelación y modo offline conservado. |
+| EXP-A05 | Pequeño conjunto original de políticas ficticias, búsqueda y respuestas que señalen documento y fragmento. Puede empezar sin LLM.  | Preguntas conocidas recuperan la fuente correcta; sin evidencia se responde que falta información; contenido recuperado no altera permisos. |
+| EXP-A06 | Consultar incidencias públicas de un repositorio de demostración controlado por el autor; mostrar transformación de datos y errores.  | Evidencia de una lectura real con fecha, límites y resultados; tratamiento de timeout y rate limit; ninguna escritura externa. |
+| EXP-A07 | Clasificar y derivar solicitudes internas ficticias, con revisión humana. Comprueba que el método sirve más allá de devoluciones.  | Una solicitud ambigua se deriva a una persona; ambos casos reutilizan contratos y controles sin copiar toda la aplicación. |
+| EXP-A08 | Pantalla navegable problema → requisito → decisión → prueba → resultado. Convierte la matriz existente en una herramienta para el visitante.  | Cada vínculo resuelve a una evidencia real; un requisito sin prueba aparece pendiente, nunca aprobado por defecto. |
+| EXP-A09 | Simulador de construir, integrar, comprar o mantener un proceso manual, con criterios y pesos editables. Muestra cuándo no conviene usar IA.  | Cambiar costes, restricciones o pesos cambia la comparación de forma explicable; el resultado es apoyo a decisión, no recomendación universal. |
+| EXP-A10 | Evaluador guiado de responsables, capacitación, indicador inicial, condiciones de avance, parada y reversión. Exporta un plan pequeño.  | Un responsable o criterio crítico ausente produce pendiente; incluye una práctica de operador y una revisión de comprensión. |
+| EXP-M01 | El README explica ingeniería, pero el visitante aún debe deducir algunas decisiones del autor. Presentar problema → alternativas → decisión → resultado observable → próximo paso. Añadir un vídeo corto narrado por el autor con transcripción. | Un lector identifica qué decidió el autor y qué se simuló; sin experiencia o resultados comerciales inventados. |
+| EXP-M02 | La UI conserva la propuesta previa al cambiar el selector y el reinicio exige parar el servidor. Limpiar o identificar inequívocamente la propuesta al cambiar de caso; pasos activos, estado de espera y reinicio explícito de una sesión de muestra. Completar idioma español/inglés. | Cambiar escenario no permite actuar accidentalmente sobre el anterior; reiniciar pide confirmar la pérdida de estado y permite exportar antes. |
+| EXP-M03 | Hay etiquetas y región de estado, pero no una evaluación formal de accesibilidad. Revisar teclado, foco, contraste, zoom, móvil, mensajes y lector de pantalla. | Recorrido básico por teclado y a 200% de zoom documentado; fallos corregidos. No declarar conformidad completa por pasar checks iniciales. |
+| EXP-M04 | La aprobación HTTP asigna un rol fijo. Identidad real para una variante de piloto, roles separados, permisos por operación y expiración/revocación de decisiones. | Un solicitante sin rol no puede aprobar por API; se comprueba autorización en el servidor en cada operación. |
+| EXP-M05 | Los recibos desaparecen al reiniciar y el fallo probado es solo previo al efecto. Persistencia transaccional, clave de idempotencia duradera y estado de resultado desconocido con reconciliación. | Reiniciar no duplica; un timeout posterior al efecto no dispara otra acción ciega; falla del hook posterior no deja estado ambiguo sin recuperación. |
+| EXP-M06 | La traza solo tiene secuencia, acción y resultado. Añadir ID de ejecución, hora, duración, fase, causa y métricas; anonimizar/redactar antes de exportar. | Seguir un caso de principio a fin y distinguir intento, fallo y reintento sin exponer contenido sensible. |
+| EXP-M07 | Evidencia local resumida; no CI versionado. Guardar resultados individuales, versión de entorno, commit y estado del árbol; automatizar checks acotados en Windows/Linux y navegador. | Un defecto introducido en una rama de prueba falla el check correspondiente; evidencia distingue omitido, fallido y aprobado. |
+| EXP-M08 | El hook de publicación detecta pocos patrones y puede omitirse. Combinar revisión de material publicable, scanner mantenido y controles de GitHub, verificando disponibilidad antes de configurarlos. | Fixtures artificiales para distintos tipos de secreto se detectan; se documentan exclusiones y bypass, sin afirmar cobertura total. |
+| EXP-M09 | MCP implementado a mano y probado por stdio. Verificar el cliente objetivo, esquema de mensajes, negociación, entradas malformadas y límites antes de cargar mensajes completos. Valorar SDK oficial según compatibilidad. | Un cliente real usa ambas herramientas, una operación fuera de alcance se bloquea y una entrada malformada no termina el proceso. |
+| EXP-M10 | El controlador mezcla datos de fixture, reglas y almacenamiento; CSS y HTML están muy compactados. Interfaces pequeñas para repositorio de datos, política, planificador y conector; formatear código y fijar herramientas sin crear capas innecesarias. | Sustituir almacenamiento o conector de prueba sin tocar las reglas ni la UI; mantener los contratos y resultados existentes. |
+
+## Sources and decisions
+Primary references and rationale: [research](../../docs/INVESTIGACION_EXPANSION_2026-10-03.md).
+Dependencies, priority and implementation state: tasks.md. Planned acceptance rows: acceptance.csv.
+M01 is partial because the copy/role are improved but no owner-narrated video/comprehension review exists. M07 is partial because this update supplies individual results and metadata, but cross-platform/browser CI remains unimplemented.
+No other item is closed merely because this specification describes it.

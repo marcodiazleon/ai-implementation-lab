@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "project": "AI Implementation Lab",
+  "updated": "2026-10-03",
+  "active_spec": "specs/001-support-demo/spec.md",
+  "active_spec_version": "0.2",
+  "expansion_spec": "specs/002-expansion/spec.md",
+  "expansion_state": "BACKLOG",
+  "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
+  "owner": "Marco Diaz de Leon",
+  "maintenance_owner": "Marco Diaz de Leon",
+  "development_executor": "Current assistant session; manually read project instructions",
+  "runtime_model": "NONE",
+  "acceptance": "OWNER_ACCEPTANCE_NOT_RECORDED",
+  "independent_review": "NOT_PERFORMED",
+  "next_task": "E-M02",
+  "evidence": "evidence/latest.json"
+}
