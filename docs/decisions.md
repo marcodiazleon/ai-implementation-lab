@@ -21,3 +21,6 @@ Updated 2026-10-03. Source IDs U01–U03 are defined in the active specification
 | D15 | Pilot identity and users | Choose actual roles/resources with the business owner | No live pilot currently in scope | Marco | PENDING for EXP-M04/A10 only |
 
 Engineering choices above are identified separately from user approvals. Silence never changes their authority. Routine reversible work under U01–U03 continues without repeated generic approvals.
+
+## D16 — U04 product and visual direction
+2026-10-03. Marco requested a black/white visual redesign and research into a more useful interactive product. Apply the visual change to S01 now; new product functions remain proposals under S02. Compare extending request analysis with a bounded commercial workflow. Reuse generic concepts and original synthetic demonstrations; no private product code, customer data or unverified integration claim is included.

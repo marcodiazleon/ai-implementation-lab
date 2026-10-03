@@ -14,3 +14,6 @@ State: planned increments. Active maintenance stays in S01 until a task is selec
 Before each increment, fill its detailed design from the acceptance row: input/output, error handling, data destination, permissions, cancellation, source/version and evidence. Do not regenerate the whole project.
 One writer owns shared artifacts. Marco decides material business/provider/access choices. Independent review is assigned when scope requires it; no agent or external service is started by this plan.
 Estimates are intentionally milestone-based; no calendar or token budget was provided.
+
+## U04 — concrete product path
+The [product and visual plans](../../docs/PLAN_PRODUCTO_Y_DISENO.md) refine the existing backlog without claiming twenty new implementations. Prioritize the M02 selection fix, then explainable editable request analysis using a small part of M10; comparison uses A03/A09; the commercial example narrows A02/A07; an evidence view uses A08 and public static access uses A01. These cuts do not depend on completing every unrelated backlog branch. U04 visual styling is delivered in active S01 0.3; functional scope remains planned.

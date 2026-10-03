@@ -12,7 +12,7 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
 The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.2; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+[Current status](docs/project-status.json) explicitly selects S01 0.3; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -20,7 +20,7 @@ The working example is a fictional after-sales assistant. It reads a synthetic o
 
 Try executing a refund before approval, then approve it and simulate a connector failure. The event log shows each attempt. A successful retry produces one local receipt.
 
-![Local demo: request, decision and trace](docs/assets/demo.jpg)
+![Local demo: request, decision and trace](docs/assets/demo-dark-20261003.jpg)
 
 ### Where to start
 
@@ -94,3 +94,6 @@ The hash chain detects ordinary edits if hashes are left unchanged; it is not a 
 ## Reuse and contact
 
 This repository is public for inspection. No open-source license has been granted in this version; visibility is not a license to redistribute or incorporate it into a commercial product. Contact Marco through [his GitHub profile](https://github.com/marcodiazleon) to discuss an implementation or reuse.
+
+## Next interactive experience
+The [product and visual plans](docs/PLAN_PRODUCTO_Y_DISENO.md) describe editable request analysis, comparison and a bounded sales workflow. The black/white visual update is delivered; these functional extensions remain planned. [Research and sources](docs/INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md).

@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.2. Status: current specification for the existing demonstration.
+Version: 0.3. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -12,10 +12,11 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U01 | Owner's initial request: public engineering sample, working example, engineering-book structure, no private client/product material |
 | U02 | Owner's editorial correction: concrete natural wording and faithful SDD application |
 | U03 | Owner's current request: complete the method, document tool use, incorporate the 20 research proposals and update pending work |
+| U04 | Owner's request: investigate useful interactive extensions and reuse opportunities; apply a black background, white text and a more personal visual structure now |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
-U01–U03 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
+U01–U04 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
 
 ## Actors, data and permissions
 - Visitor: reads public documents and clones the repository.
@@ -94,7 +95,7 @@ Result: commit-associated evidence and updated continuity. A commit is not owner
 | R10 | Validate synthetic fixtures and inspect staged bytes for the documented publication patterns. | U01 + D07 controls | CU07 | Invalid data/secret fixtures and actual Git hook |
 | R11 | Provide readable purpose, startup steps, folder guide and limitations, with working local links. | U01 confirmed request | CU01 | Structural check plus separate visitor walkthrough |
 | R12 | Maintain source → use case → requirement → task → test → evidence links and a method-equivalence map. | U02/U03 confirmed requests | CU01/CU07 | SDD validator and internal document review |
-| R13 | Use concrete descriptive copy, retain factual AI-assistance disclosure and remove rejected slogans from current presentation. | U02 confirmed request | CU01/CU06 | Editorial/browser review |
+| R13 | Use descriptive copy and factual AI-assistance disclosure; render a black canvas, white text, clear personal identity, readable controls/focus and a responsive request/review/activity layout. | U02/U04 confirmed requests | CU01/CU06 | Editorial and desktop/narrow-width keyboard review |
 | R14 | Record active spec, versions, responsibilities, changes, next action and the 20-item expansion backlog at each relevant delivery. | U03 confirmed request | CU07 | Continuity/backlog validation |
 
 ## Attributes and exclusions
@@ -111,4 +112,4 @@ Result: commit-associated evidence and updated continuity. A commit is not owner
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.2. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is S01 0.3. S02 is an expansion backlog; its higher number does not make it active or implemented.

@@ -1,10 +1,10 @@
 {
   "schema": 2,
-  "generated_utc": "2026-10-03T20:56:41.249946+00:00",
+  "generated_utc": "2026-10-03T21:28:55.136375+00:00",
   "scope": "Local synthetic demonstration; not product acceptance or security certification",
-  "input_revision": "c4366a8b55a5edc1f2b990bc3911f657729543a9",
+  "input_revision": "97775f51ea701808cff656de6ed58f0680d1eef6",
   "input_worktree_dirty": true,
-  "source_id": "8f29b7bb5dd82f6b0afbe2f328e286eb9e3a4be1fc5960dbbfcb6034f4066391",
+  "source_id": "bdb020ff54c52e3a115f30385b472d961aae1fd8b905aa9f2ebdffb9bba82ed6",
   "environment": {
     "python": "3.12.14",
     "os": "Windows",
@@ -23,277 +23,277 @@
       "test_id": "test_guards.GuardTests.test_actual_precommit_hook_blocks_then_accepts",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.492273
+      "duration_seconds": 0.393886
     },
     {
       "test_id": "test_guards.GuardTests.test_data_rejects_real_currency",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.002933
+      "duration_seconds": 0.002757
     },
     {
       "test_id": "test_guards.GuardTests.test_env_file_rejected",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 4.4e-05
+      "duration_seconds": 3.9e-05
     },
     {
       "test_id": "test_guards.GuardTests.test_fixture_contract",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000222
+      "duration_seconds": 0.000157
     },
     {
       "test_id": "test_guards.GuardTests.test_private_key_pattern",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 1.9e-05
+      "duration_seconds": 2.7e-05
     },
     {
       "test_id": "test_guards.GuardTests.test_staged_bytes_not_clean_worktree",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.171334
+      "duration_seconds": 0.128572
     },
     {
       "test_id": "test_guards.GuardTests.test_token_pattern",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 3e-05
+      "duration_seconds": 3.3e-05
     },
     {
       "test_id": "test_http.HttpTests.test_content_type_and_size",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.524005
+      "duration_seconds": 0.54507
     },
     {
       "test_id": "test_http.HttpTests.test_external_origin_blocked",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.514413
+      "duration_seconds": 0.515015
     },
     {
       "test_id": "test_http.HttpTests.test_security_headers",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.507625
+      "duration_seconds": 0.513412
     },
     {
       "test_id": "test_http.HttpTests.test_static_and_no_directory_access",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.526014
+      "duration_seconds": 0.515196
     },
     {
       "test_id": "test_http.HttpTests.test_untrusted_host_blocked",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.507556
+      "duration_seconds": 0.511823
     },
     {
       "test_id": "test_http.HttpTests.test_workflow_and_replay",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.509124
+      "duration_seconds": 0.532751
     },
     {
       "test_id": "test_lab.WorkflowTests.test_audit_detects_edit",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.001076
+      "duration_seconds": 0.000777
     },
     {
       "test_id": "test_lab.WorkflowTests.test_before_hook_failure_prevents_action",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000915
+      "duration_seconds": 0.000525
     },
     {
       "test_id": "test_lab.WorkflowTests.test_concurrent_retry_exactly_one_local_receipt",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.002927
+      "duration_seconds": 0.001958
     },
     {
       "test_id": "test_lab.WorkflowTests.test_connector_failure_keeps_approval_and_retry_works",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000602
+      "duration_seconds": 0.000371
     },
     {
       "test_id": "test_lab.WorkflowTests.test_execute_requires_approval",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000355
+      "duration_seconds": 0.000216
     },
     {
       "test_id": "test_lab.WorkflowTests.test_identical_proposal_reused",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000248
+      "duration_seconds": 0.000165
     },
     {
       "test_id": "test_lab.WorkflowTests.test_invalid_decision",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000214
+      "duration_seconds": 0.00017
     },
     {
       "test_id": "test_lab.WorkflowTests.test_invalid_requests",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000378
+      "duration_seconds": 0.000187
     },
     {
       "test_id": "test_lab.WorkflowTests.test_lookup_does_not_propose",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000298
+      "duration_seconds": 0.000134
     },
     {
       "test_id": "test_lab.WorkflowTests.test_missing_proposal",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000271
+      "duration_seconds": 0.000148
     },
     {
       "test_id": "test_lab.WorkflowTests.test_rejection_blocks_execution",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000275
+      "duration_seconds": 0.000161
     },
     {
       "test_id": "test_lab.WorkflowTests.test_repeated_decision_rejected",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.0003
+      "duration_seconds": 0.000316
     },
     {
       "test_id": "test_lab.WorkflowTests.test_reviewer_role_required",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000268
+      "duration_seconds": 0.000241
     },
     {
       "test_id": "test_lab.WorkflowTests.test_same_order_cannot_be_compensated_twice",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000296
+      "duration_seconds": 0.000198
     },
     {
       "test_id": "test_lab.WorkflowTests.test_scenarios",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.001658
+      "duration_seconds": 0.001065
     },
     {
       "test_id": "test_lab.WorkflowTests.test_simulated_receipt",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000289
+      "duration_seconds": 0.00018
     },
     {
       "test_id": "test_lab.WorkflowTests.test_snapshot_is_a_copy",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000436
+      "duration_seconds": 0.00017
     },
     {
       "test_id": "test_lab.WorkflowTests.test_stale_order_even_without_version_change",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000343
+      "duration_seconds": 0.000192
     },
     {
       "test_id": "test_lab.WorkflowTests.test_stale_policy",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000252
+      "duration_seconds": 0.000165
     },
     {
       "test_id": "test_lab.WorkflowTests.test_tool_allowlist",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000292
+      "duration_seconds": 0.000125
     },
     {
       "test_id": "test_lab.WorkflowTests.test_unknown_and_foreign_are_indistinguishable",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000246
+      "duration_seconds": 0.000166
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_bad_args",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000245
+      "duration_seconds": 0.000133
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_initialization_required",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000201
+      "duration_seconds": 0.000112
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_invalid_initialization_does_not_mark_ready",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000193
+      "duration_seconds": 0.000106
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_only_two_read_tools",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000169
+      "duration_seconds": 0.000115
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_protocol_negotiation_returns_supported_version",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000135
+      "duration_seconds": 0.000106
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_scope_is_preserved",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000159
+      "duration_seconds": 0.000129
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_stdio_round_trip",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.061821
+      "duration_seconds": 0.049889
     },
     {
       "test_id": "test_protocol.ProtocolTests.test_write_tool_denied",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.000377
+      "duration_seconds": 0.000274
     },
     {
       "test_id": "test_sdd.SddTests.test_duplicate_case_is_rejected",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.052999
+      "duration_seconds": 0.05595
     },
     {
       "test_id": "test_sdd.SddTests.test_empty_expected_result_is_rejected",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.053371
+      "duration_seconds": 0.050455
     },
     {
       "test_id": "test_sdd.SddTests.test_unknown_test_reference_is_rejected",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.055557
+      "duration_seconds": 0.048913
     },
     {
       "test_id": "test_sdd.SddTests.test_valid_project",
       "status": "PASS",
       "observed": "Test assertions passed against the specified case",
-      "duration_seconds": 0.055946
+      "duration_seconds": 0.04732
     }
   ],
   "fixture_validation": {
@@ -382,21 +382,21 @@
     "tests/test_protocol.py": "c54eec1b1f1efe582a77dbf631d9f526bf662fce5f7e5661e15595ae583a619f",
     "tests/test_sdd.py": "76b3952bf69cc6fd0480616442c067ae0b51d8645c5ff40962922eaecc629598",
     "web/app.js": "1e4f02c4326af660968b16eb8c7eb5a9fb47daa95e180e3ec3d0185be829903c",
-    "web/index.html": "ea51e8dc8c673a4c9e6fe8a6c93d5203ad1cdbd911e61e6f2c58c1e357acb27d",
-    "web/style.css": "c6c5be21982980eddee794af0b54472afb820e751affc29bbfe4c2cd17a507a7"
+    "web/index.html": "820aa669268eaea292aad4dfcb416c19760b55248cee1cd9aea1a56017b97c4d",
+    "web/style.css": "8dd5a9cc65f2dd54881237ed8745217ccef675810fed0c6df63b1e74d3eaa415"
   },
   "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "7a9f81610bf11f1751cae1626850c6c452eca75629d313ff8db0efda63128e29",
-    "specs/001-support-demo/plan.md": "c5998002767ac5d4d233d144c44b36a77e2a7959cac671241d90f7975db1e418",
-    "specs/001-support-demo/spec.md": "0cd6ab4a0d34ac7966a5ef55f9e4afb86425429fa1699bd70a34c00737ecec2c",
-    "specs/001-support-demo/tasks.md": "edc103bcb9d61af3a7882fc2f5bef730c3901d38c44ddfc97806ca923e72deda",
+    "specs/001-support-demo/acceptance.csv": "847a6af739ce8f0944f8170293ab5036aa1e169b0665864db495df2e28855d69",
+    "specs/001-support-demo/plan.md": "99bfedef08fab5a45bbd3b5549b2382105c9076f7153b9379b0cebdd22a49bd5",
+    "specs/001-support-demo/spec.md": "ff7040d260da7fe7de1882e631cb688dbd2ee6d9c5b4af3acc24e9359f622e4b",
+    "specs/001-support-demo/tasks.md": "5600fb9866393560f9c4ff62e2e5a11758837533fe123e4945406ef293a2a82f",
     "specs/002-expansion/acceptance.csv": "11c5e65a0acad25b543ffe6d1edc3bf69821b8bb883c6272f287bf483d3497fd",
-    "specs/002-expansion/plan.md": "f4c1862985f849f15db70eca273f867336b7fd6ef48411d2afdd4349badc6cc5",
+    "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
     "specs/002-expansion/spec.md": "d3c5fcf3f416a62d23c1741513a5039f9f046c3a3388c4d5f8e7418400831b60",
     "specs/002-expansion/tasks.md": "9223186e579849b70f58f992921376ecf2850f6f52285eec2b4361382af80cf0"
   },
   "acceptance_states": {
-    "PASS": 50,
+    "PASS": 52,
     "FAIL": 0,
     "NO_PROBADO": 1,
     "BLOQUEADO": 0,

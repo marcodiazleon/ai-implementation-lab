@@ -1,23 +1,80 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Implementation Lab · Demo</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
-<body><header><a class="brand" href="/">AI / IMPLEMENTATION LAB</a><span class="badge">DEMO LOCAL · DATOS FICTICIOS</span></header>
-<main><section class="intro"><div><p class="eyebrow">EJEMPLO DE ATENCIÓN POSVENTA</p>
-<h1>Revisión de una solicitud<br>de devolución</h1><p class="lead">Consulta un pedido, revisa si cumple las condiciones y aprueba o rechaza la devolución. Puedes simular un fallo y comprobar qué ocurre al reintentar.</p>
-</div><aside class="boundary"><strong>Sobre este ejemplo</strong><p>Una tienda ficticia, siete casos de prueba y un registro de las operaciones.</p>
-<small>El sistema aplica reglas fijas. Los pedidos y recibos son de prueba; no se realizan devoluciones reales ni se consulta un modelo de IA.</small></aside></section>
-<section class="metrics" aria-label="Límites de la demostración"><div><b>00</b><span>llamadas a modelos</span></div><div><b>00</b><span>operaciones reales</span></div><div><b>07</b><span>escenarios reproducibles</span></div><div><b id="receiptCount">00</b><span>recibos simulados</span></div></section>
-<div class="workspace"><section class="panel"><div class="section-top"><span class="number">01</span><h2>Seleccionar un caso</h2></div><label for="scenario">Solicitud ficticia</label><select id="scenario"></select>
-<p id="scenarioDetail" class="muted"></p><button id="propose" class="primary">Analizar solicitud</button><div id="result" class="result" role="status" aria-live="polite">Selecciona un caso para comenzar.</div>
-<div id="decisionBox" hidden><h3>Revisar la devolución</h3><p>Revisa el importe antes de decidir. Esta versión permite probar la aprobación sin iniciar sesión.</p>
-<div class="buttons"><button id="approve" class="primary">Aprobar propuesta</button><button id="reject">Rechazar</button></div>
-<label class="check"><input id="failure" type="checkbox"> Simular fallo del conector</label><button id="execute">Intentar ejecución simulada</button></div>
-</section>
-<section class="panel"><div class="section-top"><span class="number">02</span><h2>Cómo se revisa la solicitud</h2></div>
-<ol class="steps"><li><b>Entrada validada</b><span>Comprueba el tipo de solicitud y sus campos.</span></li><li><b>Condiciones del pedido</b><span>Revisa la tienda, el plazo y el importe.</span></li><li><b>Aprobación o rechazo</b><span>La devolución queda pendiente hasta que decidas.</span></li><li><b>Recibo de prueba</b><span>Reintentar no genera un segundo recibo.</span></li></ol>
-<div class="policy"><h3>Reglas del ejercicio</h3><p>Pedido entregado · hasta 14 días · máximo 100 unidades DEMO · solo el espacio de ejemplo.</p><small>Estas reglas se inventaron para la muestra. No representan políticas de un comercio.</small></div>
-<button id="export">Descargar evidencia de esta sesión</button>
-</section></div>
-<section class="panel events"><div class="section-top"><span class="number">03</span><h2>Registro de operaciones</h2><span id="chain" class="badge">Sin operaciones</span></div>
-<p class="muted">Aquí se registra cada intento y su resultado. Los hashes permiten comprobar cambios parciales en el registro, pero no identificar a su autor.</p><div class="table-wrap"><table><thead><tr><th>#</th><th>Evento</th><th>Acción</th><th>Resultado</th></tr></thead><tbody id="events"></tbody></table></div></section>
-<footer>MARCO DÍAZ DE LEÓN · ESTRATEGIA E IMPLEMENTACIÓN DE IA<br><small>Estado en memoria. Reinicia el servidor para restablecer los escenarios. Esta demo no está diseñada para alojarse públicamente.</small></footer></main></body></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>AI Implementation Lab · Marco Díaz de León</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#workspace">Ir al área de trabajo</a>
+<header>
+  <a class="brand" href="/" aria-label="AI Implementation Lab, inicio">
+    <span class="monogram" aria-hidden="true">MD</span>
+    <span>MARCO DÍAZ DE LEÓN<small>AI IMPLEMENTATION LAB</small></span>
+  </a>
+  <nav aria-label="Secciones">
+    <a href="#workspace">Área de trabajo</a>
+    <a href="#trace">Registro</a>
+    <span class="badge">DEMO LOCAL</span>
+  </nav>
+</header>
+<main>
+  <section class="intro" aria-labelledby="page-title">
+    <div>
+      <p class="eyebrow">ESTRATEGIA E IMPLEMENTACIÓN DE IA <span>/</span> CASO 01</p>
+      <h1 id="page-title">Revisión de una solicitud de devolución</h1>
+      <p class="lead">Consulta un pedido, revisa sus condiciones y decide el siguiente paso. Prueba también qué ocurre cuando una operación falla.</p>
+    </div>
+    <aside class="boundary" aria-label="Contexto del ejercicio">
+      <p class="eyebrow">EL EJERCICIO</p>
+      <strong>Condiciones de la devolución.</strong>
+      <p>Una tienda ficticia, siete solicitudes y un registro que permite seguir cada intento.</p>
+      <small>Se aplican reglas fijas a datos de ejemplo. Sin devoluciones reales ni llamadas a modelos.</small>
+    </aside>
+  </section>
+  <section class="metrics" aria-label="Reglas y resultados de la demostración">
+    <div><span>Casos disponibles</span><b>07</b></div>
+    <div><span>Plazo del ejercicio</span><b>14 <small>días</small></b></div>
+    <div><span>Límite por devolución</span><b>100 <small>DEMO</small></b></div>
+    <div><span>Recibos simulados</span><b id="receiptCount">00</b></div>
+  </section>
+  <div class="workspace" id="workspace" tabindex="-1">
+    <section class="panel request-panel" aria-labelledby="request-title">
+      <div class="section-top"><span class="number">01</span><div><p class="eyebrow">ENTRADA Y DECISIÓN</p><h2 id="request-title">Analizar una solicitud</h2></div></div>
+      <label for="scenario">Solicitud ficticia</label>
+      <select id="scenario" aria-describedby="scenarioDetail"></select>
+      <p id="scenarioDetail" class="muted"></p>
+      <button id="propose" class="primary">Analizar solicitud <span aria-hidden="true">↗</span></button>
+      <div id="result" class="result" role="status" aria-live="polite">Selecciona una solicitud para comenzar.</div>
+      <div id="decisionBox" hidden>
+        <h3>Revisar la devolución</h3>
+        <p class="muted">Revisa el importe antes de decidir. La aprobación de este ejemplo se prueba sin iniciar sesión.</p>
+        <div class="buttons"><button id="approve" class="primary">Aprobar propuesta</button><button id="reject">Rechazar</button></div>
+        <label class="check"><input id="failure" type="checkbox"> Simular fallo del conector</label>
+        <button id="execute">Intentar ejecución simulada</button>
+      </div>
+    </section>
+    <section class="panel" aria-labelledby="review-title">
+      <div class="section-top"><span class="number">02</span><div><p class="eyebrow">CRITERIOS DEL EJERCICIO</p><h2 id="review-title">Cómo se revisa la solicitud</h2></div></div>
+      <ol class="steps">
+        <li><b>Entrada validada</b><span>Comprueba el tipo de solicitud y sus campos.</span></li>
+        <li><b>Condiciones del pedido</b><span>Revisa la tienda, el plazo y el importe.</span></li>
+        <li><b>Aprobación o rechazo</b><span>La devolución queda pendiente hasta que decidas.</span></li>
+        <li><b>Recibo de prueba</b><span>Reintentar no genera un segundo recibo.</span></li>
+      </ol>
+      <div class="policy"><h3>Reglas del ejercicio</h3><p>Pedido entregado · hasta 14 días · máximo 100 unidades DEMO · solo el espacio de ejemplo.</p><small>Son condiciones inventadas para esta muestra.</small></div>
+      <button id="export" class="export-button">Descargar evidencia de esta sesión <span aria-hidden="true">↓</span></button>
+    </section>
+  </div>
+  <section class="panel events" id="trace" tabindex="-1" aria-labelledby="trace-title">
+    <div class="section-top"><span class="number">03</span><div><p class="eyebrow">ACTIVIDAD DE LA SESIÓN</p><h2 id="trace-title">Registro de operaciones</h2></div><span id="chain" class="badge">Sin operaciones</span></div>
+    <p class="muted">Cada intento conserva su resultado. La comprobación de hashes detecta cambios parciales; no identifica al autor del registro.</p>
+    <div class="table-wrap" role="region" aria-label="Eventos de la sesión" tabindex="0"><table><thead><tr><th scope="col">#</th><th scope="col">Evento</th><th scope="col">Acción</th><th scope="col">Resultado</th></tr></thead><tbody id="events"></tbody></table></div>
+  </section>
+  <footer><span>MARCO DÍAZ DE LEÓN <span class="footer-divider">/</span> ESTRATEGIA E IMPLEMENTACIÓN DE IA</span><small>Sesión en memoria · Reiniciar el servidor restablece los escenarios · Uso local</small></footer>
+</main>
+</body>
+</html>

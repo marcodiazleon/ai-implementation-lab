@@ -1,6 +1,6 @@
 # S01 implementation and maintenance plan
 
-Version 0.2. Basis: spec.md 0.2. Scope: maintain the existing local example and complete SDD traceability.
+Version 0.3. Basis: spec.md 0.3. Scope: maintain the existing local example and complete SDD traceability.
 
 ## Components and contracts
 | Component | Files | Contract / requirement |
@@ -45,3 +45,8 @@ Publish only explicitly staged sample files. No database, provider or model conf
 ## Rollback and maintenance
 For a bad source change, create a normal corrective/revert commit after inspection; preserve evidence and unrelated work. Stop the local server and start a known committed version in a separate checkout if necessary. Runtime session state is disposable and cannot be restored.
 For a new feature, select its expansion task, resolve its listed dependencies, update its spec and acceptance first, then implement. Use docs/operations.md for handoff and support.
+
+## U04 visual increment and product investigation
+Before changing the view, extend R13 and cases C052/C053. Change web/index.html and web/style.css: black canvas, white text, personal header, compact introduction and two work panels with activity below. Keep existing IDs and event handlers. Add real anchor links and a keyboard skip link; use a single-column layout on narrow screens. No external fonts, scripts or dependencies.
+Review the rendered desktop and narrow layout, focus visibility and existing approval/failure/retry flow using a separate synthetic server. Preserve the user's existing session. Record the specific viewport, result and source hash; no full accessibility certification.
+Investigate the expanded product separately. A concept derived from another project is not a verified reusable component; publication contains only original synthetic examples and public research. Record both plans and the relation to existing S02 tasks before implementing a new capability.

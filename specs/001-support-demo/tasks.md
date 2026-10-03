@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.2. Current spec: spec.md 0.2. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 0.3. Current spec: spec.md 0.3. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U03 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -20,5 +20,7 @@ Source: U01–U03 in the spec. One implementing assistant writes shared artifact
 | T16 | R11 | Owner/visitor comprehension and acceptance | T08,T15 | Marco / designated visitor | C045 observed and acceptance decision recorded | PENDING; no approval invented |
 | T17 | R14 | 20-item expansion backlog | U03, research | Implementing assistant | All A01–A10/M01–M10 have requirement, dependency, owner and closure | COMPLETE; current update |
 | T18 | R12,R14 | Delivery review and handoff | T13–T15,T17 | Implementing assistant | Structural and technical evidence, diff/privacy review and next task | IMPLEMENTED; see review report |
+| T19 | R11,R13 | Black/white personal visual layout | U04,T08 | Implementing assistant | C052/C053 browser observations and unchanged workflow checks | IMPLEMENTED; see visual review |
+| T20 | R14 | Product research and two bounded plans | U04,T17 | Implementing assistant | Primary-source findings, reuse limits and first useful increment | COMPLETE; see product plans |
 
 Task state describes work, not acceptance. Case states in acceptance.csv are authoritative for observed checks. Completed legacy behavior remains unchanged and its history is preserved. New expansion implementation uses S02 tasks after selecting the corresponding item.
