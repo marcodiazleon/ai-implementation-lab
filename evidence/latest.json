@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_utc": "2026-10-03T20:03:32.810454+00:00",
+  "generated_utc": "2026-10-03T20:31:54.199857+00:00",
   "scope": "Local synthetic demonstration; not product acceptance or security certification",
   "tests": {
     "run": 42,
@@ -89,7 +89,7 @@
     "tests/test_lab.py": "06fe3ce448b1f5f77ffeb5d2e196ae2f7ecd121b14cc4ab2004aa8bb4f25f63e",
     "tests/test_protocol.py": "c54eec1b1f1efe582a77dbf631d9f526bf662fce5f7e5661e15595ae583a619f",
     "web/app.js": "1e4f02c4326af660968b16eb8c7eb5a9fb47daa95e180e3ec3d0185be829903c",
-    "web/index.html": "a4399a9f6533e1fca16a01483be8d3b5998f13ed92e22712b1a1c51ca41fcb85",
+    "web/index.html": "ea51e8dc8c673a4c9e6fe8a6c93d5203ad1cdbd911e61e6f2c58c1e357acb27d",
     "web/style.css": "c6c5be21982980eddee794af0b54472afb820e751affc29bbfe4c2cd17a507a7"
   },
   "limitations": [

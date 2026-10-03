@@ -1,8 +1,8 @@
 # Empieza aquí
 
-Soy Marco Díaz de León. Mi trabajo se centra en convertir una necesidad de negocio en una implementación viable: entender el proceso, elegir el alcance, coordinar la construcción y comprobar que el resultado cumple lo acordado.
+Soy Marco Díaz de León. Ayudo a definir qué necesita un negocio, qué sistemas hay que conectar y cómo organizar su implementación.
 
-Esta muestra permite ver ese trabajo sin utilizar datos ni materiales de clientes. El código se desarrolló con asistencia de IA. La propuesta de valor es el criterio para dirigir la implementación y evaluar su resultado.
+Este repositorio contiene un ejemplo de atención posventa con pedidos ficticios. Puedes consultar los requisitos, probar la aplicación y revisar sus resultados. El código se desarrolló con asistencia de IA.
 
 ## En dos minutos
 1. Lee el problema en [la especificación](../specs/001-support-demo/spec.md).

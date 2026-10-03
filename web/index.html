@@ -2,22 +2,22 @@
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Implementation Lab · Demo</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
 <body><header><a class="brand" href="/">AI / IMPLEMENTATION LAB</a><span class="badge">DEMO LOCAL · DATOS FICTICIOS</span></header>
-<main><section class="intro"><div><p class="eyebrow">DE LA NECESIDAD A UNA DECISIÓN COMPROBABLE</p>
-<h1>Una propuesta no es<br>una autorización.</h1><p class="lead">Explora cómo una solicitud de posventa se convierte en una acción acotada. Reglas, revisión humana y evidencia en el mismo recorrido.</p>
-</div><aside class="boundary"><strong>Lo que esta muestra demuestra</strong><p>Integración, límites y decisiones de implementación.</p>
-<small>El planificador es determinista. No hay un LLM conectado, clientes reales, cobros ni mensajes externos.</small></aside></section>
+<main><section class="intro"><div><p class="eyebrow">EJEMPLO DE ATENCIÓN POSVENTA</p>
+<h1>Revisión de una solicitud<br>de devolución</h1><p class="lead">Consulta un pedido, revisa si cumple las condiciones y aprueba o rechaza la devolución. Puedes simular un fallo y comprobar qué ocurre al reintentar.</p>
+</div><aside class="boundary"><strong>Sobre este ejemplo</strong><p>Una tienda ficticia, siete casos de prueba y un registro de las operaciones.</p>
+<small>El sistema aplica reglas fijas. Los pedidos y recibos son de prueba; no se realizan devoluciones reales ni se consulta un modelo de IA.</small></aside></section>
 <section class="metrics" aria-label="Límites de la demostración"><div><b>00</b><span>llamadas a modelos</span></div><div><b>00</b><span>operaciones reales</span></div><div><b>07</b><span>escenarios reproducibles</span></div><div><b id="receiptCount">00</b><span>recibos simulados</span></div></section>
-<div class="workspace"><section class="panel"><div class="section-top"><span class="number">01</span><h2>Explorar un caso</h2></div><label for="scenario">Solicitud ficticia</label><select id="scenario"></select>
+<div class="workspace"><section class="panel"><div class="section-top"><span class="number">01</span><h2>Seleccionar un caso</h2></div><label for="scenario">Solicitud ficticia</label><select id="scenario"></select>
 <p id="scenarioDetail" class="muted"></p><button id="propose" class="primary">Analizar solicitud</button><div id="result" class="result" role="status" aria-live="polite">Selecciona un caso para comenzar.</div>
-<div id="decisionBox" hidden><h3>Intervención humana simulada</h3><p>La propuesta contiene un alcance e importe fijos. El rol de revisor de esta demo no es autenticación de producción.</p>
+<div id="decisionBox" hidden><h3>Revisar la devolución</h3><p>Revisa el importe antes de decidir. Esta versión permite probar la aprobación sin iniciar sesión.</p>
 <div class="buttons"><button id="approve" class="primary">Aprobar propuesta</button><button id="reject">Rechazar</button></div>
 <label class="check"><input id="failure" type="checkbox"> Simular fallo del conector</label><button id="execute">Intentar ejecución simulada</button></div>
 </section>
-<section class="panel"><div class="section-top"><span class="number">02</span><h2>Ver el control en acción</h2></div>
-<ol class="steps"><li><b>Entrada validada</b><span>Solo herramientas y campos permitidos.</span></li><li><b>Política y ámbito</b><span>La solicitud no amplía los permisos.</span></li><li><b>Decisión humana</b><span>Una devolución espera aprobación.</span></li><li><b>Efecto simulado</b><span>Reintentar no genera un segundo recibo.</span></li></ol>
+<section class="panel"><div class="section-top"><span class="number">02</span><h2>Cómo se revisa la solicitud</h2></div>
+<ol class="steps"><li><b>Entrada validada</b><span>Comprueba el tipo de solicitud y sus campos.</span></li><li><b>Condiciones del pedido</b><span>Revisa la tienda, el plazo y el importe.</span></li><li><b>Aprobación o rechazo</b><span>La devolución queda pendiente hasta que decidas.</span></li><li><b>Recibo de prueba</b><span>Reintentar no genera un segundo recibo.</span></li></ol>
 <div class="policy"><h3>Reglas del ejercicio</h3><p>Pedido entregado · hasta 14 días · máximo 100 unidades DEMO · solo el espacio de ejemplo.</p><small>Estas reglas se inventaron para la muestra. No representan políticas de un comercio.</small></div>
 <button id="export">Descargar evidencia de esta sesión</button>
 </section></div>
-<section class="panel events"><div class="section-top"><span class="number">03</span><h2>Traza de eventos</h2><span id="chain" class="badge">Sin operaciones</span></div>
-<p class="muted">Hooks de aplicación antes y después de cada operación. Una cadena de hashes permite detectar alteraciones parciales; no certifica autoría.</p><div class="table-wrap"><table><thead><tr><th>#</th><th>Evento</th><th>Acción</th><th>Resultado</th></tr></thead><tbody id="events"></tbody></table></div></section>
-<footer>MARCO DÍAZ DE LEÓN · BUSINESS × PRODUCT × AI IMPLEMENTATION<br><small>Estado en memoria. Reinicia el servidor para restablecer los escenarios. Esta demo no está diseñada para alojarse públicamente.</small></footer></main></body></html>
+<section class="panel events"><div class="section-top"><span class="number">03</span><h2>Registro de operaciones</h2><span id="chain" class="badge">Sin operaciones</span></div>
+<p class="muted">Aquí se registra cada intento y su resultado. Los hashes permiten comprobar cambios parciales en el registro, pero no identificar a su autor.</p><div class="table-wrap"><table><thead><tr><th>#</th><th>Evento</th><th>Acción</th><th>Resultado</th></tr></thead><tbody id="events"></tbody></table></div></section>
+<footer>MARCO DÍAZ DE LEÓN · ESTRATEGIA E IMPLEMENTACIÓN DE IA<br><small>Estado en memoria. Reinicia el servidor para restablecer los escenarios. Esta demo no está diseñada para alojarse públicamente.</small></footer></main></body></html>

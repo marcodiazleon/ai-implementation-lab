@@ -10,3 +10,5 @@
 8. Keep the implementation understandable: one vertical slice, few dependencies and tests tied to risks.
 9. Changes to boundaries require a decision record and acceptance update.
 10. Document what an artifact does not prove.
+
+11. Describe the operation and its result in plain language. Avoid slogans, rhetorical contrasts and unsupported performance promises. Keep the factual disclosure of AI-assisted development.

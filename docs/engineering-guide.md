@@ -1,9 +1,9 @@
-# How I work: from business question to bounded implementation
+# Working method
 
 ## My role
-I work across business, product, experience and technology. I define the opportunity, make the workflow tangible, clarify constraints and coordinate implementation. I use AI-assisted development as a delivery capability; I do not present this sample as evidence that I personally hand-wrote every line or operated a production system.
+I work with teams to understand their process, define requirements and coordinate implementation. I use AI tools during development and review the resulting behavior against the requirements.
 
-For this exercise, the stakeholder wants consistent after-sales handling. The implementation question is: can a proposed action remain understandable and controlled from request through retry?
+This exercise uses a fictional shop. It covers order lookup, refund review and a failed attempt followed by a retry. The method below describes the intended workflow; the [SDD review](sdd-adoption.md) identifies where this repository's initial delivery fell short.
 
 ## My delivery loop
 1. **Recover context.** Read the current state and existing evidence before changing anything.
@@ -27,7 +27,7 @@ For this exercise, the stakeholder wants consistent after-sales handling. The im
 | Across all layers — Judgment | Evaluate value, cost and risk | No real refund, no live model, no invented business results |
 
 ## How I organize the work
-- **README** is the front door, not a dump of internal notes.
+- **README** explains the example and how to run it.
 - **docs/** explains durable concepts, decisions and limitations.
 - **specs/001-support-demo/** contains the agreement for one bounded slice.
 - **src/** contains reusable logic; **web/** presents it.

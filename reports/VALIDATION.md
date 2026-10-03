@@ -16,7 +16,7 @@ The local interface was exercised through browser automation on 2026-10-03:
 - A simulated connector failure produced zero receipts.
 - Retrying without the simulated failure created one receipt.
 - Repeating execution returned the same receipt; the counter remained one and the trace displayed REPLAY.
-- The full-page screenshot shows the resulting UI: [demo.jpg](../docs/assets/demo.jpg).
+- The full-page screenshot shows the resulting UI: [original walkthrough](../docs/assets/demo-original-20261003.jpg).
 
 This is a browser observation by the development assistant, not an operator acceptance session or a broad accessibility/cross-browser audit.
 

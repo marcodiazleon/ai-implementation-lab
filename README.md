@@ -2,21 +2,21 @@
 
 **Marco Díaz de León · Forward Deployment / AI Implementation Strategy**
 
-I turn business problems into scoped implementations: define the outcome, map the workflow, specify integration boundaries, coordinate AI-assisted development, and ask for evidence before rollout.
+I help teams define what they need, decide which systems to connect and organize the implementation. This repository shows the requirements, technical decisions and tests for a small working example.
 
-This repository is a **public engineering sample**, built from scratch with fictional data. It shows the decisions and artifacts I use to move from an opportunity to an implementation that somebody can run, question and inspect. Code was developed with AI assistance; my role is implementation strategy, product judgment and delivery coordination.
+The example uses fictional orders and a simulated refund process. Code was developed with AI assistance. My role is to define the problem, choose the scope and coordinate delivery.
 
 [Guía en español](docs/START_HERE_ES.md) · [Engineering guide](docs/engineering-guide.md) · [Evidence](evidence/latest.json) · [What is and is not implemented](docs/capabilities.md)
 
-## A proposal is not an authorization
+## Reviewing a refund request
 
 The working example is a fictional after-sales assistant. It reads a synthetic order, checks an exercise policy, proposes a refund, waits for a reviewer decision and creates a **local simulated receipt**.
 
-The interesting question is not whether an assistant can suggest a refund. It is whether an implementation can preserve scope, explain a decision, stop an unapproved action and recover from a failed attempt without duplicating its local result.
+Try executing a refund before approval, then approve it and simulate a connector failure. The event log shows each attempt. A successful retry produces one local receipt.
 
 ![Local demo: request, decision and trace](docs/assets/demo.jpg)
 
-### Start with your question
+### Where to start
 
 | Visitor | Read first | Then inspect |
 |---|---|---|
@@ -24,7 +24,7 @@ The interesting question is not whether an assistant can suggest a refund. It is
 | Client: how would an idea become an implementation? | [Problem, scope and acceptance](specs/001-support-demo/spec.md) | [Demo walkthrough](docs/demo-script.md) |
 | Technical reviewer: does the sample work? | Run the commands below | [Tests](tests/), [MVC and MCP](docs/architecture.md), [evidence](evidence/latest.json) |
 
-## Run it in five minutes
+## Run the demo
 
 Requirements: **Python 3.11+ and Git**. No third-party Python packages, API keys, model subscriptions or installation of connectors.
 
@@ -52,7 +52,7 @@ python run.py mcp
 ## What is in the sample?
 
 - **Working application:** local web UI, domain rules, review state machine, simulated connector and retry protection.
-- **Engineering discipline:** specification, acceptance-to-test mapping, decisions and bounded evidence.
+- **Project records:** requirements, test references, decisions and results. The initial SDD process is incomplete; see the [method review](docs/sdd-adoption.md).
 - **Hooks:** application lifecycle events and an optional Git pre-commit guard that inspects staged bytes.
 - **Data skill:** documented procedure plus an executable validator.
 - **MCP:** a limited, version-pinned stdio adapter exposing two read-only tools.
@@ -77,7 +77,7 @@ reports/       human-readable interpretation of those results
 
 [Why each folder exists](docs/engineering-guide.md#how-i-organize-the-work).
 
-## Limits that matter
+## Current limits
 
 This is a deterministic integration demonstration, **not a deployed autonomous AI service**. There are no LLM calls, real customers, real refunds or external business connections. The reviewer role is simulated; any local caller can use the decision endpoint. State disappears on restart. Retry protection applies within one process, not to distributed transactions.
 
