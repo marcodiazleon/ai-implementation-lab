@@ -1,0 +1,65 @@
+[
+  {
+    "id": "eligible",
+    "title": "Devolución dentro de política",
+    "request": {
+      "order_id": "DEMO-101",
+      "intent": "refund"
+    },
+    "expected": "PENDING_APPROVAL"
+  },
+  {
+    "id": "late",
+    "title": "Fuera de plazo",
+    "request": {
+      "order_id": "DEMO-102",
+      "intent": "refund"
+    },
+    "expected": "BLOCKED"
+  },
+  {
+    "id": "limit",
+    "title": "Importe sobre el límite",
+    "request": {
+      "order_id": "DEMO-103",
+      "intent": "refund"
+    },
+    "expected": "BLOCKED"
+  },
+  {
+    "id": "scope",
+    "title": "Pedido de otro espacio",
+    "request": {
+      "order_id": "DEMO-104",
+      "intent": "lookup"
+    },
+    "expected": "BLOCKED"
+  },
+  {
+    "id": "lookup",
+    "title": "Consulta sin efecto",
+    "request": {
+      "order_id": "DEMO-105",
+      "intent": "lookup"
+    },
+    "expected": "READ_ONLY"
+  },
+  {
+    "id": "unknown",
+    "title": "Pedido inexistente",
+    "request": {
+      "order_id": "DEMO-999",
+      "intent": "lookup"
+    },
+    "expected": "BLOCKED"
+  },
+  {
+    "id": "injection",
+    "title": "Petición de herramienta no autorizada",
+    "request": {
+      "order_id": "DEMO-101",
+      "intent": "export_customers"
+    },
+    "expected": "BLOCKED"
+  }
+]

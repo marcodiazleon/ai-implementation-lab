@@ -1,0 +1,7 @@
+{
+  "version": "demo-policy-1",
+  "currency": "DEMO",
+  "max_refund": 100,
+  "window_days": 14,
+  "description": "Fictional exercise rules, not a merchant policy."
+}

@@ -1,0 +1,12 @@
+requirement,check,evidence,limit
+R01,WorkflowTests.test_unknown_and_foreign_are_indistinguishable,evidence/latest.json,synthetic workspace only
+R02,WorkflowTests.test_scenarios and test_invalid_requests and test_tool_allowlist,evidence/latest.json,not LLM quality or prompt injection evaluation
+R03,WorkflowTests.test_execute_requires_approval and test_rejection_blocks_execution,evidence/latest.json,reviewer role simulated
+R04,WorkflowTests.test_stale_policy and test_stale_order_even_without_version_change,evidence/latest.json,in-process mutable fixtures
+R05,WorkflowTests.test_concurrent_retry_exactly_one_local_receipt and test_same_order_cannot_be_compensated_twice,evidence/latest.json,no cross-process durability
+R06,WorkflowTests.test_connector_failure_keeps_approval_and_retry_works,evidence/latest.json,pre-effect failure only
+R07,WorkflowTests.test_before_hook_failure_prevents_action and test_audit_detects_edit,evidence/latest.json,unsigned hash chain
+R08,HttpTests,evidence/latest.json,development HTTP server
+R09,ProtocolTests including test_stdio_round_trip,evidence/latest.json,no real assistant client integration
+R10,GuardTests and fixture/publication checks,evidence/latest.json,limited scanner patterns
+R11,Owner or reviewer walkthrough,reports/VALIDATION.md,human comprehension remains to be validated

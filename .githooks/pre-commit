@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run against staged bytes, not only the working tree.
+exec "${PYTHON:-python}" scripts/publication_check.py --staged

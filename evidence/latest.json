@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "generated_utc": "2026-10-03T20:03:32.810454+00:00",
+  "scope": "Local synthetic demonstration; not product acceptance or security certification",
+  "tests": {
+    "run": 42,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true
+  },
+  "fixture_validation": {
+    "passed": true,
+    "errors": []
+  },
+  "publication_guard": {
+    "passed": true,
+    "errors": [],
+    "scope": "Limited file and pattern checks"
+  },
+  "scenario_evaluation": {
+    "mode": "DETERMINISTIC_DEMO",
+    "model_calls": 0,
+    "cases": [
+      {
+        "case": "eligible",
+        "expected": "PENDING_APPROVAL",
+        "observed": "PENDING_APPROVAL",
+        "passed": true
+      },
+      {
+        "case": "late",
+        "expected": "BLOCKED",
+        "observed": "BLOCKED",
+        "passed": true
+      },
+      {
+        "case": "limit",
+        "expected": "BLOCKED",
+        "observed": "BLOCKED",
+        "passed": true
+      },
+      {
+        "case": "scope",
+        "expected": "BLOCKED",
+        "observed": "BLOCKED",
+        "passed": true
+      },
+      {
+        "case": "lookup",
+        "expected": "READ_ONLY",
+        "observed": "READ_ONLY",
+        "passed": true
+      },
+      {
+        "case": "unknown",
+        "expected": "BLOCKED",
+        "observed": "BLOCKED",
+        "passed": true
+      },
+      {
+        "case": "injection",
+        "expected": "BLOCKED",
+        "observed": "BLOCKED",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "source_sha256": {
+    "data/orders.json": "f55ca40adcd4f69dfcad36e60798b522ad8625f8eaecbfc4594ce891d62d0823",
+    "data/policy.json": "de2ae1c0a35c12fe790326ae14a0bf8aec876bf4c8227e61c6de61a6ba73051f",
+    "data/scenarios.json": "1cc617023d8b005de47caa1e7063f36db3f91eda6016058f48e89618a1349f51",
+    "run.py": "5d7bc75f0793e9c5f3aad244255e53a078fed086248985928078dba9459b5fd1",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/publication_check.py": "8f7e82566144371c99cdd4d7a21c8f8c563737334dfc937d5cbf4859daaca44d",
+    "scripts/validate_data.py": "62a4b9beb165bb453db591dc88c93e62a07f251b447d2709bf734267191b7316",
+    "scripts/verify.py": "480d46cb204473ebae322917e322fb2ed537bd14b4a7fe1e8d970c6d89112b09",
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/lab/__init__.py": "363113c8930aa3232f68dc06c9d5586fce4ca14f30a9f685abf1216bc25596da",
+    "src/lab/cli.py": "2e87cc4c81fc3039f4211533c6f893323cc5ccd5620a117fa4e0154908898960",
+    "src/lab/controller.py": "a41ffe836b1abe705038765794580e7c81893b26f89d2b8a3f34eb25a6cf54f4",
+    "src/lab/hooks.py": "5717a85728b59c2a2aec5bd7bac49da004eb980fb5b644b588fb025cd70fe6e5",
+    "src/lab/mcp_server.py": "2a8d32df5bd15112cda40db5e00b6e85174390cf6cc99c34f2199e7d5c83ec63",
+    "src/lab/models.py": "2c9800e9612cfc99e9f7e94e504526b11edd80dc0cfbb25d00e0eb178e4c072a",
+    "src/lab/server.py": "82f5240ee1a892685802b2faa7aaea9d4ba2109896e892bfd42c5ef8c6d84261",
+    "tests/test_guards.py": "83efb3263cb3b362d9cff41e5d0eed8b31db32792b9a1d3745ce38c502b23dd3",
+    "tests/test_http.py": "80898f1ccac2debbfd95deac865bc393753c66ff4da4e50bae61eb6e3b25186f",
+    "tests/test_lab.py": "06fe3ce448b1f5f77ffeb5d2e196ae2f7ecd121b14cc4ab2004aa8bb4f25f63e",
+    "tests/test_protocol.py": "c54eec1b1f1efe582a77dbf631d9f526bf662fce5f7e5661e15595ae583a619f",
+    "web/app.js": "1e4f02c4326af660968b16eb8c7eb5a9fb47daa95e180e3ec3d0185be829903c",
+    "web/index.html": "a4399a9f6533e1fca16a01483be8d3b5998f13ed92e22712b1a1c51ca41fcb85",
+    "web/style.css": "c6c5be21982980eddee794af0b54472afb820e751affc29bbfe4c2cd17a507a7"
+  },
+  "limitations": [
+    "No LLM evaluation",
+    "No live MCP client integration",
+    "No authenticated reviewer",
+    "No durable transaction recovery",
+    "No external business integration"
+  ],
+  "passed": true
+}
