@@ -25,3 +25,5 @@ The exercise's policy thresholds are engineering examples, not approved commerci
 ## Proportionality
 A small wording fix needs a requirement reference, changed text and appropriate verification, not a new project interview. New identity, storage, provider or external effect requires the corresponding design and checks first.
 The existing folder structure is retained through an equivalence map. Product agents, cloud deployment, real payments and multi-PC support remain separate future scopes.
+
+U08 authorizes an additional opt-in Anthropic adapter and repository-local user agent definitions excluded from publication. Creation does not grant execution tools. MCP guides may prepare arbitrary client configurations, but only the existing Context7 adapter executes in this sample.

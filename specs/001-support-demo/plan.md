@@ -1,6 +1,6 @@
 # S01 implementation and maintenance plan
 
-Version 0.6. Basis: spec.md 0.6. Scope: maintain the existing local example and complete SDD traceability.
+Version 0.7. Basis: spec.md 0.7. Scope: maintain the existing local example and complete SDD traceability.
 
 ## Components and contracts
 | Component | Files | Contract / requirement |
@@ -63,3 +63,6 @@ Use a local Spanish/English dictionary and bind initial static text and accessib
 Use original repository-owned role manifests, one stateless agent executor, isolated optional model requests sharing the existing session budget but not chat history, and deterministic local deliverables. Hooks are executable Python checks; role prose is descriptive guidance, not the enforcement boundary. No background loops or arbitrary commands. Browser state keeps artifacts and drafts in memory; explicit downloads save Markdown/JSON.
 Context7 uses a minimal fixed-host Streamable HTTP JSON-RPC client: initialization, initialized notification, tools/list, allowlisted tools/call. Support bounded JSON or SSE responses, sanitize provider errors, reject redirects, no arbitrary URL or local MCP process. API keys stay server-side in memory; expiry/disconnect revoke local sessions. No SDK/install or secrets lookup. Data sharing with OpenAI and Context7 are separate explicit actions.
 All UI additions ship in Spanish and English. Verify protocol contracts with fake transports and browser workflow with synthetic inputs; a live read-only Context7 check uses public documentation only. OpenAI live inference remains operator-dependent.
+
+## U08 implementation
+Retain plain HTML/CSS/JS and domain IDs. Move chat into demo; place the seven-case example in an expandable panel. New sidebar persists its collapsed state only. Rewrite agent UI as a definition editor; local JSON storage uses an RLock and atomic replacement under .local/agents.json, excluded from Git. Chat resolves a saved ID server-side, isolates history when the role changes and exposes no tools. Anthropic uses Messages and model-check endpoints via a second fixed-host adapter; existing OpenAI contract stays backward compatible. MCP guide creates JSON profiles without executing them or storing keys; Context7 remains separate inside a details panel. Tests use temporary stores and provider doubles, not private data or paid inference.

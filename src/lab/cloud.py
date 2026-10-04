@@ -18,13 +18,17 @@ class CloudError(Exception):
         super().__init__(code)
 
 class OpenAITransport:
+    host = HOST
+
+    def headers(self,key):
+        return {"Authorization":"Bearer "+key,"Content-Type":"application/json"}
+
     def request(self, method, path, key, body=None):
         # No redirects, proxy destinations or user-provided hosts.
-        connection = http.client.HTTPSConnection(HOST, timeout=30)
+        connection = http.client.HTTPSConnection(self.host, timeout=30)
         try:
             raw = None if body is None else json.dumps(body, ensure_ascii=False).encode("utf-8")
-            connection.request(method, path, raw, {
-                "Authorization": "Bearer " + key, "Content-Type": "application/json"})
+            connection.request(method, path, raw, self.headers(key))
             response = connection.getresponse()
             data = response.read(1048577)
             if response.status != 200:
@@ -81,9 +85,32 @@ class OpenAITransport:
                        if isinstance(usage, dict) and type(usage.get(name)) is int and usage[name] >= 0}
         return {"text": text, "incomplete": state == "incomplete", "usage": clean_usage}
 
+
+class AnthropicTransport(OpenAITransport):
+    host = "api.anthropic.com"
+
+    def headers(self,key):
+        return {"x-api-key":key,"anthropic-version":"2023-06-01","Content-Type":"application/json"}
+
+    def answer(self,key,model,messages,limit):
+        system="Provide text assistance. You have no tools or access to files; do not claim executed actions."
+        system += "\n" + "\n".join(m['content'] for m in messages if m['role'] in {'system','developer'})
+        conversation=[m for m in messages if m['role'] in {'user','assistant'}]
+        result=self.request("POST","/v1/messages",key,{"model":model,"max_tokens":limit,"system":system,"messages":conversation})
+        blocks=result.get('content')
+        if not isinstance(blocks,list):raise CloudError('API_NO_TEXT',502)
+        text="\n".join(b['text'] for b in blocks if isinstance(b,dict) and b.get('type')=='text' and isinstance(b.get('text'),str)).strip()
+        if not text or len(text)>12000:raise CloudError('API_NO_TEXT',502)
+        reason=result.get('stop_reason')
+        if reason not in {'end_turn','stop_sequence','max_tokens'}:raise CloudError('API_FAILURE',502)
+        raw=result.get('usage') or {};usage={k:raw[k] for k in ('input_tokens','output_tokens') if isinstance(raw,dict) and type(raw.get(k)) is int and raw[k]>=0}
+        if len(usage)==2:usage['total_tokens']=sum(usage.values())
+        return {'text':text,'usage':usage,'incomplete':reason=='max_tokens'}
+
 class CloudSessions:
-    def __init__(self, transport=None, clock=time.monotonic):
+    def __init__(self, transport=None, clock=time.monotonic, transports=None):
         self.transport = transport or OpenAITransport()
+        self.transports = transports or {"openai": self.transport, "anthropic": AnthropicTransport()}
         self.clock = clock
         self.sessions = {}
         self.lock = threading.RLock()
@@ -103,8 +130,12 @@ class CloudSessions:
         return self.sessions[token]
 
     def connect(self, body):
-        if set(body) != {"api_key", "model", "max_output_tokens", "consent"} or body.get("consent") is not True:
+        if set(body) not in ({"api_key", "model", "max_output_tokens", "consent"}, {"api_key", "model", "max_output_tokens", "consent", "provider"}) or body.get("consent") is not True:
             raise CloudError("CONSENT_REQUIRED")
+        provider=body.get("provider","openai")
+        if not isinstance(provider,str) or provider not in self.transports:
+            raise CloudError("PROVIDER_UNSUPPORTED")
+        transport=self.transports[provider]
         key, model, limit = body["api_key"], body["model"], body["max_output_tokens"]
         if not isinstance(key, str) or not 20 <= len(key) <= 300 or not re.fullmatch(r"[A-Za-z0-9_-]+", key):
             raise CloudError("INVALID_KEY_FORMAT")
@@ -118,18 +149,18 @@ class CloudSessions:
                 raise CloudError("SESSION_CAPACITY", 429)
             self.connecting += 1
         try:
-            self.transport.check(key, model)
+            transport.check(key, model)
             token = secrets.token_urlsafe(32)
             with self.lock:
-                self.sessions[token] = {"key": key, "model": model, "limit": limit, "history": [],
+                self.sessions[token] = {"key": key, "provider": provider, "transport": transport, "model": model, "limit": limit, "history": [],
                                         "touched": self.clock(), "requests": 0, "busy": False}
         finally:
             with self.lock:
                 self.connecting -= 1
-        return {"session_id": token, "model": model, "max_output_tokens": limit,
+        return {"session_id": token, "provider": provider, "model": model, "max_output_tokens": limit,
                 "expires_after_idle_seconds": TTL, "request_limit": MAX_REQUESTS}
 
-    def ask(self, body):
+    def ask(self, body, instructions=None, context_id="general"):
         if set(body) != {"session_id", "message"}:
             raise CloudError("INVALID_CHAT_REQUEST")
         message = body["message"]
@@ -145,10 +176,13 @@ class CloudSessions:
             row["busy"] = True
             row["requests"] += 1
             row["touched"] = self.clock()
+            if row.get("context_id","general") != context_id:
+                row["history"].clear()
+            row["context_id"]=context_id
             messages = list(row["history"]) + [{"role": "user", "content": message.strip()}]
             key, model, limit = row["key"], row["model"], row["limit"]
         try:
-            answer = self.transport.answer(key, model, messages, limit)
+            answer = row["transport"].answer(key, model, ([{"role":"developer","content":instructions}] if instructions else []) + messages, limit)
             if not isinstance(answer, dict) or not isinstance(answer.get("text"), str):
                 raise CloudError("API_NO_TEXT", 502)
             with self.lock:
@@ -160,7 +194,7 @@ class CloudSessions:
                     history = history[2:]
                 row["history"] = history
                 row["touched"] = self.clock()
-                return {**answer, "model": model, "requests_used": row["requests"],
+                return {**answer, "provider": row["provider"], "model": model, "requests_used": row["requests"],
                         "request_limit": MAX_REQUESTS}
         finally:
             with self.lock:
@@ -198,14 +232,14 @@ class CloudSessions:
             row.update(busy=True, touched=self.clock(), requests=row["requests"] + 1)
             key, model, limit = row["key"], row["model"], row["limit"]
         try:
-            answer = self.transport.answer(key, model, [{"role": "developer", "content": instructions}, {"role": "user", "content": content}], limit)
+            answer = row["transport"].answer(key, model, [{"role": "developer", "content": instructions}, {"role": "user", "content": content}], limit)
             if not isinstance(answer, dict) or not isinstance(answer.get("text"), str):
                 raise CloudError("API_NO_TEXT", 502)
             with self.lock:
                 if self.sessions.get(token) is not row:
                     raise CloudError("SESSION_EXPIRED", 401)
                 row["touched"] = self.clock()
-            return {**answer, "model": model, "requests_used": row["requests"], "request_limit": MAX_REQUESTS}
+            return {**answer, "provider": row["provider"], "model": model, "requests_used": row["requests"], "request_limit": MAX_REQUESTS}
         finally:
             with self.lock:
                 row["busy"] = False

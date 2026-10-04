@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.6. Status: current specification for the existing demonstration.
+Version: 0.7. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -126,7 +126,7 @@ Operator approves connection to the fixed Context7 HTTPS endpoint, optionally su
 | R20 | Fixed-host Context7 MCP supports initialize, discovery and two read-only tools with explicit consent, bounded expiring sessions and safe error rendering. | U07 | CU12 | Mock protocol and HTTP negatives; live metadata/docs separately reported |
 
 ## Attributes and exclusions
-- Privacy: demonstration uses fixtures only. Optional cloud chat transmits only the operator's bounded conversation to OpenAI after consent; no automatic file/context upload. No public customer endpoint.
+- Privacy: demonstration uses fixtures only. Optional cloud chat transmits the bounded conversation and selected role instructions to OpenAI or Anthropic after consent; no automatic file/context upload. No public customer endpoint.
 - Security: loopback and state-machine controls are tested. Real identity and durable audit remain expansion work.
 - Performance: no service-level latency or throughput promise. Test-run durations are observations, not business thresholds.
 - Cost: the demonstration has no model calls. Optional cloud chat uses the operator's API account; output-token/request limits are not a currency budget. Development subscription/usage is separate.
@@ -139,7 +139,22 @@ Operator approves connection to the fixed Context7 HTTPS endpoint, optionally su
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.4. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is S01 0.7. S02 is an expansion backlog; its higher number does not make it active or implemented.
 
 ### CU10 — Choose interface language
-Operator selects Español or English. All four views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.
+Operator selects Español or English. All five views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.
+
+## U08 — Conversation-first workspace and agent creation
+
+Authority: owner requests a collapsible left sidebar, conversation inside Demonstration as the primary view, an agent builder using the four roles as examples, a multiple-MCP configuration guide, and a provider-neutral connection guide including Claude. This supersedes the separate chat/workbench navigation in U05/U07. The existing deterministic exercise remains available inside Demonstration.
+
+### CU13 — Create and use a scoped agent
+Operator names a role, writes its prompt and selects a work mode (plan/research/implementation/review). Save a definition in the repository's ignored local area; edit or export it. The four built-in roles are templates. Select the saved role in the demonstration conversation and explicitly send a message using the configured provider. No creation-time provider/key is needed; no shell/file tools are granted to the agent.
+
+### CU14 — Prepare MCP configurations
+Operator selects a remote HTTP or local stdio guide, names a server and specifies its URL or command/argument list. Preview/download a client configuration. Multiple non-secret profiles can be kept in browser storage. These configurations are not connections. Context7 remains the verified built-in execution adapter; arbitrary commands and OAuth are not executed by this sample.
+
+| R21 | Five sidebar destinations and a collapsible accessible menu; only ES/EN in the top bar. Demonstration embeds conversation first and optional deterministic exercise. Preserve existing hash aliases and drafts. | U08 | CU08 | Desktop/mobile navigation, collapse, keyboard and chat-in-demo |
+| R22 | Create/edit/export custom roles from templates or blank input; persist bounded definitions in ignored repository-local storage with no provider/key fields, traversal or shell execution. Saved roles can guide the conversation. | U08 | CU13 | Round-trip/restart, malformed inputs, secret patterns and role use |
+| R23 | Elegant multiple-MCP guide and valid configuration exports for HTTP/stdio, explicitly distinguishing configured from executable; keep bounded Context7 behavior. | U08 | CU14 | Multiple profiles, invalid config and export; no commands executed |
+| R24 | Provider-neutral connection guide and bounded OpenAI/Anthropic sessions using fixed destinations, correct protocol adapters and isolated keys/history. No fallback or paid test without operator key. | U08 | CU09/CU13 | Provider routing, format, errors, context reset and authorization checks |

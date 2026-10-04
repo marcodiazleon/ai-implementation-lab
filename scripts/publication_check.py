@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED = {".git", "__pycache__", ".venv", ".runtime"}
+EXCLUDED = {".git", "__pycache__", ".venv", ".runtime", ".local"}
 # Split spellings keep scanner examples from triggering their own detector.
 PATTERNS = [
     ("private key", re.compile(r"-----BEGIN " + r"(?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
@@ -19,6 +19,8 @@ def files(root=ROOT):
 def inspect(name, data):
     findings = []
     p = Path(name)
+    if ".local" in p.parts:
+        findings.append("Private runtime definition cannot be published: " + name)
     if p.name == ".env" or (p.name.startswith(".env.") and p.name != ".env.example") or p.suffix.lower() in {".pem", ".pfx", ".key"}:
         findings.append("Credential-like file: " + name)
     text = data.decode("utf-8", errors="replace")

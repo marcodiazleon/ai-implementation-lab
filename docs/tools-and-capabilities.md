@@ -65,3 +65,6 @@ Adaptador opcional HTTPS a api.openai.com con Responses; sin SDK adicional, clav
 | Context7 remote MCP | Read library documentation | Fixed remote URL, optional memory-only key, two tools | Live discovery and both queries; offline negative tests |
 
 [Contracts, limits and protocol references](WORKBENCH.md). Each external operation requires UI consent. No automatic provider fallback.
+
+## U08 implemented scope
+Agent builder: local validated JSON definitions, four starting templates, text-only chat and JSON export. HTTP/stdio MCP builder: configuration only, compatible-client guide, no process or arbitrary endpoint launch. Context7: existing allowlisted read client. OpenAI and Anthropic: fixed native API destinations, own credentials, explicit connection consent, one request per send, no fallback or retries. Model quality and real provider inference are NOT_EXECUTED.

@@ -28,3 +28,6 @@ Menú ampliado y conversación opcional OpenAI API: [uso y límites](OPENAI_API.
 ## U07 — Agents and remote MCP
 
 Four scoped roles with local templates and optional OpenAI generation; separate history and shared API budget. Context7 remote MCP discovery and both read tools verified live without a key. See [workbench limits](WORKBENCH.md) and [review](../reports/AGENTS_REVIEW_2026-10-03.md). Markdown and JSON downloads verified. Real model inference remains unverified.
+
+## Current interface (U08)
+Five sidebar views replace the previous top menu. Demonstration includes the conversation and expandable refund exercise. Agents creates persistent text-only roles; MCPs prepares multiple public configurations and retains Context7's real read client. Connect your AI supports OpenAI and Anthropic. Custom agents have no automatic tool execution or autonomous delegation. See WORKBENCH.md and OPENAI_API.md for current behavior; older workbench reports describe their historical delivery.

@@ -12,7 +12,7 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
 The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.6; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+[Current status](docs/project-status.json) explicitly selects S01 0.7; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -85,7 +85,7 @@ reports/       human-readable interpretation of those results
 
 ## Current limits
 
-This is a deterministic integration demonstration, **not a deployed autonomous AI service**. The refund demonstration has no LLM calls, real customers, real refunds or external business connections. A separate optional Q&A view can call OpenAI API after explicit configuration and consent. The reviewer role is simulated; any local caller can use the decision endpoint. State disappears on restart. Retry protection applies within one process, not to distributed transactions.
+This is a deterministic integration demonstration, **not a deployed autonomous AI service**. The refund demonstration has no LLM calls, real customers, real refunds or external business connections. The conversation on the home page can call OpenAI or Claude/Anthropic after explicit configuration and consent. The reviewer role is simulated; any local caller can use the decision endpoint. Refund state and model sessions disappear on restart; custom agent definitions remain in the ignored .local folder. Retry protection applies within one process, not to distributed transactions.
 
 The hash chain detects ordinary edits if hashes are left unchanged; it is not a signed, immutable audit log. The disallowed-tool case tests an allowlist, not resistance to arbitrary prompt injection. The MCP adapter is wire-tested for its documented subset, not certified or tested with a live assistant client.
 
@@ -98,18 +98,18 @@ This repository is public for inspection. No open-source license has been grante
 ## Next interactive experience
 The [product and visual plans](docs/PLAN_PRODUCTO_Y_DISENO.md) describe editable request analysis, comparison and a bounded sales workflow. The black/white visual update is delivered; these functional extensions remain planned. [Research and sources](docs/INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md).
 
-## Menú y conversación opcional
+## Workspace and agent builder
 
-El menú abre Demostración, Conversación, Conexión API y Cómo está construido. [Guía de conexión y traslado](docs/OPENAI_API.md). La conversación usa una clave propia de OpenAI API y puede generar cargos; la demostración sigue funcionando sin ella. Inicia con `INICIAR_LAB.cmd` en Windows o `python run.py serve`. La API real y el segundo equipo requieren sus respectivas verificaciones.
+The expandable sidebar opens **Demonstration**, **Agents**, **MCPs**, **Connect your AI** and **How it is built**. The header contains the Spanish/English selector. Demonstration starts with a conversation; the deterministic refund example opens below it without an API connection.
 
-## Español / English
+In Agents, use one of four templates or define your own name, role, prompt and work mode. Save and edit the definition, download its JSON, and select it in the home conversation. Definitions persist locally in `.local/agents.json`, excluded from Git and blocked by the publication guard. These are text-only assistants, with no shell, file or deployment tools.
 
-Use the language selector in the header. It translates all four app views and remembers your choice in this browser. Changing language preserves the current case, API connection and draft; existing conversation text stays in its original language.
+Connect your AI supports the native OpenAI and Claude/Anthropic APIs with your own key and model ID. Changing agents clears the conversation context. Keys and chat history remain in server memory; model calls can incur provider charges. Neither a ChatGPT nor a Claude subscription is an API credential.
 
-## Four-role delivery workbench
+The MCP guide prepares multiple HTTP or stdio configurations for compatible clients and exports a JSON file. Preparing a configuration does not run a server. Context7 retains its built-in read-only connection. Authentication and compatibility depend on each server and client.
 
-The **Agents** menu offers Project Manager, Researcher, Implementer and Quality Reviewer, with responsibilities, enforced hooks and downloadable Markdown proposals. Use local templates without a model, or explicitly run each role with your configured OpenAI connection. The **MCP** menu connects to Context7 to retrieve public library documentation. Both screens support Spanish and English.
+The language selector translates the five views and preserves drafts and connections. Existing user content stays in its original language. Sidebar preference and public MCP configurations are stored in this browser.
 
-[Workflow and limits](docs/WORKBENCH.md) · [Validation report](reports/AGENTS_REVIEW_2026-10-03.md) · [Role contracts](agents/roles.json)
+[Agent and MCP guide](docs/WORKBENCH.md) · [AI connection guide](docs/OPENAI_API.md) · [Current delivery report](reports/STUDIO_REVIEW_2026-10-03.md)
 
-Local templates and a mocked model route were checked. Context7 discovery and both read tools were exercised against the real endpoint without a key. Real OpenAI inference remains an operator check. Review outputs do not execute product tests or release software.
+Provider routing was tested with local doubles; real OpenAI and Claude inference and startup on a second computer remain unverified.

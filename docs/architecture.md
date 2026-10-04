@@ -46,3 +46,6 @@ Run `python run.py mcp` from the repository. A client would launch that command 
 ## U07 workbench
 
 The browser coordinates four role contracts. `src/lab/agents.py` owns input, permission, output and evidence hooks. `CloudSessions.task` makes a single isolated model request without touching chat history. `src/lab/context7.py` owns the fixed remote MCP transport and expiring sessions. The view selects when documentation is included; returned text cannot invoke tools. [Details](WORKBENCH.md).
+
+## U08 workspace
+`studio.js` owns routing, the sidebar, agent forms and public MCP configuration export. `cloud.js` handles provider sessions and chat. `AgentStore` persists validated definitions at a fixed local path. The server resolves agent IDs into instructions; clients cannot select files or grant tools. Each cloud session owns a fixed transport for OpenAI or Anthropic. Changing agent or prompt revision isolates conversation context. The refund domain and its simulated connector remain independent.

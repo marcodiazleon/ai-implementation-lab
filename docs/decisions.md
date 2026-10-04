@@ -34,3 +34,6 @@ Use a local dictionary, Spanish default and a single localStorage language prefe
 ## D-U07 — Four roles, operator-controlled execution
 
 Source U07 requests both Implementer and Quality Reviewer, alongside PM and Researcher. Deliver all four with local template and optional single-call model execution. Use explicit Context7 read queries instead of model-directed tools. Share API request budget, separate chat history, and preserve brief digests. Review remains a proposal, not test execution. Source contracts and bounded adapters are original showcase code.
+
+## U08 — workspace and adapters
+The owner requested a sidebar and conversation-first home, agent creation, multi-MCP guidance and support beyond OpenAI. The implementation keeps two fixed provider adapters and separates configuration generation from executable connections. Custom definitions persist outside tracked sources. Existing U07 executor tests remain, while the public interface uses the new creator. Scope is a local text-only showcase; no private product code or customer data was copied.

@@ -63,3 +63,10 @@ Owner confirms both Implementer and Quality Reviewer alongside PM and Researcher
 ## U07 delivery — 2026-10-03
 
 Implemented R18-R20/T25-T27 after the S01 0.6 update. Browser checked four roles, language switching, model consent using a fixture, real Context7 discovery and documentation lookup. Markdown and JSON downloads confirmed; exported document hashes verified. [Delivery review](../reports/AGENTS_REVIEW_2026-10-03.md). No paid inference, private product changes or destination-PC execution.
+
+## U08 — 2026-10-03
+
+Owner redirects the interface to a conversation-first demo, sidebar, editable agent definitions and provider/MCP guides. S01 0.7/R21-R24/T28-T31 recorded before implementation. Existing real-effect and private-source boundaries remain.
+
+## 2026-10-03 · U08
+Reorganized the application around five sidebar destinations; made conversation the home view and retained the refund exercise below it. Added persistent agent creation, OpenAI/Anthropic routing and multiple-MCP configuration export. Source U08, requirements R21–R24 and tasks T28–T31 were recorded before implementation. Validation and remaining live-provider/second-PC checks are in reports/STUDIO_REVIEW_2026-10-03.md. Owner acceptance and independent review remain unrecorded.

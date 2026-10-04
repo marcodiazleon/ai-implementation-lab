@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.6. Current spec: spec.md 0.6. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 0.7. Current spec: spec.md 0.7. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -33,3 +33,8 @@ Source: U01–U05 in the spec. One implementing assistant writes shared artifact
 | T27 | R18,R19,R20 | Bilingual workbench and evidence downloads | T25,T26 | Implementing assistant | Browser workflow and claims match observed evidence | IMPLEMENTED; validation limits in delivery review |
 
 Task state describes work, not acceptance. Case states in acceptance.csv are authoritative for observed checks. Completed legacy behavior remains unchanged and its history is preserved. New expansion implementation uses S02 tasks after selecting the corresponding item.
+
+| T28 | R21,R15 | Sidebar and conversation-first demo | U08,T27 | Implementing assistant | Bilingual routes, collapsible menu, preserved exercise | IMPLEMENTED; see U08 delivery report |
+| T29 | R22,R19 | Persisted agent builder and conversation roles | U08,T25 | Implementing assistant | Create/edit/export/reload and isolated role context | IMPLEMENTED; see U08 delivery report |
+| T30 | R24,R16 | Provider-neutral guide and Claude adapter | U08,T22 | Implementing assistant | Fixed provider routing and mock protocol checks | IMPLEMENTED; see U08 delivery report |
+| T31 | R23,R20 | Multiple-MCP configuration guide | U08,T26 | Implementing assistant | Export works and configured/executable states are accurate | IMPLEMENTED; see U08 delivery report |

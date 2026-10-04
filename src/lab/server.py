@@ -7,11 +7,13 @@ from .models import RuleError
 from .cloud import CloudSessions, CloudError
 from .agents import contracts, run_agent
 from .context7 import Context7Sessions
+from .agent_store import AgentStore
 
-def make_server(port=8765, cloud=None, mcp=None):
+def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
     lab = Lab()
     cloud = cloud or CloudSessions()
     mcp = mcp or Context7Sessions()
+    agent_store = agent_store or AgentStore(ROOT / ".local/agents.json")
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_):
             pass
@@ -40,9 +42,14 @@ def make_server(port=8765, cloud=None, mcp=None):
                 return self.respond(200, lab.snapshot())
             if path == "/api/scenarios":
                 return self.respond(200, load_data("scenarios.json"))
+            if path == "/api/custom-agents":
+                try:
+                    return self.respond(200, agent_store.list())
+                except CloudError as exc:
+                    return self.respond(exc.status, {"error":exc.code})
             if path == "/api/agents":
                 return self.respond(200, contracts())
-            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"), "/workbench.js": ("workbench.js", "application/javascript"),
+            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"), "/workbench.js": ("workbench.js", "application/javascript"), "/studio.js": ("studio.js", "application/javascript"),
                       "/style.css": ("style.css", "text/css"), "/cloud.js": ("cloud.js", "application/javascript"), "/i18n.js": ("i18n.js", "application/javascript")}
             if path in assets:
                 filename, mime = assets[path]
@@ -56,7 +63,7 @@ def make_server(port=8765, cloud=None, mcp=None):
                 return self.respond(415, {"error": "JSON_REQUIRED"})
             try:
                 length = int(self.headers.get("Content-Length", "0"))
-                body_limit = 100000 if urlsplit(self.path).path == "/api/agents/run" else 16384 if urlsplit(self.path).path.startswith(("/api/cloud/", "/api/mcp/")) else 4096
+                body_limit = 100000 if urlsplit(self.path).path == "/api/agents/run" else 20000 if urlsplit(self.path).path == "/api/custom-agents/save" else 16384 if urlsplit(self.path).path.startswith(("/api/cloud/", "/api/mcp/")) else 4096
                 if not 0 < length <= body_limit:
                     return self.respond(413, {"error": "INVALID_BODY_SIZE"})
                 body = json.loads(self.rfile.read(length))
@@ -66,6 +73,11 @@ def make_server(port=8765, cloud=None, mcp=None):
                 return self.respond(400, {"error": "INVALID_JSON"})
             path = urlsplit(self.path).path
             try:
+                if path == "/api/custom-agents/save":
+                    return self.respond(200, agent_store.save(body))
+                if path == "/api/cloud/ask" and set(body) == {"session_id","message","agent_id"}:
+                    instructions, context_id=agent_store.resolve(body["agent_id"])
+                    return self.respond(200,cloud.ask({"session_id":body["session_id"],"message":body["message"]},instructions,context_id))
                 if path == "/api/agents/run":
                     return self.respond(200, run_agent(body, cloud))
                 if path.startswith("/api/mcp/"):
