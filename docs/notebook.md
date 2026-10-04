@@ -70,3 +70,6 @@ Owner redirects the interface to a conversation-first demo, sidebar, editable ag
 
 ## 2026-10-03 · U08
 Reorganized the application around five sidebar destinations; made conversation the home view and retained the refund exercise below it. Added persistent agent creation, OpenAI/Anthropic routing and multiple-MCP configuration export. Source U08, requirements R21–R24 and tasks T28–T31 were recorded before implementation. Validation and remaining live-provider/second-PC checks are in reports/STUDIO_REVIEW_2026-10-03.md. Owner acceptance and independent review remain unrecorded.
+
+## 2026-10-03 · Public screenshot refresh
+Replaced the README's previous refund-only screenshot with a fresh capture of the delivered U08 workspace: conversation first, expanded sidebar and agent selection. Captured from the running local application without credentials or fictional model replies. Documentation-only follow-up to T28; application behavior is unchanged.

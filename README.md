@@ -8,6 +8,8 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 [Método de ingeniería](docs/engineering-guide.md) · [Guía en español](docs/START_HERE_ES.md) · [Engineering guide](docs/engineering-guide.md) · [Evidence](evidence/latest.json) · [What is and is not implemented](docs/capabilities.md)
 
+![Current workspace: conversation, expandable sidebar and agent selection](docs/assets/workspace-current-20261003.jpg)
+
 ## How the project is organized
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
@@ -20,7 +22,7 @@ The working example is a fictional after-sales assistant. It reads a synthetic o
 
 Try executing a refund before approval, then approve it and simulate a connector failure. The event log shows each attempt. A successful retry produces one local receipt.
 
-![Local demo: request, decision and trace](docs/assets/demo-dark-20261003.jpg)
+
 
 ### Where to start
 
