@@ -40,5 +40,5 @@ Each row is a proposed increment grounded in the owner's request and the expansi
 ## Sources and decisions
 Primary references and rationale: [research](../../docs/INVESTIGACION_EXPANSION_2026-10-03.md).
 Dependencies, priority and implementation state: tasks.md. Planned acceptance rows: acceptance.csv.
-M01 is partial because the copy/role are improved but no owner-narrated video/comprehension review exists. M07 is partial because this update supplies individual results and metadata, but cross-platform/browser CI remains unimplemented.
+M01 is partial because the copy/role are improved but no owner-narrated video/comprehension review exists. M07 is partial because this update supplies individual results and metadata, but cross-platform/browser CI remains unimplemented. A01 is partial because the static demo is published (2026-10-04) and C113 checks browser/Python parity on the fixtures, but no run by another person and no independent review are recorded.
 No other item is closed merely because this specification describes it.

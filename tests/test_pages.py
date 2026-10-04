@@ -18,6 +18,11 @@ class PagesBuildTests(unittest.TestCase):
             css = (out / "style.css").read_text(encoding="utf-8")
             for selector in ("#view-connection", "#context7Details", "#view-chat"):
                 self.assertIn(".public-demo " + selector, css)
+            # Public wording replaces the local-workspace and loopback text.
+            self.assertIn('data-en="AI IMPLEMENTATION LAB · PUBLIC DEMO">AI IMPLEMENTATION LAB · DEMO PÚBLICA<', html)
+            self.assertNotIn("ESPACIO LOCAL", html)
+            self.assertIn("Esta demo pública ejecuta las reglas en tu navegador con datos ficticios.", html)
+            self.assertNotIn("por loopback", html)
 
 if __name__ == "__main__":
     unittest.main()

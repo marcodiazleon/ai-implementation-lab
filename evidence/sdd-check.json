@@ -2,15 +2,15 @@
   "passed": true,
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
-  "source_id": "49e9ac10aa0e20bb8b1f071ef51f4b2ee68e957544e246a2a69547029d3a95fa",
+  "source_id": "6507d691d5ad3b4642f9e760d07eb05311788cb4896618a96b3e458ac38ee5cf",
   "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "073990c4f9412b0ae4de4753c4537b9bd0dcd201f05c67c34b164bd309887504",
+    "specs/001-support-demo/acceptance.csv": "96737f0e2c1819367871583c397a0010c4d318eb99654c3730ef7c5ea66d16db",
     "specs/001-support-demo/plan.md": "d32a0c82e798735270d10e4f483b59afa94f6bba8208605f77f6ee74feaa43e6",
     "specs/001-support-demo/spec.md": "95a0662cc4ebe18a9d713d0b5cc7e44aac356a7c9bc5cfe3c4b9a4cfc5163ee0",
     "specs/001-support-demo/tasks.md": "494c21bea60188a077773ab7531419f17567bb2186ea5f0ef369ea579bb4ec58",
-    "specs/002-expansion/acceptance.csv": "11c5e65a0acad25b543ffe6d1edc3bf69821b8bb883c6272f287bf483d3497fd",
+    "specs/002-expansion/acceptance.csv": "69d27033e5f7c79b23992e87484323e9cfb3f55ebffb4f7337547477b15f2609",
     "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
-    "specs/002-expansion/spec.md": "d3c5fcf3f416a62d23c1741513a5039f9f046c3a3388c4d5f8e7418400831b60",
-    "specs/002-expansion/tasks.md": "0a55bb2ceed79d0f3b2b101c144247e2db2591e0caf0f54e421fd134900c0960"
+    "specs/002-expansion/spec.md": "e24f533d7df6c3d8301b15b88560add3746d875c34a94b6b9c90dc4d78373f65",
+    "specs/002-expansion/tasks.md": "9365138b1e6bdb4bc3132a9f0b7acfe1e3cee02caf8fe0bea4d1faba5ee42e9e"
   }
 }

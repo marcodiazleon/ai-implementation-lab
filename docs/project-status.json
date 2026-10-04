@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "AI Implementation Lab",
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "active_spec": "specs/001-support-demo/spec.md",
   "active_spec_version": "0.8",
   "expansion_spec": "specs/002-expansion/spec.md",
@@ -13,12 +13,14 @@
   "runtime_model": "OPTIONAL_OPENAI_OR_ANTHROPIC_OPERATOR_SELECTED",
   "acceptance": "OWNER_ACCEPTANCE_NOT_RECORDED",
   "independent_review": "NOT_PERFORMED",
-  "next_task": "E-M02",
+  "next_task": "E-A08 evidence view + traceability explorer",
   "evidence": "evidence/latest.json",
-  "latest_delivery": "U09 compact Session with provider/model/effort/agent controls",
+  "latest_delivery": "E-A01 public browser-only demo (GitHub Pages)",
   "current_task": "T32-T34 IMPLEMENTED",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED",
   "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
-  "json_browser_download": "VERIFIED_FILE_AND_HASH"
+  "json_browser_download": "VERIFIED_FILE_AND_HASH",
+  "public_demo": "https://marcodiazleon.github.io/ai-implementation-lab/",
+  "public_demo_verified": "2026-10-04 manual browser run; parity test see evidence"
 }
