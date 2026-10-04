@@ -38,7 +38,7 @@ def make_server(port=8765, cloud=None):
             if path == "/api/scenarios":
                 return self.respond(200, load_data("scenarios.json"))
             assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"),
-                      "/style.css": ("style.css", "text/css"), "/cloud.js": ("cloud.js", "application/javascript")}
+                      "/style.css": ("style.css", "text/css"), "/cloud.js": ("cloud.js", "application/javascript"), "/i18n.js": ("i18n.js", "application/javascript")}
             if path in assets:
                 filename, mime = assets[path]
                 return self.respond(200, (ROOT / "web" / filename).read_bytes(), mime)

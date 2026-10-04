@@ -12,7 +12,7 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
 The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.4; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+[Current status](docs/project-status.json) explicitly selects S01 0.5; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -101,3 +101,7 @@ The [product and visual plans](docs/PLAN_PRODUCTO_Y_DISENO.md) describe editable
 ## Menú y conversación opcional
 
 El menú abre Demostración, Conversación, Conexión API y Cómo está construido. [Guía de conexión y traslado](docs/OPENAI_API.md). La conversación usa una clave propia de OpenAI API y puede generar cargos; la demostración sigue funcionando sin ella. Inicia con `INICIAR_LAB.cmd` en Windows o `python run.py serve`. La API real y el segundo equipo requieren sus respectivas verificaciones.
+
+## Español / English
+
+Use the language selector in the header. It translates all four app views and remembers your choice in this browser. Changing language preserves the current case, API connection and draft; existing conversation text stays in its original language.

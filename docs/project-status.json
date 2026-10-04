@@ -3,7 +3,7 @@
   "project": "AI Implementation Lab",
   "updated": "2026-10-03",
   "active_spec": "specs/001-support-demo/spec.md",
-  "active_spec_version": "0.4",
+  "active_spec_version": "0.5",
   "expansion_spec": "specs/002-expansion/spec.md",
   "expansion_state": "BACKLOG",
   "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
@@ -15,8 +15,8 @@
   "independent_review": "NOT_PERFORMED",
   "next_task": "E-M02",
   "evidence": "evidence/latest.json",
-  "latest_delivery": "U05 menu, optional OpenAI API Q&A and portable startup",
-  "current_task": "T21–T23 implemented; operator checks pending",
+  "latest_delivery": "U06 Spanish/English UI",
+  "current_task": "T24 implemented",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED"
 }

@@ -130,3 +130,7 @@ nav a[aria-current="page"] { color:#fff; border-bottom:2px solid #fff; padding-b
 .message[data-role="user"] { margin-left:8%; background:#242429; }
 button:disabled { opacity:.5; cursor:not-allowed; }
 @media(max-width:650px) { header { align-items:flex-start; flex-direction:column; gap:20px; } nav { gap:14px; } .cloud-panel { margin:16px 0; } }
+
+.language-picker { display:flex; align-items:center; gap:8px; font-size:.8rem; margin:0; color:#fafafa; }
+.language-picker select { width:auto; min-width:108px; margin:0; padding:7px 10px; font-size:.85rem; }
+.language-picker label { margin:0; }

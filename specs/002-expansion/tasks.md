@@ -27,3 +27,5 @@ Source: U03 and the dated research. Each task updates its requirement, tests and
 
 Next recommended task: E-M02. Pending decisions D14 (model/data/budget), D15 (pilot identity) and D08 (reuse license) block only their corresponding branch.
 Update this table and its acceptance row when results change. PARTIAL must name the missing part in spec.md; COMPLETE requires linked evidence.
+
+U06 / S01-T24 completed the Spanish/English portion of EXP-M02, with browser evidence in reports/LANGUAGE_REVIEW_2026-10-03.md. Explicit session reset and remaining M02 criteria are still pending; the whole expansion item is not marked complete.

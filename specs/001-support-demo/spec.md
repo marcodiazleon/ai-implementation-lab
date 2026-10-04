@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.4. Status: current specification for the existing demonstration.
+Version: 0.5. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -14,10 +14,11 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U03 | Owner's current request: complete the method, document tool use, incorporate the 20 research proposals and update pending work |
 | U04 | Owner's request: investigate useful interactive extensions and reuse opportunities; apply a black background, white text and a more personal visual structure now |
 | U05 | Owner requests menu, optional OpenAI API connection/Q&A and source continuity to another PC using USB/shared folder; no private runtime or credentials transfer |
+| U06 | Owner requests Spanish/English language selection throughout the current app |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
-U01–U05 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
+U01–U06 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
 
 ## Actors, data and permissions
 - Visitor: reads public documents and clones the repository.
@@ -109,7 +110,7 @@ Result: user can ask and read answers. Cloud chat cannot operate the demo or rea
 | R13 | Use descriptive copy and factual AI-assistance disclosure; render a black canvas, white text, clear personal identity, readable controls/focus and a responsive request/review/activity layout. | U02/U04 confirmed requests | CU01/CU06 | Editorial and desktop/narrow-width keyboard review |
 | R14 | Record active spec, versions, responsibilities, changes, next action and the 20-item expansion backlog at each relevant delivery. | U03 confirmed request | CU07 | Continuity/backlog validation |
 
-| R15 | Menu views, hashes and keyboard controls reach demo, chat, connection and method; original demo needs no key. | U05 | CU08 | Browser navigation and route checks |
+| R15 | Menu views, hashes and keyboard controls reach demo, chat, connection and method; original demo needs no key. A Spanish/English selector translates static and dynamic UI, updates document language and remembers only the language preference; switching does not reset the case, chat, draft or connection. | U05/U06 | CU08 | Browser navigation, language persistence and preserved state |
 | R16 | Optional OpenAI connection and bounded Q&A require explicit consent, isolate sessions, sanitize errors, support local disconnect/history clearing and never expose keys in outputs. | U05 | CU09 | Transport/session/HTTP negatives and browser checks; live inference separately classified |
 | R17 | Provide portable source/startup instructions and a read-only destination check without credentials or implicit installation. | U05 | CU01/CU07 | Portable check and clean-directory verification |
 
@@ -128,3 +129,6 @@ Result: user can ask and read answers. Cloud chat cannot operate the demo or rea
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
 The active build is S01 0.4. S02 is an expansion backlog; its higher number does not make it active or implemented.
+
+### CU10 — Choose interface language
+Operator selects Español or English. All four views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.

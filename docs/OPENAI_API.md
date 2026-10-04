@@ -31,3 +31,6 @@ store:false no elimina todas las políticas de retención del proveedor. Esta im
 
 ## Traslado
 Copia la carpeta del repositorio sin claves ni sesiones. No requiere paquetes de Python adicionales; Python debe estar instalado en destino. Ejecuta primero `python scripts/check_environment.py`: es una comprobación de solo lectura de versión, archivos y puerto. No instala dependencias ni comprueba credenciales. Un puerto ocupado exige revisar el servidor existente. No cambies el enlace loopback por una interfaz pública.
+
+## Idioma de la interfaz
+El selector Español / English traduce menús, formularios, estados y errores sin cambiar la conexión ni traducir el texto de preguntas o respuestas. Solo esta preferencia se guarda en localStorage; no se guardan claves ni conversaciones.

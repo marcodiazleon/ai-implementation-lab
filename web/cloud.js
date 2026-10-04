@@ -1,6 +1,7 @@
 "use strict";
 (() => {
  const el = id => document.getElementById(id);
+ const ui=(id,source,values)=>LabI18n.bind(el(id),source,values);
  const views = ["demo","chat","connection","method"];
  function route(focus=false) {
   const hash=location.hash.slice(1), view=views.includes(hash)?hash:"demo";
@@ -42,50 +43,50 @@
   for(const id of ["apiKey","apiModel","tokenLimit","apiConsent"])el(id).disabled=busy||!!session;
   el("sendQuestion").disabled=busy||!session;el("clearChat").disabled=busy||!session;el("question").disabled=busy||!session;
   el("disconnectApi").disabled=!session;el("disconnectChat").disabled=!session;
-  el("chatStatus").textContent=session?"Conectado · "+session.model+" · máximo "+session.max_output_tokens+" tokens de salida":"Sin conexión. Configura tu clave y modelo en Conexión API.";
+  if(session)ui("chatStatus","Conectado · {model} · máximo {limit} tokens de salida",{model:session.model,limit:session.max_output_tokens});else ui("chatStatus","Sin conexión. Configura tu clave y modelo en Conexión API.");
  }
  function message(role,text){
   const node=document.createElement("article");node.className="message";node.dataset.role=role;
-  const label=document.createElement("strong");label.textContent=role==="user"?"Tú":"OpenAI";
+  const label=document.createElement("strong");LabI18n.bind(label,role==="user"?"Tú":"OpenAI");
   const content=document.createElement("p");content.textContent=text;node.append(label,content);el("messages").append(node);
   el("messages").scrollTop=el("messages").scrollHeight;
  }
  el("connectionForm").onsubmit=async event=>{
   event.preventDefault();if(busy||session)return;
-  busy=true;const attempt=++generation;controls();el("connectionStatus").textContent="Comprobando acceso al modelo…";
+  busy=true;const attempt=++generation;controls();ui("connectionStatus","Comprobando acceso al modelo…");
   const body={api_key:el("apiKey").value.trim(),model:el("apiModel").value.trim(),max_output_tokens:Number(el("tokenLimit").value),consent:el("apiConsent").checked};
   el("apiKey").value="";
   try {
    const result=await request("connect",body);
    if(attempt!==generation)return;
-   session=result;el("messages").replaceChildren();el("chatNotice").textContent="";
-   el("connectionStatus").textContent="Conexión comprobada. El modelo todavía no ha generado una respuesta.";
+   session=result;el("messages").replaceChildren();ui("chatNotice","");
+   ui("connectionStatus","Conexión comprobada. El modelo todavía no ha generado una respuesta.");
    location.hash="chat";
-  }catch(error){el("connectionStatus").textContent=error.message;}
+  }catch(error){ui("connectionStatus",error.message);}
   finally{body.api_key="";if(attempt===generation){busy=false;controls();}}
  };
  el("chatForm").onsubmit=async event=>{
   event.preventDefault();if(busy||!session)return;
   const text=el("question").value.trim();if(!text)return;
   const attempt=generation, token=session.session_id;
-  busy=true;controls();message("user",text);el("question").value="";el("chatNotice").textContent="Esperando respuesta…";
+  busy=true;controls();message("user",text);el("question").value="";ui("chatNotice","Esperando respuesta…");
   try{
    const result=await request("ask",{session_id:token,message:text});
    if(attempt!==generation)return;
    message("assistant",result.text);
    const tokens=result.usage?.total_tokens;
-   el("chatNotice").textContent=(result.incomplete?"La respuesta quedó incompleta. ":"")+"Intentos: "+result.requests_used+"/"+result.request_limit+(Number.isInteger(tokens)?" · Tokens informados en esta solicitud: "+tokens:"");
+   ui("chatNotice",[{source:result.incomplete?"La respuesta quedó incompleta. ":""},{source:"Intentos: {used}/{limit}",values:{used:result.requests_used,limit:result.request_limit}},{source:Number.isInteger(tokens)?" · Tokens informados en esta solicitud: {tokens}":"",values:{tokens}}]);
   }catch(error){
    if(attempt!==generation)return;
-   el("chatNotice").textContent=error.message+" No se realizó ningún reintento automático.";
+   ui("chatNotice",[{source:error.message},{source:" No se realizó ningún reintento automático."}]);
    if(error.code==="SESSION_EXPIRED")session=null;
   }finally{if(attempt===generation){busy=false;controls();}}
  };
  el("clearChat").onclick=async()=>{
   if(!session||busy)return;
   const attempt=generation;busy=true;controls();
-  try{await request("clear",{session_id:session.session_id});if(attempt===generation){el("messages").replaceChildren();el("chatNotice").textContent="Conversación vaciada. El contador de intentos se conserva.";}}
-  catch(error){if(attempt===generation)el("chatNotice").textContent=error.message;}
+  try{await request("clear",{session_id:session.session_id});if(attempt===generation){el("messages").replaceChildren();ui("chatNotice","Conversación vaciada. El contador de intentos se conserva.");}}
+  catch(error){if(attempt===generation)ui("chatNotice",error.message);}
   finally{if(attempt===generation){busy=false;controls();}}
  };
  async function disconnect(){
@@ -93,10 +94,11 @@
   const token=session.session_id;generation++;session=null;busy=true;controls();
   el("messages").replaceChildren();el("question").value="";el("apiConsent").checked=false;
   const notice="Conexión local cerrada. Si una solicitud ya llegó a OpenAI, puede terminar y generar cargos.";
-  el("chatNotice").textContent=notice;el("connectionStatus").textContent=notice;
+  ui("chatNotice",notice);ui("connectionStatus",notice);
   try{await request("disconnect",{session_id:token});}
-  catch{const failed="El servidor no confirmó el cierre. Reinícialo para retirar las sesiones de su memoria.";el("connectionStatus").textContent=failed;el("chatNotice").textContent=failed;}
+  catch{const failed="El servidor no confirmó el cierre. Reinícialo para retirar las sesiones de su memoria.";ui("connectionStatus",failed);ui("chatNotice",failed);}
   finally{busy=false;controls();}
  }
+ ui("connectionStatus","Sin conexión.");window.addEventListener("languagechange",controls);
  el("disconnectApi").onclick=disconnect;el("disconnectChat").onclick=disconnect;controls();
 })();

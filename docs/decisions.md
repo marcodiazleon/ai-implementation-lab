@@ -27,3 +27,6 @@ Engineering choices above are identified separately from user approvals. Silence
 
 ## D17 — U05 optional API and portability
 2026-10-03. Add four menu views and an independent OpenAI API conversation using an operator-supplied key and exact model. Reimplement a generic connection form; do not import private product code. Fixed endpoint, explicit consent, bounded sessions and no automatic retries. Keep the deterministic exercise and S02 planner backlog separate. USB/shared-folder transfer uses source comparison and local prerequisites; credentials and destination runtime require local setup.
+
+## D18 — U06 interface language
+Use a local dictionary, Spanish default and a single localStorage language preference. Language switching is a view operation, never a model call. Keep user/model text and exported technical codes unchanged.
