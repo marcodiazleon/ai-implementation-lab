@@ -2,15 +2,15 @@
   "passed": true,
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
-  "source_id": "b04410c373c0279bd06cac25eb0443f8f71225187b27c01b6881831899381e15",
+  "source_id": "49e9ac10aa0e20bb8b1f071ef51f4b2ee68e957544e246a2a69547029d3a95fa",
   "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "0df52df5b9a1d9dc2bd564db2c14e0fd6623b8b17dafae5ad4fff6cc8362df3b",
-    "specs/001-support-demo/plan.md": "56c8c467fcbc93f70a1b084a006491819b8dcfa62fe3e1e29ba0d31dd90eddcb",
-    "specs/001-support-demo/spec.md": "3642d1a4f2777096a53eb017278db70eff91c37e703a950cdda33f66ace3e53f",
-    "specs/001-support-demo/tasks.md": "ccd5a6c2a723fa314766f18eaecab112532082309cfdeec2887168faf2a30341",
+    "specs/001-support-demo/acceptance.csv": "073990c4f9412b0ae4de4753c4537b9bd0dcd201f05c67c34b164bd309887504",
+    "specs/001-support-demo/plan.md": "d32a0c82e798735270d10e4f483b59afa94f6bba8208605f77f6ee74feaa43e6",
+    "specs/001-support-demo/spec.md": "95a0662cc4ebe18a9d713d0b5cc7e44aac356a7c9bc5cfe3c4b9a4cfc5163ee0",
+    "specs/001-support-demo/tasks.md": "494c21bea60188a077773ab7531419f17567bb2186ea5f0ef369ea579bb4ec58",
     "specs/002-expansion/acceptance.csv": "11c5e65a0acad25b543ffe6d1edc3bf69821b8bb883c6272f287bf483d3497fd",
     "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
     "specs/002-expansion/spec.md": "d3c5fcf3f416a62d23c1741513a5039f9f046c3a3388c4d5f8e7418400831b60",
-    "specs/002-expansion/tasks.md": "ca721916311c39840797d23065eed08af8c297a2ced2864e84b9c84ad37a8e4c"
+    "specs/002-expansion/tasks.md": "0a55bb2ceed79d0f3b2b101c144247e2db2591e0caf0f54e421fd134900c0960"
   }
 }
