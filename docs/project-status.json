@@ -3,7 +3,7 @@
   "project": "AI Implementation Lab",
   "updated": "2026-10-03",
   "active_spec": "specs/001-support-demo/spec.md",
-  "active_spec_version": "0.5",
+  "active_spec_version": "0.6",
   "expansion_spec": "specs/002-expansion/spec.md",
   "expansion_state": "BACKLOG",
   "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
@@ -15,8 +15,10 @@
   "independent_review": "NOT_PERFORMED",
   "next_task": "E-M02",
   "evidence": "evidence/latest.json",
-  "latest_delivery": "U06 Spanish/English UI",
-  "current_task": "T24 implemented",
+  "latest_delivery": "U07 four-role bilingual workbench and Context7",
+  "current_task": "T25-T27 implemented; manual limits recorded",
   "live_api": "NOT_EXECUTED",
-  "other_pc_runtime": "NOT_EXECUTED"
+  "other_pc_runtime": "NOT_EXECUTED",
+  "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
+  "json_browser_download": "VERIFIED_FILE_AND_HASH"
 }

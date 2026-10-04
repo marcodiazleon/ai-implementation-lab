@@ -2,7 +2,7 @@
 (() => {
  const el = id => document.getElementById(id);
  const ui=(id,source,values)=>LabI18n.bind(el(id),source,values);
- const views = ["demo","chat","connection","method"];
+ const views = ["demo","chat","connection","method","agents","mcp"];
  function route(focus=false) {
   const hash=location.hash.slice(1), view=views.includes(hash)?hash:"demo";
   document.querySelectorAll("[data-panel]").forEach(node=>{node.hidden=node.dataset.panel!==view;});
@@ -39,6 +39,7 @@
   return data;
  }
  function controls(){
+  window.dispatchEvent(new Event("cloudchange"));
   el("connectApi").disabled=busy||!!session;
   for(const id of ["apiKey","apiModel","tokenLimit","apiConsent"])el(id).disabled=busy||!!session;
   el("sendQuestion").disabled=busy||!session;el("clearChat").disabled=busy||!session;el("question").disabled=busy||!session;
@@ -99,6 +100,22 @@
   catch{const failed="El servidor no confirmó el cierre. Reinícialo para retirar las sesiones de su memoria.";ui("connectionStatus",failed);ui("chatNotice",failed);}
   finally{busy=false;controls();}
  }
+
+ window.LabCloud={
+  status:()=>({connected:!!session,busy,model:session?.model,limit:session?.max_output_tokens}),
+  runAgent:async body=>{
+   if(!session||busy)throw Object.assign(new Error("SESSION_EXPIRED"),{code:session?"REQUEST_IN_PROGRESS":"SESSION_EXPIRED"});
+   const attempt=generation;busy=true;controls();
+   try{
+    const response=await fetch("/api/agents/run",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...body,session_id:session.session_id})});
+    const result=await response.json();
+    if(attempt!==generation)throw Object.assign(new Error("SESSION_EXPIRED"),{code:"SESSION_EXPIRED"});
+    if(!response.ok)throw Object.assign(new Error(result.error),{code:result.error});
+    return result;
+   }catch(error){if(error.code==="SESSION_EXPIRED")session=null;throw error;}
+   finally{if(attempt===generation){busy=false;controls();}}
+  }
+ };
  ui("connectionStatus","Sin conexión.");window.addEventListener("languagechange",controls);
  el("disconnectApi").onclick=disconnect;el("disconnectChat").onclick=disconnect;controls();
 })();

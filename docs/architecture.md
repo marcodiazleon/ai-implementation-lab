@@ -42,3 +42,7 @@ Tools: lookup_demo_order(order_id), read_demo_policy().
 Not included: HTTP transport, authentication, subscriptions, pagination, resources, prompts, cancellation, live client configuration or certification.
 
 Run `python run.py mcp` from the repository. A client would launch that command with the repository as working directory. No connector is installed or connected automatically.
+
+## U07 workbench
+
+The browser coordinates four role contracts. `src/lab/agents.py` owns input, permission, output and evidence hooks. `CloudSessions.task` makes a single isolated model request without touching chat history. `src/lab/context7.py` owns the fixed remote MCP transport and expiring sessions. The view selects when documentation is included; returned text cannot invoke tools. [Details](WORKBENCH.md).

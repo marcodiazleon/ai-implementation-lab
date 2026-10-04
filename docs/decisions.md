@@ -30,3 +30,7 @@ Engineering choices above are identified separately from user approvals. Silence
 
 ## D18 — U06 interface language
 Use a local dictionary, Spanish default and a single localStorage language preference. Language switching is a view operation, never a model call. Keep user/model text and exported technical codes unchanged.
+
+## D-U07 — Four roles, operator-controlled execution
+
+Source U07 requests both Implementer and Quality Reviewer, alongside PM and Researcher. Deliver all four with local template and optional single-call model execution. Use explicit Context7 read queries instead of model-directed tools. Share API request budget, separate chat history, and preserve brief digests. Review remains a proposal, not test execution. Source contracts and bounded adapters are original showcase code.

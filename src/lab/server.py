@@ -5,10 +5,13 @@ from urllib.parse import urlsplit
 from .controller import Lab, ROOT, load_data
 from .models import RuleError
 from .cloud import CloudSessions, CloudError
+from .agents import contracts, run_agent
+from .context7 import Context7Sessions
 
-def make_server(port=8765, cloud=None):
+def make_server(port=8765, cloud=None, mcp=None):
     lab = Lab()
     cloud = cloud or CloudSessions()
+    mcp = mcp or Context7Sessions()
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_):
             pass
@@ -37,7 +40,9 @@ def make_server(port=8765, cloud=None):
                 return self.respond(200, lab.snapshot())
             if path == "/api/scenarios":
                 return self.respond(200, load_data("scenarios.json"))
-            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"),
+            if path == "/api/agents":
+                return self.respond(200, contracts())
+            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"), "/workbench.js": ("workbench.js", "application/javascript"),
                       "/style.css": ("style.css", "text/css"), "/cloud.js": ("cloud.js", "application/javascript"), "/i18n.js": ("i18n.js", "application/javascript")}
             if path in assets:
                 filename, mime = assets[path]
@@ -51,7 +56,7 @@ def make_server(port=8765, cloud=None):
                 return self.respond(415, {"error": "JSON_REQUIRED"})
             try:
                 length = int(self.headers.get("Content-Length", "0"))
-                body_limit = 16384 if urlsplit(self.path).path.startswith("/api/cloud/") else 4096
+                body_limit = 100000 if urlsplit(self.path).path == "/api/agents/run" else 16384 if urlsplit(self.path).path.startswith(("/api/cloud/", "/api/mcp/")) else 4096
                 if not 0 < length <= body_limit:
                     return self.respond(413, {"error": "INVALID_BODY_SIZE"})
                 body = json.loads(self.rfile.read(length))
@@ -61,6 +66,13 @@ def make_server(port=8765, cloud=None):
                 return self.respond(400, {"error": "INVALID_JSON"})
             path = urlsplit(self.path).path
             try:
+                if path == "/api/agents/run":
+                    return self.respond(200, run_agent(body, cloud))
+                if path.startswith("/api/mcp/"):
+                    handlers = {"/api/mcp/connect": mcp.connect, "/api/mcp/call": mcp.call, "/api/mcp/disconnect": mcp.disconnect}
+                    if path not in handlers:
+                        return self.respond(404, {"error": "NOT_FOUND"})
+                    return self.respond(200, handlers[path](body))
                 if path.startswith("/api/cloud/"):
                     handlers = {"/api/cloud/connect": cloud.connect, "/api/cloud/ask": cloud.ask,
                                 "/api/cloud/clear": cloud.clear, "/api/cloud/disconnect": cloud.disconnect}

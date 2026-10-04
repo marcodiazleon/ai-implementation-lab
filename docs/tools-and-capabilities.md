@@ -56,3 +56,12 @@ Future EXP-A04 contract: human-triggered request → schema-validated proposal; 
 ## U05 — OpenAI API
 
 Adaptador opcional HTTPS a api.openai.com con Responses; sin SDK adicional, clave de sesión y modelo elegido por el operador. Referencia: [alcance y pruebas](OPENAI_API.md). El doble de pruebas no es una respuesta real del proveedor.
+
+## U07 tool additions
+
+| Tool | Purpose | Access | Verification |
+|---|---|---|---|
+| Four role executor | Generate plans and review proposals | Supplied brief and artifacts; no shell/files | Local and mock-provider tests plus browser workflow |
+| Context7 remote MCP | Read library documentation | Fixed remote URL, optional memory-only key, two tools | Live discovery and both queries; offline negative tests |
+
+[Contracts, limits and protocol references](WORKBENCH.md). Each external operation requires UI consent. No automatic provider fallback.

@@ -15,7 +15,7 @@ Current implementation: local synthetic example. Canonical tool details: [tools-
 | Implementation-review skill | Manual read, traceability and diff review | Same implementing assistant, not independent QA |
 | MCP | Unit and subprocess wire exchange | Live assistant-client interoperability EXP-M09 |
 | Verification tooling | Per-case results, environment and source hashes | Windows local run; cross-platform CI still EXP-M07 |
-| Runtime model | None | EXP-A04; model/cost selection pending |
+| Runtime model | Optional OpenAI via operator-selected model | Offline transport validated; paid inference pending |
 | Deployment | Loopback server and public source repository | No public application server or customer service |
 | Expansion | 20 items with requirements, dependencies and acceptance | Planning is not implementation |
 
@@ -23,4 +23,8 @@ See evidence/latest.json for current observed results and tests. Manual acceptan
 
 ## U05 — Menú y conversación
 
-Menú de cuatro vistas y conversación opcional OpenAI API: [uso y límites](OPENAI_API.md). Sin integración del chat con las operaciones de devolución. La cobertura automatizada usa transporte simulado; conexión real pendiente.
+Menú ampliado y conversación opcional OpenAI API: [uso y límites](OPENAI_API.md). Sin integración del chat con las operaciones de devolución. La cobertura automatizada usa transporte simulado; conexión real pendiente.
+
+## U07 — Agents and remote MCP
+
+Four scoped roles with local templates and optional OpenAI generation; separate history and shared API budget. Context7 remote MCP discovery and both read tools verified live without a key. See [workbench limits](WORKBENCH.md) and [review](../reports/AGENTS_REVIEW_2026-10-03.md). Markdown and JSON downloads verified. Real model inference remains unverified.

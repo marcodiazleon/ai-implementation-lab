@@ -186,3 +186,26 @@ class CloudSessions:
                 row["key"] = ""
                 row["history"].clear()
         return {"status": "DISCONNECTED"}
+
+    def task(self, token, instructions, content):
+        """One role invocation; shares request budget, never chat history."""
+        with self.lock:
+            row = self._session(token)
+            if row["busy"]:
+                raise CloudError("REQUEST_IN_PROGRESS", 409)
+            if row["requests"] >= MAX_REQUESTS:
+                raise CloudError("SESSION_REQUEST_LIMIT", 429)
+            row.update(busy=True, touched=self.clock(), requests=row["requests"] + 1)
+            key, model, limit = row["key"], row["model"], row["limit"]
+        try:
+            answer = self.transport.answer(key, model, [{"role": "developer", "content": instructions}, {"role": "user", "content": content}], limit)
+            if not isinstance(answer, dict) or not isinstance(answer.get("text"), str):
+                raise CloudError("API_NO_TEXT", 502)
+            with self.lock:
+                if self.sessions.get(token) is not row:
+                    raise CloudError("SESSION_EXPIRED", 401)
+                row["touched"] = self.clock()
+            return {**answer, "model": model, "requests_used": row["requests"], "request_limit": MAX_REQUESTS}
+        finally:
+            with self.lock:
+                row["busy"] = False

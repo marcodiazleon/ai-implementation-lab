@@ -12,7 +12,7 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
 The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.5; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+[Current status](docs/project-status.json) explicitly selects S01 0.6; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -105,3 +105,11 @@ El menú abre Demostración, Conversación, Conexión API y Cómo está construi
 ## Español / English
 
 Use the language selector in the header. It translates all four app views and remembers your choice in this browser. Changing language preserves the current case, API connection and draft; existing conversation text stays in its original language.
+
+## Four-role delivery workbench
+
+The **Agents** menu offers Project Manager, Researcher, Implementer and Quality Reviewer, with responsibilities, enforced hooks and downloadable Markdown proposals. Use local templates without a model, or explicitly run each role with your configured OpenAI connection. The **MCP** menu connects to Context7 to retrieve public library documentation. Both screens support Spanish and English.
+
+[Workflow and limits](docs/WORKBENCH.md) · [Validation report](reports/AGENTS_REVIEW_2026-10-03.md) · [Role contracts](agents/roles.json)
+
+Local templates and a mocked model route were checked. Context7 discovery and both read tools were exercised against the real endpoint without a key. Real OpenAI inference remains an operator check. Review outputs do not execute product tests or release software.

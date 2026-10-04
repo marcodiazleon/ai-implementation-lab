@@ -42,3 +42,7 @@ Read docs/project-status.json first. It names the active spec, backlog, current 
 ## Arranque portable
 
 Ejecuta `python scripts/check_environment.py` antes de `python run.py serve`, o usa `INICIAR_LAB.cmd`. [API y traslado](OPENAI_API.md). Las claves y conversaciones no se empaquetan.
+
+## Workbench sessions
+
+[Agents and MCP usage](WORKBENCH.md). Restart the server after updating Python modules. Browser reload loses in-tab results and connection tokens. Download Markdown before leaving. Stop the local server with Ctrl+C to remove all credential references; disconnect each provider when finished. API calls already sent may finish remotely.

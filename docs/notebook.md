@@ -56,3 +56,10 @@ U05 close: menu, optional OpenAI Q&A and portable startup implemented. 57 tests 
 Base 2092ac6, clean working tree. Extend R15, T24 and C068 before implementation. Preserve existing state and original conversation content; only language preference is persisted.
 
 U06 complete: Spanish/English across four views, dynamic states and accessibility names; preference persistence and preserved state verified. See reports/LANGUAGE_REVIEW_2026-10-03.md. Full EXP-M02 reset workflow remains pending.
+
+## U07 — four agents and Context7
+Owner confirms both Implementer and Quality Reviewer alongside PM and Researcher. Scope and hooks defined before implementation. Local mode remains useful without external services; real inference requires explicit session authorization.
+
+## U07 delivery — 2026-10-03
+
+Implemented R18-R20/T25-T27 after the S01 0.6 update. Browser checked four roles, language switching, model consent using a fixture, real Context7 discovery and documentation lookup. Markdown and JSON downloads confirmed; exported document hashes verified. [Delivery review](../reports/AGENTS_REVIEW_2026-10-03.md). No paid inference, private product changes or destination-PC execution.

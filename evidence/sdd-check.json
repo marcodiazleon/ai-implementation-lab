@@ -1,5 +1,16 @@
 {
   "passed": true,
   "errors": [],
-  "scope": "Artifact, ID, case, task and local-link checks; not semantic or owner acceptance"
+  "scope": "Structural checks; not semantic review or owner acceptance",
+  "source_id": "141f30a277c2710ef1927244a9145ebaf5852814bebd4ab3604e833056a2a065",
+  "spec_sha256": {
+    "specs/001-support-demo/acceptance.csv": "9aa683c5e72b9d5a31e3113ad05d966af89960e584ebb21e2244440d4d6feedd",
+    "specs/001-support-demo/plan.md": "0ef0e0c946bae998719cb260d1b7a84eeea318f3304094bcee9eaa7bbd6324ca",
+    "specs/001-support-demo/spec.md": "9aa6990ce7a18b9af899a4bbf5b9f7ed8edb71d3a9a40f71edaa4a714accf887",
+    "specs/001-support-demo/tasks.md": "8712d2fd6d3cbf9690bcf3f262b26b9ae49887fb6f2ce27906a1c3615f351993",
+    "specs/002-expansion/acceptance.csv": "11c5e65a0acad25b543ffe6d1edc3bf69821b8bb883c6272f287bf483d3497fd",
+    "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
+    "specs/002-expansion/spec.md": "d3c5fcf3f416a62d23c1741513a5039f9f046c3a3388c4d5f8e7418400831b60",
+    "specs/002-expansion/tasks.md": "ca721916311c39840797d23065eed08af8c297a2ced2864e84b9c84ad37a8e4c"
+  }
 }

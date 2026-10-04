@@ -9,6 +9,7 @@
   <script src="/i18n.js" defer></script>
   <script src="/app.js" defer></script>
   <script src="/cloud.js" defer></script>
+  <script src="/workbench.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#workspace">Ir al área de trabajo</a>
@@ -19,6 +20,8 @@
   </a>
   <nav aria-label="Secciones">
     <a href="#demo" data-view="demo">Demostración</a>
+    <a href="#agents" data-view="agents" data-en="Agents">Agentes</a>
+    <a href="#mcp" data-view="mcp">MCP</a>
     <a href="#chat" data-view="chat">Conversación</a>
     <a href="#connection" data-view="connection">Conexión API</a>
     <a href="#method" data-view="method">Cómo está construido</a>
@@ -121,6 +124,32 @@
   <div class="buttons"><a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/specs/001-support-demo/spec.md" target="_blank" rel="noopener noreferrer">Especificación</a><a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/docs/tools-and-capabilities.md" target="_blank" rel="noopener noreferrer">Herramientas</a><a href="https://github.com/marcodiazleon/ai-implementation-lab/tree/main/evidence" target="_blank" rel="noopener noreferrer">Evidencia</a></div>
   <p class="muted">La conversación API es independiente del ejercicio de devoluciones. El servidor está diseñado para ejecutarse en tu equipo por loopback.</p>
 </section>
+
+<section id="view-agents" data-panel="agents" hidden>
+ <div class="intro"><div><p class="eyebrow" data-en="DELIVERY WORKBENCH">MESA DE TRABAJO</p><h1 data-en="From brief to technical review">Del encargo a la revisión técnica</h1><p class="lead" data-en="Four roles, one brief. Prepare a plan, gather evidence, outline the implementation and review the result.">Cuatro roles, un encargo. Prepara el plan, reúne evidencia, plantea la implementación y revisa el resultado.</p></div><aside class="boundary"><strong data-en="You choose each step.">Tú eliges cada paso.</strong><p data-en="Local mode produces editable templates. OpenAI generates a proposal using your connection. Neither mode executes code or approves a release.">El modo local produce plantillas editables. OpenAI genera una propuesta con tu conexión. Ninguno ejecuta código ni aprueba una publicación.</p></aside></div>
+ <div id="agentCards" class="agent-grid"></div>
+ <div class="workspace">
+  <section class="panel"><h2 data-en="The brief">El encargo</h2><form id="agentForm">
+   <label for="agentBrief" data-en="What should the team solve?">¿Qué debe resolver el equipo?</label><textarea id="agentBrief" rows="5" minlength="20" maxlength="3000" required>Diseñar una herramienta para clasificar solicitudes de clientes, proponer una respuesta y pedir revisión humana antes de enviarla.</textarea>
+   <label for="agentRole" data-en="Role">Rol</label><select id="agentRole"></select>
+   <label for="agentMode" data-en="Execution mode">Modo de trabajo</label><select id="agentMode"><option value="local" data-en="Local template · no model, no external connection">Plantilla local · sin modelo ni conexión externa</option><option value="openai" data-en="OpenAI · one request with your configured model">OpenAI · una solicitud con tu modelo configurado</option></select>
+   <p id="agentConnection" class="muted"></p><a href="#connection" data-en="Configure OpenAI">Configurar OpenAI</a>
+   <label class="check"><input id="agentDocs" type="checkbox"><span data-en="Include the latest Context7 documentation shown in MCP">Incluir la última documentación de Context7 mostrada en MCP</span></label>
+   <div id="agentSendDetails" class="policy" hidden><p data-en="One request sends this brief, the latest deliverables for this brief and any selected documentation to api.openai.com. Your configured token limit applies; API charges may apply. No automatic retries.">Una solicitud envía este encargo, sus últimos entregables y la documentación seleccionada a api.openai.com. Se aplica tu límite de tokens; puede generar cargos de API. Sin reintentos automáticos.</p><label class="check"><input id="agentConsent" type="checkbox"><span data-en="Authorize this role request to OpenAI">Autorizar esta solicitud del rol a OpenAI</span></label></div>
+   <div class="buttons"><button id="runAgent" class="primary" data-en="Run selected role">Ejecutar rol seleccionado</button><button id="nextAgent" type="button" data-en="Select next role">Seleccionar siguiente rol</button></div>
+  </form><p id="agentStatus" role="status" aria-live="polite"></p><p class="muted" data-en="Results stay in this tab until you reload. Download them to keep your work. Changing the brief excludes previous deliverables from new requests.">Los resultados permanecen en esta pestaña hasta recargar. Descárgalos para conservar tu trabajo. Cambiar el encargo excluye los entregables anteriores de las nuevas solicitudes.</p></section>
+  <section class="panel"><h2 data-en="Deliverables and checks">Entregables y comprobaciones</h2><p data-en="Hook PASS means the format and scope checks passed. It does not establish correctness or product acceptance.">PASS en los hooks indica que se comprobó el formato y alcance. No acredita la corrección del contenido ni la aceptación del producto.</p><button id="exportAgents" disabled data-en="Download session evidence (JSON)">Descargar evidencia de la sesión (JSON)</button><div id="agentResults" class="agent-results" aria-live="polite"></div></section>
+ </div>
+</section>
+<section id="view-mcp" data-panel="mcp" class="panel cloud-panel" hidden>
+ <p class="eyebrow" data-en="EXTERNAL DOCUMENTATION">DOCUMENTACIÓN EXTERNA</p><h1 data-en="MCP connections">Conexiones MCP</h1><h2>Context7</h2><p data-en="Look up a public library, then retrieve documentation with its library ID. The researcher can use the result when you select it.">Busca una biblioteca pública y consulta su documentación usando el identificador obtenido. El Investigador podrá usar el resultado cuando lo selecciones.</p>
+ <p><code>https://mcp.context7.com/mcp</code> · <code>resolve-library-id</code> · <code>query-docs</code></p>
+ <form id="mcpConnectForm"><label for="mcpKey" data-en="Context7 API key (optional)">Clave API de Context7 (opcional)</label><input type="password" id="mcpKey" autocomplete="off" maxlength="300"><p class="muted" data-en="The server holds the key in memory for this session. It expires after 30 idle minutes. Account or rate limits may require a key.">El servidor conserva la clave en memoria durante esta sesión. Caduca tras 30 minutos de inactividad. Los límites de cuenta o uso pueden requerir una clave.</p><label class="check"><input id="mcpConnectConsent" type="checkbox" required><span data-en="Authorize connecting to Context7 and discovering its tools">Autorizar la conexión a Context7 y consultar sus herramientas</span></label><div class="buttons"><button id="connectMcp" class="primary" data-en="Connect Context7">Conectar Context7</button><button id="disconnectMcp" type="button" disabled data-en="Disconnect MCP">Desconectar MCP</button></div></form>
+ <p id="mcpStatus" role="status" aria-live="polite"></p>
+ <form id="mcpQueryForm"><label for="mcpLibrary" data-en="Library name or library ID">Nombre o identificador de biblioteca</label><input id="mcpLibrary" maxlength="1000" value="Python" required><label for="mcpQuery" data-en="Public documentation question">Pregunta sobre documentación pública</label><textarea id="mcpQuery" maxlength="1000" required rows="3">How do I validate a JSON request?</textarea><label class="check"><input id="mcpQueryConsent" type="checkbox" required><span data-en="Authorize sending these two fields to Context7 for this query">Autorizar el envío de estos dos campos a Context7 para esta consulta</span></label><div class="buttons"><button id="resolveMcp" disabled data-en="Find library ID">Buscar identificador</button><button id="queryMcp" disabled data-en="Retrieve documentation">Consultar documentación</button></div></form>
+ <p data-en="20 tool attempts per connection. Disconnect removes local access; an already sent request may still finish remotely. Only explicit queries run. Returned text is reference material, never instructions for this app.">20 intentos de herramienta por conexión. Desconectar retira el acceso local; una solicitud enviada puede terminar en el proveedor. Solo se ejecutan consultas explícitas. El texto recibido es material de consulta, nunca instrucciones para esta aplicación.</p><pre id="mcpResult" class="document-result"></pre><a href="#agents" data-en="Use documentation in the workbench">Usar documentación en la mesa de trabajo</a>
+</section>
+
   <footer><span>MARCO DÍAZ DE LEÓN <span class="footer-divider">/</span> ESTRATEGIA E IMPLEMENTACIÓN DE IA</span><small>Sesión en memoria · Reiniciar el servidor restablece los escenarios · Uso local</small></footer>
 </main>
 </body>

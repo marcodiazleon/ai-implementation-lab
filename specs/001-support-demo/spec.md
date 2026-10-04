@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.5. Status: current specification for the existing demonstration.
+Version: 0.6. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -15,10 +15,11 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U04 | Owner's request: investigate useful interactive extensions and reuse opportunities; apply a black background, white text and a more personal visual structure now |
 | U05 | Owner requests menu, optional OpenAI API connection/Q&A and source continuity to another PC using USB/shared folder; no private runtime or credentials transfer |
 | U06 | Owner requests Spanish/English language selection throughout the current app |
+| U07 | Owner requests functional internal PM, researcher, implementer and quality reviewer agents with hooks and responsibilities, plus MCP connection options starting with Context7. Both proposed additional roles confirmed. |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
-U01–U06 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
+U01–U07 authorize the sample and its maintenance. D01 defines repeatable test fixtures within that sample; it is not evidence of an owner's answer to the earlier scenario-preference question. Changes to actual business rules require their own source.
 
 ## Actors, data and permissions
 - Visitor: reads public documents and clones the repository.
@@ -113,6 +114,16 @@ Result: user can ask and read answers. Cloud chat cannot operate the demo or rea
 | R15 | Menu views, hashes and keyboard controls reach demo, chat, connection and method; original demo needs no key. A Spanish/English selector translates static and dynamic UI, updates document language and remembers only the language preference; switching does not reset the case, chat, draft or connection. | U05/U06 | CU08 | Browser navigation, language persistence and preserved state |
 | R16 | Optional OpenAI connection and bounded Q&A require explicit consent, isolate sessions, sanitize errors, support local disconnect/history clearing and never expose keys in outputs. | U05 | CU09 | Transport/session/HTTP negatives and browser checks; live inference separately classified |
 | R17 | Provide portable source/startup instructions and a read-only destination check without credentials or implicit installation. | U05 | CU01/CU07 | Portable check and clean-directory verification |
+
+### CU11 — Run a scoped agent workflow
+Local operator writes a brief, chooses a role and uses deterministic local mode or explicitly authorizes one OpenAI call. PM structures milestones; researcher separates supplied sources from missing evidence; implementer produces a downloadable implementation proposal; reviewer checks deliverables and unresolved tests. Previous outputs may be included only for the same brief. Each role runs input, permission, output and evidence hooks. Local template output is labeled; no autonomous shell/file changes or paid background run. The operator chooses each next step.
+
+### CU12 — Connect a documentation MCP
+Operator approves connection to the fixed Context7 HTTPS endpoint, optionally supplies a key, and checks initialization plus tool discovery. They may explicitly resolve a library or query its docs with a bounded question. Only resolve-library-id and query-docs are callable. Documentation is previewed; forwarding to an agent/OpenAI needs the separate agent consent. Disconnect, timeout, denied access, unsupported protocol and tool errors have explicit states. Untrusted docs cannot grant tools or change permissions.
+
+| R18 | Four visible role contracts produce scoped deliverables in clearly labeled local or optional model mode; runs are explicit and previous artifacts match the brief. | U07 | CU11 | Role outputs; no-effect local mode; stale/invalid input and missing-consent cases |
+| R19 | Enforce input/permission/output hooks, retain per-run evidence without secrets, export role artifacts and distinguish review from executed tests. | U07 | CU11 | Hook failure blocks output; evidence/export and bounds verified |
+| R20 | Fixed-host Context7 MCP supports initialize, discovery and two read-only tools with explicit consent, bounded expiring sessions and safe error rendering. | U07 | CU12 | Mock protocol and HTTP negatives; live metadata/docs separately reported |
 
 ## Attributes and exclusions
 - Privacy: demonstration uses fixtures only. Optional cloud chat transmits only the operator's bounded conversation to OpenAI after consent; no automatic file/context upload. No public customer endpoint.

@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.5. Current spec: spec.md 0.5. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 0.6. Current spec: spec.md 0.6. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -27,5 +27,9 @@ Source: U01–U05 in the spec. One implementing assistant writes shared artifact
 | T23 | R17 | Portable startup and destination check | U05 | Implementing assistant | Relative paths and dependency audit work without modifying destination | IMPLEMENTED; local tests passed; live API and destination pending |
 
 | T24 | R15,R13 | Spanish/English UI and saved preference | U06,T21,T22 | Implementing assistant | Four views and dynamic states translate without resetting work; persistence verified | IMPLEMENTED; see language review |
+
+| T25 | R18,R19 | Four role contracts and controlled executor | U07,T24 | Implementing assistant | Local and mock-model outputs plus hook negatives pass | IMPLEMENTED; validation limits in delivery review |
+| T26 | R20 | Context7 MCP client and connection view | U07,T24 | Implementing assistant | Initialize/discovery/read tools and invalid/timeout cases verified | IMPLEMENTED; validation limits in delivery review |
+| T27 | R18,R19,R20 | Bilingual workbench and evidence downloads | T25,T26 | Implementing assistant | Browser workflow and claims match observed evidence | IMPLEMENTED; validation limits in delivery review |
 
 Task state describes work, not acceptance. Case states in acceptance.csv are authoritative for observed checks. Completed legacy behavior remains unchanged and its history is preserved. New expansion implementation uses S02 tasks after selecting the corresponding item.

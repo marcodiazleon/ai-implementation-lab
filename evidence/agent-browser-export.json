@@ -1,0 +1,60 @@
+{
+  "runs": [
+    {
+      "run_id": "1ee0b779ca20417a9ca6ef75dc1767bf",
+      "agent": "manager",
+      "mode": "local",
+      "brief_hash": "f74a71dc84c3e2aee9631887a27f3dec85dc0203f84248aa1c51a3196d0dcc63",
+      "artifact": {
+        "summary": "Plantilla local aplicada al encargo: Diseñar una herramienta para clasificar solicitudes de clientes, proponer una respuesta y pedir revisión humana antes de enviarla.",
+        "deliverables": [
+          "Hito 1 — acordar alcance: convertir el encargo en tres criterios observables.",
+          "Hito 2 — reunir evidencia: comprobar las fuentes y resolver dependencias antes de construir.",
+          "Hito 3 — entregar un incremento: propuesta técnica, pruebas previstas y revisión del resultado."
+        ],
+        "open_questions": [
+          "Confirmar responsables, plazo, restricciones y criterios de aceptación con el cliente."
+        ],
+        "checks": [
+          "Se recibieron 0 entregables del mismo encargo.",
+          "No se ejecutaron pruebas del producto ni cambios en archivos."
+        ],
+        "sources": []
+      },
+      "text": "# Project Manager\n\nModo: local\n\nPlantilla local aplicada al encargo: Diseñar una herramienta para clasificar solicitudes de clientes, proponer una respuesta y pedir revisión humana antes de enviarla.\n\n## Entregables\n\n- Hito 1 — acordar alcance: convertir el encargo en tres criterios observables.\n- Hito 2 — reunir evidencia: comprobar las fuentes y resolver dependencias antes de construir.\n- Hito 3 — entregar un incremento: propuesta técnica, pruebas previstas y revisión del resultado.\n\n## Preguntas pendientes\n\n- Confirmar responsables, plazo, restricciones y criterios de aceptación con el cliente.\n\n## Notas de revisión\n\n- Se recibieron 0 entregables del mismo encargo.\n- No se ejecutaron pruebas del producto ni cambios en archivos.\n\n## Fuentes\n\n\n",
+      "filename": "manager-proposal.md",
+      "artifact_sha256": "5c4f5d11850fd0c3461b2bd2ce9e1bd8a5a3cc8db1d6f76773ed44d1666d957d",
+      "hooks": [
+        {
+          "hook": "input",
+          "status": "PASS",
+          "check": "schema_scope_and_brief_digest"
+        },
+        {
+          "hook": "permission",
+          "status": "PASS",
+          "check": "local_only"
+        },
+        {
+          "hook": "output",
+          "status": "PASS",
+          "check": "structured_artifact_no_execution"
+        },
+        {
+          "hook": "evidence",
+          "status": "PASS",
+          "check": "artifact_digest_recorded"
+        }
+      ],
+      "usage": {},
+      "created_at_utc": "2026-10-04T01:15:40.259581+00:00",
+      "product_tests": "NOT_EXECUTED",
+      "release_approval": false,
+      "business_effect": false,
+      "brief": "Diseñar una herramienta para clasificar solicitudes de clientes, proponer una respuesta y pedir revisión humana antes de enviarla."
+    }
+  ],
+  "failures": [],
+  "product_tests": "NOT_EXECUTED",
+  "release_approval": false
+}
