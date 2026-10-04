@@ -73,3 +73,9 @@ Reorganized the application around five sidebar destinations; made conversation 
 
 ## 2026-10-03 · Public screenshot refresh
 Replaced the README's previous refund-only screenshot with a fresh capture of the delivered U08 workspace: conversation first, expanded sidebar and agent selection. Captured from the running local application without credentials or fictional model replies. Documentation-only follow-up to T28; application behavior is unchanged.
+
+## 2026-10-03 · U09 started
+Owner requests a denser Session UI inspired by the previously described workspace: rotating invitation and compact selectors below the message. R25/R26 and T32–T34 were defined before implementation. Current official model and effort documentation was consulted; no private project source or credentials are needed.
+
+## 2026-10-03 · U09 delivery
+Delivered compact Session, decorative typewriter invitation, composer-bottom selectors and native effort parameters. Verified ES/EN, provider-specific choices, Haiku standard-only mode, preserved drafts, history behavior, and 390-pixel keyboard navigation without horizontal overflow. Source U09/R25–R26/T32–T34. Live provider inference remains NOT_EXECUTED; no private Nucleus source or credentials were read. See reports/SESSION_UI_REVIEW_2026-10-03.md.

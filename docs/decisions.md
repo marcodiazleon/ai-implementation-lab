@@ -37,3 +37,6 @@ Source U07 requests both Implementer and Quality Reviewer, alongside PM and Rese
 
 ## U08 — workspace and adapters
 The owner requested a sidebar and conversation-first home, agent creation, multi-MCP guidance and support beyond OpenAI. The implementation keeps two fixed provider adapters and separates configuration generation from executable connections. Custom definitions persist outside tracked sources. Existing U07 executor tests remain, while the public interface uses the new creator. Scope is a local text-only showcase; no private product code or customer data was copied.
+
+## U09 — compact session controls
+Replace the U08 oversized chat toolbar with four native keyboard-accessible selector chips inside the composer. Keep provider credentials in the dedicated connection page. Use a versioned public catalog instead of claiming to list account entitlements. Apply effort through native API parameters and reject unverified combinations server-side. Require a separate connection when changing providers. Reset history for model changes; retain it for effort changes. Speed hints are qualitative and do not enable premium latency tiers.

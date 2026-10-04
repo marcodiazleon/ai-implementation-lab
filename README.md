@@ -8,13 +8,13 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 [Método de ingeniería](docs/engineering-guide.md) · [Guía en español](docs/START_HERE_ES.md) · [Engineering guide](docs/engineering-guide.md) · [Evidence](evidence/latest.json) · [What is and is not implemented](docs/capabilities.md)
 
-![Current workspace: conversation, expandable sidebar and agent selection](docs/assets/workspace-current-20261003.jpg)
+![Compact Session: provider, model, effort and agent controls below the message](docs/assets/session-compact-20261003.jpg)
 
 ## How the project is organized
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
 The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.7; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+[Current status](docs/project-status.json) explicitly selects S01 0.8; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -102,9 +102,9 @@ The [product and visual plans](docs/PLAN_PRODUCTO_Y_DISENO.md) describe editable
 
 ## Workspace and agent builder
 
-The expandable sidebar opens **Demonstration**, **Agents**, **MCPs**, **Connect your AI** and **How it is built**. The header contains the Spanish/English selector. Demonstration starts with a conversation; the deterministic refund example opens below it without an API connection.
+The expandable sidebar opens **Session**, **Agents**, **MCPs**, **Connect your AI** and **How it is built**. The header contains the Spanish/English selector. Session starts with a compact composer; the deterministic refund example opens below it without an API connection.
 
-In Agents, use one of four templates or define your own name, role, prompt and work mode. Save and edit the definition, download its JSON, and select it in the home conversation. Definitions persist locally in `.local/agents.json`, excluded from Git and blocked by the publication guard. These are text-only assistants, with no shell, file or deployment tools.
+In Agents, use one of four templates or define your own name, role, prompt and work mode. Save and edit the definition, download its JSON, and select it beneath the message. Definitions persist locally in `.local/agents.json`, excluded from Git and blocked by the publication guard. These are text-only assistants, with no shell, file or deployment tools.
 
 Connect your AI supports the native OpenAI and Claude/Anthropic APIs with your own key and model ID. Changing agents clears the conversation context. Keys and chat history remain in server memory; model calls can incur provider charges. Neither a ChatGPT nor a Claude subscription is an API credential.
 
@@ -112,6 +112,9 @@ The MCP guide prepares multiple HTTP or stdio configurations for compatible clie
 
 The language selector translates the five views and preserves drafts and connections. Existing user content stays in its original language. Sidebar preference and public MCP configurations are stored in this browser.
 
-[Agent and MCP guide](docs/WORKBENCH.md) · [AI connection guide](docs/OPENAI_API.md) · [Current delivery report](reports/STUDIO_REVIEW_2026-10-03.md)
+[Agent and MCP guide](docs/WORKBENCH.md) · [AI connection guide](docs/OPENAI_API.md) · [Current delivery report](reports/SESSION_UI_REVIEW_2026-10-03.md)
 
 Provider routing was tested with local doubles; real OpenAI and Claude inference and startup on a second computer remain unverified.
+
+## Choosing how to work
+The home **Session** places provider, model, effort and agent dropdowns under the message. A rotating invitation pauses while typing and respects reduced-motion preferences. A reference catalog offers supported OpenAI and Anthropic model IDs; account access is checked when connecting or changing models. Supported effort is applied to the real provider payload, not just displayed. Changing models clears history while preserving the draft and usage count; changing effort retains history. Another provider needs its own connection. No paid priority mode is enabled.

@@ -139,7 +139,7 @@ Operator approves connection to the fixed Context7 HTTPS endpoint, optionally su
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.7. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is S01 0.8. S02 is an expansion backlog; its higher number does not make it active or implemented.
 
 ### CU10 — Choose interface language
 Operator selects Español or English. All five views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.
@@ -158,3 +158,12 @@ Operator selects a remote HTTP or local stdio guide, names a server and specifie
 | R22 | Create/edit/export custom roles from templates or blank input; persist bounded definitions in ignored repository-local storage with no provider/key fields, traversal or shell execution. Saved roles can guide the conversation. | U08 | CU13 | Round-trip/restart, malformed inputs, secret patterns and role use |
 | R23 | Elegant multiple-MCP guide and valid configuration exports for HTTP/stdio, explicitly distinguishing configured from executable; keep bounded Context7 behavior. | U08 | CU14 | Multiple profiles, invalid config and export; no commands executed |
 | R24 | Provider-neutral connection guide and bounded OpenAI/Anthropic sessions using fixed destinations, correct protocol adapters and isolated keys/history. No fallback or paid test without operator key. | U08 | CU09/CU13 | Provider routing, format, errors, context reset and authorization checks |
+
+## U09 — Compact session composer
+Source: owner requests Session instead of Demonstration, an animated invitation, no visible message label, and provider/model/effort/agent dropdowns below the message. Use original public UI code; no private Nucleus artifacts. Existing refund exercise and agent creator remain available.
+
+### CU15 — Choose the working model in a session
+Choose a provider, then a model from the documented compatible catalog or an exact custom ID. Select only supported effort levels. Connect with explicit API consent. Within the same provider, apply a new model/effort before sending; validate model access and clear history on model changes while preserving the request count. Changing providers closes the old connection and requires that provider's credentials. Failed changes retain the previous configuration and do not retry automatically. Catalog entries are not proof of account access. Speed descriptions are qualitative, not measured latency or paid priority service.
+
+| R25 | Compact bilingual Session view with accessible hidden message label, animated invitation that pauses for typing/hidden page/reduced motion, and selectors below the composer. Preserve drafts and support narrow layouts. | U09 | CU15 | Desktop/mobile space, keyboard controls, reduced motion and draft preservation |
+| R26 | Documented provider-specific model catalog and validated effort sent through the correct API field. Transactional same-provider configuration; no cross-provider key reuse, automatic inference or request budget reset. | U09 | CU15 | Wire payloads, unsupported settings, failed changes and isolation |

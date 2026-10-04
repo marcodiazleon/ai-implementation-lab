@@ -8,6 +8,7 @@ from .cloud import CloudSessions, CloudError
 from .agents import contracts, run_agent
 from .context7 import Context7Sessions
 from .agent_store import AgentStore
+from .model_catalog import catalog
 
 def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
     lab = Lab()
@@ -38,6 +39,8 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
             if not self.trusted():
                 return self.respond(403, {"error": "HOST_OR_ORIGIN_BLOCKED"})
             path = urlsplit(self.path).path
+            if path == "/api/model-catalog":
+                return self.respond(200,catalog())
             if path == "/api/state":
                 return self.respond(200, lab.snapshot())
             if path == "/api/scenarios":
@@ -87,7 +90,7 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
                     return self.respond(200, handlers[path](body))
                 if path.startswith("/api/cloud/"):
                     handlers = {"/api/cloud/connect": cloud.connect, "/api/cloud/ask": cloud.ask,
-                                "/api/cloud/clear": cloud.clear, "/api/cloud/disconnect": cloud.disconnect}
+                                "/api/cloud/configure": cloud.configure, "/api/cloud/clear": cloud.clear, "/api/cloud/disconnect": cloud.disconnect}
                     if path not in handlers:
                         return self.respond(404, {"error": "NOT_FOUND"})
                     return self.respond(200, handlers[path](body))

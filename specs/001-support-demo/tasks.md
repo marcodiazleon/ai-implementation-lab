@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.7. Current spec: spec.md 0.7. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 0.8. Current spec: spec.md 0.8. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -38,3 +38,7 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T29 | R22,R19 | Persisted agent builder and conversation roles | U08,T25 | Implementing assistant | Create/edit/export/reload and isolated role context | IMPLEMENTED; see U08 delivery report |
 | T30 | R24,R16 | Provider-neutral guide and Claude adapter | U08,T22 | Implementing assistant | Fixed provider routing and mock protocol checks | IMPLEMENTED; see U08 delivery report |
 | T31 | R23,R20 | Multiple-MCP configuration guide | U08,T26 | Implementing assistant | Export works and configured/executable states are accurate | IMPLEMENTED; see U08 delivery report |
+
+| T32 | R25,R21 | Compact Session and composer controls | U09,T28 | Implementing assistant | ES/EN desktop/mobile, animated prompt and draft checks | IMPLEMENTED; see U09 delivery report |
+| T33 | R26,R24 | Model catalog and real effort configuration | U09,T30 | Implementing assistant | Payload, validation, failure and context tests | IMPLEMENTED; see U09 delivery report |
+| T34 | R25,R26 | Current screenshots, guide and delivery evidence | T32,T33 | Implementing assistant | Public claims match observed behavior | IMPLEMENTED; see U09 delivery report |

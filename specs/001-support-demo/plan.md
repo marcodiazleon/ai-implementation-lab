@@ -1,6 +1,6 @@
 # S01 implementation and maintenance plan
 
-Version 0.7. Basis: spec.md 0.7. Scope: maintain the existing local example and complete SDD traceability.
+Version 0.8. Basis: spec.md 0.8. Scope: maintain the existing local example and complete SDD traceability.
 
 ## Components and contracts
 | Component | Files | Contract / requirement |
@@ -66,3 +66,6 @@ All UI additions ship in Spanish and English. Verify protocol contracts with fak
 
 ## U08 implementation
 Retain plain HTML/CSS/JS and domain IDs. Move chat into demo; place the seven-case example in an expandable panel. New sidebar persists its collapsed state only. Rewrite agent UI as a definition editor; local JSON storage uses an RLock and atomic replacement under .local/agents.json, excluded from Git. Chat resolves a saved ID server-side, isolates history when the role changes and exposes no tools. Anthropic uses Messages and model-check endpoints via a second fixed-host adapter; existing OpenAI contract stays backward compatible. MCP guide creates JSON profiles without executing them or storing keys; Context7 remains separate inside a details panel. Tests use temporary stores and provider doubles, not private data or paid inference.
+
+## U09 implementation
+Keep the original public shell; add scoped session styling and native keyboard-accessible dropdown chips. A local model catalog contains official IDs, effort support and descriptive tradeoffs. No discovery request occurs until the operator authorizes model access. cloud.py validates effort and applies it to native provider payloads; configure locks the session during access checks and commits only on success. The selected output limit remains explicit. Animation never modifies the user's textarea value or announces each character to assistive technology.

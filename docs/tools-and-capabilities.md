@@ -68,3 +68,6 @@ Adaptador opcional HTTPS a api.openai.com con Responses; sin SDK adicional, clav
 
 ## U08 implemented scope
 Agent builder: local validated JSON definitions, four starting templates, text-only chat and JSON export. HTTP/stdio MCP builder: configuration only, compatible-client guide, no process or arbitrary endpoint launch. Context7: existing allowlisted read client. OpenAI and Anthropic: fixed native API destinations, own credentials, explicit connection consent, one request per send, no fallback or retries. Model quality and real provider inference are NOT_EXECUTED.
+
+## U09 model controls
+Official OpenAI/Anthropic documentation supports the local reference catalog and effort mapping. Model selection checks access with the existing fixed-host transport; it is not live catalog discovery. No credentials are discovered from the machine. Seven added tests cover API payloads, unsupported effort, transactional changes, busy/disconnect behavior and catalog isolation. Browser tests use local provider doubles.

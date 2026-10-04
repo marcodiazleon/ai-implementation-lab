@@ -49,3 +49,6 @@ The browser coordinates four role contracts. `src/lab/agents.py` owns input, per
 
 ## U08 workspace
 `studio.js` owns routing, the sidebar, agent forms and public MCP configuration export. `cloud.js` handles provider sessions and chat. `AgentStore` persists validated definitions at a fixed local path. The server resolves agent IDs into instructions; clients cannot select files or grant tools. Each cloud session owns a fixed transport for OpenAI or Anthropic. Changing agent or prompt revision isolates conversation context. The refund domain and its simulated connector remain independent.
+
+## U09 model settings
+`model_catalog.py` supplies a reference catalog at GET `/api/model-catalog`. POST `/api/cloud/configure` accepts only session ID, model and effort, locks the existing provider session during access checks and commits on success. It cannot change provider, reset counters or widen tools. Unsupported effort is rejected before network access. Animated invitation text is decorative; a stable accessible name labels the composer.

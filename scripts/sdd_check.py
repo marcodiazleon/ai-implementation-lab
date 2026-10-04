@@ -36,7 +36,7 @@ def validate(root=ROOT):
         errors.append("Active specification or backlog state changed without matching validator contract")
     spec = (root / status["active_spec"]).read_text(encoding="utf-8")
     requirements = set(re.findall(r"^\| (R\d+) \|", spec, flags=re.M))
-    if requirements != {"R" + str(i).zfill(2) for i in range(1, 25)}:
+    if requirements != {"R" + str(i).zfill(2) for i in range(1, 27)}:
         errors.append("Unexpected core requirement set")
     core = root / "specs/001-support-demo"
     with (core / "acceptance.csv").open(encoding="utf-8", newline="") as handle:
