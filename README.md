@@ -4,6 +4,7 @@
 
 **[Open the live demo](https://marcodiazleon.github.io/ai-implementation-lab/)** — runs in your browser with fictional data; no account, key or personal data needed.
 The public demo runs the refund exercise and agent templates in the browser; model conversations, API keys and MCP connections exist only in the local version.
+The **Evidence** view in the demo shows the last recorded test run and, for each requirement, its acceptance cases, tests and evidence files.
 
 I help teams define what they need, decide which systems to connect and organize the implementation. This repository shows the requirements, technical decisions and tests for a small working example.
 

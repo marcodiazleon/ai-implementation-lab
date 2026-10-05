@@ -87,3 +87,11 @@ Delivered compact Session, decorative typewriter invitation, composer-bottom sel
 - NOT executed: independent review; a run by another person. Parity had no automated check until C113.
 - State: E-A01 PARTIAL. C113 result in evidence/latest.json.
 - Next: independent review (Codex); then E-A08 evidence view + traceability explorer.
+
+## 2026-10-04 · U10 Evidence view and traceability explorer (E-A08)
+- Source: owner U10 2026-10-04; requirement R27 (R27a–c, EARS) and tasks T35–T37 recorded in S01 0.9 before implementation. Decision D21.
+- Changes: read-only GET /api/evidence, /api/acceptance (text/csv) and /api/requirements in src/lab/server.py behind trusted(); requirement_rows() in scripts/sdd_check.py shared by the validator, server and build; build_pages.py writes _site/data/latest.json, acceptance.csv and requirements.json (no spec.md); public-demo.js passes them through; web/evidence.js renders the #evidence view (metrics, requirement picker, case table, PASS/FAIL/PENDIENTE badge, minimal CSV parser). The public method-view paragraph now carries its English text. Tests: tests/test_evidence_http.py (C114–C117), tests/test_pages.py (C118, C119).
+- Browser check, 2026-10-04, implementing assistant, Claude Browser pane: _site served by `python -m http.server` under /ai-implementation-lab/ and the local server on loopback. Five metrics shown from latest.json; R02 lists 6 cases, badge PASS, evidence linked to GitHub; R27 showed PENDIENTE while its cases were NO_PROBADO; English switch translated the view and the public method paragraph; no console errors; 375 px viewport without horizontal page overflow. Recorded as C120.
+- NOT executed: the load-failure message (R27c failure branch) in a browser; check on the published GitHub Pages URL (needs merge); a run by another person; independent review.
+- State: E-A08 PARTIAL (decision links not in the view); E-M07 PARTIAL (no versioned CI).
+- Next: E-M02.

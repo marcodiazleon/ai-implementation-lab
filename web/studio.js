@@ -1,7 +1,7 @@
 "use strict";
 (() => {
  const el=id=>document.getElementById(id), t=(es,en)=>LabI18n.language==='en'?en:es;
- const views=['demo','agents','mcp','connection','method'];let templates=[],custom=[],saving=false,profiles=[];
+ const views=['demo','agents','mcp','connection','method','evidence'];let templates=[],custom=[],saving=false,profiles=[];
  const notices={};
  const notice=(id,es,en)=>{notices[id]=[es,en];el(id).textContent=t(es,en);};
  const modeNames={plan:['Planificar','Plan'],research:['Investigar','Research'],implementation:['Implementar','Implement'],review:['Revisar','Review']};

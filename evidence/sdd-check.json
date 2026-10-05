@@ -2,15 +2,15 @@
   "passed": true,
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
-  "source_id": "6507d691d5ad3b4642f9e760d07eb05311788cb4896618a96b3e458ac38ee5cf",
+  "source_id": "a00ae07ad76b133f567d1941bc66765d32a5603883593ddc1a9c32abe944cce4",
   "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "96737f0e2c1819367871583c397a0010c4d318eb99654c3730ef7c5ea66d16db",
-    "specs/001-support-demo/plan.md": "d32a0c82e798735270d10e4f483b59afa94f6bba8208605f77f6ee74feaa43e6",
-    "specs/001-support-demo/spec.md": "95a0662cc4ebe18a9d713d0b5cc7e44aac356a7c9bc5cfe3c4b9a4cfc5163ee0",
-    "specs/001-support-demo/tasks.md": "494c21bea60188a077773ab7531419f17567bb2186ea5f0ef369ea579bb4ec58",
-    "specs/002-expansion/acceptance.csv": "69d27033e5f7c79b23992e87484323e9cfb3f55ebffb4f7337547477b15f2609",
+    "specs/001-support-demo/acceptance.csv": "f63ddaf5f2ce1ab416cc6566e6edff2e90bc6de7f226cb40c07589ce14c6fdb4",
+    "specs/001-support-demo/plan.md": "4a020e64696854863372b1f794e536b8a99ec5cde1a8048dbb04e3fd331b7664",
+    "specs/001-support-demo/spec.md": "77b65cb0c8136742c401f6252f630e5216060342253f42122fcb87296dc0051e",
+    "specs/001-support-demo/tasks.md": "baa667195e37f01ed7e0ce2504dd786d9bdd6e88938e78d2c0709709d3c4062f",
+    "specs/002-expansion/acceptance.csv": "bdf7b14190fde0c79ea68f4ff27d678af6f98f68ae6b070df4d8c1efa5789bbb",
     "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
-    "specs/002-expansion/spec.md": "e24f533d7df6c3d8301b15b88560add3746d875c34a94b6b9c90dc4d78373f65",
-    "specs/002-expansion/tasks.md": "9365138b1e6bdb4bc3132a9f0b7acfe1e3cee02caf8fe0bea4d1faba5ee42e9e"
+    "specs/002-expansion/spec.md": "e12daff7181fcb0be9075a04d2d234e9ce04730db3de3d66a38883301d54385e",
+    "specs/002-expansion/tasks.md": "f058de31bd09e0624a27d4bec2f4ce31fa3a7c8c91b93fd3b610ef99be746308"
   }
 }

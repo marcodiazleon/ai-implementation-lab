@@ -21,6 +21,7 @@ Updated 2026-10-04. Source IDs U01–U03 are defined in the active specification
 | D15 | Pilot identity and users | Choose actual roles/resources with the business owner | No live pilot currently in scope | Marco | PENDING for EXP-M04/A10 only |
 | D19 | Public publication: static GitHub Pages build with rules running in the browser; chat, API-key and MCP views hidden in public; no visitor data | A hosted Python server would need hosting, identity and cost decisions; the browser port reuses the fixtures | Owner request 2026-10-04 | Marco | RESOLVED; parity checked by C113 |
 | D20 | PR lock against main: the owner opens pull requests manually; the assistant only pushes branches | Assistant-opened PRs would bypass the owner's review step | Owner 2026-10-04 | Marco | RESOLVED |
+| D21 | Evidence view data: requirements exposed as JSON generated from the spec table (same regex as sdd_check.py); latest.json and acceptance.csv served unchanged; spec.md not published in the static build | Publishing spec.md and parsing Markdown in the browser; recalculating states client-side | Owner U10 2026-10-04 | Marco | RESOLVED; C116, C118, C119 |
 
 Engineering choices above are identified separately from user approvals. Silence never changes their authority. Routine reversible work under U01–U03 continues without repeated generic approvals.
 

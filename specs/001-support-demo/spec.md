@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.7. Status: current specification for the existing demonstration.
+Version: 0.9. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -16,6 +16,7 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U05 | Owner requests menu, optional OpenAI API connection/Q&A and source continuity to another PC using USB/shared folder; no private runtime or credentials transfer |
 | U06 | Owner requests Spanish/English language selection throughout the current app |
 | U07 | Owner requests functional internal PM, researcher, implementer and quality reviewer agents with hooks and responsibilities, plus MCP connection options starting with Context7. Both proposed additional roles confirmed. |
+| U10 | Owner's request 2026-10-04: a technical visitor sees, inside the app, the requirement → case → test → evidence chain and the real verification state without reading CSV/JSON by hand; a requirement without a passing case is shown as pending |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
@@ -139,7 +140,7 @@ Operator approves connection to the fixed Context7 HTTPS endpoint, optionally su
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.8. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is S01 0.9. S02 is an expansion backlog; its higher number does not make it active or implemented.
 
 ### CU10 — Choose interface language
 Operator selects Español or English. All five views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.
@@ -167,3 +168,12 @@ Choose a provider, then a model from the documented compatible catalog or an exa
 
 | R25 | Compact bilingual Session view with accessible hidden message label, animated invitation that pauses for typing/hidden page/reduced motion, and selectors below the composer. Preserve drafts and support narrow layouts. | U09 | CU15 | Desktop/mobile space, keyboard controls, reduced motion and draft preservation |
 | R26 | Documented provider-specific model catalog and validated effort sent through the correct API field. Transactional same-provider configuration; no cross-provider key reuse, automatic inference or request budget reset. | U09 | CU15 | Wire payloads, unsupported settings, failed changes and isolation |
+
+## U10 — Evidence view and traceability explorer
+Source: U10 (owner, 2026-10-04); backlog items EXP-A08 and EXP-M07. Visitor flow extends CU01: open the Evidence view → read the run summary → select a requirement → follow its cases to tests and evidence files. The view reads the committed evidence/latest.json, acceptance.csv and a requirements list generated from this table; the browser recalculates nothing. The public build ships the same three files, not this spec.
+
+- R27a: When the visitor opens the Evidence view, the system shall show generation date, source_id/commit, test counts (run/failures/errors), scenario count and `passed` read from evidence/latest.json, without recalculating anything in the browser.
+- R27b: When the visitor selects a requirement R01–R27, the system shall list its acceptance.csv cases with status, test_id and a link to the evidence; if the requirement has no PASS case with evidence, it shall be marked PENDIENTE.
+- R27c: While the data has not loaded, the view shall state "sin evidencia cargada" and show no default states.
+
+| R27 | Evidence view shows the committed run summary and a requirement → case → test → evidence explorer; a requirement without a PASS case with evidence is PENDIENTE, never approved by default. | U10 | CU01 | HTTP/build data tests, requirement/CSV ID parity and browser check of the public build |

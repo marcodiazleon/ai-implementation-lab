@@ -9,6 +9,7 @@ from .agents import contracts, run_agent
 from .context7 import Context7Sessions
 from .agent_store import AgentStore
 from .model_catalog import catalog
+from scripts.sdd_check import requirement_rows
 
 def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
     lab = Lab()
@@ -52,7 +53,14 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
                     return self.respond(exc.status, {"error":exc.code})
             if path == "/api/agents":
                 return self.respond(200, contracts())
-            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"), "/workbench.js": ("workbench.js", "application/javascript"), "/studio.js": ("studio.js", "application/javascript"),
+            # Read-only traceability data: fixed files, no request parameters.
+            if path == "/api/evidence":
+                return self.respond(200, json.loads((ROOT / "evidence/latest.json").read_text(encoding="utf-8")))
+            if path == "/api/acceptance":
+                return self.respond(200, (ROOT / "specs/001-support-demo/acceptance.csv").read_bytes(), "text/csv")
+            if path == "/api/requirements":
+                return self.respond(200, requirement_rows((ROOT / "specs/001-support-demo/spec.md").read_text(encoding="utf-8")))
+            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"), "/workbench.js": ("workbench.js", "application/javascript"), "/studio.js": ("studio.js", "application/javascript"), "/evidence.js": ("evidence.js", "application/javascript"),
                       "/style.css": ("style.css", "text/css"), "/cloud.js": ("cloud.js", "application/javascript"), "/i18n.js": ("i18n.js", "application/javascript")}
             if path in assets:
                 filename, mime = assets[path]
