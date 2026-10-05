@@ -1,8 +1,10 @@
+import csv
 import json
 import shutil
 import subprocess
 import unittest
 from src.lab.controller import ROOT
+from scripts.sdd_check import requirement_rows
 
 # Runs web/public-demo.js and web/app.js together in one Node vm context with a minimal DOM stub, then drives the
 # real click/submit handlers. Checks UI state transitions only; layout, focus rings and i18n need a real browser.
@@ -104,6 +106,68 @@ class AppUiTests(unittest.TestCase):
         self.assertEqual([c for c, _ in ten["items"]], ["ok", "ok", "fail"])
         self.assertEqual((invalid["items"], invalid["verdict"], invalid["exportDisabled"]), ([], "La solicitud no es válida.", True))
         self.assertEqual(self.out["eventsAfterExplain"], 0)
+
+# Runs web/evidence.js alone with a DOM stub; the three data routes answer with the JSON payload given on stdin.
+EVIDENCE_HARNESS = r"""
+const fs = require("fs"), path = require("path"), vm = require("vm");
+const root = process.argv[1], input = JSON.parse(fs.readFileSync(0, "utf8"));
+const el = (tag, id) => ({ tag, id, hidden: false, value: "", textContent: "", dataset: {}, listeners: {}, children: [],
+  addEventListener(type, fn) { (this.listeners[type] ||= []).push(fn); },
+  append(...n) { this.children.push(...n); }, replaceChildren(...n) { this.children = n; } });
+const nodes = {};
+const data = { "/api/evidence": JSON.stringify(input.evidence), "/api/acceptance": input.csv, "/api/requirements": JSON.stringify(input.requirements) };
+const ctx = { Node: class {}, Option: function (text, value) { return { text, value }; }, Response, addEventListener() {},
+  LabI18n: { language: "es" }, document: { createElement: (tag) => el(tag), getElementById: (id) => (nodes[id] ||= el("div", id)) },
+  fetch: async (p) => new Response(data[p]) };
+ctx.window = ctx;
+vm.createContext(ctx);
+vm.runInContext(fs.readFileSync(path.join(root, "web/evidence.js"), "utf8"), ctx);
+const $ = (id) => ctx.document.getElementById(id);
+(async () => {
+  for (let i = 0; i < 200 && !$("reqBadge").textContent; i++) await new Promise((r) => setTimeout(r, 5));
+  const out = {};
+  for (const r of input.requirements) {
+    $("reqPicker").value = r.id; $("reqPicker").listeners.change[0]();
+    out[r.id] = { badge: $("reqBadge").textContent, source: $("reqSource").textContent };
+  }
+  process.stdout.write(JSON.stringify(out));
+})().catch((e) => { console.error(e); process.exit(1); });
+"""
+
+class EvidenceUiTests(unittest.TestCase):
+    """U12 / R27b: requirement badge in the Evidence view."""
+    def badges(self, requirements, csv_text):
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("node not available")
+        payload = {"requirements": requirements, "csv": csv_text, "evidence": {"generated_utc": "2026-10-05T00:00", "tests": {}, "passed": True}}
+        result = subprocess.run([node, "-e", EVIDENCE_HARNESS, str(ROOT)], input=json.dumps(payload),
+                                capture_output=True, text=True, encoding="utf-8", timeout=60)
+        if result.returncode:
+            raise AssertionError("node harness failed: " + result.stderr)
+        return json.loads(result.stdout)
+
+    def test_badge_rule_on_synthetic_cases(self):
+        cases = {"R01": [("PASS", "e"), ("PASS", "e")], "R02": [("PASS", "e"), ("NO_PROBADO", "")], "R03": [("NO_PROBADO", "")],
+                 "R04": [("PASS", "e"), ("FAIL", "e")], "R05": [("PASS", "e"), ("PASS", "")], "R06": [("PASS", "e"), ("NO_APLICA", "")]}
+        rows = ["case_id,requirement_id,status,evidence"] + [f"C{req}{i},{req},{st},{ev}" for req, own in cases.items() for i, (st, ev) in enumerate(own)]
+        out = self.badges([{"id": r, "text": r, "source": "U12", "cu": "CU01"} for r in cases], "\n".join(rows) + "\n")
+        self.assertEqual({r: v["badge"] for r, v in out.items()},
+                         {"R01": "PASS", "R02": "PARCIAL", "R03": "PENDIENTE", "R04": "FAIL", "R05": "PARCIAL", "R06": "PASS"})
+        self.assertIn("1 de 2 casos aplicables PASS", out["R02"]["source"])
+        self.assertIn("sin caso PASS con evidencia", out["R03"]["source"])
+
+    def test_committed_requirements_with_untested_cases_are_not_pass(self):
+        spec = (ROOT / "specs/001-support-demo/spec.md").read_text(encoding="utf-8")
+        csv_path = ROOT / "specs/001-support-demo/acceptance.csv"
+        out = self.badges(requirement_rows(spec), csv_path.read_text(encoding="utf-8"))
+        with csv_path.open(encoding="utf-8", newline="") as h:
+            rows = list(csv.DictReader(h))
+        for req, view in out.items():
+            own = [c for c in rows if c["requirement_id"] == req and c["status"] != "NO_APLICA"]
+            if any(c["status"] != "PASS" for c in own):
+                self.assertNotEqual(view["badge"], "PASS", req)
+        self.assertEqual([out[r]["badge"] for r in ("R11", "R16", "R17")], ["PARCIAL"] * 3)
 
 if __name__ == "__main__":
     unittest.main()

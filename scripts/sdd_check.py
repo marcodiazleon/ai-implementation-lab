@@ -47,9 +47,14 @@ def validate(root=ROOT):
         errors.append("Active specification or backlog state changed without matching validator contract")
     spec = (root / status["active_spec"]).read_text(encoding="utf-8")
     requirements = set(REQUIREMENT_ROW.findall(spec))
-    if requirements != {"R" + str(i).zfill(2) for i in range(1, 30)}:
+    if requirements != {"R" + str(i).zfill(2) for i in range(1, 31)}:
         errors.append("Unexpected core requirement set")
     core = root / "specs/001-support-demo"
+    # D26: one version; the spec, plan and tasks headers must match project-status.json.
+    for name in ("spec.md", "plan.md", "tasks.md"):
+        found = re.search(r"^Version:? (\d+\.\d+)\.", (core / name).read_text(encoding="utf-8"), re.M)
+        if not found or found.group(1) != status.get("active_spec_version"):
+            errors.append("Version mismatch: " + name + " " + (found.group(1) if found else "none") + " != " + str(status.get("active_spec_version")))
     with (core / "acceptance.csv").open(encoding="utf-8", newline="") as handle:
         cases = list(csv.DictReader(handle))
     seen, covered, mapped = set(), set(), set()

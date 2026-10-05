@@ -26,12 +26,18 @@
   return body.map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
  }
 
- // Never approved by default: FAIL wins, PASS needs recorded evidence, anything else is pending.
+ // Never approved by default (R27b, U12): FAIL wins; PASS only when every applicable case passed with evidence;
+ // PARCIAL when only some did; PENDIENTE when none did. NO_APLICA cases do not count.
+ function tally(id) {
+  const applicable = cases.filter((c) => c.requirement_id === id && c.status !== "NO_APLICA");
+  return { applicable: applicable.length, passed: applicable.filter((c) => c.status === "PASS" && c.evidence.trim()).length,
+   failed: applicable.some((c) => c.status === "FAIL") };
+ }
  function badge(id) {
-  const own = cases.filter((c) => c.requirement_id === id);
-  if (own.some((c) => c.status === "FAIL")) return "FAIL";
-  if (own.some((c) => c.status === "PASS" && c.evidence.trim())) return "PASS";
-  return "PENDIENTE";
+  const n = tally(id);
+  if (n.failed) return "FAIL";
+  if (n.passed && n.passed === n.applicable) return "PASS";
+  return n.passed ? "PARCIAL" : "PENDIENTE";
  }
 
  function cell(row, value) {
@@ -47,7 +53,8 @@
   el("reqBadge").dataset.state = state;
   el("reqSource").textContent = t("Fuente " + req.source + " · " + req.cu + " · " + own.length + " casos",
    "Source " + req.source + " · " + req.cu + " · " + own.length + " cases")
-   + (state === "PENDIENTE" ? t(" · sin caso PASS con evidencia", " · no PASS case with evidence") : "");
+   + (state === "PENDIENTE" ? t(" · sin caso PASS con evidencia", " · no PASS case with evidence")
+    : state === "PARCIAL" ? t(` · ${tally(id).passed} de ${tally(id).applicable} casos aplicables PASS`, ` · ${tally(id).passed} of ${tally(id).applicable} applicable cases PASS`) : "");
   el("reqCases").replaceChildren(...own.map((c) => {
    const tr = document.createElement("tr");
    for (const value of [c.case_id, c.action, c.expected, c.status, c.test_id]) cell(tr, value);

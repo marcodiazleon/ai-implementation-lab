@@ -7,7 +7,8 @@ from .models import Proposal, RuleError
 from .hooks import AuditTrail, digest
 
 ROOT = Path(__file__).resolve().parents[2]
-EXPLAIN_STATUSES = ("delivered", "shipped", "returned", "cancelled")
+# Same vocabulary as data/orders.json and scripts/validate_data.py (D25).
+EXPLAIN_STATUSES = ("delivered", "in_transit", "returned", "cancelled")
 
 def load_data(name):
     return json.loads((ROOT / "data" / name).read_text(encoding="utf-8"))

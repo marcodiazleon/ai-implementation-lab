@@ -1,6 +1,6 @@
 # Decisions and sources
 
-Updated 2026-10-04. Source IDs U01–U03 are defined in the active specification.
+Updated 2026-10-05. Source IDs U01–U03 are defined in the active specification.
 
 | ID | Decision / question | Alternatives and reason | Source / authority | Owner | State / revisit |
 |---|---|---|---|---|---|
@@ -16,13 +16,17 @@ Updated 2026-10-04. Source IDs U01–U03 are defined in the active specification
 | D10 | Incorporate all 20 expansion proposals | One canonical backlog with dependencies and closure criteria | U03 confirmed request | Assistant | DOCUMENTED; implementation states are separate |
 | D11 | Course layers 00–05 | Chapter 13 and corrected chapter 01 supersede older chapter-10 wording | Current method-source reconciliation | Assistant | RESOLVED_FOR_THIS_PROJECT; original book not edited |
 | D12 | Plain descriptive presentation | Replace slogan-like framing with task and result | U02 confirmed correction | Assistant | IMPLEMENTED; owner comprehension untested |
-| D13 | Active spec is S01 0.4 | A later numbered spec may be planning-only | Current method, U03 | Assistant | ACTIVE; S02 remains BACKLOG |
+| D13 | Active spec is S01; its version is recorded in docs/project-status.json and the spec/plan/tasks headers, checked by sdd_check (D26) | A later numbered spec may be planning-only | Current method, U03 | Assistant | ACTIVE; S02 remains BACKLOG |
 | D14 | Model/provider budget and destination | Local model or approved remote service, compare before enabling | No provider/cost decision supplied | Marco | PENDING for EXP-A04 only |
 | D15 | Pilot identity and users | Choose actual roles/resources with the business owner | No live pilot currently in scope | Marco | PENDING for EXP-M04/A10 only |
 | D19 | Public publication: static GitHub Pages build with rules running in the browser; chat, API-key and MCP views hidden in public; no visitor data | A hosted Python server would need hosting, identity and cost decisions; the browser port reuses the fixtures | Owner request 2026-10-04 | Marco | RESOLVED; parity checked by C113 |
 | D20 | PR lock against main: the owner opens pull requests manually; the assistant only pushes branches | Assistant-opened PRs would bypass the owner's review step | Owner 2026-10-04 | Marco | RESOLVED |
 | D22 | explain is a pure query: it creates no proposal, receipt or audit event, reads no order fixture and only reads policy thresholds | Recording each explanation as an audit event, or creating a draft proposal; both would mix a consultation with the approval workflow | Owner U11 2026-10-04 | Marco | RESOLVED; C127, C136 |
 | D23 | Session reset is a visitor action behind a confirmation dialog that offers the evidence download first; no automatic reset on case change, timer or reload of the local server state | Automatic reset on case change (loses evidence silently); reset without confirmation | Owner U11 2026-10-04 | Marco | RESOLVED; C128, C135, C137 |
+| D24 | Requirement badge: FAIL if any case fails; PASS only when every applicable case (not NO_APLICA) is PASS with evidence; PARCIAL when only some are; PENDIENTE otherwise | Previous rule (PASS if any case passed) showed R11, R16 and R17 as PASS with untested mandatory cases; PENDIENTE for a partial result would hide work that passed | Owner U12 2026-10-05 | Marco | RESOLVED; C139, C140 |
+| D25 | Order-status vocabulary is the fixture's: delivered, in_transit, returned, cancelled | shipped everywhere (renames published fixtures and scenarios); both with a mapping (two names for one state) | Owner U12 2026-10-05 | Marco | RESOLVED; C124, C141 |
+| D26 | Spec version lives in docs/project-status.json and the spec/plan/tasks headers; sdd_check fails on a mismatch; other documents link instead of repeating the number | Manual alignment, which drifted to 0.8, 0.4, 0.3 and 0.2 in four documents | Owner U12 2026-10-05 | Marco | RESOLVED; C142 |
+| D27 | CI runs verify.py on ubuntu-latest and windows-latest for push and pull_request with contents: read, a 15-minute limit and no secrets; the Pages workflow runs verify.py before building | Required status checks on main are a repository setting for the owner; browser CI remains in EXP-M07 | Owner U12 2026-10-05 | Marco | IMPLEMENTED; C143, C144 |
 | D21 | Evidence view data: requirements exposed as JSON generated from the spec table (same regex as sdd_check.py); latest.json and acceptance.csv served unchanged; spec.md not published in the static build | Publishing spec.md and parsing Markdown in the browser; recalculating states client-side | Owner U10 2026-10-04 | Marco | RESOLVED; C116, C118, C119 |
 
 Engineering choices above are identified separately from user approvals. Silence never changes their authority. Routine reversible work under U01–U03 continues without repeated generic approvals.

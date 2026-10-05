@@ -201,5 +201,5 @@ body.session-view main{padding-top:14px;padding-bottom:14px}body.session-view ma
 .public-note{margin:0 0 16px;padding:10px 14px;border:1px solid currentColor;font-size:12px;opacity:.8}
 /* Evidence view (R27): five run metrics and a wrapping case table. */
 .metrics.evidence-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}.evidence-metrics b{font-size:18px;letter-spacing:-.3px;overflow-wrap:anywhere}.evidence-metrics b small{display:block;margin-top:4px}
-#reqCases td:nth-child(2),#reqCases td:nth-child(3){white-space:normal;min-width:200px}#reqBadge[data-state=PASS]{border-color:#b3dbc1}#reqBadge[data-state=FAIL]{border-color:var(--amber)}
+#reqCases td:nth-child(2),#reqCases td:nth-child(3){white-space:normal;min-width:200px}#reqBadge[data-state=PASS]{border-color:#b3dbc1}#reqBadge[data-state=FAIL]{border-color:var(--amber)}#reqBadge[data-state=PARCIAL]{border-style:dashed}
 @media(max-width:700px){.metrics.evidence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}

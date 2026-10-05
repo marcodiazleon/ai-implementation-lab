@@ -13,7 +13,7 @@ const labels={APPROVAL_REQUIRED:"Falta aprobación humana.",ABOVE_LIMIT:"Importe
 const codes={PENDING_APPROVAL:"Pendiente de aprobación",BLOCKED:"Bloqueado",READ_ONLY:"Consulta",APPROVED:"Aprobado",
  REJECTED:"Rechazado",SIMULATED:"Simulado",before:"Antes",after:"Después",request:"Solicitud",decision:"Decisión",
  execute:"Ejecución",CHECKING:"Comprobando",REPLAY:"Reintento sin duplicado",delivered:"Entregado",
- shipped:"Enviado",returned:"Devuelto",cancelled:"Cancelado"};
+ in_transit:"En tránsito",returned:"Devuelto",cancelled:"Cancelado"};
 const code=value=>t(codes[value]||labels[value]||String(value));
 async function call(path,body){
  const response=await fetch(path,body===undefined?{}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});

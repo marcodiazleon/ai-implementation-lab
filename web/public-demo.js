@@ -114,7 +114,7 @@
   const blocked = [409, { status: "BLOCKED", reason: "INVALID_REQUEST" }];
   const int = (v) => Number.isInteger(v) && v >= 0 && v <= 100000;
   if (!body || typeof body !== "object" || Array.isArray(body) || Object.keys(body).sort().join() !== "amount,days_since_delivery,status") return blocked;
-  if (!int(body.amount) || !int(body.days_since_delivery) || !["delivered", "shipped", "returned", "cancelled"].includes(body.status)) return blocked;
+  if (!int(body.amount) || !int(body.days_since_delivery) || !["delivered", "in_transit", "returned", "cancelled"].includes(body.status)) return blocked;
   const conditions = [
    { rule: "NOT_DELIVERED", ok: body.status === "delivered", observed: body.status, limit: "delivered" },
    { rule: "OUTSIDE_WINDOW", ok: body.days_since_delivery <= policy.window_days, observed: body.days_since_delivery, limit: policy.window_days },

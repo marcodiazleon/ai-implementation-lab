@@ -157,9 +157,17 @@ class ExplainResetTests(unittest.TestCase):
         self.assertTrue(result["eligible"])
 
     def test_explain_not_delivered_status(self):
-        result, failed = self.failed(50, 5, "shipped")
+        result, failed = self.failed(50, 5, "in_transit")
         self.assertEqual(failed, ["NOT_DELIVERED"])
-        self.assertEqual(result["conditions"][0], {"rule": "NOT_DELIVERED", "ok": False, "observed": "shipped", "limit": "delivered"})
+        self.assertEqual(result["conditions"][0], {"rule": "NOT_DELIVERED", "ok": False, "observed": "in_transit", "limit": "delivered"})
+
+    def test_explain_accepts_every_fixture_status(self):
+        # U12: one vocabulary; every status in the order fixtures can be explained, the retired "shipped" cannot.
+        for status in {o["status"] for o in self.lab.orders.values()}:
+            with self.subTest(status=status):
+                self.assertEqual(self.failed(50, 5, status)[1], [] if status == "delivered" else ["NOT_DELIVERED"])
+        with self.assertRaisesRegex(RuleError, "INVALID_REQUEST"):
+            self.lab.explain({"amount": 50, "days_since_delivery": 5, "status": "shipped"})
 
     def test_explain_thresholds_come_from_policy(self):
         self.lab.policy["max_refund"] = 200
@@ -168,7 +176,7 @@ class ExplainResetTests(unittest.TestCase):
     def test_explain_rejects_invalid_input(self):
         valid = {"amount": 50, "days_since_delivery": 5, "status": "delivered"}
         for body in ([], {}, dict(valid, amount="50"), dict(valid, amount=-1), dict(valid, days_since_delivery=100001),
-                     dict(valid, amount=True), dict(valid, days_since_delivery=5.0), dict(valid, status="in_transit"),
+                     dict(valid, amount=True), dict(valid, days_since_delivery=5.0), dict(valid, status="shipped"),
                      dict(valid, status=1), dict(valid, order_id="DEMO-101"), {"amount": 50, "status": "delivered"}):
             with self.subTest(body=body), self.assertRaisesRegex(RuleError, "INVALID_REQUEST"):
                 self.lab.explain(body)

@@ -103,7 +103,7 @@
       <div class="explain-fields">
         <div><label for="explainAmount" data-en="Amount (DEMO)">Importe (DEMO)</label><input id="explainAmount" name="amount" type="number" min="0" max="100000" step="1" required value="180" inputmode="numeric"></div>
         <div><label for="explainDays" data-en="Days since delivery">Días desde la entrega</label><input id="explainDays" name="days" type="number" min="0" max="100000" step="1" required value="20" inputmode="numeric"></div>
-        <div><label for="explainStatus" data-en="Order status">Estado del pedido</label><select id="explainStatus" name="status"><option value="delivered" selected>Entregado</option><option value="shipped" data-en="Shipped">Enviado</option><option value="returned" data-en="Returned">Devuelto</option><option value="cancelled" data-en="Cancelled">Cancelado</option></select></div>
+        <div><label for="explainStatus" data-en="Order status">Estado del pedido</label><select id="explainStatus" name="status"><option value="delivered" selected>Entregado</option><option value="in_transit" data-en="In transit">En tránsito</option><option value="returned" data-en="Returned">Devuelto</option><option value="cancelled" data-en="Cancelled">Cancelado</option></select></div>
       </div>
       <div class="buttons"><button class="primary" data-en="Evaluate conditions">Evaluar condiciones</button><button type="button" id="exportExplain" disabled data-en="Download explanation">Descargar explicación</button></div>
     </form>

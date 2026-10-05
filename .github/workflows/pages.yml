@@ -18,6 +18,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      # R30: nothing is published when verification fails.
+      - run: python3 scripts/verify.py
+      # The site ships the committed evidence (D21), not the files this run regenerated.
+      - run: git checkout -- .
       - run: python3 scripts/build_pages.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

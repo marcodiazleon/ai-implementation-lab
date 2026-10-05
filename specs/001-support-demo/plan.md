@@ -1,6 +1,6 @@
 # S01 implementation and maintenance plan
 
-Version 0.8. Basis: spec.md 0.8. Scope: maintain the existing local example and complete SDD traceability.
+Version 0.11. Basis: spec.md 0.11. Scope: maintain the existing local example and complete SDD traceability.
 
 ## Components and contracts
 | Component | Files | Contract / requirement |
@@ -75,3 +75,6 @@ Server adds three exact GET routes behind the existing trusted() check: /api/evi
 
 ## U11 implementation
 Controller gains two methods. reset() runs under the existing lock, clears proposals and receipts and replaces the AuditTrail; it returns the snapshot. explain() validates exactly amount, days_since_delivery and status (integers 0..100000, booleans rejected, status in delivered/shipped/returned/cancelled), builds a synthetic CUSTOM order in sample-store and evaluates NOT_DELIVERED, OUTSIDE_WINDOW and ABOVE_LIMIT in the same order as _eligible, with thresholds read from the policy; it reads no fixture and writes no proposal, receipt or event. server.py exposes POST /api/reset (body {}) and /api/explain behind trusted() and the existing body limit; RuleError answers 409 BLOCKED like the other routes. public-demo.js ports both routes; reset empties the existing objects in place. The UI uses a native dialog (Escape cancels), reuses the evidence download and the existing labels for reasons, and shows "Sin operaciones" whenever the log is empty. Tests: controller cases in test_lab.py, routes in test_http.py, Python/browser parity in test_parity.py and a Node DOM-stub harness for app.js in test_app_ui.py.
+
+## U12 implementation
+web/evidence.js computes the requirement badge from the committed cases only: FAIL if any case is FAIL; PASS only when every case other than NO_APLICA is PASS with evidence; PARCIAL when only some are; PENDIENTE otherwise. The case line shows how many applicable cases pass. A second Node vm harness in tests/test_app_ui.py runs evidence.js against synthetic cases for each outcome and against the committed acceptance.csv and spec requirements. The explanation status list becomes delivered/in_transit/returned/cancelled in the controller, the browser port, the form and the labels, so every fixture status can be explained. scripts/sdd_check.py compares the version headers of spec.md, plan.md and tasks.md with active_spec_version; other documents link to project-status.json instead of repeating the number. .github/workflows/verify.yml runs scripts/verify.py on ubuntu-latest and windows-latest for push and pull_request with contents: read and a 15-minute limit; pages.yml runs it before build_pages.py. A structural test reads both workflow files. The download walkthrough uses a real Chrome session on the local server and the static build and records file name, size and SHA-256.

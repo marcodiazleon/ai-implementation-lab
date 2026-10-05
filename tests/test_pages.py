@@ -47,5 +47,18 @@ class PagesBuildTests(unittest.TestCase):
             with (out / "data/acceptance.csv").open(encoding="utf-8", newline="") as h:
                 self.assertEqual(ids, {row["requirement_id"] for row in csv.DictReader(h)})
 
+    def test_workflows_run_verify_before_publishing(self):
+        # R30: text checks only (stdlib, no YAML parser); the real run is recorded separately (C144).
+        flows = Path(__file__).resolve().parents[1] / ".github/workflows"
+        verify = (flows / "verify.yml").read_text(encoding="utf-8")
+        for needle in ("push:", "pull_request:", "ubuntu-latest", "windows-latest", "contents: read",
+                       "timeout-minutes:", "python scripts/verify.py"):
+            self.assertIn(needle, verify)
+        self.assertNotIn("secrets.", verify)
+        pages = (flows / "pages.yml").read_text(encoding="utf-8")
+        # verify.py rewrites evidence; the committed files are restored before the build (D21).
+        self.assertLess(pages.index("scripts/verify.py"), pages.index("git checkout -- ."))
+        self.assertLess(pages.index("git checkout -- ."), pages.index("scripts/build_pages.py"))
+
 if __name__ == "__main__":
     unittest.main()

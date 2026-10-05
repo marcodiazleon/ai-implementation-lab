@@ -19,7 +19,7 @@ The example uses fictional orders and a simulated refund process. Code was devel
 
 Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
 The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.8; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+[Current status](docs/project-status.json) selects the active S01 version; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
 
 ## Reviewing a refund request
 
@@ -47,6 +47,8 @@ cd ai-implementation-lab
 python scripts/verify.py
 python run.py serve
 ```
+
+GitHub Actions runs the same `scripts/verify.py` on Linux and Windows for every push and pull request, and the Pages deployment runs it before building.
 
 Open **http://127.0.0.1:8765**. Stop with Ctrl+C. On systems where Python is named `python3` or `py`, use that launcher instead. Another port: `python run.py serve --port 8766`.
 

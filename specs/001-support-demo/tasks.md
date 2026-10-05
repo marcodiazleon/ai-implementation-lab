@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.10. Current spec: spec.md 0.10. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 0.11. Current spec: spec.md 0.11. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -50,3 +50,10 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T38 | R28,R29 | U11 source, R28/R29 EARS and CU16; Lab.reset() and Lab.explain() in the controller; POST /api/reset and /api/explain behind trusted(); same routes in public-demo.js | U11,T05,T35 | Implementing assistant | Spec, controller, server and browser port exist; sdd_check passes with R28/R29 | IMPLEMENTED; see U11 notebook entry |
 | T39 | R28,R29,R15 | Reset button and confirmation dialog with export; disabled actions after case change; bilingual "Analyze your own request" panel with per-condition list, verdict and JSON download | T38,T24 | Implementing assistant | Local and public build show reset and explanation in ES/EN in a browser | IMPLEMENTED; see U11 notebook entry |
 | T40 | R28,R29 | Controller, HTTP, parity and UI-harness tests; acceptance cases C121+ | T38,T39 | Implementing assistant | Cases mapped and passing in evidence/latest.json | IMPLEMENTED; see U11 notebook entry |
+
+| T41 | R27 | U12 badge rule in the Evidence view (FAIL, PASS only when every applicable case passes, PARCIAL, PENDIENTE) and the count of passing cases; Node harness tests on synthetic and committed cases | U12,T36 | Implementing assistant | C139 and C140 mapped and passing; no requirement with a NO_PROBADO case shows PASS | IMPLEMENTED; see U12 notebook entry |
+| T42 | R29 | One order-status vocabulary: explain accepts delivered/in_transit/returned/cancelled in the controller, browser port, form and labels | U12,T38 | Implementing assistant | C124 and C141 pass; no "shipped" left in src/ or web/ | IMPLEMENTED; see U12 notebook entry |
+| T43 | R14,R12 | Version headers of spec, plan and tasks aligned with project-status.json; sdd_check fails on a mismatch; README, D13, sdd-adoption and roadmap link to project-status.json instead of repeating a number | U12 | Implementing assistant | C142 passes; sdd_check passes | IMPLEMENTED; see U12 notebook entry |
+| T44 | R30 | .github/workflows/verify.yml (push and pull_request, ubuntu-latest and windows-latest, contents: read, 15-minute limit) and a verify.py step before the Pages build | U12,T15 | Implementing assistant | C143 passes; C144 records a green GitHub Actions run on both systems | IN_PROGRESS; run pending push |
+| T45 | R28,R29 | Real browser walkthrough of "Descargar y reiniciar" and "Descargar explicación" on the local server and the static build, with file name, size and SHA-256 | U12,T39 | Implementing assistant | C145 and C146 recorded; C147 (published URL) stays NO_PROBADO until the merge | IMPLEMENTED; C145/C146 PASS, C147 NO_PROBADO until merge |
+| T46 | R12 | Review brief for the external reviewer versioned in reports/ | U12 | Implementing assistant | reports/BRIEF_REVISION_OPENAI_2026-10-05.md exists in the branch | IMPLEMENTED; see U12 notebook entry |
