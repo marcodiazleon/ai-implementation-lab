@@ -144,7 +144,7 @@
   "POST /api/execute": ruled(execute, "execute"),
  };
  // Evidence view data: the committed files written by scripts/build_pages.py, returned unchanged.
- const files = { "/api/evidence": "latest.json", "/api/acceptance": "acceptance.csv", "/api/requirements": "requirements.json" };
+ const files = { "/api/model-catalog": "model-catalog.json", "/api/evidence": "latest.json", "/api/acceptance": "acceptance.csv", "/api/requirements": "requirements.json" };
  let queue = Promise.resolve();
  window.fetch = (input, init = {}) => {
   const url = new URL(typeof input === "string" ? input : input.url, location.href);

@@ -7,18 +7,17 @@
   <title>AI Implementation Lab · Marco Díaz de León</title>
   <link rel="stylesheet" href="/style.css">
   <script src="/i18n.js" defer></script>
-  <script src="/app.js" defer></script>
   <script src="/cloud.js" defer></script>
   <script src="/workbench.js" defer></script>
   <script src="/studio.js" defer></script>
   <script src="/evidence.js" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#workspace">Ir al área de trabajo</a>
+<a class="skip-link" href="#view-chat">Ir a la conversación</a>
 <aside class="sidebar"><div class="sidebar-head"><a class="brand" href="/" aria-label="AI Implementation Lab, inicio">
     <span class="monogram" aria-hidden="true">MD</span>
     <span class="brand-text">MARCO DÍAZ DE LEÓN<small>AI IMPLEMENTATION LAB</small></span>
-  </a><button id="toggleSidebar" aria-controls="mainNav" aria-expanded="true" aria-label="Contraer menú">☰</button></div><nav id="mainNav" aria-label="Secciones"><a href="#session" data-view="demo" aria-label="Sesión" data-label-en="Session"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label" data-en="Session">Sesión</span></a><a href="#agents" data-view="agents" aria-label="Agentes" data-label-en="Agents"><span class="nav-icon" aria-hidden="true">◇</span><span class="nav-label" data-en="Agents">Agentes</span></a><a href="#mcp" data-view="mcp" aria-label="MCPs" data-label-en="MCPs"><span class="nav-icon" aria-hidden="true">⌘</span><span class="nav-label" data-en="MCPs">MCPs</span></a><a href="#connection" data-view="connection" aria-label="Conecta tu IA" data-label-en="Connect your AI"><span class="nav-icon" aria-hidden="true">↗</span><span class="nav-label" data-en="Connect your AI">Conecta tu IA</span></a><a href="#method" data-view="method" aria-label="Cómo está construido" data-label-en="How it is built"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label" data-en="How it is built">Cómo está construido</span></a><a href="#evidence" data-view="evidence" aria-label="Evidencia" data-label-en="Evidence"><span class="nav-icon" aria-hidden="true">▣</span><span class="nav-label" data-en="Evidence">Evidencia</span></a></nav><p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p></aside><button id="navBackdrop" aria-label="Cerrar menú" data-label-en="Close menu" hidden></button><header class="topbar"><div class="language-picker"><label for="language">Idioma</label><select id="language" aria-label="Idioma" data-label-en="Language"><option value="es" lang="es">Español</option><option value="en" lang="en">English</option></select></div></header>
+  </a><button id="toggleSidebar" aria-controls="mainNav" aria-expanded="true" aria-label="Contraer menú">☰</button></div><nav id="mainNav" aria-label="Secciones"><a href="#session" data-view="demo" aria-label="Sesión" data-label-en="Session"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label" data-en="Session">Sesión</span></a><a href="#agents" data-view="agents" aria-label="Agentes" data-label-en="Agents"><span class="nav-icon" aria-hidden="true">◇</span><span class="nav-label" data-en="Agents">Agentes</span></a><a href="#mcp" data-view="mcp" aria-label="MCPs" data-label-en="MCPs"><span class="nav-icon" aria-hidden="true">⌘</span><span class="nav-label" data-en="MCPs">MCPs</span></a><a href="#method" data-view="method" aria-label="Cómo está construido" data-label-en="How it is built"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label" data-en="How it is built">Cómo está construido</span></a><a href="#evidence" data-view="evidence" aria-label="Evidencia" data-label-en="Evidence"><span class="nav-icon" aria-hidden="true">▣</span><span class="nav-label" data-en="Evidence">Evidencia</span></a></nav><p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p></aside><button id="navBackdrop" aria-label="Cerrar menú" data-label-en="Close menu" hidden></button><header class="topbar"><div class="language-picker"><label for="language">Idioma</label><select id="language" aria-label="Idioma" data-label-en="Language"><option value="es" lang="es">Español</option><option value="en" lang="en">English</option></select></div></header>
 <main>
 <div id="view-demo" data-panel="demo"><section id="view-chat" class="conversation session" aria-label="Sesión" data-label-en="Session">
  <div class="session-topline"><span data-en="SESSION">SESIÓN</span><span id="chatStatus" role="status"></span><div class="session-actions"><button id="clearChat" type="button" disabled data-en="Clear">Vaciar</button><button id="disconnectChat" type="button" disabled data-en="Disconnect">Desconectar</button></div></div>
@@ -32,66 +31,15 @@
   <label class="control-chip agent-chip"><span data-en="Work with">Trabajar con</span><select id="chatAgent" aria-label="Agente" data-label-en="Agent"><option value="" data-en="No specific role">Sin rol específico</option></select></label>
   <button id="sendQuestion" class="send-message" type="button" aria-label="Conectar IA" data-label-en="Connect AI">↗</button>
  </div></form>
- <div class="composer-meta"><p id="modelHint"></p><a href="#connection" data-en="Connection settings">Configurar conexión</a></div>
+ <div class="composer-meta"><p id="modelHint"></p><button id="openConnection" type="button" class="connection-link" data-en="Connection settings">Configurar conexión</button></div>
  <p id="chatNotice" role="status"></p>
  <details class="composer-info"><summary data-en="About models and effort">Sobre modelos y esfuerzo</summary><p data-en="Reference catalog, not your account's live inventory. Access is checked when connecting or applying another model. Speed descriptions are qualitative; higher effort can take longer and use more tokens. No paid priority mode is enabled.">Catálogo de referencia, no inventario en vivo de tu cuenta. El acceso se comprueba al conectar o cambiar de modelo. La velocidad es orientativa; más esfuerzo puede tardar y consumir más tokens. No se activa un servicio de prioridad de pago.</p><p data-en="Changing models starts a new conversation context; changing effort preserves it. Another provider requires its own API connection. Your draft is preserved.">Cambiar de modelo inicia otro contexto de conversación; cambiar el esfuerzo lo conserva. Otro proveedor requiere su propia conexión API. Tu borrador se conserva.</p></details>
  </div>
 </section>
-<details id="examplePanel" class="example-panel"><summary data-en="Try a worked example: review a refund request">Prueba un caso guiado: revisar una devolución</summary><div class="example-content">
-  <section class="intro" aria-labelledby="page-title">
-    <div>
-      <p class="eyebrow">ESTRATEGIA E IMPLEMENTACIÓN DE IA <span>/</span> CASO 01</p>
-      <h2 id="page-title">Revisión de una solicitud de devolución</h2>
-      <p class="lead">Consulta un pedido, revisa sus condiciones y decide el siguiente paso. Prueba también qué ocurre cuando una operación falla.</p>
-    </div>
-    <aside class="boundary" aria-label="Contexto del ejercicio">
-      <p class="eyebrow">EL EJERCICIO</p>
-      <strong>Condiciones de la devolución.</strong>
-      <p>Una tienda ficticia, siete solicitudes y un registro que permite seguir cada intento.</p>
-      <small>Se aplican reglas fijas a datos de ejemplo. Sin devoluciones reales ni llamadas a modelos.</small>
-    </aside>
-  </section>
-  <section class="metrics" aria-label="Reglas y resultados de la demostración">
-    <div><span>Casos disponibles</span><b>07</b></div>
-    <div><span>Plazo del ejercicio</span><b>14 <small>días</small></b></div>
-    <div><span>Límite por devolución</span><b>100 <small>DEMO</small></b></div>
-    <div><span>Recibos simulados</span><b id="receiptCount">00</b></div>
-  </section>
-  <div class="workspace" id="workspace" tabindex="-1">
-    <section class="panel request-panel" aria-labelledby="request-title">
-      <div class="section-top"><span class="number">01</span><div><p class="eyebrow">ENTRADA Y DECISIÓN</p><h2 id="request-title">Analizar una solicitud</h2></div></div>
-      <label for="scenario">Solicitud ficticia</label>
-      <select id="scenario" aria-describedby="scenarioDetail"></select>
-      <p id="scenarioDetail" class="muted"></p>
-      <button id="propose" class="primary">Analizar solicitud <span aria-hidden="true">↗</span></button>
-      <div id="result" class="result" role="status" aria-live="polite">Selecciona una solicitud para comenzar.</div>
-      <div id="decisionBox" hidden>
-        <h3>Revisar la devolución</h3>
-        <p class="muted">Revisa el importe antes de decidir. La aprobación de este ejemplo se prueba sin iniciar sesión.</p>
-        <div class="buttons"><button id="approve" class="primary">Aprobar propuesta</button><button id="reject">Rechazar</button></div>
-        <label class="check"><input id="failure" type="checkbox"> Simular fallo del conector</label>
-        <button id="execute">Intentar ejecución simulada</button>
-      </div>
-    </section>
-    <section class="panel" aria-labelledby="review-title">
-      <div class="section-top"><span class="number">02</span><div><p class="eyebrow">CRITERIOS DEL EJERCICIO</p><h2 id="review-title">Cómo se revisa la solicitud</h2></div></div>
-      <ol class="steps">
-        <li><b>Entrada validada</b><span>Comprueba el tipo de solicitud y sus campos.</span></li>
-        <li><b>Condiciones del pedido</b><span>Revisa la tienda, el plazo y el importe.</span></li>
-        <li><b>Aprobación o rechazo</b><span>La devolución queda pendiente hasta que decidas.</span></li>
-        <li><b>Recibo de prueba</b><span>Reintentar no genera un segundo recibo.</span></li>
-      </ol>
-      <div class="policy"><h3>Reglas del ejercicio</h3><p>Pedido entregado · hasta 14 días · máximo 100 unidades DEMO · solo el espacio de ejemplo.</p><small>Son condiciones inventadas para esta muestra.</small></div>
-      <button id="export" class="export-button">Descargar evidencia de esta sesión <span aria-hidden="true">↓</span></button>
-    </section>
-  </div>
-  <section class="panel events" id="trace" tabindex="-1" aria-labelledby="trace-title">
-    <div class="section-top"><span class="number">03</span><div><p class="eyebrow">ACTIVIDAD DE LA SESIÓN</p><h2 id="trace-title">Registro de operaciones</h2></div><span id="chain" class="badge">Sin operaciones</span></div>
-    <p class="muted">Cada intento conserva su resultado. La comprobación de hashes detecta cambios parciales; no identifica al autor del registro.</p>
-    <div class="table-wrap" role="region" aria-label="Eventos de la sesión" tabindex="0"><table><thead><tr><th scope="col">#</th><th scope="col">Evento</th><th scope="col">Acción</th><th scope="col">Resultado</th></tr></thead><tbody id="events"></tbody></table></div>
-  </section>
-</div></details></div>
-<section id="view-connection" data-panel="connection" hidden>
+</div>
+<dialog id="connectionDialog" aria-labelledby="connection-title">
+ <form method="dialog" class="dialog-toolbar"><button class="dialog-close" data-en="Close connection settings">Cerrar configuración</button></form>
+ <section id="view-connection">
  <div class="page-heading"><p class="eyebrow" data-en="YOUR MODEL, YOUR CHOICE">TU MODELO, TU ELECCIÓN</p><h1 id="connection-title" data-en="Connect your AI">Conecta tu IA</h1><p class="lead" data-en="Bring your provider to power the conversation and your agents. Set it up once here, then work in Session.">Conecta tu proveedor para conversar y usar tus agentes. Configúralo una vez aquí y trabaja en Sesión.</p></div>
  <div class="studio-grid"><section class="panel"><form id="connectionForm">
  <label for="apiProvider" data-en="AI provider">Proveedor de IA</label><select id="apiProvider"><option value="openai">OpenAI API</option><option value="anthropic">Anthropic / Claude API</option></select>
@@ -105,6 +53,7 @@
  </section><section class="panel"><h2 data-en="Three steps to start">Tres pasos para empezar</h2><ol class="steps"><li><b data-en="Choose your provider">Elige tu proveedor</b><span data-en="Open its developer console and create an API key. Your chat-app subscription does not replace this API configuration.">Abre su consola de desarrolladores y crea una clave API. Tu suscripción de la app de chat no sustituye esta configuración de API.</span><a id="providerGuide" target="_blank" rel="noopener noreferrer" href="https://platform.openai.com/api-keys" data-en="Open provider console">Abrir consola del proveedor</a></li><li><b data-en="Choose an enabled model">Elige un modelo habilitado</b><span data-en="Copy its exact identifier from your account. Set an output limit and check provider pricing.">Copia su identificador exacto desde tu cuenta. Define un límite de salida y revisa los precios del proveedor.</span></li><li><b data-en="Connect and talk">Conecta y conversa</b><span data-en="The access check does not generate a response. Go to Session, choose an agent and send your message.">La comprobación de acceso no genera una respuesta. Ve a Sesión, elige un agente y envía tu mensaje.</span></li></ol><p data-en="Each message may incur API charges. Maximum 20 attempts per connection; no automatic retries or provider changes.">Cada mensaje puede generar cargos de API. Máximo 20 intentos por conexión; sin reintentos ni cambios automáticos de proveedor.</p></section></div>
  <details class="panel session-details"><summary data-en="Session data and other providers">Datos de sesión y otros proveedores</summary><p data-en="Keys and conversation history stay in server memory. Sessions expire after 30 idle minutes and are removed on the next operation. Disconnect removes local access; requests already sent may still finish. Provider retention policies apply.">Las claves y el historial permanecen en memoria del servidor. Las sesiones caducan tras 30 minutos sin uso y se retiran en la siguiente operación. Desconectar elimina el acceso local; una solicitud enviada puede terminar. Aplican las políticas de retención del proveedor.</p><p data-en="This version supports OpenAI Responses and Anthropic Messages. Other cloud or local providers require their own adapter; an arbitrary URL is not accepted as a working connection.">Esta versión admite OpenAI Responses y Anthropic Messages. Otros proveedores cloud o locales requieren su adaptador; una URL arbitraria no se presenta como conexión funcional.</p></details>
 </section>
+</dialog>
 
 <section id="view-method" data-panel="method" class="panel cloud-panel" hidden aria-labelledby="method-title">
   <p class="eyebrow">DEL PROBLEMA A LA IMPLEMENTACIÓN</p><h1 id="method-title" tabindex="-1">Cómo está construido</h1>
@@ -122,6 +71,7 @@
 <section id="view-evidence" data-panel="evidence" class="panel cloud-panel" hidden aria-labelledby="evidence-title">
   <p class="eyebrow" data-en="WHAT WAS TESTED">LO QUE SE PROBÓ</p><h1 id="evidence-title" tabindex="-1" data-en="Evidence for this version">Evidencia de esta versión</h1>
   <p class="lead" data-en="Summary of the last recorded scripts/verify.py run and the acceptance cases behind each requirement.">Resumen de la última ejecución registrada de scripts/verify.py y de los casos de aceptación de cada requisito.</p>
+  <p class="muted" data-en="The stored run predates the Session redesign. Its results remain historical until the new revision is verified; R30 tracks this change.">La ejecución guardada es anterior al rediseño de Sesión. Sus resultados son históricos hasta verificar la nueva revisión; R30 registra este cambio.</p>
   <p id="evidenceStatus" class="muted" role="status"></p>
   <section id="evidenceMetrics" class="metrics evidence-metrics" aria-label="Resumen de la ejecución" data-label-en="Run summary" hidden>
     <div><span data-en="Generated (UTC)">Generado (UTC)</span><b id="evGenerated"></b></div>
@@ -166,7 +116,7 @@
  <form id="mcpQueryForm"><label for="mcpLibrary" data-en="Library name or library ID">Nombre o identificador de biblioteca</label><input id="mcpLibrary" maxlength="1000" value="Python" required><label for="mcpQuery" data-en="Public documentation question">Pregunta sobre documentación pública</label><textarea id="mcpQuery" maxlength="1000" required rows="3">How do I validate a JSON request?</textarea><label class="check"><input id="mcpQueryConsent" type="checkbox" required><span data-en="Authorize sending these two fields to Context7 for this query">Autorizar el envío de estos dos campos a Context7 para esta consulta</span></label><div class="buttons"><button id="resolveMcp" disabled data-en="Find library ID">Buscar identificador</button><button id="queryMcp" disabled data-en="Retrieve documentation">Consultar documentación</button></div></form>
  <p data-en="20 tool attempts per connection. Disconnect removes local access; an already sent request may still finish remotely. Only explicit queries run. Returned text is reference material, never instructions for this app.">20 intentos de herramienta por conexión. Desconectar retira el acceso local; una solicitud enviada puede terminar en el proveedor. Solo se ejecutan consultas explícitas. El texto recibido es material de consulta, nunca instrucciones para esta aplicación.</p><pre id="mcpResult" class="document-result"></pre><a href="#demo" data-en="Back to the conversation">Volver a la conversación</a>
 </details></section>
-  <footer><span>MARCO DÍAZ DE LEÓN <span class="footer-divider">/</span> ESTRATEGIA E IMPLEMENTACIÓN DE IA</span><small>Sesión en memoria · Reiniciar el servidor restablece los escenarios · Uso local</small></footer>
+  <footer><span>MARCO DÍAZ DE LEÓN <span class="footer-divider">/</span> ESTRATEGIA E IMPLEMENTACIÓN DE IA</span><small>Sesión en memoria · API opcional · Uso local</small></footer>
 </main>
 </body>
 </html>

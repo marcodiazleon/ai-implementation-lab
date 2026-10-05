@@ -185,9 +185,18 @@ body.session-view main{padding-top:14px;padding-bottom:14px}body.session-view ma
 @media(max-width:460px){main{padding:14px 12px}.sidebar{--sidebar:210px}.sidebar-collapsed .sidebar{--sidebar:64px}.session-welcome h1{font-size:23px}.welcome-mark{font-size:28px}.session-welcome p{font-size:11px}.session .composer textarea{font-size:13px;padding-left:14px;min-height:102px}.composer-controls{padding:6px 8px 10px}.composer-meta{font-size:9px}.session-actions button{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.typing-cursor{animation:none;display:none}.sidebar{transition:none}}
 /* Public static build (scripts/build_pages.py): hide everything that asks for keys or a local server. */
-.public-demo #view-chat,.public-demo a[data-view=connection],.public-demo #view-connection,.public-demo #context7Details,.public-demo .mcp-catalog article:has(#openContext7),.public-demo .saved-card button+button{display:none!important}
+.public-demo #context7Details,.public-demo .mcp-catalog article:has(#openContext7){display:none!important}
 .public-note{margin:0 0 16px;padding:10px 14px;border:1px solid currentColor;font-size:12px;opacity:.8}
 /* Evidence view (R27): five run metrics and a wrapping case table. */
 .metrics.evidence-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}.evidence-metrics b{font-size:18px;letter-spacing:-.3px;overflow-wrap:anywhere}.evidence-metrics b small{display:block;margin-top:4px}
 #reqCases td:nth-child(2),#reqCases td:nth-child(3){white-space:normal;min-width:200px}#reqBadge[data-state=PASS]{border-color:#b3dbc1}#reqBadge[data-state=FAIL]{border-color:var(--amber)}
 @media(max-width:700px){.metrics.evidence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Session-only entry; API configuration belongs to the conversation. */
+.connection-link { background: transparent; border: 0; padding: 4px 0; text-decoration: underline; font: inherit; color: inherit; }
+#connectionDialog { width: min(920px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: auto; padding: 24px; background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; }
+#connectionDialog::backdrop { background: rgba(0,0,0,.75); }
+.dialog-toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+#connectionDialog .page-heading { margin-top: 0; }
+#view-demo .public-note { margin-bottom: 12px; }
+@media (max-width: 800px) { #connectionDialog { padding: 16px; } }
