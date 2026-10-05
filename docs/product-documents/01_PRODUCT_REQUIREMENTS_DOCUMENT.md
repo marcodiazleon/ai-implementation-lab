@@ -1,7 +1,7 @@
 # Product Requirements Document — AI Implementation Lab
 
-Versión 0.1 · 2026-10-05 · Propietario: Marco Díaz de León · Estado: BORRADOR para revisión.
-Base observada: repositorio, especificación S01 1.0 y commit 742e0a4. Las seis referencias locales de PRODUCT_DOCUMENTS no pudieron leerse; la equivalencia exacta con sus plantillas queda pendiente. Este documento describe esta app, sin importar datos de NUCLEUS.
+Versión 0.2 · 2026-10-05 · Propietario: Marco Díaz de León · Estado: revisión interna; aceptación pendiente.
+Base observada: especificación S01 1.0 y commit 95c1795. Las seis referencias locales de PRODUCT_DOCUMENTS fueron leídas en esta continuación. Se adapta su estructura a esta app; no se importan datos, métricas ni capacidades de NUCLEUS. Inventario y hashes: evidence/product-document-references.json.
 
 ## 1. Problema y propósito
 Un posible cliente o reclutador necesita conocer cómo Marco convierte una necesidad en una implementación: alcance, interfaces, decisiones, pruebas y límites verificables. La demo permite inspeccionar ese trabajo y evaluar localmente un espacio de conversación con asistentes de texto. No promete resultados de negocio ni un servicio autónomo desplegado.
@@ -40,9 +40,11 @@ Los casos y estados se mantienen en acceptance.csv; este PRD no crea PASS nuevos
 ChatGPT/Claude como suscripción integrada, API gratuita compartida, ejecución de shell por agentes, instalación automática de MCPs, clientes reales, pagos/reembolsos reales, aislamiento de usuarios, alta disponibilidad y latencia garantizada.
 
 ## 7. Medición y riesgos
-La revisión 00d827b pasó CI en Ubuntu y Windows: 101 tests y siete escenarios. El incremento de políticas 742e0a4 y estos documentos requieren evidencia propia. No hay aceptación del propietario, revisión independiente ni inferencia real observada para esta entrega. Métricas futuras: éxito del recorrido de un visitante, comprensión de límites, incidencias por revisión y pasos para reproducir una prueba; no se inventan valores.
+La base 95c1795 pasó localmente 101 tests y siete escenarios, con SDD sin errores; evidence/latest.json identifica revisión y entorno. CI del HEAD 95c1795 completó Ubuntu/Windows correctamente en run 37372497568; el nuevo incremento documental requiere CI propia. No hay aceptación del propietario, revisión independiente ni inferencia real observada para esta entrega. Métricas futuras: éxito del recorrido de un visitante, comprensión de límites, incidencias por revisión y pasos para reproducir una prueba; no se inventan valores.
 
 ## 8. Autoridad y entrega
 Marco decide alcance, permisos y aceptación. Codex documenta y verifica dentro del encargo. D20 conserva apertura manual de PR y revisión del propietario; publicación y aceptación son estados distintos. Riesgos: README/publicación atrasados, confundir catálogo con acceso a modelos, exposición de clave y falsa sensación de seguridad por una política. Mitigación: revisión por commit, consentimiento, loopback y controles administrativos verificados.
 
 Fuentes: [especificación](../../specs/001-support-demo/spec.md), [decisiones](../decisions.md), [licencia](../../LICENSE.md), [estado](../project-status.json).
+
+Paquete: [TRD](02_TECHNICAL_REQUIREMENTS_DOCUMENT.md) · [App Flow](03_APP_FLOW.md) · [Design Brief](04_DESIGN_BRIEF.md) · [Backend Schema](05_BACKEND_SCHEMA.md) · [Implementation Plan](06_IMPLEMENTATION_PLAN.md). La aceptación por caso sigue en el SDD canónico.

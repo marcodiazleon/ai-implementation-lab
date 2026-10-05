@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-05",
+  "source_revision": "95c1795dc363c6013653e9d0053e377a3d14d6a2",
+  "scope": "Structural reference only; no private product contents copied",
+  "references": [
+    {
+      "name": "01_PRODUCT_REQUIREMENTS_DOCUMENT.md",
+      "sha256": "19a40b23564d5ba6f2584bb63c14c73e9a60cc59d349b83ec3d657a716802ffc",
+      "target": "docs/product-documents/01_PRODUCT_REQUIREMENTS_DOCUMENT.md"
+    },
+    {
+      "name": "02_TECHNICAL_REQUIREMENTS_DOCUMENT.md",
+      "sha256": "88af35ed50e458bcad5297e246123a340c73ec6dc6d228e156dd3f7a69746d78",
+      "target": "docs/product-documents/02_TECHNICAL_REQUIREMENTS_DOCUMENT.md"
+    },
+    {
+      "name": "03_APP_FLOW.md",
+      "sha256": "8f23e67d6da1a3abd7e65257cc37f3ff7cc20f96f886ed67f00bb127d80a185e",
+      "target": "docs/product-documents/03_APP_FLOW.md"
+    },
+    {
+      "name": "04_DESIGN_BRIEF.md",
+      "sha256": "5100c6550c2d271175af952ec60b36569b416b8e9399b32a011d24c32bde73ba",
+      "target": "docs/product-documents/04_DESIGN_BRIEF.md"
+    },
+    {
+      "name": "05_BACKEND_SCHEMA.md",
+      "sha256": "6beb4d9d98648ed47a7eadc1a62fd6577d45c021db641973381684b770b141a1",
+      "target": "docs/product-documents/05_BACKEND_SCHEMA.md"
+    },
+    {
+      "name": "06_IMPLEMENTATION_PLAN.md",
+      "sha256": "8c315cfc5a594f02530cd5b9c2673ddb027db2429d22744122a59166cd9cfa20",
+      "target": "docs/product-documents/06_IMPLEMENTATION_PLAN.md"
+    }
+  ],
+  "review": "Internal adaptation to canonical S01; owner acceptance pending"
+}

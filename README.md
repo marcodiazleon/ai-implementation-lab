@@ -36,7 +36,7 @@ The public static build accepts no API keys. It is an interface preview, not a h
 ## Engineering and verification
 [Active status](docs/project-status.json) selects S01 **1.0**. Start with [the adopted method](docs/sdd-adoption.md), then [specification](specs/001-support-demo/spec.md), [plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [acceptance cases](specs/001-support-demo/acceptance.csv).
 
-`evidence/latest.json` currently records the earlier source revision. It is historical evidence, not a PASS for the Session redesign. New cases remain NO_PROBADO until checked. Unit, integration, browser, live API and owner acceptance are separate results.
+`evidence/latest.json` records current automated source verification. Session browser checks are recorded separately in reports/CONTINUATION_REVIEW_2026-10-05.md; manual and live-provider cases retain their own states. Unit, integration, browser, live API and owner acceptance are separate results.
 
 [Working method](docs/engineering-guide.md) · [Architecture](docs/architecture.md) · [Tools](docs/tools-and-capabilities.md) · [Limits](docs/capabilities.md) · [Security](SECURITY.md)
 
@@ -64,4 +64,15 @@ This is a demonstration for prospective employers and clients. It claims no prod
 
 The repository is public for inspection and bounded local evaluation under [LICENSE.md](LICENSE.md). No open-source reuse rights are granted. Public visibility does not permit source integration, redistribution or unauthorized changes to this repository or its application. GitHub platform viewing/forking rights still apply. Contact Marco through [GitHub](https://github.com/marcodiazleon).
 
-Repository controls, administrative settings pending authentication and verification limits are recorded in [the security review](docs/repository-security.md). A policy is not a technical guarantee against malicious activity.
+Repository controls, remaining account-application audit and verification limits are recorded in [the security review](docs/repository-security.md). A policy is not a technical guarantee against malicious activity.
+
+## Product documents
+
+Project-specific package adapted from the owner's six structural references; canonical SDD and acceptance remain authoritative. Internal review, not owner acceptance.
+
+- [Product Requirements Document](docs/product-documents/01_PRODUCT_REQUIREMENTS_DOCUMENT.md)
+- [Technical Requirements Document](docs/product-documents/02_TECHNICAL_REQUIREMENTS_DOCUMENT.md)
+- [App Flow](docs/product-documents/03_APP_FLOW.md)
+- [Design Brief](docs/product-documents/04_DESIGN_BRIEF.md)
+- [Backend Schema](docs/product-documents/05_BACKEND_SCHEMA.md)
+- [Implementation Plan](docs/product-documents/06_IMPLEMENTATION_PLAN.md)

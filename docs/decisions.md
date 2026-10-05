@@ -50,3 +50,6 @@ Source: Marco, 2026-10-05, U12. Replace visible refund panels with the existing 
 ## D25 — U13 evaluation rights and integrity (2026-10-05)
 Marco permits documentation/source review and the download necessary to install Python and run the demo locally. No general reuse, redistribution, source modification or external code contribution is granted. LICENSE.md supersedes D08's pending reuse-license decision with bounded evaluation rights; GitHub platform rights remain.
 Use protected main and least-privilege CI/deployment instead of claiming that a notice blocks downloads or malicious input. Administrative controls await GitHub Confirm access and remain BLOCKED; collaborator/Actions settings are NOT VERIFIED. CODEOWNERS is review routing only. The amended Pages workflow must pass its build before a separate deploy job receives Pages/OIDC privileges. This supersedes workflow permission placement, not D20: owner opens PRs and controls integration. No merge/deployment authorized by this record.
+
+## D22 — U14 structural reference adaptation
+2026-10-05. All six owner reference documents read through authorized local filesystem access. Adapt structure only; app code and canonical S01 govern facts. Six documents v0.2 delivered; internal review is not owner acceptance. No NUCLEUS files modified.
