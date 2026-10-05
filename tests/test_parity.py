@@ -3,6 +3,7 @@ import shutil
 import subprocess
 import unittest
 from src.lab.controller import Lab, ROOT, load_data
+from src.lab.models import RuleError
 
 # Runs web/public-demo.js in a fresh Node vm context per case, with a minimal browser stub whose fetch reads the
 # versioned fixtures from disk. Each case is a list of [method, path, body] calls; prints the JSON responses.
@@ -77,6 +78,30 @@ class ParityTests(unittest.TestCase):
         self.assertTrue(snapshot["audit_chain_valid"])
         self.assertTrue(state["body"]["audit_chain_valid"])
         self.assertEqual(state["body"]["events"], snapshot["events"])
+
+    def test_explain_and_reset_match_python_controller(self):
+        inputs = [{"amount": 180, "days_since_delivery": 20, "status": "delivered"},
+                  {"amount": 180, "days_since_delivery": 10, "status": "delivered"},
+                  {"amount": True, "days_since_delivery": 10, "status": "delivered"}]
+        flow = [["POST", "/api/request", {"order_id": "DEMO-101", "intent": "refund"}]]
+        (*explained, _, reset, request, state), = run_js([[["POST", "/api/explain", body] for body in inputs] + flow +
+            [["POST", "/api/reset", {}], flow[0], ["GET", "/api/state", None]]])
+        lab = Lab()
+        for body, js in zip(inputs, explained):
+            with self.subTest(body=body):
+                try:
+                    expected = (200, lab.explain(body))
+                except RuleError as exc:
+                    expected = (409, {"status": "BLOCKED", "reason": exc.code})
+                self.assertEqual((js["status"], js["body"]), expected)
+        lab.request(flow[0][2])
+        # Only the limitations text differs by design (browser memory vs server memory).
+        without = lambda state: {k: v for k, v in state.items() if k != "limitations"}
+        self.assertEqual(without(reset["body"]), without(lab.reset()))
+        self.assertEqual(reset["body"]["events"], [])
+        self.assertEqual(request["body"], lab.request(flow[0][2]))
+        self.assertEqual(state["body"]["events"], lab.snapshot()["events"])
+        self.assertEqual(len(state["body"]["events"]), 2)
 
 if __name__ == "__main__":
     unittest.main()

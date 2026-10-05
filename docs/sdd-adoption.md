@@ -1,7 +1,7 @@
 # Engineering method adoption
 
 Version 0.2, reviewed 2026-10-03. Owner: Marco Díaz de León.
-Current scope: S01 0.3 documentation and local synthetic implementation; S02 is the planned expansion.
+Current scope: the S01 version selected in [project-status.json](project-status.json): documentation and local synthetic implementation; S02 is the planned expansion.
 The first release preceded completion of its specification. That historical deviation remains recorded; this revision completes the current project's method documents and checks their relationships.
 
 ## Source and interpretation

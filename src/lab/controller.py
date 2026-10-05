@@ -7,6 +7,8 @@ from .models import Proposal, RuleError
 from .hooks import AuditTrail, digest
 
 ROOT = Path(__file__).resolve().parents[2]
+# Same vocabulary as data/orders.json and scripts/validate_data.py (D25).
+EXPLAIN_STATUSES = ("delivered", "in_transit", "returned", "cancelled")
 
 def load_data(name):
     return json.loads((ROOT / "data" / name).read_text(encoding="utf-8"))
@@ -119,6 +121,34 @@ class Lab:
             except RuleError as exc:
                 self._after("execute", exc.code)
                 raise
+
+    def reset(self):
+        """Visitor-confirmed reset of the in-memory sample session (R28)."""
+        with self.lock:
+            self.proposals.clear()
+            self.receipts.clear()
+            self.audit = AuditTrail()
+            return self.snapshot()
+
+    def explain(self, body):
+        """Pure query (R29): every condition with its own result; no proposal, receipt or event."""
+        if not isinstance(body, dict) or set(body) != {"amount", "days_since_delivery", "status"}:
+            raise RuleError("INVALID_REQUEST")
+        if not all(type(body[k]) is int and 0 <= body[k] <= 100000 for k in ("amount", "days_since_delivery")):
+            raise RuleError("INVALID_REQUEST")
+        if body["status"] not in EXPLAIN_STATUSES:
+            raise RuleError("INVALID_REQUEST")
+        with self.lock:
+            policy = deepcopy(self.policy)
+        order = dict(body, id="CUSTOM", workspace="sample-store")
+        # Same order and thresholds as _eligible, but every condition is evaluated.
+        conditions = [
+            {"rule": "NOT_DELIVERED", "ok": order["status"] == "delivered", "observed": order["status"], "limit": "delivered"},
+            {"rule": "OUTSIDE_WINDOW", "ok": order["days_since_delivery"] <= policy["window_days"],
+             "observed": order["days_since_delivery"], "limit": policy["window_days"]},
+            {"rule": "ABOVE_LIMIT", "ok": order["amount"] <= policy["max_refund"], "observed": order["amount"], "limit": policy["max_refund"]}]
+        return {"status": "EXPLAINED", "eligible": all(c["ok"] for c in conditions), "conditions": conditions,
+                "policy_version": policy["version"], "real_effect": False}
 
     def snapshot(self):
         with self.lock:

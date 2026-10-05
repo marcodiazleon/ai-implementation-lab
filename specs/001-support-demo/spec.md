@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.9. Status: current specification for the existing demonstration.
+Version: 0.11. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -17,6 +17,8 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U06 | Owner requests Spanish/English language selection throughout the current app |
 | U07 | Owner requests functional internal PM, researcher, implementer and quality reviewer agents with hooks and responsibilities, plus MCP connection options starting with Context7. Both proposed additional roles confirmed. |
 | U10 | Owner's request 2026-10-04: a technical visitor sees, inside the app, the requirement → case → test → evidence chain and the real verification state without reading CSV/JSON by hand; a requirement without a passing case is shown as pending |
+| U11 | Owner's decision 2026-10-04: the visitor resets the sample session explicitly, with confirmation and an export option, and changing case never allows acting on the previous proposal (product plan F0 / EXP-M02); the visitor enters amount, days since delivery and status of a fictional order and sees every policy condition evaluated at once with its reason, without creating a proposal or receipt (product plan F1) |
+| U12 | Owner's decisions 2026-10-05 (questionnaire after the reception review of feat/reset-and-explain): a requirement is PASS only when every applicable case is PASS, otherwise PARCIAL; one order-status vocabulary, the fixture's in_transit; version headers aligned and checked; real browser downloads for reset and explanation; verification in CI before Pages publishes; the review brief versioned |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
@@ -140,7 +142,7 @@ Operator approves connection to the fixed Context7 HTTPS endpoint, optionally su
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.9. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is S01 at the version stated at the top of this file, also recorded in docs/project-status.json. S02 is an expansion backlog; its higher number does not make it active or implemented.
 
 ### CU10 — Choose interface language
 Operator selects Español or English. All five views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.
@@ -173,7 +175,38 @@ Choose a provider, then a model from the documented compatible catalog or an exa
 Source: U10 (owner, 2026-10-04); backlog items EXP-A08 and EXP-M07. Visitor flow extends CU01: open the Evidence view → read the run summary → select a requirement → follow its cases to tests and evidence files. The view reads the committed evidence/latest.json, acceptance.csv and a requirements list generated from this table; the browser recalculates nothing. The public build ships the same three files, not this spec.
 
 - R27a: When the visitor opens the Evidence view, the system shall show generation date, source_id/commit, test counts (run/failures/errors), scenario count and `passed` read from evidence/latest.json, without recalculating anything in the browser.
-- R27b: When the visitor selects a requirement R01–R27, the system shall list its acceptance.csv cases with status, test_id and a link to the evidence; if the requirement has no PASS case with evidence, it shall be marked PENDIENTE.
+- R27b (amended by U12): When the visitor selects a requirement, the system shall list its acceptance.csv cases with status, test_id and a link to the evidence, and mark the requirement FAIL if any case is FAIL; PASS only if every applicable case (status other than NO_APLICA) is PASS with evidence; PARCIAL if only some applicable cases are PASS with evidence; otherwise PENDIENTE.
 - R27c: While the data has not loaded, the view shall state "sin evidencia cargada" and show no default states.
 
-| R27 | Evidence view shows the committed run summary and a requirement → case → test → evidence explorer; a requirement without a PASS case with evidence is PENDIENTE, never approved by default. | U10 | CU01 | HTTP/build data tests, requirement/CSV ID parity and browser check of the public build |
+| R27 | Evidence view shows the committed run summary and a requirement → case → test → evidence explorer; a requirement is FAIL if any case fails, PASS only when every applicable case is PASS with evidence, PARCIAL when only some are and PENDIENTE otherwise; never approved by default. | U10; U12 | CU01 | HTTP/build data tests, requirement/CSV ID parity, badge-rule tests on synthetic and committed cases and browser check of the public build |
+
+## U11 — Explicit session reset and per-condition explanation
+Source: U11 (owner, 2026-10-04); product plan cuts F0 (EXP-M02) and F1 (docs/PLAN_PRODUCTO_Y_DISENO.md). F1 has no S02 row of its own; it is the first editable-request cut of plan U04 and reuses a minimal part of M10 only in that the rules are read from the same policy file.
+
+R28 extends CU06: the visitor chooses Reset session → a confirmation offers Download and reset, Reset or Cancel → on confirmation proposals, receipts and events of the in-memory session are cleared. Stopping the server is no longer the only way to restart the sample.
+
+### CU16 — Explain a fictional request
+Actor: visitor. Trigger: submits amount, days since delivery and status of a fictional order.
+Preconditions: none; no order fixture is read or changed.
+Flow: validate the three fields → evaluate every policy condition in the fixed order delivered status, time window, amount → show each result with observed value, limit and reason, plus the overall verdict → optionally download the explanation as JSON.
+Errors: a non-numeric, negative, boolean or out-of-range value, an unknown status, a missing or extra field returns INVALID_REQUEST and evaluates nothing.
+Result: no proposal, receipt or audit event is created. The explanation shows that the requirement, not the code path, determines each outcome.
+
+- R28a: When the visitor confirms the reset, the system shall clear proposals, receipts and events of the session and show "Sin operaciones", receipts 00 and no selected proposal.
+- R28b: Before confirming, the system shall offer to export the current evidence; if the visitor cancels, the state shall not change.
+- R28c: While a proposal is selected and the visitor changes case, approve, reject and execute shall stay disabled until the new case is analyzed.
+- R29a: When the visitor submits a valid amount, days and status, the system shall return the complete list of policy conditions with an individual result (met / not met) and reason, plus an overall verdict, without creating a proposal, receipt or audit event.
+- R29b: If a field is invalid (non-numeric, negative, > 100000, boolean, status outside delivered/in_transit/returned/cancelled (amended by U12: the fixture vocabulary of data/orders.json), missing or extra field), the system shall reject with INVALID_REQUEST and evaluate nothing.
+- R29c: Acceptance case from the plan: delivered 20 days ago for 180 DEMO returns two simultaneous failures (OUTSIDE_WINDOW and ABOVE_LIMIT); changing to 10 days removes only the time-window failure.
+
+| R28 | Explicit session reset with confirmation and prior export clears proposals, receipts and events; cancel changes nothing; changing case disables actions on the previous proposal. | U11 | CU06/CU03 | Controller, HTTP and browser-port reset tests; UI dialog and case-change checks; browser walkthrough |
+| R29 | Per-condition explanation of a fictional request lists every policy condition with result and reason plus an overall verdict, creates no proposal, receipt or event, and rejects invalid input without evaluating. | U11 | CU16 | Plan case 180/20 and 180/10, eligible and not-delivered inputs, invalid inputs, HTTP 200/409, Python/browser parity and browser walkthrough |
+
+## U12 — Honest requirement state, one order vocabulary, aligned versions and verified publication
+Source: U12 (owner questionnaire, 2026-10-05). It amends R27b and R29b, adds a version check under R14 and adds R30. The real browser downloads complete the R28/R29 walkthroughs; the check on the published Pages URL needs the merge and stays NO_PROBADO until then.
+
+- R14 check: sdd_check shall fail when the version header of spec.md, plan.md or tasks.md differs from active_spec_version in docs/project-status.json.
+- R30a: When a change is pushed or a pull request is opened, CI shall run scripts/verify.py on Linux and Windows with read-only repository permissions, a time limit and no model keys.
+- R30b: The GitHub Pages workflow shall run scripts/verify.py before building the site; if verification fails, nothing is published.
+
+| R30 | CI runs scripts/verify.py on Linux and Windows for every push and pull request, and the Pages workflow runs it before building; a failed verification publishes nothing. | U12 | CU07 | Workflow structure test and a recorded GitHub Actions run on both systems |

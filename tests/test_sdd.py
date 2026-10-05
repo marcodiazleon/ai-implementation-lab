@@ -43,3 +43,9 @@ class SddTests(unittest.TestCase):
     def test_duplicate_case_is_rejected(self):
         self.edit_cases(lambda rows: rows.append(dict(rows[0])))
         self.assertTrue(any("Duplicate" in e for e in validate(self.root)))
+
+    def test_version_header_mismatch_is_rejected(self):
+        plan = self.root / "specs/001-support-demo/plan.md"
+        text = plan.read_text(encoding="utf-8")
+        plan.write_text(text.replace("Version ", "Version 9", 1), encoding="utf-8")
+        self.assertTrue(any("Version mismatch" in e for e in validate(self.root)))

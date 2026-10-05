@@ -83,12 +83,32 @@
       </ol>
       <div class="policy"><h3>Reglas del ejercicio</h3><p>Pedido entregado · hasta 14 días · máximo 100 unidades DEMO · solo el espacio de ejemplo.</p><small>Son condiciones inventadas para esta muestra.</small></div>
       <button id="export" class="export-button">Descargar evidencia de esta sesión <span aria-hidden="true">↓</span></button>
+      <button id="resetSession" class="export-button reset-button" aria-haspopup="dialog"><span data-en="Reset session">Reiniciar sesión</span> <span aria-hidden="true">↺</span></button>
+      <dialog id="resetDialog" aria-labelledby="resetTitle" aria-describedby="resetText">
+        <h3 id="resetTitle" data-en="Reset session">Reiniciar sesión</h3>
+        <p id="resetText" data-en="Proposals, receipts and the log of this sample session will be deleted. You can download the evidence first.">Se borrarán propuestas, recibos y registro de esta sesión de muestra. Puedes descargar la evidencia antes.</p>
+        <div class="buttons"><button id="resetExport" class="primary" data-en="Download and reset">Descargar y reiniciar</button><button id="resetConfirm" data-en="Reset">Reiniciar</button><button id="resetCancel" data-en="Cancel">Cancelar</button></div>
+      </dialog>
     </section>
   </div>
   <section class="panel events" id="trace" tabindex="-1" aria-labelledby="trace-title">
     <div class="section-top"><span class="number">03</span><div><p class="eyebrow">ACTIVIDAD DE LA SESIÓN</p><h2 id="trace-title">Registro de operaciones</h2></div><span id="chain" class="badge">Sin operaciones</span></div>
     <p class="muted">Cada intento conserva su resultado. La comprobación de hashes detecta cambios parciales; no identifica al autor del registro.</p>
     <div class="table-wrap" role="region" aria-label="Eventos de la sesión" tabindex="0"><table><thead><tr><th scope="col">#</th><th scope="col">Evento</th><th scope="col">Acción</th><th scope="col">Resultado</th></tr></thead><tbody id="events"></tbody></table></div>
+  </section>
+  <section class="panel explain-panel" id="explain" aria-labelledby="explain-title">
+    <div class="section-top"><span class="number">04</span><div><p class="eyebrow" data-en="EDITABLE REQUEST">SOLICITUD EDITABLE</p><h2 id="explain-title" data-en="Analyze your own request">Analiza tu propia solicitud</h2></div></div>
+    <p class="muted" data-en="Only evaluates conditions. It creates no proposal or receipt.">Solo evalúa condiciones. No crea propuesta ni recibo.</p>
+    <form id="explainForm">
+      <div class="explain-fields">
+        <div><label for="explainAmount" data-en="Amount (DEMO)">Importe (DEMO)</label><input id="explainAmount" name="amount" type="number" min="0" max="100000" step="1" required value="180" inputmode="numeric"></div>
+        <div><label for="explainDays" data-en="Days since delivery">Días desde la entrega</label><input id="explainDays" name="days" type="number" min="0" max="100000" step="1" required value="20" inputmode="numeric"></div>
+        <div><label for="explainStatus" data-en="Order status">Estado del pedido</label><select id="explainStatus" name="status"><option value="delivered" selected>Entregado</option><option value="in_transit" data-en="In transit">En tránsito</option><option value="returned" data-en="Returned">Devuelto</option><option value="cancelled" data-en="Cancelled">Cancelado</option></select></div>
+      </div>
+      <div class="buttons"><button class="primary" data-en="Evaluate conditions">Evaluar condiciones</button><button type="button" id="exportExplain" disabled data-en="Download explanation">Descargar explicación</button></div>
+    </form>
+    <p id="verdict" class="result" role="status" aria-live="polite"></p>
+    <ul id="conditions" class="conditions" aria-label="Condiciones evaluadas" data-label-en="Evaluated conditions"></ul>
   </section>
 </div></details></div>
 <section id="view-connection" data-panel="connection" hidden>

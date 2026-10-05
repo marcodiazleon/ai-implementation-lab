@@ -5,7 +5,7 @@ Current implementation: local synthetic example. Canonical tool details: [tools-
 | Capability | Evidence | Limit / next item |
 |---|---|---|
 | Method structure and traceability | SDD map, structured spec/tasks/cases, evidence/sdd-check.json, in-app evidence view (R27) | Internal structural review; owner acceptance separate |
-| Local browser workflow | HTTP tests and browser reports | Broader accessibility and mobile coverage recorded separately |
+| Local browser workflow | HTTP tests and browser reports; explicit reset and per-condition explanation (R28, R29) with UI-harness tests | Broader accessibility and mobile coverage recorded separately |
 | Eligibility and scope | Tests and seven fixtures | Deterministic rules, not LLM quality |
 | Approval sequencing | Positive/negative state tests | Simulated identity; EXP-M04 |
 | Retry protection | Concurrent one-process receipt tests | No restart durability; EXP-M05 |
@@ -14,7 +14,7 @@ Current implementation: local synthetic example. Canonical tool details: [tools-
 | Data skill | Manual read plus validator/evaluation | Native assistant discovery unverified |
 | Implementation-review skill | Manual read, traceability and diff review | Same implementing assistant, not independent QA |
 | MCP | Unit and subprocess wire exchange | Live assistant-client interoperability EXP-M09 |
-| Verification tooling | Per-case results, environment and source hashes | Windows local run; cross-platform CI still EXP-M07 |
+| Verification tooling | Per-case results, environment and source hashes; verify.py in CI on Linux and Windows and before the Pages build (R30) | Browser CI and a recorded injected-defect run still EXP-M07 |
 | Runtime model | Optional OpenAI via operator-selected model | Offline transport validated; paid inference pending |
 | Deployment | Loopback server + static public demo on GitHub Pages (browser-side rules) | No server-side public API or customer service; model/MCP features local only |
 | Expansion | 20 items with requirements, dependencies and acceptance | Planning is not implementation |
