@@ -79,3 +79,11 @@ Owner requests a denser Session UI inspired by the previously described workspac
 
 ## 2026-10-03 · U09 delivery
 Delivered compact Session, decorative typewriter invitation, composer-bottom selectors and native effort parameters. Verified ES/EN, provider-specific choices, Haiku standard-only mode, preserved drafts, history behavior, and 390-pixel keyboard navigation without horizontal overflow. Source U09/R25–R26/T32–T34. Live provider inference remains NOT_EXECUTED; no private Nucleus source or credentials were read. See reports/SESSION_UI_REVIEW_2026-10-03.md.
+
+## 2026-10-04 · E-A01 Public demo on GitHub Pages
+- Source: owner request 2026-10-04 for a public link for companies and clients, without keys or personal data. Decision D19; branch-only publication rule D20.
+- Changes (commit 300ab48, PR #1): web/public-demo.js ports src/lab/controller.py to the browser; scripts/build_pages.py builds _site/; .github/workflows/pages.yml publishes on push to main; tests/test_pages.py (C112). Closeout: tests/test_parity.py (C113) compares the browser port with the Python controller on every scenario and on the DEMO-101 request → approve → execute → replay flow; public wording for the sidebar note and the method view; README, operations, capabilities, project status, E-A01 task and X-A01 row.
+- Live verification, 2026-10-04, implementing assistant session at https://marcodiazleon.github.io/ai-implementation-lab/: 7/7 scenarios matched `expected`; approve → simulated failure → receipt → replay gave one receipt and a valid chain; no console errors; no visible password fields.
+- NOT executed: independent review; a run by another person. Parity had no automated check until C113.
+- State: E-A01 PARTIAL. C113 result in evidence/latest.json.
+- Next: independent review (Codex); then E-A08 evidence view + traceability explorer.

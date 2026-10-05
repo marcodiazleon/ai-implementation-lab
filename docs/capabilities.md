@@ -16,7 +16,7 @@ Current implementation: local synthetic example. Canonical tool details: [tools-
 | MCP | Unit and subprocess wire exchange | Live assistant-client interoperability EXP-M09 |
 | Verification tooling | Per-case results, environment and source hashes | Windows local run; cross-platform CI still EXP-M07 |
 | Runtime model | Optional OpenAI via operator-selected model | Offline transport validated; paid inference pending |
-| Deployment | Loopback server and public source repository | No public application server or customer service |
+| Deployment | Loopback server + static public demo on GitHub Pages (browser-side rules) | No server-side public API or customer service; model/MCP features local only |
 | Expansion | 20 items with requirements, dependencies and acceptance | Planning is not implementation |
 
 See evidence/latest.json for current observed results and tests. Manual acceptance cases remain NO_PROBADO until their evidence is recorded.

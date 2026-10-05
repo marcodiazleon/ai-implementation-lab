@@ -1,6 +1,6 @@
 # Decisions and sources
 
-Updated 2026-10-03. Source IDs U01–U03 are defined in the active specification.
+Updated 2026-10-04. Source IDs U01–U03 are defined in the active specification.
 
 | ID | Decision / question | Alternatives and reason | Source / authority | Owner | State / revisit |
 |---|---|---|---|---|---|
@@ -19,6 +19,8 @@ Updated 2026-10-03. Source IDs U01–U03 are defined in the active specification
 | D13 | Active spec is S01 0.4 | A later numbered spec may be planning-only | Current method, U03 | Assistant | ACTIVE; S02 remains BACKLOG |
 | D14 | Model/provider budget and destination | Local model or approved remote service, compare before enabling | No provider/cost decision supplied | Marco | PENDING for EXP-A04 only |
 | D15 | Pilot identity and users | Choose actual roles/resources with the business owner | No live pilot currently in scope | Marco | PENDING for EXP-M04/A10 only |
+| D19 | Public publication: static GitHub Pages build with rules running in the browser; chat, API-key and MCP views hidden in public; no visitor data | A hosted Python server would need hosting, identity and cost decisions; the browser port reuses the fixtures | Owner request 2026-10-04 | Marco | RESOLVED; parity checked by C113 |
+| D20 | PR lock against main: the owner opens pull requests manually; the assistant only pushes branches | Assistant-opened PRs would bypass the owner's review step | Owner 2026-10-04 | Marco | RESOLVED |
 
 Engineering choices above are identified separately from user approvals. Silence never changes their authority. Routine reversible work under U01–U03 continues without repeated generic approvals.
 

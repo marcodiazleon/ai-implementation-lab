@@ -20,6 +20,11 @@ REPLACEMENTS = [
     ('data-en="Saved in this repository on this computer.', 'data-en="Kept only in this tab and cleared on reload.'),
     ('Sesión en memoria · Reiniciar el servidor restablece los escenarios · Uso local',
      'Demo pública · Datos ficticios · Recargar la página restablece los escenarios'),
+    ('<p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p>',
+     '<p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · PUBLIC DEMO">AI IMPLEMENTATION LAB · DEMO PÚBLICA</p>'),
+    # ponytail: Spanish only; the original paragraph has no data-en and the public build adds no new i18n key.
+    ('La conversación API es independiente del ejercicio de devoluciones. El servidor está diseñado para ejecutarse en tu equipo por loopback.',
+     'Esta demo pública ejecuta las reglas en tu navegador con datos ficticios. La versión local incluye además conexión opcional a modelos y MCP.'),
 ]
 
 def build(out=ROOT / "_site"):

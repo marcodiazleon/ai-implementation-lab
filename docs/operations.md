@@ -49,3 +49,6 @@ Ejecuta `python scripts/check_environment.py` antes de `python run.py serve`, o 
 
 ## U08 local storage
 `.local/agents.json` holds private custom role definitions; it is excluded from Git and release archives. Explicitly review any desired agent exports before transferring them. Browser storage holds language/sidebar preference and public MCP profiles. API keys and chat remain in memory. Restarting the server closes model sessions, but preserves saved agent definitions. Localhost links require a running server on the visitor's own computer; GitHub source hosting alone does not run this backend.
+
+## Public demo
+`python scripts/build_pages.py` builds `_site/` from `web/` plus the fixtures; `web/public-demo.js` answers the exercise API inside the browser. The workflow `.github/workflows/pages.yml` publishes it on each push to `main`. The public build contains no server, API keys, model or MCP connections, and stores no visitor data; reloading the page resets it. `tests/test_parity.py` compares it with the Python controller (needs Node; skipped otherwise).
