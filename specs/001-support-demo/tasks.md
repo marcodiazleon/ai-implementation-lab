@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.9. Current spec: spec.md 0.9. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 1.0. Current spec: spec.md 1.0. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -46,3 +46,18 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T35 | R27,R12 | U10 source, R27 EARS, task and case records; read-only evidence/acceptance/requirements data routes and public data files | U10,T15 | Implementing assistant | Spec, routes and build data exist; sdd_check passes with R27 | IMPLEMENTED; see U10 notebook entry |
 | T36 | R27,R15 | Bilingual Evidence view: run metrics, requirement picker, case table and PENDIENTE badge | T35,T28 | Implementing assistant | Local and public build show metrics and R02 cases in a browser | IMPLEMENTED; see U10 notebook entry |
 | T37 | R27 | Tests and acceptance cases for data routes, public build files and ID parity | T35 | Implementing assistant | C114–C120 mapped and passing in evidence/latest.json | IMPLEMENTED; see U10 notebook entry |
+
+## U12 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T41 | R30,R21,R25 | Conversation-only Session and five destinations | U12,T28,T32 | Codex, directly authorized by Marco | Chat controls remain; exercise/log absent; dialog preserves draft | IMPLEMENTED; verification pending |
+| T42 | R30,R16,R26 | Public model catalog and explicit local-only connection boundary | T41,T22,T33 | Codex | Same reference catalog; static credential submission blocked | IMPLEMENTED; verification pending |
+| T43 | R30,R12,R14 | Regression checks, evidence classification and README | T41,T42 | Codex | Checks recorded by revision; historical results not reused as redesign acceptance | IMPLEMENTED; local 101 tests and static/local Chromium checks PASS; base CI successful; new increment CI pending |
+
+## U13 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T44 | R11,R12 | Evaluation-only license and consistent visitor/contribution/security documentation | U13,T43 | Codex; authority Marco | Local evaluation allowed; reuse and external code changes reserved; platform limits explicit | IMPLEMENTED; C144 internal policy review recorded |
+| T45 | R08,R14 | CODEOWNERS; least-privilege CI and verified Pages build; main protection and settings audit | U13,T44 | Codex for files; Marco for GitHub identity confirmation | Project build cannot use deploy permissions; main controls and limitations evidenced separately | PARTIAL; C145 main/collaborator/Actions/Pages controls verified; account-app audit pending; C146 local checks pass, branch CI pending |
+
+| T46 | R11,R12,R14 | Six app-specific product documents and equivalence review against owner reference templates | U14,T44 | Codex; Marco supplies inaccessible references | Six documents map to canonical app source and SDD; template read and comparison recorded; no unsupported implementation claims | IMPLEMENTED; six references read and six app documents reviewed internally; evidence/product-document-references.json; owner acceptance pending |

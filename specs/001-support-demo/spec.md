@@ -1,6 +1,6 @@
-# S01 — Local after-sales example
+# S01 — AI conversation workspace and historical engineering sample
 
-Version: 0.9. Status: current specification for the existing demonstration.
+Version: 1.0. Status: current specification; U12 supersedes the visible after-sales exercise.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -177,3 +177,24 @@ Source: U10 (owner, 2026-10-04); backlog items EXP-A08 and EXP-M07. Visitor flow
 - R27c: While the data has not loaded, the view shall state "sin evidencia cargada" and show no default states.
 
 | R27 | Evidence view shows the committed run summary and a requirement → case → test → evidence explorer; a requirement without a PASS case with evidence is PENDIENTE, never approved by default. | U10 | CU01 | HTTP/build data tests, requirement/CSV ID parity and browser check of the public build |
+
+## U12 — Conversation-only Session (Marco, 2026-10-05)
+Marco explicitly requires Session to be a conversation interface, with provider, its models, effort/speed description, message input and replies. Navigation has exactly five destinations: Session, Agents, MCPs, How it is built, Evidence. API configuration belongs to Session. The after-sales panels, approval controls, receipts and operation log are removed from the visible application. Their controller, CLI and previous results remain historical engineering evidence, not current UI acceptance.
+
+CU17: visitor opens Session → chooses provider/model/effort/agent → prepares a message → opens connection settings. The local backend supports explicit consent and existing provider sessions; the static public preview permits interface exploration and agent authoring, labels its lack of a live inference backend, disables credential entry and never simulates a model reply. MCP configuration is not claimed as an active tool connection.
+
+R30a: When Session opens, show the conversation and its composer controls; show no refund exercise, receipt counter or operation log.
+R30b: When the visitor changes provider, show that provider's reference models and compatible effort choices in both the local and static UI; do not imply account access or measured speed.
+R30c: When connection settings are requested, open a labeled dialog within Session; preserve the message draft and the five navigation destinations. In the static build, explain the local-backend requirement and block credential submission.
+R30d: While evidence from a prior source revision is displayed, identify it as historical; keep current redesign cases untested until their own checks run.
+
+| R30 | Conversation-only Session, five destinations, provider/model controls, in-session API dialog and truthful local/static behavior | U12 | CU17 | Shell/build regression checks; browser navigation and local live API classified separately |
+
+This source supersedes the visible exercise portion of R11/R13/R21/R25 and the static refund presentation decision D19. It preserves R16/R22/R24/R26 provider, role, consent and session boundaries. Cloud hosting, new arbitrary MCP execution and paid inference are not introduced by this UI change.
+
+## U13 — Evaluation-only access and repository integrity (Marco, 2026-10-05)
+Owner authorizes prospective clients and employers to install Python, download the source necessary to run the demo locally, and read its documentation. No general reuse, redistribution, source modification or external code contributions are authorized. Public viewing/forking under GitHub terms and technically available downloads cannot be revoked by a notice. Runtime agent definitions and synthetic test inputs are local evaluation state, not source contributions.
+Scope extends CU01/CU07 and R08/R11/R12/R14: document restricted evaluation rights, preserve truthful startup instructions, protect main through PR/check controls, and keep deployment credentials out of the job that runs project code. Failure cases: a public visitor proposes malicious code, a PR lacks passing checks, or an author confuses a legal notice with enforced repository settings. Only authorized maintainers may integrate source; no policy proves absence of malicious activity. Administrative settings awaiting GitHub identity confirmation remain BLOCKED, not PASS. T44/T45 and C144-C146 track this increment.
+
+## U14 — Six product documents (Marco, 2026-10-05)
+Owner requests project-specific PRD, TRD, App Flow, Design Brief, Backend Schema and Implementation Plan, using six local Markdown files under the Engineering_PlayBook PRODUCT_DOCUMENTS folder as reference. Historical authoring session could not read the references. Continuation 2026-10-05 read all six through the authorized local reader and adapted their structure to app sources. No private reference content or product facts were imported. Inventory/hashes: evidence/product-document-references.json. R11/R12/R14 and CU01/CU07 apply; T46 tracks completion. The canonical SDD specification is retained, not replaced by a second conflicting source.

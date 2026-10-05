@@ -10,23 +10,18 @@ class PagesBuildTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             out = build(Path(tmp) / "site")
             html = (out / "index.html").read_text(encoding="utf-8")
-            # The shim loads before the app scripts and every asset path is relative to the project page.
-            self.assertLess(html.index('src="public-demo.js"'), html.index('src="app.js"'))
+            self.assertLess(html.index('src="public-demo.js"'), html.index('src="cloud.js"'))
             self.assertNotIn('src="/', html)
             self.assertNotIn('href="/', html)
             for name in ("orders.json", "policy.json", "scenarios.json", "roles.json"):
                 self.assertTrue((out / "data" / name).is_file())
-            # Key-entry views stay in the markup but are hidden by the public stylesheet.
             css = (out / "style.css").read_text(encoding="utf-8")
-            for selector in ("#view-connection", "#context7Details", "#view-chat"):
-                self.assertIn(".public-demo " + selector, css)
-            # Public wording replaces the local-workspace and loopback text.
-            self.assertIn('data-en="AI IMPLEMENTATION LAB · PUBLIC DEMO">AI IMPLEMENTATION LAB · DEMO PÚBLICA<', html)
+            self.assertNotIn(".public-demo #view-chat", css)
+            self.assertIn(".public-demo #context7Details", css)
+            self.assertIn("AI IMPLEMENTATION LAB · VISTA PÚBLICA", html)
             self.assertNotIn("ESPACIO LOCAL", html)
-            self.assertIn("Esta demo pública ejecuta las reglas en tu navegador con datos ficticios.", html)
+            self.assertIn("Las conversaciones por API se ejecutan en la versión local.", html)
             self.assertNotIn("por loopback", html)
-            self.assertIn('<p class="muted" data-en="This public demo runs the rules in your browser with fictional data. '
-                          'The local version also includes optional model and MCP connections.">Esta demo pública', html)
 
     def test_public_build_ships_evidence_data_not_spec(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -46,6 +41,3 @@ class PagesBuildTests(unittest.TestCase):
             ids = {r["id"] for r in json.loads((out / "data/requirements.json").read_text(encoding="utf-8"))}
             with (out / "data/acceptance.csv").open(encoding="utf-8", newline="") as h:
                 self.assertEqual(ids, {row["requirement_id"] for row in csv.DictReader(h)})
-
-if __name__ == "__main__":
-    unittest.main()

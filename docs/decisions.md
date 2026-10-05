@@ -43,3 +43,13 @@ The owner requested a sidebar and conversation-first home, agent creation, multi
 
 ## U09 — compact session controls
 Replace the U08 oversized chat toolbar with four native keyboard-accessible selector chips inside the composer. Keep provider credentials in the dedicated connection page. Use a versioned public catalog instead of claiming to list account entitlements. Apply effort through native API parameters and reject unverified combinations server-side. Require a separate connection when changing providers. Reset history for model changes; retain it for effort changes. Speed hints are qualitative and do not enable premium latency tiers.
+
+## D24 — Conversation is the primary experience
+Source: Marco, 2026-10-05, U12. Replace visible refund panels with the existing chat; five destinations only. API settings open within Session. This supersedes D19's public refund presentation. Existing deterministic examples and their results are retained as history. The static preview cannot claim live cloud chat; provider inference remains on the existing local backend until a hosted backend is separately supplied. D20's manual PR opening remains unchanged.
+
+## D25 — U13 evaluation rights and integrity (2026-10-05)
+Marco permits documentation/source review and the download necessary to install Python and run the demo locally. No general reuse, redistribution, source modification or external code contribution is granted. LICENSE.md supersedes D08's pending reuse-license decision with bounded evaluation rights; GitHub platform rights remain.
+Use protected main and least-privilege CI/deployment instead of claiming that a notice blocks downloads or malicious input. Administrative controls await GitHub Confirm access and remain BLOCKED; collaborator/Actions settings are NOT VERIFIED. CODEOWNERS is review routing only. The amended Pages workflow must pass its build before a separate deploy job receives Pages/OIDC privileges. This supersedes workflow permission placement, not D20: owner opens PRs and controls integration. No merge/deployment authorized by this record.
+
+## D22 — U14 structural reference adaptation
+2026-10-05. All six owner reference documents read through authorized local filesystem access. Adapt structure only; app code and canonical S01 govern facts. Six documents v0.2 delivered; internal review is not owner acceptance. No NUCLEUS files modified.

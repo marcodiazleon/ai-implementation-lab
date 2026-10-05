@@ -2,123 +2,77 @@
 
 **Marco Díaz de León · Forward Deployment / AI Implementation Strategy**
 
-**[Open the live demo](https://marcodiazleon.github.io/ai-implementation-lab/)** — runs in your browser with fictional data; no account, key or personal data needed.
-The public demo runs the refund exercise and agent templates in the browser; model conversations, API keys and MCP connections exist only in the local version.
-The **Evidence** view in the demo shows the last recorded test run and, for each requirement, its acceptance cases, tests and evidence files.
+[Open the public preview](https://marcodiazleon.github.io/ai-implementation-lab/)
 
-I help teams define what they need, decide which systems to connect and organize the implementation. This repository shows the requirements, technical decisions and tests for a small working example.
+The current redesign makes **Session** a conversation workspace with provider, model, effort and agent controls. The public preview lets visitors explore the interface and create agent definitions; real API conversations require the local backend and the operator's own API key. Check the published revision: a branch change does not update Pages until merged.
 
-The example uses fictional orders and a simulated refund process. Code was developed with AI assistance. My role is to define the problem, choose the scope and coordinate delivery.
+I define the problem, choose the scope and coordinate delivery. This repository shows those decisions, requirements and verification records. Code was developed with AI assistance.
 
-[Método de ingeniería](docs/engineering-guide.md) · [Guía en español](docs/START_HERE_ES.md) · [Engineering guide](docs/engineering-guide.md) · [Evidence](evidence/latest.json) · [What is and is not implemented](docs/capabilities.md)
+## Explore the application
+1. **Session:** compose a message, choose OpenAI or Claude/Anthropic and a model, select compatible effort and an agent. Open connection settings within the conversation.
+2. **Agents:** create, edit and export a text-only assistant.
+3. **MCPs:** prepare client configurations; only the local Context7 adapter has an implemented connection.
+4. **How it is built:** inspect components, decisions and the engineering method.
+5. **Evidence:** follow requirements to cases, tests and recorded results.
 
-![Compact Session: provider, model, effort and agent controls below the message](docs/assets/session-compact-20261003.jpg)
+The refund exercise and operation log are no longer part of the interface. Their code, CLI, fixtures and historical tests remain in the repository.
 
-## How the project is organized
-
-Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
-The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.8; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
-
-## Reviewing a refund request
-
-The working example is a fictional after-sales assistant. It reads a synthetic order, checks an exercise policy, proposes a refund, waits for a reviewer decision and creates a **local simulated receipt**.
-
-Try executing a refund before approval, then approve it and simulate a connector failure. The event log shows each attempt. A successful retry produces one local receipt.
-
-
-
-### Where to start
-
-| Visitor | Read first | Then inspect |
-|---|---|---|
-| Recruiter: how does Marco work? | [Profile and working method](docs/engineering-guide.md) | [Decision record](docs/decisions.md) |
-| Client: how would an idea become an implementation? | [Problem, scope and acceptance](specs/001-support-demo/spec.md) | [Demo walkthrough](docs/demo-script.md) |
-| Technical reviewer: does the sample work? | Run the commands below | [Tests](tests/), [MVC and MCP](docs/architecture.md), [evidence](evidence/latest.json) |
-
-## Run the demo
-
-Requirements: **Python 3.11+ and Git**. No third-party Python packages, API keys, model subscriptions or installation of connectors.
+## Run locally for evaluation
+Read the [evaluation-only license](LICENSE.md) first. Downloading and running a local copy is permitted solely to evaluate the demo. Source reuse, redistribution, modification and external code contributions require Marco's prior written authorization.
+Requirements: Python 3.11+ and Git. Node is needed for Python/JavaScript parity tests. No third-party Python packages are required.
 
 ```sh
 git clone https://github.com/marcodiazleon/ai-implementation-lab.git
 cd ai-implementation-lab
+python scripts/check_environment.py
 python scripts/verify.py
 python run.py serve
 ```
 
-Open **http://127.0.0.1:8765**. Stop with Ctrl+C. On systems where Python is named `python3` or `py`, use that launcher instead. Another port: `python run.py serve --port 8766`.
+Open **http://127.0.0.1:8765**. In Session, choose connection settings and supply your own provider key with explicit consent. API usage may incur provider charges. ChatGPT/Claude subscriptions are separate from API credentials. Stop with Ctrl+C; use `--port 8766` if the port is occupied.
 
-Try the eligible case, attempt execution before approval, approve it, simulate a connector failure, and retry. [Exact steps and expected results](docs/demo-script.md).
+The public static build accepts no API keys. It is an interface preview, not a hosted inference service. Local keys/history stay in server memory; custom agent definitions persist in the ignored `.local` directory. Public definitions last only in the tab. MCP configuration export does not execute a server or grant tools to chat agents.
 
-Other entry points:
+## Engineering and verification
+[Active status](docs/project-status.json) selects S01 **1.0**. Start with [the adopted method](docs/sdd-adoption.md), then [specification](specs/001-support-demo/spec.md), [plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [acceptance cases](specs/001-support-demo/acceptance.csv).
 
-```sh
-python run.py evaluate
-python run.py demo
-python run.py mcp
-```
+`evidence/latest.json` records current automated source verification. Session browser checks are recorded separately in reports/CONTINUATION_REVIEW_2026-10-05.md; manual and live-provider cases retain their own states. Unit, integration, browser, live API and owner acceptance are separate results.
 
-`demo` scripts the reviewer decision for an automated example. The browser walkthrough is the human interaction. `mcp` waits for JSON-RPC on stdin; it is not an interactive chat prompt.
+[Working method](docs/engineering-guide.md) · [Architecture](docs/architecture.md) · [Tools](docs/tools-and-capabilities.md) · [Limits](docs/capabilities.md) · [Security](SECURITY.md)
 
-## What is in the sample?
+## Structure
+| Location | Purpose |
+|---|---|
+| src/lab/ | Domain, HTTP, provider sessions, agents and MCP adapters |
+| web/ | Session, agent builder, MCP configuration and evidence views |
+| specs/ | Requirements, plans, tasks and acceptance matrices |
+| tests/ and scripts/ | Behavior checks, static build and evidence generation |
+| docs/ | Decisions, research, operating instructions and continuity |
+| evidence/ and reports/ | Versioned observations and their interpretation |
 
-- **Working application:** local web UI, domain rules, review state machine, simulated connector and retry protection.
-- **Project records:** requirements, test references, decisions and results. The current [method map](docs/sdd-adoption.md) links the use cases, tool choices, tasks and per-case evidence; it also records the initial process deviation.
-- **Hooks:** application lifecycle events and an optional Git pre-commit guard that inspects staged bytes.
-- **Data skill:** documented procedure plus an executable validator.
-- **MCP:** a limited, version-pinned stdio adapter exposing two read-only tools.
-- **Seven scenarios:** eligible request, expired window, excessive amount, foreign workspace, read-only lookup, unknown order and disallowed tool.
-- **Visible boundaries:** source-level tests, synthetic scenario evaluation and limitations are separate from production acceptance.
+## Debugging
+- **Blank or outdated UI:** check the branch/commit and Pages deployment before comparing screenshots.
+- **Server unavailable:** verify the printed address and selected port.
+- **Provider connection rejected:** inspect the displayed error code, model access and consent. Keys stay out of reports.
+- **Failing check:** preserve command, expected/observed behavior, source revision and environment; rerun after a bounded correction.
+- **MCP configuration:** prepared JSON is not proof of a live connection.
 
-## Inspect the structure
+[Operation and handoff](docs/operations.md) · [API guide](docs/OPENAI_API.md) · [Review and maintainer policy](CONTRIBUTING.md)
 
-```text
-src/lab/       models, controller, application hooks, HTTP and MCP adapters
-web/           browser view: HTML, CSS and JavaScript
-data/          synthetic orders, exercise policy and scenarios
-tests/         workflow, concurrency, HTTP, MCP and publication-guard tests
-scripts/       validation, publication checks and evidence generation
-.agents/skills/ small reusable procedures with concrete outputs
-.githooks/     optional local pre-commit guard
-specs/         requirements, implementation plan and acceptance matrix
-docs/          working method, trade-offs, walkthrough and expansion ideas
-evidence/      machine-readable results tied to source hashes
-reports/       human-readable interpretation of those results
-```
+## Scope and contact
+This is a demonstration for prospective employers and clients. It claims no production authentication, durable refund transactions, business outcomes or autonomous shell/file execution. Optional model calls are bounded text conversations.
 
-[Why each folder exists](docs/engineering-guide.md#how-i-organize-the-work).
+The repository is public for inspection and bounded local evaluation under [LICENSE.md](LICENSE.md). No open-source reuse rights are granted. Public visibility does not permit source integration, redistribution or unauthorized changes to this repository or its application. GitHub platform viewing/forking rights still apply. Contact Marco through [GitHub](https://github.com/marcodiazleon).
 
-## Current limits
+Repository controls, remaining account-application audit and verification limits are recorded in [the security review](docs/repository-security.md). A policy is not a technical guarantee against malicious activity.
 
-This is a deterministic integration demonstration, **not a deployed autonomous AI service**. The refund demonstration has no LLM calls, real customers, real refunds or external business connections. The conversation on the home page can call OpenAI or Claude/Anthropic after explicit configuration and consent. The reviewer role is simulated; any local caller can use the decision endpoint. Refund state and model sessions disappear on restart; custom agent definitions remain in the ignored .local folder. Retry protection applies within one process, not to distributed transactions.
+## Product documents
 
-The hash chain detects ordinary edits if hashes are left unchanged; it is not a signed, immutable audit log. The disallowed-tool case tests an allowlist, not resistance to arbitrary prompt injection. The MCP adapter is wire-tested for its documented subset, not certified or tested with a live assistant client.
+Project-specific package adapted from the owner's six structural references; canonical SDD and acceptance remain authoritative. Internal review, not owner acceptance.
 
-[Security boundaries](SECURITY.md) · [Ten additions, ten improvements and current status](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
-
-## Reuse and contact
-
-This repository is public for inspection. No open-source license has been granted in this version; visibility is not a license to redistribute or incorporate it into a commercial product. Contact Marco through [his GitHub profile](https://github.com/marcodiazleon) to discuss an implementation or reuse.
-
-## Next interactive experience
-The [product and visual plans](docs/PLAN_PRODUCTO_Y_DISENO.md) describe editable request analysis, comparison and a bounded sales workflow. The black/white visual update is delivered; these functional extensions remain planned. [Research and sources](docs/INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md).
-
-## Workspace and agent builder
-
-The expandable sidebar opens **Session**, **Agents**, **MCPs**, **Connect your AI** and **How it is built**. The header contains the Spanish/English selector. Session starts with a compact composer; the deterministic refund example opens below it without an API connection.
-
-In Agents, use one of four templates or define your own name, role, prompt and work mode. Save and edit the definition, download its JSON, and select it beneath the message. Definitions persist locally in `.local/agents.json`, excluded from Git and blocked by the publication guard. These are text-only assistants, with no shell, file or deployment tools.
-
-Connect your AI supports the native OpenAI and Claude/Anthropic APIs with your own key and model ID. Changing agents clears the conversation context. Keys and chat history remain in server memory; model calls can incur provider charges. Neither a ChatGPT nor a Claude subscription is an API credential.
-
-The MCP guide prepares multiple HTTP or stdio configurations for compatible clients and exports a JSON file. Preparing a configuration does not run a server. Context7 retains its built-in read-only connection. Authentication and compatibility depend on each server and client.
-
-The language selector translates the five views and preserves drafts and connections. Existing user content stays in its original language. Sidebar preference and public MCP configurations are stored in this browser.
-
-[Agent and MCP guide](docs/WORKBENCH.md) · [AI connection guide](docs/OPENAI_API.md) · [Current delivery report](reports/SESSION_UI_REVIEW_2026-10-03.md)
-
-Provider routing was tested with local doubles; real OpenAI and Claude inference and startup on a second computer remain unverified.
-
-## Choosing how to work
-The home **Session** places provider, model, effort and agent dropdowns under the message. A rotating invitation pauses while typing and respects reduced-motion preferences. A reference catalog offers supported OpenAI and Anthropic model IDs; account access is checked when connecting or changing models. Supported effort is applied to the real provider payload, not just displayed. Changing models clears history while preserving the draft and usage count; changing effort retains history. Another provider needs its own connection. No paid priority mode is enabled.
+- [Product Requirements Document](docs/product-documents/01_PRODUCT_REQUIREMENTS_DOCUMENT.md)
+- [Technical Requirements Document](docs/product-documents/02_TECHNICAL_REQUIREMENTS_DOCUMENT.md)
+- [App Flow](docs/product-documents/03_APP_FLOW.md)
+- [Design Brief](docs/product-documents/04_DESIGN_BRIEF.md)
+- [Backend Schema](docs/product-documents/05_BACKEND_SCHEMA.md)
+- [Implementation Plan](docs/product-documents/06_IMPLEMENTATION_PLAN.md)

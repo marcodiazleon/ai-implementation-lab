@@ -1,0 +1,39 @@
+name: Verify Session and static build
+on:
+  push:
+    branches: [main, "fix/session-first-public"]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.repository == 'marcodiazleon/ai-implementation-lab' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: python scripts/verify.py
+      - run: python scripts/build_pages.py
+      - run: node --check web/cloud.js
+      - run: node --check web/studio.js
+      - run: node --check web/public-demo.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: session-verification-${{ matrix.os }}
+          path: |
+            evidence/latest.json
+            evidence/sdd-check.json
+            specs/001-support-demo/acceptance.csv
+            _site/

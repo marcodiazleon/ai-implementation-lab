@@ -1,0 +1,176 @@
+{
+  "revision": "95c1795",
+  "mode": "static synthetic; headless Chromium",
+  "checks": {
+    "navigation": [
+      {
+        "hash": "agents",
+        "visible": true
+      },
+      {
+        "hash": "mcp",
+        "visible": true
+      },
+      {
+        "hash": "method",
+        "visible": true
+      },
+      {
+        "hash": "evidence",
+        "visible": true
+      },
+      {
+        "hash": "session",
+        "visible": true
+      }
+    ],
+    "draftPreserved": true,
+    "providers": {
+      "anthropic": [
+        "claude-sonnet-5-5",
+        "claude-opus-5-5",
+        "claude-fable-5-1",
+        "claude-haiku-4-5-20251001"
+      ],
+      "openai": [
+        "gpt-6.1-sol",
+        "gpt-6-astra",
+        "gpt-6-luna"
+      ]
+    },
+    "english": true,
+    "englishNavigation": "◉\nSession",
+    "spanish": true,
+    "languagePreservesDraft": true,
+    "controls": [
+      {
+        "id": "language",
+        "options": [
+          "es",
+          "en"
+        ]
+      },
+      {
+        "id": "sessionProvider",
+        "options": [
+          "openai",
+          "anthropic"
+        ]
+      },
+      {
+        "id": "sessionModel",
+        "options": [
+          "gpt-6.1-sol",
+          "gpt-6-astra",
+          "gpt-6-luna"
+        ]
+      },
+      {
+        "id": "sessionEffort",
+        "options": [
+          "default",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ]
+      },
+      {
+        "id": "chatAgent",
+        "options": [
+          "",
+          "manager",
+          "researcher",
+          "implementer",
+          "reviewer"
+        ]
+      },
+      {
+        "id": "apiProvider",
+        "options": [
+          "openai",
+          "anthropic"
+        ]
+      },
+      {
+        "id": "apiEffort",
+        "options": [
+          "default",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ]
+      },
+      {
+        "id": "tokenLimit",
+        "options": [
+          "256",
+          "512",
+          "1024",
+          "2048",
+          "4096",
+          "8192"
+        ]
+      },
+      {
+        "id": "reqPicker",
+        "options": [
+          "R01",
+          "R02",
+          "R03",
+          "R04",
+          "R05",
+          "R06",
+          "R07",
+          "R08",
+          "R09",
+          "R10",
+          "R11",
+          "R12",
+          "R13",
+          "R14",
+          "R15",
+          "R16",
+          "R17",
+          "R18",
+          "R19",
+          "R20",
+          "R21",
+          "R22",
+          "R23",
+          "R24",
+          "R25",
+          "R26",
+          "R27",
+          "R30"
+        ]
+      },
+      {
+        "id": "builderMode",
+        "options": [
+          "plan",
+          "research",
+          "implementation",
+          "review"
+        ]
+      },
+      {
+        "id": "mcpTransport",
+        "options": [
+          "http",
+          "stdio"
+        ]
+      }
+    ],
+    "dialogOpen": true,
+    "dialogEscapeClosed": true,
+    "keyboardNext": "sessionModel",
+    "publicKeyDisabled": true,
+    "mobileNoPageOverflow": true,
+    "mobileNavigation": true,
+    "errors": []
+  }
+}

@@ -29,3 +29,5 @@ Next recommended task: E-M02. Pending decisions D14 (model/data/budget), D15 (pi
 Update this table and its acceptance row when results change. PARTIAL must name the missing part in spec.md; COMPLETE requires linked evidence.
 
 U06 / S01-T24 completed the Spanish/English portion of EXP-M02, with browser evidence in reports/LANGUAGE_REVIEW_2026-10-03.md. Explicit session reset and remaining M02 criteria are still pending; the whole expansion item is not marked complete.
+
+2026-10-05 continuation: E-M08 remains PENDING as a whole. U13 now has verified main protection and all-external Actions approval; this does not close secret-scanner breadth or bypass review. S01 T46 completed six product documents internally. No other expansion state changes.
