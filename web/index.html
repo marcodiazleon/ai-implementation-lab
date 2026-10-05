@@ -11,13 +11,14 @@
   <script src="/cloud.js" defer></script>
   <script src="/workbench.js" defer></script>
   <script src="/studio.js" defer></script>
+  <script src="/evidence.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#workspace">Ir al área de trabajo</a>
 <aside class="sidebar"><div class="sidebar-head"><a class="brand" href="/" aria-label="AI Implementation Lab, inicio">
     <span class="monogram" aria-hidden="true">MD</span>
     <span class="brand-text">MARCO DÍAZ DE LEÓN<small>AI IMPLEMENTATION LAB</small></span>
-  </a><button id="toggleSidebar" aria-controls="mainNav" aria-expanded="true" aria-label="Contraer menú">☰</button></div><nav id="mainNav" aria-label="Secciones"><a href="#session" data-view="demo" aria-label="Sesión" data-label-en="Session"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label" data-en="Session">Sesión</span></a><a href="#agents" data-view="agents" aria-label="Agentes" data-label-en="Agents"><span class="nav-icon" aria-hidden="true">◇</span><span class="nav-label" data-en="Agents">Agentes</span></a><a href="#mcp" data-view="mcp" aria-label="MCPs" data-label-en="MCPs"><span class="nav-icon" aria-hidden="true">⌘</span><span class="nav-label" data-en="MCPs">MCPs</span></a><a href="#connection" data-view="connection" aria-label="Conecta tu IA" data-label-en="Connect your AI"><span class="nav-icon" aria-hidden="true">↗</span><span class="nav-label" data-en="Connect your AI">Conecta tu IA</span></a><a href="#method" data-view="method" aria-label="Cómo está construido" data-label-en="How it is built"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label" data-en="How it is built">Cómo está construido</span></a></nav><p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p></aside><button id="navBackdrop" aria-label="Cerrar menú" data-label-en="Close menu" hidden></button><header class="topbar"><div class="language-picker"><label for="language">Idioma</label><select id="language" aria-label="Idioma" data-label-en="Language"><option value="es" lang="es">Español</option><option value="en" lang="en">English</option></select></div></header>
+  </a><button id="toggleSidebar" aria-controls="mainNav" aria-expanded="true" aria-label="Contraer menú">☰</button></div><nav id="mainNav" aria-label="Secciones"><a href="#session" data-view="demo" aria-label="Sesión" data-label-en="Session"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label" data-en="Session">Sesión</span></a><a href="#agents" data-view="agents" aria-label="Agentes" data-label-en="Agents"><span class="nav-icon" aria-hidden="true">◇</span><span class="nav-label" data-en="Agents">Agentes</span></a><a href="#mcp" data-view="mcp" aria-label="MCPs" data-label-en="MCPs"><span class="nav-icon" aria-hidden="true">⌘</span><span class="nav-label" data-en="MCPs">MCPs</span></a><a href="#connection" data-view="connection" aria-label="Conecta tu IA" data-label-en="Connect your AI"><span class="nav-icon" aria-hidden="true">↗</span><span class="nav-label" data-en="Connect your AI">Conecta tu IA</span></a><a href="#method" data-view="method" aria-label="Cómo está construido" data-label-en="How it is built"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label" data-en="How it is built">Cómo está construido</span></a><a href="#evidence" data-view="evidence" aria-label="Evidencia" data-label-en="Evidence"><span class="nav-icon" aria-hidden="true">▣</span><span class="nav-label" data-en="Evidence">Evidencia</span></a></nav><p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p></aside><button id="navBackdrop" aria-label="Cerrar menú" data-label-en="Close menu" hidden></button><header class="topbar"><div class="language-picker"><label for="language">Idioma</label><select id="language" aria-label="Idioma" data-label-en="Language"><option value="es" lang="es">Español</option><option value="en" lang="en">English</option></select></div></header>
 <main>
 <div id="view-demo" data-panel="demo"><section id="view-chat" class="conversation session" aria-label="Sesión" data-label-en="Session">
  <div class="session-topline"><span data-en="SESSION">SESIÓN</span><span id="chatStatus" role="status"></span><div class="session-actions"><button id="clearChat" type="button" disabled data-en="Clear">Vaciar</button><button id="disconnectChat" type="button" disabled data-en="Disconnect">Desconectar</button></div></div>
@@ -116,6 +117,26 @@
   </ol>
   <div class="buttons"><a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/specs/001-support-demo/spec.md" target="_blank" rel="noopener noreferrer">Especificación</a><a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/docs/tools-and-capabilities.md" target="_blank" rel="noopener noreferrer">Herramientas</a><a href="https://github.com/marcodiazleon/ai-implementation-lab/tree/main/evidence" target="_blank" rel="noopener noreferrer">Evidencia</a></div>
   <p class="muted">La conversación API es independiente del ejercicio de devoluciones. El servidor está diseñado para ejecutarse en tu equipo por loopback.</p>
+</section>
+
+<section id="view-evidence" data-panel="evidence" class="panel cloud-panel" hidden aria-labelledby="evidence-title">
+  <p class="eyebrow" data-en="WHAT WAS TESTED">LO QUE SE PROBÓ</p><h1 id="evidence-title" tabindex="-1" data-en="Evidence for this version">Evidencia de esta versión</h1>
+  <p class="lead" data-en="Summary of the last recorded scripts/verify.py run and the acceptance cases behind each requirement.">Resumen de la última ejecución registrada de scripts/verify.py y de los casos de aceptación de cada requisito.</p>
+  <p id="evidenceStatus" class="muted" role="status"></p>
+  <section id="evidenceMetrics" class="metrics evidence-metrics" aria-label="Resumen de la ejecución" data-label-en="Run summary" hidden>
+    <div><span data-en="Generated (UTC)">Generado (UTC)</span><b id="evGenerated"></b></div>
+    <div><span data-en="Tests (run · failures · errors)">Tests (ejecutados · fallos · errores)</span><b id="evTests"></b></div>
+    <div><span data-en="Scenarios">Escenarios</span><b id="evScenarios"></b></div>
+    <div><span>Resultado</span><b id="evResult"></b></div>
+    <div><span>Commit</span><b id="evCommit"></b></div>
+  </section>
+  <div id="evidenceExplorer" hidden>
+    <label for="reqPicker" data-en="Requirement">Requisito</label>
+    <select id="reqPicker"></select>
+    <p><span id="reqBadge" class="badge"></span> <span id="reqSource" class="muted"></span></p>
+    <div class="table-wrap" role="region" aria-label="Casos del requisito" data-label-en="Requirement cases" tabindex="0"><table><thead><tr><th scope="col" data-en="Case">Caso</th><th scope="col">Acción</th><th scope="col" data-en="Expected">Esperado</th><th scope="col" data-en="Status">Estado</th><th scope="col">Test</th><th scope="col">Evidencia</th></tr></thead><tbody id="reqCases"></tbody></table></div>
+  </div>
+  <p class="muted"><span data-en="States come from scripts/verify.py; owner acceptance and independent review are recorded separately.">Los estados proceden de scripts/verify.py; la aceptación del dueño y la revisión independiente se registran por separado.</span> <a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/evidence/latest.json" target="_blank" rel="noopener noreferrer">latest.json</a> · <a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/specs/001-support-demo/acceptance.csv" target="_blank" rel="noopener noreferrer">acceptance.csv</a></p>
 </section>
 
 <section id="view-agents" data-panel="agents" hidden>

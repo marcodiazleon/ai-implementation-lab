@@ -143,11 +143,15 @@
   "POST /api/decision": ruled(decide, "decision"),
   "POST /api/execute": ruled(execute, "execute"),
  };
+ // Evidence view data: the committed files written by scripts/build_pages.py, returned unchanged.
+ const files = { "/api/evidence": "latest.json", "/api/acceptance": "acceptance.csv", "/api/requirements": "requirements.json" };
  let queue = Promise.resolve();
  window.fetch = (input, init = {}) => {
   const url = new URL(typeof input === "string" ? input : input.url, location.href);
   const at = url.pathname.indexOf("/api/");
   if (at < 0) return realFetch(input, init);
+  const file = files[url.pathname.slice(at)];
+  if (file && (init.method || "GET") === "GET") return realFetch("data/" + file);
   const route = routes[(init.method || "GET") + " " + url.pathname.slice(at)];
   const run = async () => {
    ({ orders, policy } = await data);

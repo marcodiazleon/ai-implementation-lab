@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.8. Current spec: spec.md 0.8. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 0.9. Current spec: spec.md 0.9. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -42,3 +42,7 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T32 | R25,R21 | Compact Session and composer controls | U09,T28 | Implementing assistant | ES/EN desktop/mobile, animated prompt and draft checks | IMPLEMENTED; see U09 delivery report |
 | T33 | R26,R24 | Model catalog and real effort configuration | U09,T30 | Implementing assistant | Payload, validation, failure and context tests | IMPLEMENTED; see U09 delivery report |
 | T34 | R25,R26 | Current screenshots, guide and delivery evidence | T32,T33 | Implementing assistant | Public claims match observed behavior | IMPLEMENTED; see U09 delivery report |
+
+| T35 | R27,R12 | U10 source, R27 EARS, task and case records; read-only evidence/acceptance/requirements data routes and public data files | U10,T15 | Implementing assistant | Spec, routes and build data exist; sdd_check passes with R27 | IMPLEMENTED; see U10 notebook entry |
+| T36 | R27,R15 | Bilingual Evidence view: run metrics, requirement picker, case table and PENDIENTE badge | T35,T28 | Implementing assistant | Local and public build show metrics and R02 cases in a browser | IMPLEMENTED; see U10 notebook entry |
+| T37 | R27 | Tests and acceptance cases for data routes, public build files and ID parity | T35 | Implementing assistant | C114–C120 mapped and passing in evidence/latest.json | IMPLEMENTED; see U10 notebook entry |

@@ -3,12 +3,17 @@
 The refund workflow runs in the visitor's browser (web/public-demo.js). Model, API-key and
 MCP connections are hidden: the public page asks for no credentials and stores no visitor data.
 """
+import json
 import re
 import shutil
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ["data/orders.json", "data/policy.json", "data/scenarios.json", "agents/roles.json"]
+sys.path.insert(0, str(ROOT))
+from scripts.sdd_check import requirement_rows
+DATA = ["data/orders.json", "data/policy.json", "data/scenarios.json", "agents/roles.json",
+        "evidence/latest.json", "specs/001-support-demo/acceptance.csv"]
 NOTE = ('<p class="public-note" data-en="Public demo: everything runs in your browser with fictional data. '
         'No keys, accounts or personal data. Reloading the page resets it.">Demo pública: todo corre en tu '
         'navegador con datos ficticios. Sin claves, cuentas ni datos personales. Recargar la página la reinicia.</p>')
@@ -22,9 +27,9 @@ REPLACEMENTS = [
      'Demo pública · Datos ficticios · Recargar la página restablece los escenarios'),
     ('<p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p>',
      '<p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · PUBLIC DEMO">AI IMPLEMENTATION LAB · DEMO PÚBLICA</p>'),
-    # ponytail: Spanish only; the original paragraph has no data-en and the public build adds no new i18n key.
-    ('La conversación API es independiente del ejercicio de devoluciones. El servidor está diseñado para ejecutarse en tu equipo por loopback.',
-     'Esta demo pública ejecuta las reglas en tu navegador con datos ficticios. La versión local incluye además conexión opcional a modelos y MCP.'),
+    ('<p class="muted">La conversación API es independiente del ejercicio de devoluciones. El servidor está diseñado para ejecutarse en tu equipo por loopback.</p>',
+     '<p class="muted" data-en="This public demo runs the rules in your browser with fictional data. The local version also includes optional model and MCP connections.">'
+     'Esta demo pública ejecuta las reglas en tu navegador con datos ficticios. La versión local incluye además conexión opcional a modelos y MCP.</p>'),
 ]
 
 def build(out=ROOT / "_site"):
@@ -33,6 +38,9 @@ def build(out=ROOT / "_site"):
     (out / "data").mkdir()
     for name in DATA:
         shutil.copy(ROOT / name, out / "data" / Path(name).name)
+    # Requirements are published as generated JSON, not the spec itself (decision D21).
+    spec = (ROOT / "specs/001-support-demo/spec.md").read_text(encoding="utf-8")
+    (out / "data" / "requirements.json").write_text(json.dumps(requirement_rows(spec), ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
     html = (out / "index.html").read_text(encoding="utf-8")
     # Project Pages live under /<repo>/, so root-absolute asset paths must become relative.
     html = re.sub(r'(src|href)="/(?=[a-z])', r'\1="', html).replace('href="/"', 'href="./"')

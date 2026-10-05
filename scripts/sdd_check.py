@@ -14,6 +14,17 @@ REQUIRED = ["README.md", "AGENTS.md", "docs/constitution.md", "docs/decisions.md
  "specs/002-expansion/spec.md", "specs/002-expansion/plan.md",
  "specs/002-expansion/tasks.md", "specs/002-expansion/acceptance.csv"]
 
+REQUIREMENT_ROW = re.compile(r"^\| (R\d+) \|", re.M)
+
+def requirement_rows(spec):
+    """Requirement table rows as id/text/source/cu; also served to the in-app evidence view."""
+    rows = []
+    for line in spec.splitlines():
+        if REQUIREMENT_ROW.match(line):
+            cols = [c.strip() for c in line.split("|")[1:-1]]
+            rows.append({"id": cols[0], "text": cols[1], "source": cols[2], "cu": cols[3]})
+    return rows
+
 def test_ids(root):
     ids = set()
     for p in (root / "tests").glob("test_*.py"):
@@ -35,8 +46,8 @@ def validate(root=ROOT):
     if status.get("active_spec") != "specs/001-support-demo/spec.md" or status.get("expansion_state") != "BACKLOG":
         errors.append("Active specification or backlog state changed without matching validator contract")
     spec = (root / status["active_spec"]).read_text(encoding="utf-8")
-    requirements = set(re.findall(r"^\| (R\d+) \|", spec, flags=re.M))
-    if requirements != {"R" + str(i).zfill(2) for i in range(1, 27)}:
+    requirements = set(REQUIREMENT_ROW.findall(spec))
+    if requirements != {"R" + str(i).zfill(2) for i in range(1, 28)}:
         errors.append("Unexpected core requirement set")
     core = root / "specs/001-support-demo"
     with (core / "acceptance.csv").open(encoding="utf-8", newline="") as handle:
