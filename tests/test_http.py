@@ -53,6 +53,25 @@ class HttpTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertFalse(json.loads(first)["real_effect"])
 
+    def test_explain_route_200_and_409(self):
+        status, _, raw = self.call("/api/explain", {"amount": 180, "days_since_delivery": 20, "status": "delivered"})
+        self.assertEqual(status, 200)
+        self.assertEqual([c["ok"] for c in json.loads(raw)["conditions"]], [True, False, False])
+        status, _, raw = self.call("/api/explain", {"amount": -1, "days_since_delivery": 20, "status": "delivered"})
+        self.assertEqual((status, json.loads(raw)), (409, {"status": "BLOCKED", "reason": "INVALID_REQUEST"}))
+
+    def test_reset_route_returns_empty_snapshot(self):
+        self.call("/api/request", {"order_id": "DEMO-101", "intent": "refund"})
+        status, _, raw = self.call("/api/reset", {})
+        state = json.loads(raw)
+        self.assertEqual(status, 200)
+        self.assertEqual((state["proposals"], state["receipts"], state["events"]), ([], [], []))
+        self.assertEqual(self.call("/api/reset", {"all": True})[0], 400)
+
+    def test_reset_and_explain_untrusted_host_blocked(self):
+        for path in ("/api/reset", "/api/explain"):
+            self.assertEqual(self.call(path, {}, {"Host": "example.com"})[0], 403)
+
     def test_security_headers(self):
         _, headers, _ = self.call("/")
         self.assertEqual(headers["X-Content-Type-Options"], "nosniff")

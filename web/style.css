@@ -73,6 +73,17 @@ button:focus-visible, select:focus-visible, a:focus-visible, input:focus-visible
 .check input { width: 17px; height: 17px; accent-color: white; flex-shrink: 0; }
 .export-button { width: 100%; display: flex; justify-content: space-between; align-items: center; text-align: left; }
 .events { margin-top: 20px; }
+.reset-button { margin-top: 10px; }
+.reset-button > span:first-child { margin-left: 0; }
+#resetDialog { max-width: min(460px, calc(100vw - 32px)); padding: 24px; background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 5px; }
+#resetDialog::backdrop { background: rgba(0,0,0,.72); }
+#resetDialog h3 { margin-top: 0; }
+.explain-panel { margin-top: 20px; }
+.explain-fields { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0 14px; margin-bottom: 16px; }
+.conditions { list-style: none; padding: 0; margin: 12px 0 0; }
+.conditions li { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; overflow-wrap: anywhere; }
+.conditions li > span:first-child { flex-shrink: 0; width: 1.2em; font-weight: 700; }
+.conditions li.fail > span:first-child { color: var(--amber); }
 .events .badge { margin-left: auto; }
 .table-wrap { overflow: auto; max-height: 280px; }
 table { width: 100%; border-collapse: collapse; font: 12px/1.5 ui-monospace, Consolas, monospace; }
@@ -109,6 +120,7 @@ footer small { letter-spacing: 0; font-size: 11px; }
   h2 { font-size: 18px; }
   .events .badge { margin-left: 0; }
   .panel { padding: 20px; }
+  .explain-fields { grid-template-columns: minmax(0,1fr); }
 }
 @media (prefers-reduced-motion: no-preference) {
   button, nav a { transition: background-color .15s, color .15s, border-color .15s; }

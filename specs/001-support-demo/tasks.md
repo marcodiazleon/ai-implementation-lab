@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.9. Current spec: spec.md 0.9. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 0.10. Current spec: spec.md 0.10. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -46,3 +46,7 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T35 | R27,R12 | U10 source, R27 EARS, task and case records; read-only evidence/acceptance/requirements data routes and public data files | U10,T15 | Implementing assistant | Spec, routes and build data exist; sdd_check passes with R27 | IMPLEMENTED; see U10 notebook entry |
 | T36 | R27,R15 | Bilingual Evidence view: run metrics, requirement picker, case table and PENDIENTE badge | T35,T28 | Implementing assistant | Local and public build show metrics and R02 cases in a browser | IMPLEMENTED; see U10 notebook entry |
 | T37 | R27 | Tests and acceptance cases for data routes, public build files and ID parity | T35 | Implementing assistant | C114–C120 mapped and passing in evidence/latest.json | IMPLEMENTED; see U10 notebook entry |
+
+| T38 | R28,R29 | U11 source, R28/R29 EARS and CU16; Lab.reset() and Lab.explain() in the controller; POST /api/reset and /api/explain behind trusted(); same routes in public-demo.js | U11,T05,T35 | Implementing assistant | Spec, controller, server and browser port exist; sdd_check passes with R28/R29 | IMPLEMENTED; see U11 notebook entry |
+| T39 | R28,R29,R15 | Reset button and confirmation dialog with export; disabled actions after case change; bilingual "Analyze your own request" panel with per-condition list, verdict and JSON download | T38,T24 | Implementing assistant | Local and public build show reset and explanation in ES/EN in a browser | IMPLEMENTED; see U11 notebook entry |
+| T40 | R28,R29 | Controller, HTTP, parity and UI-harness tests; acceptance cases C121+ | T38,T39 | Implementing assistant | Cases mapped and passing in evidence/latest.json | IMPLEMENTED; see U11 notebook entry |

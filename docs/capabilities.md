@@ -5,7 +5,7 @@ Current implementation: local synthetic example. Canonical tool details: [tools-
 | Capability | Evidence | Limit / next item |
 |---|---|---|
 | Method structure and traceability | SDD map, structured spec/tasks/cases, evidence/sdd-check.json, in-app evidence view (R27) | Internal structural review; owner acceptance separate |
-| Local browser workflow | HTTP tests and browser reports | Broader accessibility and mobile coverage recorded separately |
+| Local browser workflow | HTTP tests and browser reports; explicit reset and per-condition explanation (R28, R29) with UI-harness tests | Broader accessibility and mobile coverage recorded separately |
 | Eligibility and scope | Tests and seven fixtures | Deterministic rules, not LLM quality |
 | Approval sequencing | Positive/negative state tests | Simulated identity; EXP-M04 |
 | Retry protection | Concurrent one-process receipt tests | No restart durability; EXP-M05 |

@@ -104,6 +104,10 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
                     return self.respond(200, handlers[path](body))
                 if path == "/api/request":
                     result = lab.request(body)
+                elif path == "/api/reset" and body == {}:
+                    result = lab.reset()
+                elif path == "/api/explain":
+                    result = lab.explain(body)
                 elif path == "/api/decision" and set(body) == {"proposal_id", "decision"}:
                     if not all(isinstance(v, str) for v in body.values()):
                         raise ValueError()

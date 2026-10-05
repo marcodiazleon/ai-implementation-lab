@@ -101,6 +101,26 @@
   await audit("after", "execute", "SIMULATED", p.id);
   return [200, copy(receipts[p.id])];
  }
+ // Visitor-confirmed reset (R28): empty the existing objects in place, like Lab.reset().
+ function reset(body) {
+  if (!body || typeof body !== "object" || Array.isArray(body) || Object.keys(body).length) return [400, { error: "INVALID_ACTION" }];
+  for (const k of Object.keys(proposals)) delete proposals[k];
+  for (const k of Object.keys(receipts)) delete receipts[k];
+  events.length = 0;
+  return routes["GET /api/state"]();
+ }
+ // Pure query (R29), port of Lab.explain(): every condition evaluated, nothing stored or audited.
+ function explain(body) {
+  const blocked = [409, { status: "BLOCKED", reason: "INVALID_REQUEST" }];
+  const int = (v) => Number.isInteger(v) && v >= 0 && v <= 100000;
+  if (!body || typeof body !== "object" || Array.isArray(body) || Object.keys(body).sort().join() !== "amount,days_since_delivery,status") return blocked;
+  if (!int(body.amount) || !int(body.days_since_delivery) || !["delivered", "shipped", "returned", "cancelled"].includes(body.status)) return blocked;
+  const conditions = [
+   { rule: "NOT_DELIVERED", ok: body.status === "delivered", observed: body.status, limit: "delivered" },
+   { rule: "OUTSIDE_WINDOW", ok: body.days_since_delivery <= policy.window_days, observed: body.days_since_delivery, limit: policy.window_days },
+   { rule: "ABOVE_LIMIT", ok: body.amount <= policy.max_refund, observed: body.amount, limit: policy.max_refund }];
+  return [200, { status: "EXPLAINED", eligible: conditions.every((c) => c.ok), conditions, policy_version: policy.version, real_effect: false }];
+ }
  // decide/execute record the rule outcome and answer 409, like src/lab/server.py.
  const ruled = (fn, action) => async (body) => {
   try { return await fn(body); } catch (e) {
@@ -142,6 +162,8 @@
   "POST /api/request": request,
   "POST /api/decision": ruled(decide, "decision"),
   "POST /api/execute": ruled(execute, "execute"),
+  "POST /api/reset": reset,
+  "POST /api/explain": explain,
  };
  // Evidence view data: the committed files written by scripts/build_pages.py, returned unchanged.
  const files = { "/api/evidence": "latest.json", "/api/acceptance": "acceptance.csv", "/api/requirements": "requirements.json" };
