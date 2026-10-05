@@ -43,3 +43,6 @@ The owner requested a sidebar and conversation-first home, agent creation, multi
 
 ## U09 — compact session controls
 Replace the U08 oversized chat toolbar with four native keyboard-accessible selector chips inside the composer. Keep provider credentials in the dedicated connection page. Use a versioned public catalog instead of claiming to list account entitlements. Apply effort through native API parameters and reject unverified combinations server-side. Require a separate connection when changing providers. Reset history for model changes; retain it for effort changes. Speed hints are qualitative and do not enable premium latency tiers.
+
+## D24 — Conversation is the primary experience
+Source: Marco, 2026-10-05, U12. Replace visible refund panels with the existing chat; five destinations only. API settings open within Session. This supersedes D19's public refund presentation. Existing deterministic examples and their results are retained as history. The static preview cannot claim live cloud chat; provider inference remains on the existing local backend until a hosted backend is separately supplied. D20's manual PR opening remains unchanged.

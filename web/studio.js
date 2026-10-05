@@ -1,12 +1,12 @@
 "use strict";
 (() => {
  const el=id=>document.getElementById(id), t=(es,en)=>LabI18n.language==='en'?en:es;
- const views=['demo','agents','mcp','connection','method','evidence'];let templates=[],custom=[],saving=false,profiles=[];
+ const views=['demo','agents','mcp','method','evidence'];let templates=[],custom=[],saving=false,profiles=[];
  const notices={};
  const notice=(id,es,en)=>{notices[id]=[es,en];el(id).textContent=t(es,en);};
  const modeNames={plan:['Planificar','Plan'],research:['Investigar','Research'],implementation:['Implementar','Implement'],review:['Revisar','Review']};
  const download=(value,name)=>{const url=URL.createObjectURL(new Blob([value],{type:'application/octet-stream'}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);};
- function route(focus=false){const hash=location.hash.slice(1),view=['chat','session'].includes(hash)?'demo':views.includes(hash)?hash:'demo';document.body.classList.toggle('session-view',view==='demo');document.querySelectorAll('[data-panel]').forEach(n=>n.hidden=n.dataset.panel!==view);document.querySelectorAll('[data-view]').forEach(n=>{if(n.dataset.view===view)n.setAttribute('aria-current','page');else n.removeAttribute('aria-current');});if(['workspace','trace'].includes(hash))el('examplePanel').open=true;if(focus){const heading=el('view-'+view).querySelector('h1');heading.tabIndex=-1;heading.focus();}}
+ function route(focus=false){const hash=location.hash.slice(1),view=['chat','session'].includes(hash)?'demo':views.includes(hash)?hash:'demo';document.body.classList.toggle('session-view',view==='demo');document.querySelectorAll('[data-panel]').forEach(n=>n.hidden=n.dataset.panel!==view);document.querySelectorAll('[data-view]').forEach(n=>{if(n.dataset.view===view)n.setAttribute('aria-current','page');else n.removeAttribute('aria-current');});if(hash==='connection')window.LabCloud?.openConnection();if(focus){const heading=el('view-'+view).querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus();}}}
  addEventListener('hashchange',()=>{route(true);if(matchMedia('(max-width: 800px)').matches){collapsed=true;sidebar();}});route();
  let collapsed=matchMedia('(max-width: 800px)').matches;try{const saved=localStorage.getItem('lab.sidebar');if(saved!==null&&!matchMedia('(max-width: 800px)').matches)collapsed=saved==='collapsed';}catch{}
  function sidebar(){el('navBackdrop').hidden=collapsed||!matchMedia('(max-width: 800px)').matches;document.body.classList.toggle('sidebar-collapsed',collapsed);el('toggleSidebar').setAttribute('aria-expanded',String(!collapsed));el('toggleSidebar').setAttribute('aria-label',collapsed?t('Expandir menú','Expand menu'):t('Contraer menú','Collapse menu'));}

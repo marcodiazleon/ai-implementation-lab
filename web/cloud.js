@@ -3,6 +3,9 @@
  const el=id=>document.getElementById(id),t=(es,en)=>LabI18n.language==='en'?en:es;
  let session=null,busy=false,generation=0,catalog=[],catalogReady=false;
  const notices={};
+ const publicPreview=document.documentElement.classList.contains('public-demo');
+ function openConnection(){const dialog=el('connectionDialog');if(!dialog.open)dialog.showModal();}
+ el('openConnection').onclick=openConnection;
  const providers={openai:{name:'OpenAI',host:'api.openai.com',console:'https://platform.openai.com/api-keys'},anthropic:{name:'Claude / Anthropic',host:'api.anthropic.com',console:'https://platform.claude.com/settings/keys'}};
  const levels={default:['Automático','Automatic'],none:['Sin razonamiento','No reasoning'],low:['Bajo','Low'],medium:['Medio','Medium'],high:['Alto','High'],xhigh:['Muy alto','Very high'],max:['Máximo','Maximum']};
  function note(id,es,en){notices[id]=[es,en];el(id).textContent=t(es,en);}
@@ -26,14 +29,14 @@
  function stateLayout(){const has=!!el('messages').children.length;el('view-chat').classList.toggle('has-messages',has);document.body.classList.toggle('chat-has-messages',has);}
  function controls(){
   const provider=providers[el('sessionProvider').value],row=modelRow();
-  el('connectApi').disabled=busy||!!session;
-  for(const id of ['apiProvider','apiKey','apiModel','tokenLimit','apiConsent','apiEffort'])el(id).disabled=busy||!!session;
+  el('connectApi').disabled=publicPreview||busy||!!session;
+  for(const id of ['apiProvider','apiKey','apiModel','tokenLimit','apiConsent','apiEffort'])el(id).disabled=publicPreview||busy||!!session;
   for(const id of ['sessionProvider','sessionModel','chatAgent'])el(id).disabled=busy||!catalogReady;
-  el('sessionEffort').disabled=busy||!row?.efforts.length;el('apiEffort').disabled=busy||!!session||!row?.efforts.length;
+  el('sessionEffort').disabled=busy||!row?.efforts.length;el('apiEffort').disabled=publicPreview||busy||!!session||!row?.efforts.length;
   el('question').disabled=busy;
   el('sendQuestion').disabled=busy||!catalogReady;el('sendQuestion').type=session?'submit':'button';el('sendQuestion').textContent=busy?'…':'↑';el('sendQuestion').setAttribute('aria-label',session?t('Enviar mensaje','Send message'):t('Conectar IA','Connect AI'));el('sendQuestion').title=session?t('Enviar mensaje','Send message'):t('Conectar IA','Connect AI');
   el('clearChat').disabled=busy||!session;el('disconnectApi').disabled=busy||!session;el('disconnectChat').disabled=busy||!session;
-  el('chatStatus').textContent=session?t('Conectado','Connected'):t('Sin conexión','Not connected');el('chatStatus').classList.toggle('connected',!!session);
+  el('chatStatus').textContent=publicPreview?t('Vista pública','Public preview'):session?t('Conectado','Connected'):t('Sin conexión','Not connected');el('chatStatus').classList.toggle('connected',!!session);
   el('providerDestination').textContent=t('Destino: ','Destination: ')+provider.host;
   el('providerConsent').textContent=t('Autorizo comprobar acceso a los modelos que seleccione y enviar mis mensajes, contexto y prompt del agente a ','I authorize access checks for models I select and sending my messages, context and agent prompt to ')+provider.name+t('. Los mensajes pueden generar cargos de API.','. Messages may incur API charges.');el('providerGuide').href=provider.console;
   el('modelHint').textContent=(row?row.profile[LabI18n.language]:t('Modelo propio · esfuerzo estándar','Custom model · standard effort'))+(session?' · '+session.max_output_tokens+t(' tokens de salida máx.',' max output tokens'):'');
@@ -55,11 +58,11 @@
  el('sessionEffort').onchange=configure;
  el('apiModel').onchange=()=>{renderModels(el('apiModel').value.trim());controls();};
  el('apiEffort').onchange=()=>{el('sessionEffort').value=el('apiEffort').value;};
- el('sendQuestion').onclick=()=>{if(!session&&!busy)location.hash='connection';};
+ el('sendQuestion').onclick=()=>{if(!session&&!busy)openConnection();};
  el('connectionForm').onsubmit=async event=>{
-  event.preventDefault();if(busy||session)return;busy=true;const attempt=++generation;controls();note('connectionStatus','Comprobando acceso…','Checking access…');
+  event.preventDefault();if(publicPreview||busy||session)return;busy=true;const attempt=++generation;controls();note('connectionStatus','Comprobando acceso…','Checking access…');
   const body={provider:el('apiProvider').value,api_key:el('apiKey').value.trim(),model:el('apiModel').value.trim(),effort:el('apiEffort').value,max_output_tokens:Number(el('tokenLimit').value),consent:el('apiConsent').checked};el('apiKey').value='';
-  try{const result=await request('connect',body);if(attempt!==generation)return;session=result;renderModels(result.model);effortOptions(result.effort);el('messages').replaceChildren();note('connectionStatus','Conexión comprobada. Puedes volver a Sesión.','Connection checked. You can return to Session.');note('chatNotice','','');location.hash='session';}
+  try{const result=await request('connect',body);if(attempt!==generation)return;session=result;renderModels(result.model);effortOptions(result.effort);el('messages').replaceChildren();note('connectionStatus','Conexión comprobada. Puedes volver a Sesión.','Connection checked. You can return to Session.');note('chatNotice','','');el('connectionDialog').close();location.hash='session';}
   catch(e){if(attempt===generation)error('connectionStatus',e);}finally{body.api_key='';if(attempt===generation){busy=false;controls();}}
  };
  el('chatForm').onsubmit=async event=>{
@@ -71,10 +74,10 @@
  async function clearHistory(agentChange=false){if(busy)return;if(!session){el('messages').replaceChildren();controls();return;}const attempt=generation;busy=true;controls();try{await request('clear',{session_id:session.session_id});if(attempt===generation){el('messages').replaceChildren();note('chatNotice',agentChange?'Agente cambiado. Contexto nuevo.':'Conversación vaciada. Se conserva el contador de uso.',agentChange?'Agent changed. New context.':'Conversation cleared. Usage counter is preserved.');}}catch(e){if(attempt===generation){error('chatNotice',e);if(agentChange)await disconnect();}}finally{if(attempt===generation){busy=false;controls();}}}
  el('chatAgent').onchange=()=>clearHistory(true);el('clearChat').onclick=()=>clearHistory();
  el('disconnectApi').onclick=disconnect;el('disconnectChat').onclick=disconnect;
- window.LabCloud={status:()=>({connected:!!session,busy,provider:session?.provider,model:session?.model})};
+ window.LabCloud={openConnection,status:()=>({connected:!!session,busy,provider:session?.provider,model:session?.model})};
  addEventListener('languagechange',()=>{const effort=el('sessionEffort').value;effortOptions(effort);for(const[id,pair]of Object.entries(notices))el(id).textContent=t(...pair);controls();});
  fetch('/api/model-catalog').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{catalog=data.models;catalogReady=true;renderModels();controls();}).catch(()=>note('chatNotice','No se pudo cargar el catálogo. Revisa que el servidor esté actualizado.','Could not load the catalog. Check that the server is updated.'));
- note('connectionStatus','Sin conexión.','Not connected.');controls();
+ if(publicPreview){note('connectionStatus','Para conectar tu API y conversar, ejecuta la versión local desde el repositorio. Esta vista pública permite explorar los modelos y crear agentes.','Run the local version from the repository to connect your API and chat. This public preview lets you explore models and create agents.');}else{note('connectionStatus','Sin conexión.','Not connected.');}controls();
 
  // Animate decorative copy only. Drafts and accessible labels are never rewritten.
  const reduced=matchMedia('(prefers-reduced-motion: reduce)'),greeting=el('animatedGreeting');

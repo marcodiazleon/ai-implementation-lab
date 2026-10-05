@@ -27,3 +27,6 @@ A small wording fix needs a requirement reference, changed text and appropriate 
 The existing folder structure is retained through an equivalence map. Product agents, cloud deployment, real payments and multi-PC support remain separate future scopes.
 
 U08 authorizes an additional opt-in Anthropic adapter and repository-local user agent definitions excluded from publication. Creation does not grant execution tools. MCP guides may prepare arbitrary client configurations, but only the existing Context7 adapter executes in this sample.
+
+## U12 scope correction — 2026-10-05
+Primary visible product: conversation-only Session, Agents, MCP configuration, method and evidence. The synthetic after-sales example is retained as historical code/CLI evidence, not a current UI. API connection settings belong to Session. Static publication is an interface preview; live text inference uses the existing local backend and explicit operator consent. This supersedes earlier visible-demo scope without granting new cloud infrastructure or arbitrary tool execution.

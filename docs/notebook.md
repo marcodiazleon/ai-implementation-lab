@@ -95,3 +95,9 @@ Delivered compact Session, decorative typewriter invitation, composer-bottom sel
 - NOT executed: the load-failure message (R27c failure branch) in a browser; check on the published GitHub Pages URL (needs merge); a run by another person; independent review.
 - State: E-A08 PARTIAL (decision links not in the view); E-M07 PARTIAL (no versioned CI).
 - Next: E-M02.
+
+## 2026-10-05 · U12 Direct Session correction
+Marco authorized Codex to modify the repository directly. Base main: 81dfced59cc85231e25732137859923b39a2beed. The unrelated feat/reset-and-explain branch is preserved.
+R30 / T41-T43 restore the existing chat, remove the visible refund exercise/log, embed API configuration in a dialog and keep five navigation destinations. The public build now ships the reference model catalog and exposes the conversation UI, but disables credentials and labels inference as local-backend functionality.
+Regression tests are added; prior latest.json remains historical. Terminal execution is unavailable in the authoring session. No live inference, hosted backend, new arbitrary MCP execution, merge or deployment is claimed.
+Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20.

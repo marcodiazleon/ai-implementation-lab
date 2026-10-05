@@ -4,8 +4,8 @@ Owner and maintenance contact: Marco Díaz de León through the public GitHub pr
 Scope: public source sample plus local synthetic runtime. No hosted service or support SLA is offered.
 
 ## Start, stop and reset
-Run python scripts/verify.py, then python run.py serve. Open the printed loopback address.
-Stop with Ctrl+C. Restart creates a fresh in-memory session. The current UI has no reset action; this is EXP-M02.
+Run python scripts/verify.py, then python run.py serve. Open the printed loopback address to use Session.
+Stop with Ctrl+C. Restart creates a fresh in-memory session. The current UI contains the conversation and its clear/disconnect controls; historical refund state is accessible through CLI/API only.
 If the port is occupied, choose another --port. If Python is missing, install it from its official distribution before running; this repo does not install a package catalog.
 
 ## Data lifecycle and recovery
