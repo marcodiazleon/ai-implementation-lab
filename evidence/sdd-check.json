@@ -4,7 +4,7 @@
   "scope": "Structural checks; not semantic review or owner acceptance",
   "source_id": "89ca948ece628f6696af47771b231ed0495ce30a924d011db0c2493edcdfcc2f",
   "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "a20e9b53785b05d913e24a070b30515ad63fc2afb8edb994443d553679ebce3c",
+    "specs/001-support-demo/acceptance.csv": "5b135e180d889ef50a645069313eb1ad1bda35d3462a9a81439870e6cfa5c4ea",
     "specs/001-support-demo/plan.md": "a26d981a79659748b97288b8235da74d4434ba35f74c9daa6bb91cbb2bdf89d8",
     "specs/001-support-demo/spec.md": "e96f2694f9a5abc7609a81022d831d1888394f8ea0c7cf2de15a993d46a2d880",
     "specs/001-support-demo/tasks.md": "41dfb06b03a6201c9d6a33a17dc6a30890c7e06e2dc904fcd330e61e6db7262f",
