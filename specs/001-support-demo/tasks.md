@@ -59,3 +59,5 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 |---|---|---|---|---|---|---|
 | T44 | R11,R12 | Evaluation-only license and consistent visitor/contribution/security documentation | U13,T43 | Codex; authority Marco | Local evaluation allowed; reuse and external code changes reserved; platform limits explicit | IMPLEMENTED; C144 review pending |
 | T45 | R08,R14 | CODEOWNERS; least-privilege CI and verified Pages build; main protection and settings audit | U13,T44 | Codex for files; Marco for GitHub identity confirmation | Project build cannot use deploy permissions; main controls and limitations evidenced separately | PARTIAL; C145 blocked by GitHub authentication; C146 CI pending |
+
+| T46 | R11,R12,R14 | Six app-specific product documents and equivalence review against owner reference templates | U14,T44 | Codex; Marco supplies inaccessible references | Six documents map to canonical app source and SDD; template read and comparison recorded; no unsupported implementation claims | PARTIAL; PRD draft only; five documents and reference comparison pending |

@@ -13,10 +13,10 @@
   "runtime_model": "OPTIONAL_OPENAI_OR_ANTHROPIC_OPERATOR_SELECTED",
   "acceptance": "OWNER_ACCEPTANCE_NOT_RECORDED",
   "independent_review": "NOT_PERFORMED",
-  "next_task": "Confirm GitHub identity; verify main protection and access; review CI and PR #5",
+  "next_task": "Read six owner templates; complete T46; confirm GitHub identity and main protection; review CI and PR #5",
   "evidence": "evidence/latest.json",
   "latest_delivery": "U13 evaluation-only policy and integrity; U12 Session correction retained",
-  "current_task": "T44 implemented; T45 partial; administrative protection blocked by identity confirmation",
+  "current_task": "T46 PARTIAL: PRD draft; five documents and reference comparison pending. T45 administrative protection blocked.",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED",
   "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
@@ -25,5 +25,6 @@
   "public_demo_verified": "Historical browser run 2026-10-04; U12 not deployed",
   "evidence_scope": "Historical run; does not verify U12 source revision",
   "repository_protection": "BLOCKED_GITHUB_IDENTITY_CONFIRMATION",
-  "security_review": "docs/repository-security.md"
+  "security_review": "docs/repository-security.md",
+  "product_documents": "docs/product-documents/01_PRODUCT_REQUIREMENTS_DOCUMENT.md (draft only)"
 }
