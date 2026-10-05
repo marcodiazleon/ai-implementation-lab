@@ -17,7 +17,8 @@ I define the problem, choose the scope and coordinate delivery. This repository 
 
 The refund exercise and operation log are no longer part of the interface. Their code, CLI, fixtures and historical tests remain in the repository.
 
-## Run locally
+## Run locally for evaluation
+Read the [evaluation-only license](LICENSE.md) first. Downloading and running a local copy is permitted solely to evaluate the demo. Source reuse, redistribution, modification and external code contributions require Marco's prior written authorization.
 Requirements: Python 3.11+ and Git. Node is needed for Python/JavaScript parity tests. No third-party Python packages are required.
 
 ```sh
@@ -56,9 +57,11 @@ The public static build accepts no API keys. It is an interface preview, not a h
 - **Failing check:** preserve command, expected/observed behavior, source revision and environment; rerun after a bounded correction.
 - **MCP configuration:** prepared JSON is not proof of a live connection.
 
-[Operation and handoff](docs/operations.md) · [API guide](docs/OPENAI_API.md) · [Contributing](CONTRIBUTING.md)
+[Operation and handoff](docs/operations.md) · [API guide](docs/OPENAI_API.md) · [Review and maintainer policy](CONTRIBUTING.md)
 
 ## Scope and contact
 This is a demonstration for prospective employers and clients. It claims no production authentication, durable refund transactions, business outcomes or autonomous shell/file execution. Optional model calls are bounded text conversations.
 
-The repository is public for inspection; no open-source reuse license is granted in this version. Contact Marco through [GitHub](https://github.com/marcodiazleon).
+The repository is public for inspection and bounded local evaluation under [LICENSE.md](LICENSE.md). No open-source reuse rights are granted. Public visibility does not permit source integration, redistribution or unauthorized changes to this repository or its application. GitHub platform viewing/forking rights still apply. Contact Marco through [GitHub](https://github.com/marcodiazleon).
+
+Repository controls, administrative settings pending authentication and verification limits are recorded in [the security review](docs/repository-security.md). A policy is not a technical guarantee against malicious activity.

@@ -46,3 +46,7 @@ Replace the U08 oversized chat toolbar with four native keyboard-accessible sele
 
 ## D24 — Conversation is the primary experience
 Source: Marco, 2026-10-05, U12. Replace visible refund panels with the existing chat; five destinations only. API settings open within Session. This supersedes D19's public refund presentation. Existing deterministic examples and their results are retained as history. The static preview cannot claim live cloud chat; provider inference remains on the existing local backend until a hosted backend is separately supplied. D20's manual PR opening remains unchanged.
+
+## D25 — U13 evaluation rights and integrity (2026-10-05)
+Marco permits documentation/source review and the download necessary to install Python and run the demo locally. No general reuse, redistribution, source modification or external code contribution is granted. LICENSE.md supersedes D08's pending reuse-license decision with bounded evaluation rights; GitHub platform rights remain.
+Use protected main and least-privilege CI/deployment instead of claiming that a notice blocks downloads or malicious input. Administrative controls await GitHub Confirm access and remain BLOCKED; collaborator/Actions settings are NOT VERIFIED. CODEOWNERS is review routing only. The amended Pages workflow must pass its build before a separate deploy job receives Pages/OIDC privileges. This supersedes workflow permission placement, not D20: owner opens PRs and controls integration. No merge/deployment authorized by this record.

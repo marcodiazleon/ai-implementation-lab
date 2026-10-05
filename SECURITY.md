@@ -15,3 +15,8 @@ Never paste sensitive information into issues or the demo. For a potential vulne
 ## Conexión API opcional
 
 La clave se introduce explícitamente y permanece en memoria del servidor local. No se lee del entorno ni de archivos. Destino fijo api.openai.com; no hay redirecciones ni URL arbitraria. Sesiones, caducidad, límites y privacidad: [guía API](docs/OPENAI_API.md). Este servidor local no proporciona autenticación multiusuario ni aislamiento frente a otros procesos del mismo equipo; no se debe exponer en red. Las pruebas no utilizan credenciales reales.
+
+## Public review and source integrity
+See [evaluation rights](LICENSE.md), [review policy](CONTRIBUTING.md) and [repository protection review](docs/repository-security.md). Public visitors are not granted write access to the original repository. A proposed PR is untrusted input, not executable approval. Do not run external scripts or workflows from feedback.
+The public Pages site is static and has no shared write/upload API. Local evaluation runs on loopback with Host/Origin checks; custom agent definitions are local state and grant no shell tools. These boundaries reduce specific risks and do not establish immunity to malicious activity. Do not expose the local server to a network or use real customer data.
+Administrative branch protections and collaborator/Actions audits are separate from source files; their confirmed or blocked state is recorded in the security review. A legal notice or CODEOWNERS file does not enforce permissions.
