@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "AI Implementation Lab",
-  "updated": "2026-10-04",
+  "updated": "2026-10-09",
   "active_spec": "specs/001-support-demo/spec.md",
   "active_spec_version": "0.9",
   "expansion_spec": "specs/002-expansion/spec.md",
@@ -15,12 +15,13 @@
   "independent_review": "NOT_PERFORMED",
   "next_task": "E-M02",
   "evidence": "evidence/latest.json",
-  "latest_delivery": "E-A08 in-app evidence view + traceability explorer (S01 R27, T35-T37)",
-  "current_task": "T35-T37 IMPLEMENTED",
+  "latest_delivery": "E-M07 partial: versioned Linux/Windows CI gating the Pages deploy; one-page bilingual README (D22)",
+  "current_task": "E-M07 PARTIAL (CI versioned; browser and injected-defect run pending)",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED",
   "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
   "json_browser_download": "VERIFIED_FILE_AND_HASH",
   "public_demo": "https://marcodiazleon.github.io/ai-implementation-lab/",
-  "public_demo_verified": "2026-10-04 manual browser run; parity test see evidence"
+  "public_demo_verified": "2026-10-04 manual browser run; parity test see evidence",
+  "ci": "VERSIONED_LINUX_WINDOWS; BROWSER_AND_INJECTED_DEFECT_PENDING"
 }

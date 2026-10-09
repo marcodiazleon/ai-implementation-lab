@@ -1,6 +1,6 @@
 # Decisions and sources
 
-Updated 2026-10-04. Source IDs U01–U03 are defined in the active specification.
+Updated 2026-10-09. Source IDs U01–U03 are defined in the active specification.
 
 | ID | Decision / question | Alternatives and reason | Source / authority | Owner | State / revisit |
 |---|---|---|---|---|---|
@@ -22,6 +22,7 @@ Updated 2026-10-04. Source IDs U01–U03 are defined in the active specification
 | D19 | Public publication: static GitHub Pages build with rules running in the browser; chat, API-key and MCP views hidden in public; no visitor data | A hosted Python server would need hosting, identity and cost decisions; the browser port reuses the fixtures | Owner request 2026-10-04 | Marco | RESOLVED; parity checked by C113 |
 | D20 | PR lock against main: the owner opens pull requests manually; the assistant only pushes branches | Assistant-opened PRs would bypass the owner's review step | Owner 2026-10-04 | Marco | RESOLVED |
 | D21 | Evidence view data: requirements exposed as JSON generated from the spec table (same regex as sdd_check.py); latest.json and acceptance.csv served unchanged; spec.md not published in the static build | Publishing spec.md and parsing Markdown in the browser; recalculating states client-side | Owner U10 2026-10-04 | Marco | RESOLVED; C116, C118, C119 |
+| D22 | Versioned CI: one workflow runs scripts/verify.py on Linux (Python 3.11 and 3.13) and Windows (Python 3.13) for every push and pull request; the Pages deploy needs every check to pass and regenerates the published evidence on a clean CI checkout. README reduced to a one-page bilingual overview | Separate CI and Pages workflows; deploying committed evidence from a local run; keeping the long README | Owner request 2026-10-09 after repository review | Marco | RESOLVED for Linux/Windows checks; browser check and injected-defect run pending |
 
 Engineering choices above are identified separately from user approvals. Silence never changes their authority. Routine reversible work under U01–U03 continues without repeated generic approvals.
 

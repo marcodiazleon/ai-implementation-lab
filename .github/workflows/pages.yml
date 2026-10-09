@@ -1,24 +1,61 @@
-name: Public demo (GitHub Pages)
+name: Verify and publish demo
+# E-M07: versioned checks on Linux and Windows before any publication.
+# The public demo is deployed only from main and only after every check passes.
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: pages
-  cancel-in-progress: true
 jobs:
+  verify:
+    name: verify (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, python: "3.11" }
+          - { os: ubuntu-latest, python: "3.13" }
+          - { os: windows-latest, python: "3.13" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      # Tests, fixtures, publication guard, traceability and the seven scenarios.
+      - run: python scripts/verify.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            evidence/latest.json
+            evidence/sdd-check.json
+            specs/001-support-demo/acceptance.csv
   deploy:
+    needs: verify
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - run: python3 scripts/build_pages.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      # Regenerate evidence on a clean checkout so the public Evidence view shows this run.
+      - run: python scripts/verify.py
+      - run: python scripts/build_pages.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -95,3 +95,11 @@ Delivered compact Session, decorative typewriter invitation, composer-bottom sel
 - NOT executed: the load-failure message (R27c failure branch) in a browser; check on the published GitHub Pages URL (needs merge); a run by another person; independent review.
 - State: E-A08 PARTIAL (decision links not in the view); E-M07 PARTIAL (no versioned CI).
 - Next: E-M02.
+
+## 2026-10-09 · Versioned CI and one-page README (E-M07 partial)
+- Source: owner request 2026-10-09 after a repository review that found no tests in CI, published evidence from a local run with a dirty tree, and a README too long for a first visit. Decision D22; backlog item E-M07.
+- Changes: `.github/workflows/pages.yml` now has a `verify` matrix (ubuntu 3.11, ubuntu 3.13, windows 3.13) running `scripts/verify.py` on every push and pull request and uploading the evidence files as artifacts; `deploy` needs `verify`, runs only on `main`, regenerates the evidence on a clean checkout and then builds and publishes. README rewritten as a one-page English overview with a Spanish section; the removed detail remains in the linked documents. docs/operations.md describes the new flow.
+- Checks run by the implementing assistant on Linux: the 98 tests on Python 3.11 and 3.13; verify.py, build_pages.py and sdd_check.py pass; workflow YAML parses.
+- NOT executed: the workflow on GitHub runners before this push; a Windows run in this session; a browser check in CI; an injected-defect run.
+- State: E-M07 PARTIAL. X-M07 stays NO_PROBADO.
+- Next: confirm the first CI run; then E-M02.
