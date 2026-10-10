@@ -47,5 +47,17 @@ class PagesBuildTests(unittest.TestCase):
             with (out / "data/acceptance.csv").open(encoding="utf-8", newline="") as h:
                 self.assertEqual(ids, {row["requirement_id"] for row in csv.DictReader(h)})
 
+    def test_public_build_ships_business_case(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = build(Path(tmp) / "site")
+            self.assertTrue((out / "data/business_cases.json").is_file())
+            self.assertTrue((out / "business.js").is_file())
+            html = (out / "index.html").read_text(encoding="utf-8")
+            self.assertIn('id="view-business"', html)
+            self.assertIn('href="#business" data-view="business"', html)
+            self.assertIn('src="business.js"', html)
+            css = (out / "style.css").read_text(encoding="utf-8")
+            self.assertNotIn(".public-demo #view-business", css)
+
 if __name__ == "__main__":
     unittest.main()

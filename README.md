@@ -2,43 +2,36 @@
 
 **Marco Díaz de León · Forward Deployment / AI Implementation Strategy**
 
-**[Open the live demo](https://marcodiazleon.github.io/ai-implementation-lab/)** — runs in your browser with fictional data; no account, key or personal data needed.
-The public demo runs the refund exercise and agent templates in the browser; model conversations, API keys and MCP connections exist only in the local version.
-The **Evidence** view in the demo shows the last recorded test run and, for each requirement, its acceptance cases, tests and evidence files.
+[![Verify and publish demo](https://github.com/marcodiazleon/ai-implementation-lab/actions/workflows/pages.yml/badge.svg)](https://github.com/marcodiazleon/ai-implementation-lab/actions/workflows/pages.yml)
 
-I help teams define what they need, decide which systems to connect and organize the implementation. This repository shows the requirements, technical decisions and tests for a small working example.
+**[Open the live demo](https://marcodiazleon.github.io/ai-implementation-lab/)** or go straight to the **[business case](https://marcodiazleon.github.io/ai-implementation-lab/#business)**. It runs in your browser with fictional data. No account, key or personal data is needed.
 
-The example uses fictional orders and a simulated refund process. Code was developed with AI assistance. My role is to define the problem, choose the scope and coordinate delivery.
+[Español abajo](#en-español)
 
-[Método de ingeniería](docs/engineering-guide.md) · [Guía en español](docs/START_HERE_ES.md) · [Engineering guide](docs/engineering-guide.md) · [Evidence](evidence/latest.json) · [What is and is not implemented](docs/capabilities.md)
+![Business case view: guided diagnosis and cost/benefit estimate for a fictional company](docs/assets/business-case-20261010.jpg)
 
-![Compact Session: provider, model, effort and agent controls below the message](docs/assets/session-compact-20261003.jpg)
+## What this is
 
-## How the project is organized
+A small, working example of how I take an AI idea from business case to tested implementation.
 
-Start with the [engineering method and chapter map](docs/sdd-adoption.md), then follow the [use cases and requirements](specs/001-support-demo/spec.md), [technical plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [case results](specs/001-support-demo/acceptance.csv).
-The [tool register](docs/tools-and-capabilities.md) explains what each tool is used for, its data access, limits and verification. [Operation and maintenance](docs/operations.md) explains startup, recovery and handoff.
-[Current status](docs/project-status.json) explicitly selects S01 0.8; the [completion review](reports/SDD_REVIEW.md) records current checks and remaining work. The [20-item expansion](specs/002-expansion/tasks.md) is a separate backlog.
+It starts where client work starts. The **business case** turns a need into a bounded scope and an honest estimate: what is confirmed, what is still unknown, which risks need controls, and whether the idea pays back at all. One fictional company is worth a pilot; the other is not, and the page says so.
 
-## Reviewing a refund request
+The **worked example** then builds the first increment. It is a fictional after-sales assistant. It reads an order, checks a refund policy, proposes a refund and waits for a person to approve it before creating a **simulated** receipt.
 
-The working example is a fictional after-sales assistant. It reads a synthetic order, checks an exercise policy, proposes a refund, waits for a reviewer decision and creates a **local simulated receipt**.
+I defined the problem, the scope and the acceptance criteria. The code was written with AI assistance and checked against those criteria.
 
-Try executing a refund before approval, then approve it and simulate a connector failure. The event log shows each attempt. A successful retry produces one local receipt.
+## What it demonstrates
 
+- **Business judgment before code.** Missing answers stay open questions, never requirements, and three scenarios use visible formulas with zero savings claimed as achieved.
+- **Human approval before any effect.** Execution is blocked until a reviewer approves, and stale proposals are rejected.
+- **Safe retries.** A connector failure keeps the approval, and twenty concurrent retries still produce one receipt.
+- **Traceability.** Every requirement links to acceptance cases, tests and evidence. The demo's Evidence view shows this live.
+- **Bounded AI connections.** The local version can call OpenAI or Anthropic with your own key, after explicit consent, as text-only assistants with no tools.
+- **Automated checks.** Every push runs the full verification on Linux and Windows, and the public demo is published only when it passes.
 
+## Run it locally
 
-### Where to start
-
-| Visitor | Read first | Then inspect |
-|---|---|---|
-| Recruiter: how does Marco work? | [Profile and working method](docs/engineering-guide.md) | [Decision record](docs/decisions.md) |
-| Client: how would an idea become an implementation? | [Problem, scope and acceptance](specs/001-support-demo/spec.md) | [Demo walkthrough](docs/demo-script.md) |
-| Technical reviewer: does the sample work? | Run the commands below | [Tests](tests/), [MVC and MCP](docs/architecture.md), [evidence](evidence/latest.json) |
-
-## Run the demo
-
-Requirements: **Python 3.11+ and Git**. No third-party Python packages, API keys, model subscriptions or installation of connectors.
+Requires Python 3.11+ and Git. No third-party packages.
 
 ```sh
 git clone https://github.com/marcodiazleon/ai-implementation-lab.git
@@ -47,78 +40,43 @@ python scripts/verify.py
 python run.py serve
 ```
 
-Open **http://127.0.0.1:8765**. Stop with Ctrl+C. On systems where Python is named `python3` or `py`, use that launcher instead. Another port: `python run.py serve --port 8766`.
+Open http://127.0.0.1:8765. The verification run rewrites the evidence files with your results. The [demo walkthrough](docs/demo-script.md) lists the exact steps.
 
-Try the eligible case, attempt execution before approval, approve it, simulate a connector failure, and retry. [Exact steps and expected results](docs/demo-script.md).
+## Limits
 
-Other entry points:
+- This is a deterministic demonstration, not a deployed autonomous service. There are no real customers, refunds or business systems.
+- The reviewer role is simulated. Any local caller can approve.
+- State lives in memory and resets on restart.
+- Calls to OpenAI and Anthropic were tested with local doubles only. A live call is not yet recorded.
 
-```sh
-python run.py evaluate
-python run.py demo
-python run.py mcp
-```
+Full list: [what is and is not implemented](docs/capabilities.md) · [security boundaries](SECURITY.md).
 
-`demo` scripts the reviewer decision for an automated example. The browser walkthrough is the human interaction. `mcp` waits for JSON-RPC on stdin; it is not an interactive chat prompt.
+## Go deeper
 
-## What is in the sample?
-
-- **Working application:** local web UI, domain rules, review state machine, simulated connector and retry protection.
-- **Project records:** requirements, test references, decisions and results. The current [method map](docs/sdd-adoption.md) links the use cases, tool choices, tasks and per-case evidence; it also records the initial process deviation.
-- **Hooks:** application lifecycle events and an optional Git pre-commit guard that inspects staged bytes.
-- **Data skill:** documented procedure plus an executable validator.
-- **MCP:** a limited, version-pinned stdio adapter exposing two read-only tools.
-- **Seven scenarios:** eligible request, expired window, excessive amount, foreign workspace, read-only lookup, unknown order and disallowed tool.
-- **Visible boundaries:** source-level tests, synthetic scenario evaluation and limitations are separate from production acceptance.
-
-## Inspect the structure
-
-```text
-src/lab/       models, controller, application hooks, HTTP and MCP adapters
-web/           browser view: HTML, CSS and JavaScript
-data/          synthetic orders, exercise policy and scenarios
-tests/         workflow, concurrency, HTTP, MCP and publication-guard tests
-scripts/       validation, publication checks and evidence generation
-.agents/skills/ small reusable procedures with concrete outputs
-.githooks/     optional local pre-commit guard
-specs/         requirements, implementation plan and acceptance matrix
-docs/          working method, trade-offs, walkthrough and expansion ideas
-evidence/      machine-readable results tied to source hashes
-reports/       human-readable interpretation of those results
-```
-
-[Why each folder exists](docs/engineering-guide.md#how-i-organize-the-work).
-
-## Current limits
-
-This is a deterministic integration demonstration, **not a deployed autonomous AI service**. The refund demonstration has no LLM calls, real customers, real refunds or external business connections. The conversation on the home page can call OpenAI or Claude/Anthropic after explicit configuration and consent. The reviewer role is simulated; any local caller can use the decision endpoint. Refund state and model sessions disappear on restart; custom agent definitions remain in the ignored .local folder. Retry protection applies within one process, not to distributed transactions.
-
-The hash chain detects ordinary edits if hashes are left unchanged; it is not a signed, immutable audit log. The disallowed-tool case tests an allowlist, not resistance to arbitrary prompt injection. The MCP adapter is wire-tested for its documented subset, not certified or tested with a live assistant client.
-
-[Security boundaries](SECURITY.md) · [Ten additions, ten improvements and current status](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
+| If you want to see | Read |
+|---|---|
+| How I work | [Engineering method](docs/engineering-guide.md) |
+| How the business case decides | [Requirements R28 and R29](specs/001-support-demo/spec.md#u11--business-case-guided-diagnosis-and-costbenefit-estimate) · [decision D23](docs/decisions.md) |
+| Requirements and acceptance | [Specification](specs/001-support-demo/spec.md) · [case results](specs/001-support-demo/acceptance.csv) |
+| Design and architecture | [Architecture](docs/architecture.md) · [decisions](docs/decisions.md) |
+| Agents, MCP and AI connections | [Workbench guide](docs/WORKBENCH.md) · [AI connection guide](docs/OPENAI_API.md) |
+| Test evidence | [Latest run](evidence/latest.json) |
+| What comes next | [Roadmap](docs/roadmap.md) |
 
 ## Reuse and contact
 
-This repository is public for inspection. No open-source license has been granted in this version; visibility is not a license to redistribute or incorporate it into a commercial product. Contact Marco through [his GitHub profile](https://github.com/marcodiazleon) to discuss an implementation or reuse.
+This repository is public for inspection. No open-source license is granted. To discuss an implementation or reuse, contact Marco through [his GitHub profile](https://github.com/marcodiazleon).
 
-## Next interactive experience
-The [product and visual plans](docs/PLAN_PRODUCTO_Y_DISENO.md) describe editable request analysis, comparison and a bounded sales workflow. The black/white visual update is delivered; these functional extensions remain planned. [Research and sources](docs/INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md).
+---
 
-## Workspace and agent builder
+## En español
 
-The expandable sidebar opens **Session**, **Agents**, **MCPs**, **Connect your AI** and **How it is built**. The header contains the Spanish/English selector. Session starts with a compact composer; the deterministic refund example opens below it without an API connection.
+Ejemplo pequeño y funcional de cómo llevo una idea de IA desde el caso de negocio hasta una implementación probada. **[Abre la demo](https://marcodiazleon.github.io/ai-implementation-lab/)** o ve directo al **[caso de negocio](https://marcodiazleon.github.io/ai-implementation-lab/#business)**: corre en tu navegador con datos ficticios, sin cuenta, clave ni datos personales.
 
-In Agents, use one of four templates or define your own name, role, prompt and work mode. Save and edit the definition, download its JSON, and select it beneath the message. Definitions persist locally in `.local/agents.json`, excluded from Git and blocked by the publication guard. These are text-only assistants, with no shell, file or deployment tools.
+El caso de negocio convierte una necesidad en un alcance acotado y una estimación honesta: qué está confirmado, qué falta, qué riesgos requieren controles y si la idea se paga o no. Una empresa ficticia justifica un piloto; la otra no, y la página lo dice.
 
-Connect your AI supports the native OpenAI and Claude/Anthropic APIs with your own key and model ID. Changing agents clears the conversation context. Keys and chat history remain in server memory; model calls can incur provider charges. Neither a ChatGPT nor a Claude subscription is an API credential.
+Después, un asistente de posventa ficticio lee un pedido, revisa una política de devolución y propone un reembolso. Una persona debe aprobarlo antes de generar un recibo **simulado**. Yo definí el problema, el alcance y los criterios de aceptación. El código se escribió con asistencia de IA y se verificó contra esos criterios.
 
-The MCP guide prepares multiple HTTP or stdio configurations for compatible clients and exports a JSON file. Preparing a configuration does not run a server. Context7 retains its built-in read-only connection. Authentication and compatibility depend on each server and client.
+Cada push ejecuta la verificación completa en Linux y Windows, y la demo pública solo se publica si pasa. Las conexiones a OpenAI y Anthropic se probaron con dobles locales, y aún no hay una llamada real registrada.
 
-The language selector translates the five views and preserves drafts and connections. Existing user content stays in its original language. Sidebar preference and public MCP configurations are stored in this browser.
-
-[Agent and MCP guide](docs/WORKBENCH.md) · [AI connection guide](docs/OPENAI_API.md) · [Current delivery report](reports/SESSION_UI_REVIEW_2026-10-03.md)
-
-Provider routing was tested with local doubles; real OpenAI and Claude inference and startup on a second computer remain unverified.
-
-## Choosing how to work
-The home **Session** places provider, model, effort and agent dropdowns under the message. A rotating invitation pauses while typing and respects reduced-motion preferences. A reference catalog offers supported OpenAI and Anthropic model IDs; account access is checked when connecting or changing models. Supported effort is applied to the real provider payload, not just displayed. Changing models clears history while preserving the draft and usage count; changing effort retains history. Another provider needs its own connection. No paid priority mode is enabled.
+Para ejecutarlo localmente, usa los mismos comandos de arriba. La [guía en español](docs/START_HERE_ES.md) explica el recorrido completo.

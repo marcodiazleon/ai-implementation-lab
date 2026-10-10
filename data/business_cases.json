@@ -1,0 +1,52 @@
+[
+  {
+    "id": "aurora",
+    "title": {"es": "Tienda Aurora · devoluciones (completo)", "en": "Aurora Store · refunds (complete)"},
+    "diagnosis": {
+      "company": "Tienda Aurora (ficticia)",
+      "problem": "El equipo de posventa revisa a mano cada solicitud de devolución contra la política y responde tarde.",
+      "users": "Tres agentes de posventa y una supervisora que aprueba importes.",
+      "current_process": "Correo y hoja de cálculo; la política se consulta en un PDF.",
+      "monthly_volume": 1200,
+      "minutes_per_case": 9,
+      "constraints": "La supervisora debe aprobar todo reembolso; sin acceso de la IA al sistema de pagos.",
+      "success": "Responder en menos de un día hábil sin aumentar errores de reembolso.",
+      "data_sensitivity": "personal",
+      "action_type": "execute"
+    },
+    "estimate": {
+      "monthly_volume": 1200,
+      "manual_minutes": 9,
+      "assisted_minutes": 3,
+      "review_rate": 0.2,
+      "hourly_cost": 20,
+      "implementation_cost": 6000,
+      "monthly_operation_cost": 250
+    }
+  },
+  {
+    "id": "norte",
+    "title": {"es": "Despacho Norte · consultas (incompleto)", "en": "Norte Office · enquiries (incomplete)"},
+    "diagnosis": {
+      "company": "Despacho Norte (ficticio)",
+      "problem": "Los clientes preguntan lo mismo sobre plazos fiscales y el equipo pierde tiempo respondiendo.",
+      "users": "Dos asistentes administrativos.",
+      "current_process": "Respuestas manuales por correo con plantillas desordenadas.",
+      "monthly_volume": 150,
+      "minutes_per_case": null,
+      "constraints": "",
+      "success": "",
+      "data_sensitivity": "internal",
+      "action_type": "inform"
+    },
+    "estimate": {
+      "monthly_volume": 150,
+      "manual_minutes": 6,
+      "assisted_minutes": 2,
+      "review_rate": 0.3,
+      "hourly_cost": 15,
+      "implementation_cost": 3000,
+      "monthly_operation_cost": 120
+    }
+  }
+]

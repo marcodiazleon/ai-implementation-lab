@@ -6,6 +6,7 @@ Current implementation: local synthetic example. Canonical tool details: [tools-
 |---|---|---|
 | Method structure and traceability | SDD map, structured spec/tasks/cases, evidence/sdd-check.json, in-app evidence view (R27) | Internal structural review; owner acceptance separate |
 | Local browser workflow | HTTP tests and browser reports | Broader accessibility and mobile coverage recorded separately |
+| Business case: diagnosis and cost/benefit estimate | Unit, HTTP, parity and browser checks (R28, R29) | Illustrative factors and DEMO units; no visitor run or independent review |
 | Eligibility and scope | Tests and seven fixtures | Deterministic rules, not LLM quality |
 | Approval sequencing | Positive/negative state tests | Simulated identity; EXP-M04 |
 | Retry protection | Concurrent one-process receipt tests | No restart durability; EXP-M05 |

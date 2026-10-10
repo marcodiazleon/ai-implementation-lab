@@ -6,8 +6,8 @@
  document.documentElement.classList.add("public-demo");
  const realFetch = window.fetch.bind(window);
  const json = (name) => realFetch("data/" + name).then((r) => r.json());
- const data = Promise.all(["orders.json", "policy.json", "scenarios.json", "roles.json"].map(json))
-  .then(([orders, policy, scenarios, roles]) => ({ orders: Object.fromEntries(orders.map((r) => [r.id, r])), policy, scenarios, roles }));
+ const data = Promise.all(["orders.json", "policy.json", "scenarios.json", "roles.json", "business_cases.json"].map(json))
+  .then(([orders, policy, scenarios, roles, businessCases]) => ({ orders: Object.fromEntries(orders.map((r) => [r.id, r])), policy, scenarios, roles, businessCases }));
 
  // Same canonical form as src/lab/hooks.py: sorted keys, no spaces, ASCII escapes.
  const canonical = (v) => Array.isArray(v) ? "[" + v.map(canonical).join(",") + "]"
@@ -128,12 +128,84 @@
   return [200, copy(row)];
  }
 
+ // Business case (R28, R29): port of src/lab/business_case.py; same field order and arithmetic.
+ const TEXT_FIELDS = ["company", "problem", "users", "current_process", "constraints", "success"];
+ const NUMBER_FIELDS = { monthly_volume: [1, 1000000], minutes_per_case: [0.1, 600] };
+ const CHOICE_FIELDS = { data_sensitivity: ["none", "internal", "personal"], action_type: ["inform", "recommend", "execute"] };
+ const DIAGNOSIS_FIELDS = [...TEXT_FIELDS, ...Object.keys(NUMBER_FIELDS), ...Object.keys(CHOICE_FIELDS)];
+ const ESTIMATE_FIELDS = { monthly_volume: [1, 1000000], manual_minutes: [0.1, 600], assisted_minutes: [0, 600], review_rate: [0, 1],
+  hourly_cost: [0, 100000], implementation_cost: [0, 10000000], monthly_operation_cost: [0, 1000000] };
+ const SCENARIOS = [["conservative", 1.25, 0.10], ["base", 1.0, 0.0], ["optimistic", 0.8, -0.05]];
+ const LOW_VOLUME_MINUTES = 600, PAYBACK_LIMIT_MONTHS = 12;
+ const money = (v) => Math.floor(v * 100 + 0.5) / 100;
+ const isNumber = (v) => typeof v === "number" && Number.isFinite(v);
+ const isObject = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+ function diagnose(body) {
+  if (!isObject(body) || Object.keys(body).some((k) => !DIAGNOSIS_FIELDS.includes(k))) return [400, { status: "INVALID_INPUT", fields: ["_shape"] }];
+  const invalid = [], answers = {};
+  for (const f of TEXT_FIELDS) {
+   const v = body[f];
+   if (v === undefined || v === null || (typeof v === "string" && !v.trim())) continue;
+   if (typeof v !== "string" || v.trim().length > 500) invalid.push(f); else answers[f] = v.trim();
+  }
+  for (const [f, [lo, hi]] of Object.entries(NUMBER_FIELDS)) {
+   const v = body[f];
+   if (v === undefined || v === null) continue;
+   if (!isNumber(v) || !(lo <= v && v <= hi)) invalid.push(f); else answers[f] = v;
+  }
+  for (const [f, options] of Object.entries(CHOICE_FIELDS)) {
+   const v = body[f];
+   if (v === undefined || v === null || v === "") continue;
+   if (!options.includes(v)) invalid.push(f); else answers[f] = v;
+  }
+  if (invalid.length) return [400, { status: "INVALID_INPUT", fields: invalid }];
+  const missing = DIAGNOSIS_FIELDS.filter((f) => !(f in answers));
+  const action = answers.action_type;
+  const level = { inform: "ASSIST", recommend: "PROPOSE_AND_APPROVE", execute: "PROPOSE_AND_APPROVE" }[action] ?? null;
+  const risks = [];
+  if (answers.data_sensitivity === "personal") risks.push("PERSONAL_DATA");
+  if (action === "execute") risks.push("EXECUTION_NEEDS_APPROVAL");
+  if ("monthly_volume" in answers && "minutes_per_case" in answers) {
+   if (answers.monthly_volume * answers.minutes_per_case < LOW_VOLUME_MINUTES) risks.push("LOW_VOLUME");
+  } else risks.push("UNMEASURED_BASELINE");
+  return [200, { status: missing.length ? "BRIEF_INCOMPLETE" : "BRIEF_READY",
+   confirmed: DIAGNOSIS_FIELDS.filter((f) => f in answers).map((f) => ({ field: f, value: answers[f] })),
+   open_questions: missing, recommended_level: level, risks,
+   first_increment: { ASSIST: "DRAFT_WITH_HUMAN_DECISION", PROPOSE_AND_APPROVE: "PROPOSAL_WITH_APPROVAL_GATE" }[level] ?? "DEFINE_ACTION_FIRST",
+   estimate_inputs: Object.fromEntries(["monthly_volume", "minutes_per_case"].filter((k) => k in answers).map((k) => [k, answers[k]])) }];
+ }
+ function scenario(name, v, assistedFactor, reviewShift) {
+  const assisted = v.assisted_minutes * assistedFactor;
+  const review = Math.min(1, Math.max(0, v.review_rate + reviewShift));
+  const minutesSaved = v.monthly_volume * (1 - review) * (v.manual_minutes - assisted);
+  const hoursSaved = minutesSaved / 60;
+  const gross = hoursSaved * v.hourly_cost;
+  const net = gross - v.monthly_operation_cost;
+  const payback = net > 0 ? v.implementation_cost / net : null;
+  return { scenario: name, assisted_minutes: money(assisted), review_rate: money(review), hours_saved_per_month: money(hoursSaved),
+   gross_benefit_per_month: money(gross), net_benefit_per_month: money(net), payback_months: payback === null ? null : money(payback),
+   first_year_net: money(net * 12 - v.implementation_cost) };
+ }
+ function estimate(body) {
+  const keys = Object.keys(ESTIMATE_FIELDS);
+  if (!isObject(body) || Object.keys(body).length !== keys.length || !keys.every((k) => k in body)) return [400, { status: "INVALID_INPUT", fields: ["_shape"] }];
+  const invalid = keys.filter((f) => !isNumber(body[f]) || !(ESTIMATE_FIELDS[f][0] <= body[f] && body[f] <= ESTIMATE_FIELDS[f][1]));
+  if (invalid.length) return [400, { status: "INVALID_INPUT", fields: invalid }];
+  const rows = SCENARIOS.map(([n, a, r]) => scenario(n, body, a, r)), base = rows[1].payback_months;
+  return [200, { status: "ESTIMATE", kind: "ESTIMATE_NOT_OBSERVED", currency: "DEMO", observed_savings: 0, inputs: copy(body), scenarios: rows,
+   recommendation: base !== null && base <= PAYBACK_LIMIT_MONTHS ? "PILOT" : "REVISIT_SCOPE", payback_limit_months: PAYBACK_LIMIT_MONTHS,
+   factors: SCENARIOS.map(([n, a, r]) => ({ scenario: n, assisted_factor: a, review_shift: r })) }];
+ }
+
  const routes = {
   "GET /api/state": async () => [200, { mode: "DETERMINISTIC_DEMO", model_calls: 0, external_requests: 0, real_effects: 0,
    proposals: copy(Object.values(proposals)), receipts: copy(Object.values(receipts)), events: copy(events),
    audit_chain_valid: await chainValid(),
    limitations: ["Browser-memory session", "Reviewer role is simulated, not real authentication", "No LLM quality or production readiness claim"] }],
   "GET /api/scenarios": async () => [200, (await data).scenarios],
+  "GET /api/business/cases": async () => [200, (await data).businessCases],
+  "POST /api/business/diagnose": async (body) => diagnose(body),
+  "POST /api/business/estimate": async (body) => estimate(body),
   "GET /api/agents": async () => [200, Object.entries((await data).roles).map(([id, v]) => ({ id, name: v.name, mission: v.mission,
    obligations: v.obligations, tools: ["local_artifact"], hooks: ["input", "permission", "output", "evidence"], can_execute_code: false }))],
   "GET /api/custom-agents": async () => [200, copy(custom)],

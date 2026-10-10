@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.sdd_check import requirement_rows
-DATA = ["data/orders.json", "data/policy.json", "data/scenarios.json", "agents/roles.json",
+DATA = ["data/orders.json", "data/policy.json", "data/scenarios.json", "data/business_cases.json", "agents/roles.json",
         "evidence/latest.json", "specs/001-support-demo/acceptance.csv"]
 NOTE = ('<p class="public-note" data-en="Public demo: everything runs in your browser with fictional data. '
         'No keys, accounts or personal data. Reloading the page resets it.">Demo pública: todo corre en tu '

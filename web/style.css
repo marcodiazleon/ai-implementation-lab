@@ -191,3 +191,12 @@ body.session-view main{padding-top:14px;padding-bottom:14px}body.session-view ma
 .metrics.evidence-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}.evidence-metrics b{font-size:18px;letter-spacing:-.3px;overflow-wrap:anywhere}.evidence-metrics b small{display:block;margin-top:4px}
 #reqCases td:nth-child(2),#reqCases td:nth-child(3){white-space:normal;min-width:200px}#reqBadge[data-state=PASS]{border-color:#b3dbc1}#reqBadge[data-state=FAIL]{border-color:var(--amber)}
 @media(max-width:700px){.metrics.evidence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Business case view (R28, R29): two-column fields, readable brief and scenario table. */
+.business-grid{margin-top:22px}.business-form label{margin:14px 0 6px}.business-form input:not([type=checkbox]),.business-form textarea{margin:0}.business-form textarea{min-height:84px}
+.business-form .primary{margin-top:20px}.field-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.business-output{margin-top:22px}.business-output h3{margin:20px 0 6px}.business-output ul{margin:0;padding-left:20px;color:var(--muted);font-size:14px}.business-output li{margin:4px 0;overflow-wrap:anywhere}
+.business-output .badge[data-state=PASS]{border-color:#b3dbc1}.business-output .badge[data-state=PENDIENTE]{border-color:var(--amber)}
+#bcVerdict{min-height:0}#bcScenarios th{text-align:left;font-weight:600}#bcTableWrap{margin-top:16px}
+.formulas{margin:18px 0;font-size:13px;color:var(--muted)}.formulas summary{cursor:pointer;color:var(--ink)}.formulas li{margin:6px 0}
+@media(max-width:540px){.field-pair{grid-template-columns:1fr;gap:0}}
+.business-output p{font-size:14px}#bcTableWrap th,#bcTableWrap td{white-space:normal;padding-left:10px;padding-right:10px}#bcTableWrap table{min-width:0;width:100%}

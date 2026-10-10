@@ -95,3 +95,21 @@ Delivered compact Session, decorative typewriter invitation, composer-bottom sel
 - NOT executed: the load-failure message (R27c failure branch) in a browser; check on the published GitHub Pages URL (needs merge); a run by another person; independent review.
 - State: E-A08 PARTIAL (decision links not in the view); E-M07 PARTIAL (no versioned CI).
 - Next: E-M02.
+
+## 2026-10-09 · Versioned CI and one-page README (E-M07 partial)
+- Source: owner request 2026-10-09 after a repository review that found no tests in CI, published evidence from a local run with a dirty tree, and a README too long for a first visit. Decision D22; backlog item E-M07.
+- Changes: `.github/workflows/pages.yml` now has a `verify` matrix (ubuntu 3.11, ubuntu 3.13, windows 3.13) running `scripts/verify.py` on every push and pull request and uploading the evidence files as artifacts; `deploy` needs `verify`, runs only on `main`, regenerates the evidence on a clean checkout and then builds and publishes. README rewritten as a one-page English overview with a Spanish section; the removed detail remains in the linked documents. docs/operations.md describes the new flow.
+- Checks run by the implementing assistant on Linux: the 98 tests on Python 3.11 and 3.13; verify.py, build_pages.py and sdd_check.py pass; workflow YAML parses.
+- CI run 37986105529 (workflow_dispatch on this branch, commit 0b996c8, 2026-10-09): verify passed on ubuntu Python 3.11, ubuntu Python 3.13 and windows Python 3.13; 98 tests each, no skips, so the Node-based parity test ran; deploy skipped as designed outside main. Evidence artifacts uploaded per job. https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/37986105529
+- NOT executed: the deploy job on main (needs merge); a browser check in CI; an injected-defect run. The runner warns that the pinned actions target Node.js 20, which GitHub now forces onto Node.js 24.
+- State: E-M07 PARTIAL. X-M07 stays NO_PROBADO.
+- Next: confirm the first CI run; then E-M02.
+
+## 2026-10-10 · U11 Business case: guided diagnosis and cost/benefit estimate (E-A02, E-A03 partial)
+- Source: owner U11 2026-10-09/10. The repository is only for clients and recruiters; the review found it proved rigor but not business value. Requirements R28/R29 and tasks T38–T41 recorded in S01 0.10. Decision D23.
+- Changes: src/lab/business_case.py (diagnose, estimate); data/business_cases.json with two fictional companies, validated by scripts/validate_data.py; local routes GET /api/business/cases and POST /api/business/diagnose and /estimate in src/lab/server.py; browser port and routes in web/public-demo.js; web/business.js renders the bilingual Business case view (brief, verdict, three-scenario table, formulas, Markdown download); nav entry, styles and build data. README now leads with the business case and a new screenshot. Tests: tests/test_business.py (C121–C130), parity C131, public build C132.
+- Browser check, 2026-10-10, implementing assistant, Playwright Chromium on Linux against the local server and _site under /ai-implementation-lab/ (C133, C134): aurora gives BRIEF LISTO, a link to the refund demo, a pilot verdict at 3.59 months and three scenario rows; Markdown downloads; norte gives BORRADOR with three open questions and a revisit-scope verdict; English switch; an empty cost per hour is named; 390 px without page overflow. The only console error is the pre-existing missing favicon (404).
+- Design choice: the Norte case does not pay back on purpose. It shows that the method can recommend not building.
+- NOT executed: a run by another person; independent review; the view on the published GitHub Pages URL (needs merge); a screen-reader pass.
+- State: E-A02 PARTIAL, E-A03 PARTIAL. X-A02 and X-A03 stay NO_PROBADO.
+- Next: merge, check the published page, then the owner-narrated walkthrough (E-M01).
