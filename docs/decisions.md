@@ -1,6 +1,6 @@
 # Decisions and sources
 
-Updated 2026-10-09. Source IDs U01–U03 are defined in the active specification.
+Updated 2026-10-10. Source IDs U01–U03 are defined in the active specification.
 
 | ID | Decision / question | Alternatives and reason | Source / authority | Owner | State / revisit |
 |---|---|---|---|---|---|
@@ -23,6 +23,7 @@ Updated 2026-10-09. Source IDs U01–U03 are defined in the active specification
 | D20 | PR lock against main: the owner opens pull requests manually; the assistant only pushes branches | Assistant-opened PRs would bypass the owner's review step | Owner 2026-10-04 | Marco | RESOLVED |
 | D21 | Evidence view data: requirements exposed as JSON generated from the spec table (same regex as sdd_check.py); latest.json and acceptance.csv served unchanged; spec.md not published in the static build | Publishing spec.md and parsing Markdown in the browser; recalculating states client-side | Owner U10 2026-10-04 | Marco | RESOLVED; C116, C118, C119 |
 | D22 | Versioned CI: one workflow runs scripts/verify.py on Linux (Python 3.11 and 3.13) and Windows (Python 3.13) for every push and pull request; the Pages deploy needs every check to pass and regenerates the published evidence on a clean CI checkout. README reduced to a one-page bilingual overview | Separate CI and Pages workflows; deploying committed evidence from a local run; keeping the long README | Owner request 2026-10-09 after repository review | Marco | RESOLVED for Linux/Windows checks; browser check and injected-defect run pending |
+| D23 | Business case view (U11): deterministic diagnosis and estimate in src/lab/business_case.py with a browser port and parity test, like D19; fictional companies and DEMO units; pilot only when the base scenario pays back within 12 months; missing answers stay open questions | A model-written brief (needs keys, cost and non-deterministic output); a client-only calculator without Python tests; real currency or company examples | Owner U11 2026-10-09/10 | Marco | RESOLVED for the sample; the 12-month threshold and scenario factors are illustrative, not a commercial policy |
 
 Engineering choices above are identified separately from user approvals. Silence never changes their authority. Routine reversible work under U01–U03 continues without repeated generic approvals.
 

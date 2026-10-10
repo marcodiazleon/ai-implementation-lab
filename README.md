@@ -4,20 +4,25 @@
 
 [![Verify and publish demo](https://github.com/marcodiazleon/ai-implementation-lab/actions/workflows/pages.yml/badge.svg)](https://github.com/marcodiazleon/ai-implementation-lab/actions/workflows/pages.yml)
 
-**[Open the live demo](https://marcodiazleon.github.io/ai-implementation-lab/)**. It runs in your browser with fictional data. No account, key or personal data is needed.
+**[Open the live demo](https://marcodiazleon.github.io/ai-implementation-lab/)** or go straight to the **[business case](https://marcodiazleon.github.io/ai-implementation-lab/#business)**. It runs in your browser with fictional data. No account, key or personal data is needed.
 
 [Español abajo](#en-español)
 
-![Session view with provider, model, effort and agent controls](docs/assets/session-compact-20261003.jpg)
+![Business case view: guided diagnosis and cost/benefit estimate for a fictional company](docs/assets/business-case-20261010.jpg)
 
 ## What this is
 
-A small, working example of how I take an AI idea from requirement to tested implementation. The example is a fictional after-sales assistant. It reads an order, checks a refund policy, proposes a refund and waits for a person to approve it before creating a **simulated** receipt.
+A small, working example of how I take an AI idea from business case to tested implementation.
+
+It starts where client work starts. The **business case** turns a need into a bounded scope and an honest estimate: what is confirmed, what is still unknown, which risks need controls, and whether the idea pays back at all. One fictional company is worth a pilot; the other is not, and the page says so.
+
+The **worked example** then builds the first increment. It is a fictional after-sales assistant. It reads an order, checks a refund policy, proposes a refund and waits for a person to approve it before creating a **simulated** receipt.
 
 I defined the problem, the scope and the acceptance criteria. The code was written with AI assistance and checked against those criteria.
 
 ## What it demonstrates
 
+- **Business judgment before code.** Missing answers stay open questions, never requirements, and three scenarios use visible formulas with zero savings claimed as achieved.
 - **Human approval before any effect.** Execution is blocked until a reviewer approves, and stale proposals are rejected.
 - **Safe retries.** A connector failure keeps the approval, and twenty concurrent retries still produce one receipt.
 - **Traceability.** Every requirement links to acceptance cases, tests and evidence. The demo's Evidence view shows this live.
@@ -51,6 +56,7 @@ Full list: [what is and is not implemented](docs/capabilities.md) · [security b
 | If you want to see | Read |
 |---|---|
 | How I work | [Engineering method](docs/engineering-guide.md) |
+| How the business case decides | [Requirements R28 and R29](specs/001-support-demo/spec.md#u11--business-case-guided-diagnosis-and-costbenefit-estimate) · [decision D23](docs/decisions.md) |
 | Requirements and acceptance | [Specification](specs/001-support-demo/spec.md) · [case results](specs/001-support-demo/acceptance.csv) |
 | Design and architecture | [Architecture](docs/architecture.md) · [decisions](docs/decisions.md) |
 | Agents, MCP and AI connections | [Workbench guide](docs/WORKBENCH.md) · [AI connection guide](docs/OPENAI_API.md) |
@@ -65,9 +71,11 @@ This repository is public for inspection. No open-source license is granted. To 
 
 ## En español
 
-Ejemplo pequeño y funcional de cómo llevo una idea de IA desde el requisito hasta una implementación probada. **[Abre la demo](https://marcodiazleon.github.io/ai-implementation-lab/)**: corre en tu navegador con datos ficticios, sin cuenta, clave ni datos personales.
+Ejemplo pequeño y funcional de cómo llevo una idea de IA desde el caso de negocio hasta una implementación probada. **[Abre la demo](https://marcodiazleon.github.io/ai-implementation-lab/)** o ve directo al **[caso de negocio](https://marcodiazleon.github.io/ai-implementation-lab/#business)**: corre en tu navegador con datos ficticios, sin cuenta, clave ni datos personales.
 
-Un asistente de posventa ficticio lee un pedido, revisa una política de devolución y propone un reembolso. Una persona debe aprobarlo antes de generar un recibo **simulado**. Yo definí el problema, el alcance y los criterios de aceptación. El código se escribió con asistencia de IA y se verificó contra esos criterios.
+El caso de negocio convierte una necesidad en un alcance acotado y una estimación honesta: qué está confirmado, qué falta, qué riesgos requieren controles y si la idea se paga o no. Una empresa ficticia justifica un piloto; la otra no, y la página lo dice.
+
+Después, un asistente de posventa ficticio lee un pedido, revisa una política de devolución y propone un reembolso. Una persona debe aprobarlo antes de generar un recibo **simulado**. Yo definí el problema, el alcance y los criterios de aceptación. El código se escribió con asistencia de IA y se verificó contra esos criterios.
 
 Cada push ejecuta la verificación completa en Linux y Windows, y la demo pública solo se publica si pasa. Las conexiones a OpenAI y Anthropic se probaron con dobles locales, y aún no hay una llamada real registrada.
 

@@ -1,6 +1,6 @@
 # S01 — Local after-sales example
 
-Version: 0.9. Status: current specification for the existing demonstration.
+Version: 0.10. Status: current specification for the existing demonstration.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -17,6 +17,7 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U06 | Owner requests Spanish/English language selection throughout the current app |
 | U07 | Owner requests functional internal PM, researcher, implementer and quality reviewer agents with hooks and responsibilities, plus MCP connection options starting with Context7. Both proposed additional roles confirmed. |
 | U10 | Owner's request 2026-10-04: a technical visitor sees, inside the app, the requirement → case → test → evidence chain and the real verification state without reading CSV/JSON by hand; a requirement without a passing case is shown as pending |
+| U11 | Owner's request 2026-10-09/10: the repository is only for clients and recruiters; build a high-value improvement that shows business judgment, not only engineering rigor (backlog EXP-A02 guided diagnosis and EXP-A03 cost/benefit simulator) |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
@@ -140,7 +141,7 @@ Operator approves connection to the fixed Context7 HTTPS endpoint, optionally su
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.9. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is S01 0.10. S02 is an expansion backlog; its higher number does not make it active or implemented.
 
 ### CU10 — Choose interface language
 Operator selects Español or English. All five views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.
@@ -177,3 +178,20 @@ Source: U10 (owner, 2026-10-04); backlog items EXP-A08 and EXP-M07. Visitor flow
 - R27c: While the data has not loaded, the view shall state "sin evidencia cargada" and show no default states.
 
 | R27 | Evidence view shows the committed run summary and a requirement → case → test → evidence explorer; a requirement without a PASS case with evidence is PENDIENTE, never approved by default. | U10 | CU01 | HTTP/build data tests, requirement/CSV ID parity and browser check of the public build |
+
+## U11 — Business case: guided diagnosis and cost/benefit estimate
+Source: U11 (owner, 2026-10-09/10); backlog items EXP-A02 and EXP-A03. The visitor sees how a need becomes a bounded scope and an honest estimate before anything is built. Two fictional companies in data/business_cases.json give different results: one complete and worth a pilot, one incomplete that does not pay back. Calculation runs in src/lab/business_case.py and, in the public build, in its port inside web/public-demo.js; the browser view only formats results. No model, network, storage or real money.
+
+### CU16 — Build a business case
+Visitor opens Business case, picks a fictional company or a blank form, answers the diagnosis and generates a brief, then adjusts volume, minutes, manual share, cost per hour, implementation and operation to compare three scenarios and read a recommendation. The visitor can download the result as Markdown.
+
+- R28a: When the visitor generates a brief, the system shall list only the answers given as confirmed and every missing answer as an open question; a missing answer shall never appear as a confirmed requirement.
+- R28b: The system shall derive the automation level, risks and first increment from the stated action type, data sensitivity and measured baseline, and shall mark the level pending when the action type is missing.
+- R29a: When the visitor calculates, the system shall return conservative, base and optimistic scenarios from visible formulas and factors, in DEMO units, labeled as an estimate with zero observed savings.
+- R29b: The system shall recommend a pilot only when the base scenario pays back the implementation within 12 months, and shall show "does not pay back" when net monthly benefit is not positive.
+- R29c: If an input is missing or out of range, the system shall reject the request and name the fields, without producing figures.
+
+| ID | Observable requirement | Source / decision status | Use cases | Acceptance |
+|---|---|---|---|---|
+| R28 | Guided diagnosis produces a bilingual brief: confirmed answers, open questions for every missing answer, automation level, risks and first increment; two fictional cases produce different briefs and an incomplete answer is never a confirmed requirement. | U11 | CU16 | Unit rules, invalid input, HTTP route, browser/Python parity and browser check |
+| R29 | Cost/benefit estimate with three scenarios, visible formulas and factors, DEMO units and zero observed savings; pilot recommended only within a 12-month base payback; invalid inputs rejected by field. | U11 | CU16 | Hand-calculated figures, ordering, no-payback case, invalid input, HTTP route, parity and browser check |

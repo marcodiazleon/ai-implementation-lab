@@ -3,6 +3,7 @@ import shutil
 import subprocess
 import unittest
 from src.lab.controller import Lab, ROOT, load_data
+from src.lab.business_case import diagnose, estimate
 
 # Runs web/public-demo.js in a fresh Node vm context per case, with a minimal browser stub whose fetch reads the
 # versioned fixtures from disk. Each case is a list of [method, path, body] calls; prints the JSON responses.
@@ -10,7 +11,8 @@ HARNESS = r"""
 const fs = require("fs"), path = require("path"), vm = require("vm");
 const root = process.argv[1], cases = JSON.parse(fs.readFileSync(0, "utf8"));
 const files = { "data/orders.json": "data/orders.json", "data/policy.json": "data/policy.json",
-  "data/scenarios.json": "data/scenarios.json", "data/roles.json": "agents/roles.json" };
+  "data/scenarios.json": "data/scenarios.json", "data/roles.json": "agents/roles.json",
+  "data/business_cases.json": "data/business_cases.json" };
 const source = fs.readFileSync(path.join(root, "web/public-demo.js"), "utf8");
 (async () => {
   const out = [];
@@ -77,6 +79,27 @@ class ParityTests(unittest.TestCase):
         self.assertTrue(snapshot["audit_chain_valid"])
         self.assertTrue(state["body"]["audit_chain_valid"])
         self.assertEqual(state["body"]["events"], snapshot["events"])
+
+    def test_public_business_case_matches_python(self):
+        # Fixtures plus edge and invalid inputs: same status code and identical body in the browser port.
+        cases = load_data("business_cases.json")
+        aurora = cases[0]["estimate"]
+        diagnoses = [c["diagnosis"] for c in cases] + [
+            {}, {"problem": "  x  ", "success": " ", "action_type": ""}, {"action_type": "inform", "monthly_volume": 20, "minutes_per_case": 5},
+            {"monthly_volume": True}, {"unknown": 1}, {"problem": "x" * 501}, {"data_sensitivity": "secret"}, {"minutes_per_case": 0.1, "monthly_volume": 1}]
+        estimates = [c["estimate"] for c in cases] + [
+            dict(aurora, review_rate=0.95), dict(aurora, review_rate=0.0, assisted_minutes=0), dict(aurora, assisted_minutes=12),
+            dict(aurora, monthly_volume=7, manual_minutes=13.7, assisted_minutes=4.3, hourly_cost=17.35, implementation_cost=999.99),
+            dict(aurora, implementation_cost=40000), dict(aurora, review_rate=1.5), {"monthly_volume": 1}, dict(aurora, hourly_cost="20")]
+        calls = [["GET", "/api/business/cases", None]] + [["POST", "/api/business/diagnose", d] for d in diagnoses] + \
+                [["POST", "/api/business/estimate", e] for e in estimates]
+        (js,) = run_js([calls])
+        self.assertEqual(js[0]["body"], cases)
+        expected = [diagnose(d) for d in diagnoses] + [estimate(e) for e in estimates]
+        for index, (got, want) in enumerate(zip(js[1:], expected)):
+            with self.subTest(call=calls[index + 1][1], index=index):
+                self.assertEqual(got["status"], 400 if want["status"] == "INVALID_INPUT" else 200)
+                self.assertEqual(got["body"], want)
 
 if __name__ == "__main__":
     unittest.main()

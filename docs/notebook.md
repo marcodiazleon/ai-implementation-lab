@@ -104,3 +104,12 @@ Delivered compact Session, decorative typewriter invitation, composer-bottom sel
 - NOT executed: the deploy job on main (needs merge); a browser check in CI; an injected-defect run. The runner warns that the pinned actions target Node.js 20, which GitHub now forces onto Node.js 24.
 - State: E-M07 PARTIAL. X-M07 stays NO_PROBADO.
 - Next: confirm the first CI run; then E-M02.
+
+## 2026-10-10 · U11 Business case: guided diagnosis and cost/benefit estimate (E-A02, E-A03 partial)
+- Source: owner U11 2026-10-09/10. The repository is only for clients and recruiters; the review found it proved rigor but not business value. Requirements R28/R29 and tasks T38–T41 recorded in S01 0.10. Decision D23.
+- Changes: src/lab/business_case.py (diagnose, estimate); data/business_cases.json with two fictional companies, validated by scripts/validate_data.py; local routes GET /api/business/cases and POST /api/business/diagnose and /estimate in src/lab/server.py; browser port and routes in web/public-demo.js; web/business.js renders the bilingual Business case view (brief, verdict, three-scenario table, formulas, Markdown download); nav entry, styles and build data. README now leads with the business case and a new screenshot. Tests: tests/test_business.py (C121–C130), parity C131, public build C132.
+- Browser check, 2026-10-10, implementing assistant, Playwright Chromium on Linux against the local server and _site under /ai-implementation-lab/ (C133, C134): aurora gives BRIEF LISTO, a link to the refund demo, a pilot verdict at 3.59 months and three scenario rows; Markdown downloads; norte gives BORRADOR with three open questions and a revisit-scope verdict; English switch; an empty cost per hour is named; 390 px without page overflow. The only console error is the pre-existing missing favicon (404).
+- Design choice: the Norte case does not pay back on purpose. It shows that the method can recommend not building.
+- NOT executed: a run by another person; independent review; the view on the published GitHub Pages URL (needs merge); a screen-reader pass.
+- State: E-A02 PARTIAL, E-A03 PARTIAL. X-A02 and X-A03 stay NO_PROBADO.
+- Next: merge, check the published page, then the owner-narrated walkthrough (E-M01).

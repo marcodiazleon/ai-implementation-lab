@@ -12,13 +12,14 @@
   <script src="/workbench.js" defer></script>
   <script src="/studio.js" defer></script>
   <script src="/evidence.js" defer></script>
+  <script src="/business.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#workspace">Ir al área de trabajo</a>
 <aside class="sidebar"><div class="sidebar-head"><a class="brand" href="/" aria-label="AI Implementation Lab, inicio">
     <span class="monogram" aria-hidden="true">MD</span>
     <span class="brand-text">MARCO DÍAZ DE LEÓN<small>AI IMPLEMENTATION LAB</small></span>
-  </a><button id="toggleSidebar" aria-controls="mainNav" aria-expanded="true" aria-label="Contraer menú">☰</button></div><nav id="mainNav" aria-label="Secciones"><a href="#session" data-view="demo" aria-label="Sesión" data-label-en="Session"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label" data-en="Session">Sesión</span></a><a href="#agents" data-view="agents" aria-label="Agentes" data-label-en="Agents"><span class="nav-icon" aria-hidden="true">◇</span><span class="nav-label" data-en="Agents">Agentes</span></a><a href="#mcp" data-view="mcp" aria-label="MCPs" data-label-en="MCPs"><span class="nav-icon" aria-hidden="true">⌘</span><span class="nav-label" data-en="MCPs">MCPs</span></a><a href="#connection" data-view="connection" aria-label="Conecta tu IA" data-label-en="Connect your AI"><span class="nav-icon" aria-hidden="true">↗</span><span class="nav-label" data-en="Connect your AI">Conecta tu IA</span></a><a href="#method" data-view="method" aria-label="Cómo está construido" data-label-en="How it is built"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label" data-en="How it is built">Cómo está construido</span></a><a href="#evidence" data-view="evidence" aria-label="Evidencia" data-label-en="Evidence"><span class="nav-icon" aria-hidden="true">▣</span><span class="nav-label" data-en="Evidence">Evidencia</span></a></nav><p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p></aside><button id="navBackdrop" aria-label="Cerrar menú" data-label-en="Close menu" hidden></button><header class="topbar"><div class="language-picker"><label for="language">Idioma</label><select id="language" aria-label="Idioma" data-label-en="Language"><option value="es" lang="es">Español</option><option value="en" lang="en">English</option></select></div></header>
+  </a><button id="toggleSidebar" aria-controls="mainNav" aria-expanded="true" aria-label="Contraer menú">☰</button></div><nav id="mainNav" aria-label="Secciones"><a href="#session" data-view="demo" aria-label="Sesión" data-label-en="Session"><span class="nav-icon" aria-hidden="true">◉</span><span class="nav-label" data-en="Session">Sesión</span></a><a href="#business" data-view="business" aria-label="Caso de negocio" data-label-en="Business case"><span class="nav-icon" aria-hidden="true">◈</span><span class="nav-label" data-en="Business case">Caso de negocio</span></a><a href="#agents" data-view="agents" aria-label="Agentes" data-label-en="Agents"><span class="nav-icon" aria-hidden="true">◇</span><span class="nav-label" data-en="Agents">Agentes</span></a><a href="#mcp" data-view="mcp" aria-label="MCPs" data-label-en="MCPs"><span class="nav-icon" aria-hidden="true">⌘</span><span class="nav-label" data-en="MCPs">MCPs</span></a><a href="#connection" data-view="connection" aria-label="Conecta tu IA" data-label-en="Connect your AI"><span class="nav-icon" aria-hidden="true">↗</span><span class="nav-label" data-en="Connect your AI">Conecta tu IA</span></a><a href="#method" data-view="method" aria-label="Cómo está construido" data-label-en="How it is built"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label" data-en="How it is built">Cómo está construido</span></a><a href="#evidence" data-view="evidence" aria-label="Evidencia" data-label-en="Evidence"><span class="nav-icon" aria-hidden="true">▣</span><span class="nav-label" data-en="Evidence">Evidencia</span></a></nav><p class="sidebar-note" data-en="AI IMPLEMENTATION LAB · LOCAL WORKSPACE">AI IMPLEMENTATION LAB · ESPACIO LOCAL</p></aside><button id="navBackdrop" aria-label="Cerrar menú" data-label-en="Close menu" hidden></button><header class="topbar"><div class="language-picker"><label for="language">Idioma</label><select id="language" aria-label="Idioma" data-label-en="Language"><option value="es" lang="es">Español</option><option value="en" lang="en">English</option></select></div></header>
 <main>
 <div id="view-demo" data-panel="demo"><section id="view-chat" class="conversation session" aria-label="Sesión" data-label-en="Session">
  <div class="session-topline"><span data-en="SESSION">SESIÓN</span><span id="chatStatus" role="status"></span><div class="session-actions"><button id="clearChat" type="button" disabled data-en="Clear">Vaciar</button><button id="disconnectChat" type="button" disabled data-en="Disconnect">Desconectar</button></div></div>
@@ -91,6 +92,52 @@
     <div class="table-wrap" role="region" aria-label="Eventos de la sesión" tabindex="0"><table><thead><tr><th scope="col">#</th><th scope="col">Evento</th><th scope="col">Acción</th><th scope="col">Resultado</th></tr></thead><tbody id="events"></tbody></table></div>
   </section>
 </div></details></div>
+<section id="view-business" data-panel="business" hidden aria-labelledby="business-title">
+ <div class="page-heading"><p class="eyebrow" data-en="FROM PROBLEM TO BUSINESS CASE">DEL PROBLEMA AL CASO DE NEGOCIO</p><h1 id="business-title" tabindex="-1" data-en="Business case">Caso de negocio</h1><p class="lead" data-en="Before building, I turn a need into a bounded scope and an honest estimate. Try it with a fictional company or your own figures.">Antes de construir, convierto una necesidad en un alcance acotado y una estimación honesta. Pruébalo con una empresa ficticia o con tus propias cifras.</p></div>
+ <label for="bcPreset" data-en="Start from">Empezar desde</label><select id="bcPreset"><option value="" data-en="Blank form">Formulario en blanco</option></select>
+ <p class="muted" data-en="Fictional examples. Nothing is sent to a model or stored.">Ejemplos ficticios. No se envía nada a un modelo ni se guarda.</p>
+ <div class="studio-grid business-grid">
+  <section class="panel" aria-labelledby="bcDiagTitle">
+   <div class="section-top"><span class="number">01</span><div><p class="eyebrow" data-en="GUIDED DIAGNOSIS">DIAGNÓSTICO GUIADO</p><h2 id="bcDiagTitle" data-en="What problem are we solving?">¿Qué problema resolvemos?</h2></div></div>
+   <form id="bcDiagForm" class="business-form" novalidate>
+    <label for="bcCompany" data-en="Company or area">Empresa o área</label><input id="bcCompany" maxlength="500">
+    <label for="bcProblem" data-en="Problem">Problema</label><textarea id="bcProblem" rows="3" maxlength="500"></textarea>
+    <label for="bcUsers" data-en="Who does the work today">Quién hace el trabajo hoy</label><input id="bcUsers" maxlength="500">
+    <label for="bcCurrent" data-en="Current process and systems">Proceso y sistemas actuales</label><input id="bcCurrent" maxlength="500">
+    <div class="field-pair"><div><label for="bcVolume" data-en="Cases per month">Casos al mes</label><input id="bcVolume" type="number" min="1" max="1000000" step="1" inputmode="numeric"></div><div><label for="bcMinutes" data-en="Minutes per case">Minutos por caso</label><input id="bcMinutes" type="number" min="0.1" max="600" step="0.1" inputmode="decimal"></div></div>
+    <label for="bcConstraints" data-en="Constraints">Restricciones</label><input id="bcConstraints" maxlength="500">
+    <label for="bcSuccess" data-en="What success looks like">Cómo se ve el éxito</label><input id="bcSuccess" maxlength="500">
+    <div class="field-pair"><div><label for="bcSensitivity" data-en="Data involved">Datos involucrados</label><select id="bcSensitivity"><option value="" data-en="Not answered">Sin responder</option><option value="none" data-en="No sensitive data">Sin datos sensibles</option><option value="internal" data-en="Internal data">Datos internos</option><option value="personal" data-en="Personal data">Datos personales</option></select></div><div><label for="bcAction" data-en="What the AI should do">Qué debe hacer la IA</label><select id="bcAction"><option value="" data-en="Not answered">Sin responder</option><option value="inform" data-en="Inform or draft">Informar o redactar</option><option value="recommend" data-en="Recommend a decision">Recomendar una decisión</option><option value="execute" data-en="Execute an action">Ejecutar una acción</option></select></div></div>
+    <button id="bcDiagnose" class="primary" data-en="Generate brief">Generar brief</button>
+   </form>
+   <div id="bcBrief" class="business-output" aria-live="polite"></div>
+  </section>
+  <section class="panel" aria-labelledby="bcEstTitle">
+   <div class="section-top"><span class="number">02</span><div><p class="eyebrow" data-en="COST AND BENEFIT ESTIMATE">ESTIMACIÓN DE COSTO Y BENEFICIO</p><h2 id="bcEstTitle" data-en="Is it worth building?">¿Vale la pena construirlo?</h2></div></div>
+   <form id="bcEstForm" class="business-form" novalidate>
+    <div class="field-pair"><div><label for="bcEVolume" data-en="Cases per month">Casos al mes</label><input id="bcEVolume" type="number" min="1" max="1000000" step="1" inputmode="numeric"></div><div><label for="bcEReview" data-en="Cases still handled manually (%)">Casos que siguen a mano (%)</label><input id="bcEReview" type="number" min="0" max="100" step="1" inputmode="decimal"></div></div>
+    <div class="field-pair"><div><label for="bcEManual" data-en="Manual minutes per case">Minutos manuales por caso</label><input id="bcEManual" type="number" min="0.1" max="600" step="0.1" inputmode="decimal"></div><div><label for="bcEAssisted" data-en="Assisted minutes per case, review included">Minutos asistidos por caso, con revisión</label><input id="bcEAssisted" type="number" min="0" max="600" step="0.1" inputmode="decimal"></div></div>
+    <div class="field-pair"><div><label for="bcEHourly" data-en="Cost per hour (DEMO)">Costo por hora (DEMO)</label><input id="bcEHourly" type="number" min="0" max="100000" step="0.5" inputmode="decimal"></div><div><label for="bcEOp" data-en="Monthly operating cost (DEMO)">Operación mensual (DEMO)</label><input id="bcEOp" type="number" min="0" max="1000000" step="1" inputmode="decimal"></div></div>
+    <label for="bcEImpl" data-en="One-time implementation cost (DEMO)">Implantación, pago único (DEMO)</label><input id="bcEImpl" type="number" min="0" max="10000000" step="1" inputmode="decimal">
+    <button id="bcEstimate" class="primary" data-en="Calculate scenarios">Calcular escenarios</button>
+   </form>
+   <div id="bcVerdict" class="result" role="status" hidden></div>
+   <div id="bcTableWrap" class="table-wrap" role="region" aria-label="Escenarios estimados" data-label-en="Estimated scenarios" tabindex="0" hidden><table><thead><tr><th scope="col" data-en="Scenario">Escenario</th><th scope="col" data-en="Hours saved / month">Horas ahorradas / mes</th><th scope="col" data-en="Net / month">Neto / mes</th><th scope="col" data-en="Payback">Recuperación</th><th scope="col" data-en="Year-one net">Neto año 1</th></tr></thead><tbody id="bcScenarios"></tbody></table></div>
+   <p id="bcEstimateNote" class="muted" hidden></p>
+   <details class="formulas"><summary data-en="Formulas and assumptions">Fórmulas y supuestos</summary><ul>
+    <li data-en="Hours saved per month = cases × (1 − share handled manually) × (manual minutes − assisted minutes) ÷ 60">Horas ahorradas al mes = casos × (1 − proporción a mano) × (minutos manuales − minutos asistidos) ÷ 60</li>
+    <li data-en="Gross benefit per month = hours saved × cost per hour">Beneficio bruto al mes = horas ahorradas × costo por hora</li>
+    <li data-en="Net per month = gross benefit − monthly operating cost">Neto al mes = beneficio bruto − operación mensual</li>
+    <li data-en="Payback in months = implementation ÷ net per month, only when net is positive">Recuperación en meses = implantación ÷ neto mensual, solo si el neto es positivo</li>
+    <li data-en="Year-one net = net per month × 12 − implementation">Neto del año 1 = neto mensual × 12 − implantación</li>
+    <li data-en="Conservative: assisted minutes × 1.25 and 10 more points handled manually. Optimistic: × 0.8 and 5 fewer points.">Conservador: minutos asistidos × 1.25 y 10 puntos más a mano. Optimista: × 0.8 y 5 puntos menos.</li>
+    <li data-en="A pilot is recommended only if the base scenario pays back within 12 months.">Se recomienda un piloto solo si el escenario base se recupera en 12 meses o menos.</li>
+   </ul></details>
+   <div class="buttons"><button id="bcDownload" type="button" disabled data-en="Download business case (.md)">Descargar caso de negocio (.md)</button></div>
+  </section>
+ </div>
+</section>
+
 <section id="view-connection" data-panel="connection" hidden>
  <div class="page-heading"><p class="eyebrow" data-en="YOUR MODEL, YOUR CHOICE">TU MODELO, TU ELECCIÓN</p><h1 id="connection-title" data-en="Connect your AI">Conecta tu IA</h1><p class="lead" data-en="Bring your provider to power the conversation and your agents. Set it up once here, then work in Session.">Conecta tu proveedor para conversar y usar tus agentes. Configúralo una vez aquí y trabaja en Sesión.</p></div>
  <div class="studio-grid"><section class="panel"><form id="connectionForm">

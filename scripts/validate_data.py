@@ -1,8 +1,10 @@
 """Validate synthetic fixture contracts without loading external data."""
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 def validate(root=ROOT):
     orders = json.loads((root / "data/orders.json").read_text(encoding="utf-8"))
@@ -26,6 +28,24 @@ def validate(root=ROOT):
     for key in ("max_refund", "window_days"):
         if type(policy.get(key)) is not int or policy[key] < 0:
             errors.append("Invalid policy limit")
+    errors.extend(validate_business_cases(root))
+    return errors
+
+def validate_business_cases(root=ROOT):
+    """Business case fixtures (R28/R29): fictional companies, DEMO money and the estimator's exact inputs."""
+    from src.lab.business_case import diagnose, estimate
+    errors, seen = [], set()
+    for row in json.loads((root / "data/business_cases.json").read_text(encoding="utf-8")):
+        if set(row) != {"id", "title", "diagnosis", "estimate"} or row["id"] in seen:
+            errors.append("Business case fields differ from synthetic contract")
+            continue
+        seen.add(row["id"])
+        if set(row["title"]) != {"es", "en"}:
+            errors.append("Business case title must be bilingual: " + row["id"])
+        if "ficti" not in row["diagnosis"].get("company", ""):
+            errors.append("Business case company must be labeled fictional: " + row["id"])
+        if diagnose(row["diagnosis"])["status"] == "INVALID_INPUT" or estimate(row["estimate"])["status"] != "ESTIMATE":
+            errors.append("Business case inputs rejected by the estimator: " + row["id"])
     return errors
 
 if __name__ == "__main__":
