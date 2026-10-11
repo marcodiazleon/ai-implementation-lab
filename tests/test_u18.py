@@ -120,7 +120,8 @@ class ManifestTests(unittest.TestCase):
             target = root / rel
             target.write_text(target.read_text(encoding="utf-8").replace("e", "E", 1), encoding="utf-8")
             errors = check_evidence.check_committed(root)
-            self.assertEqual(errors, ["Committed evidence describes other sources: " + rel])
+            self.assertEqual(errors[1:], ["Committed evidence describes other sources: " + rel])
+            self.assertTrue(errors[0].startswith("Committed evidence source_id "))
 
     def test_record_changes_are_rejected_and_environment_is_not(self):
         acceptance = "specs/001-support-demo/acceptance.csv"
@@ -129,15 +130,15 @@ class ManifestTests(unittest.TestCase):
                 (lambda root: self.edit_case(root, "C170", status="PASS"), acceptance)
         for change, rel in cases:
             root = self.copy(); change(root)
-            self.assertEqual(check_evidence.check_committed(root), ["Committed evidence describes other records: " + rel])
+            self.assertEqual(check_evidence.check_committed(root)[1:], ["Committed evidence describes other records: " + rel])
         root = self.copy()
         status = root / "docs/project-status.json"
         status.write_text(status.read_text(encoding="utf-8").replace('"NOT_INTEGRATED"', '"INTEGRATED"'), encoding="utf-8")
-        self.assertEqual(check_evidence.check_committed(root), ["Committed evidence describes other records: docs/project-status.json"])
+        self.assertEqual(check_evidence.check_committed(root)[1:], ["Committed evidence describes other records: docs/project-status.json"])
         root = self.copy()
         registry = root / "docs/id-registry.json"
         registry.write_text(registry.read_text(encoding="utf-8").replace('"R28"', '"R27"', 1), encoding="utf-8")
-        self.assertEqual(check_evidence.check_committed(root), ["Committed evidence describes other records: docs/id-registry.json"])
+        self.assertEqual(check_evidence.check_committed(root)[1:], ["Committed evidence describes other records: docs/id-registry.json"])
         root = self.copy()
         self.edit_case(root, "C018", environment="Windows / Python 3.13.9")
         self.assertEqual(check_evidence.check_committed(root), [])

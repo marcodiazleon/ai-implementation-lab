@@ -71,3 +71,6 @@ Source: Marco, 2026-10-05, U13. Replace visible refund panels with the existing 
 ## D39 — Links resolve to the revision that produced the page (U18, R43)
 2026-10-11. Links to blob/main would open newer code or evidence than the build being viewed, and nothing guarantees a merge. Chosen: the build and the server record the Git revision; repository links in the interface use that revision; a historical record links to the SHA in its version field or to the commit that added its report; one link is labeled as live main. If the tree has uncommitted changes, the view says the links open the recorded revision without them. The README keeps the public URL and states next to it that this delivery is not published while project-status says NOT_DEPLOYED.
 
+## D40 — The digest is a claim of its own (U19, R46)
+2026-10-11. In U18, check_committed listed differing files only when the digest differed, and reported nothing else; with correct per-file maps a false `source_id` or `record_id` passed. Chosen: a missing, malformed or differing digest is always an error, and the file list is added when the maps also differ. Evidence is not regenerated to hide a mismatch; the next run writes correct digests.
+

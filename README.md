@@ -8,7 +8,7 @@ The code was written with AI assistance. The problem definition, scope, acceptan
 
 **First action: [open the public demo](https://marcodiazleon.github.io/ai-implementation-lab/)** and press *Start the three-minute tour*. No account, key or model is needed.
 
-> **Not published yet.** That URL serves main at the revision recorded under `deployment` in [project-status.json](docs/project-status.json). While that record says `NOT_DEPLOYED` for this branch, the URL does not include this delivery: no presentation, tour or evidence status. Until then, see them with the local lab (`python run.py serve`).
+> **Not published yet.** That URL serves main at the revision recorded under `deployment` in [project-status.json](docs/project-status.json). While it says `NOT_DEPLOYED` for this branch, neither the URL nor a default clone has this delivery (presentation, tour, evidence status): see [Review this candidate](#review-this-candidate).
 
 ![Session in the public demo: presentation, three-step orientation and composer](docs/assets/presentation-20261011.jpg)
 
@@ -38,6 +38,23 @@ The screenshot comes from the public build of this revision, served locally.
 
 Pending: owner acceptance, a test with a new visitor, a recorded live provider call, an owner decision on a visible route for the refund case, and the reconciliation of open pull requests #4 to #6. The full table is in [capabilities.md](docs/capabilities.md).
 
+## Review this candidate
+
+While `NOT_DEPLOYED`, the delivery exists only on branch `claude/laughing-rubin-6e32ve-entry` (pull request #7):
+
+```sh
+git clone https://github.com/marcodiazleon/ai-implementation-lab.git
+cd ai-implementation-lab
+git fetch origin claude/laughing-rubin-6e32ve-entry
+git checkout --detach FETCH_HEAD
+git rev-parse HEAD
+python scripts/check_evidence.py
+python run.py tour
+python run.py serve
+```
+
+`git rev-parse HEAD` must print the SHA reported in the latest PR #7 delivery; if the branch moved, use `git checkout --detach <reported SHA>`. `check_evidence.py` confirms the evidence describes these files.
+
 ## Run locally
 
 ```sh
@@ -65,4 +82,4 @@ The repository is public for inspection; no open-source license is granted in th
 
 Convierto una idea de IA en una primera versión acotada: defino el problema y el alcance, fijo los criterios de aceptación, coordino la construcción y verifico el resultado. El código se escribió con asistencia de IA; las decisiones, el alcance y la verificación son trabajo mío.
 
-Primera acción: abre la demo pública y pulsa *Empezar el recorrido de 3 minutos*. Aviso: mientras project-status.json registre esta rama como `NOT_DEPLOYED`, la URL pública sirve otra revisión de main sin esta entrega; usa el laboratorio local. En 30 segundos lees la presentación de Sesión; en 3 minutos sigues el recorrido de *Cómo está construido*; para una revisión técnica, empieza en el índice de documentación enlazado arriba. La [guía en español](docs/START_HERE_ES.md) explica la instalación local.
+Primera acción: abre la demo pública y pulsa *Empezar el recorrido de 3 minutos*. Aviso: mientras project-status diga `NOT_DEPLOYED`, ni la URL pública ni un clon por defecto contienen esta entrega; sigue *Review this candidate* y compara `git rev-parse HEAD` con el SHA informado en el PR #7. En 30 segundos lees la presentación de Sesión; en 3 minutos sigues el recorrido de *Cómo está construido*; para una revisión técnica, empieza en el índice de documentación enlazado arriba. La [guía en español](docs/START_HERE_ES.md) explica la instalación local.

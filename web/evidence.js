@@ -160,7 +160,11 @@
   render();
  }
 
- el("reqPicker").addEventListener("change", renderCases);
+ // R48a: the chosen requirement becomes the address, so a language change keeps it instead of the tour link.
+ el("reqPicker").addEventListener("change", () => {
+  history.replaceState(null, "", "#evidence/" + el("reqPicker").value);
+  renderCases();
+ });
  window.addEventListener("languagechange", render);
  // Tour links such as #evidence/R03 select that requirement (R35a).
  window.addEventListener("hashchange", () => { if (/^#evidence\/R\d+$/.test(location.hash) && requirements.length) render(); });

@@ -26,6 +26,20 @@ En **Cómo está construido**, el recorrido de 3 minutos sigue **R03**: una devo
 
 Si tienes una copia del repositorio y Python 3.11 o superior, ejecuta `python run.py tour` (añade `--lang en` para inglés). Clonar e instalar no forma parte de los tres minutos. Comandos completos en el [README](../README.md).
 
+**Revisar este candidato.** Mientras project-status registre `NOT_DEPLOYED`, ni la URL pública ni un clon por defecto (main) contienen esta entrega. Trae la rama del PR #7 y comprueba el commit antes de revisar:
+
+```sh
+git clone https://github.com/marcodiazleon/ai-implementation-lab.git
+cd ai-implementation-lab
+git fetch origin claude/laughing-rubin-6e32ve-entry
+git checkout --detach FETCH_HEAD
+git rev-parse HEAD
+python scripts/check_evidence.py
+python run.py serve
+```
+
+`git rev-parse HEAD` debe coincidir con el SHA informado en la última entrega del PR #7; si la rama avanzó, usa `git checkout --detach <SHA informado>`. Después abre http://127.0.0.1:8765.
+
 | Dónde | Qué funciona | Qué no |
 |---|---|---|
 | Demo pública | Presentación, recorrido, evidencia, creación de agentes en la pestaña y exploración de modelos | Conversar con un modelo o enviar una clave |

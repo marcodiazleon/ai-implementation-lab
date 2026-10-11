@@ -226,8 +226,8 @@ class EvidenceCheckTests(unittest.TestCase):
         self.assertEqual(check_evidence.check_committed(root), [])
         (root / "src/lab/models.py").write_text("# changed\n", encoding="utf-8")
         errors = check_evidence.check_committed(root)
-        self.assertEqual(len(errors), 1)
-        self.assertIn("src/lab/models.py", errors[0])
+        self.assertEqual(len(errors), 2)
+        self.assertIn("src/lab/models.py", errors[1])
 
     def test_failed_committed_run_and_status_drift_are_rejected(self):
         root = self.copy()

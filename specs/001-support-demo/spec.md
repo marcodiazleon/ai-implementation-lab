@@ -1,6 +1,6 @@
 # S01 — AI conversation workspace and historical engineering sample
 
-Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review.
+Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review; U19 closes the findings of the review of U18.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -19,6 +19,7 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U10 | Owner's request 2026-10-04: a technical visitor sees, inside the app, the requirement → case → test → evidence chain and the real verification state without reading CSV/JSON by hand; a requirement without a passing case is shown as pending |
 | U17 | Marco's request relayed by Codex, 2026-10-11: improve the repository as a presentation for clients and recruiters (first minute, three-minute tour, coherent evidence and status, documentation by depth, navigation, mobile and languages), keeping U13 Session and its five destinations; implementation and verification on a working branch only, no merge or deployment |
 | U18 | Second independent review of PR #7 at f0f088b by Codex, authorized by Marco, 2026-10-11 (7.5/10, not ready to merge): required check names, CLI encoding, Spanish guide, evidence scope, revision links, footer language and tour close; same branch, no merge, deployment or permission change |
+| U19 | Second independent review verdict on PR #7 at 5c4292d by Codex, authorized by Marco, 2026-10-11 (8/10 as a presentation, not ready to merge): a corrupt fingerprint digest passed with correct per-file maps, the candidate had no review route, and changing language reset the selected requirement; same branch and limits |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
@@ -246,3 +247,14 @@ Source: U18 (Codex review of f0f088b, authorized by Marco, 2026-10-11). Constrai
 | R43 | Links pinned to the build revision or a fixed historical commit; live main labeled; README publication warning | U18 | CU19/CU20 | Build revision and pins, link inventory, README warning, link resolution on the pushed SHA |
 | R44 | Bilingual footer and notices; current Spanish guide | U18 | CU19 | Build and source markup, browser ES-EN-ES pass, guide content checks |
 | R45 | Tour close with a worked result that equals the CLI output; installation outside the three minutes | U18 | CU19 | HTML against tour() in both languages |
+
+## U19 — Findings of the review of U18
+Source: U19 (Codex verdict on 5c4292d, authorized by Marco, 2026-10-11). Constraints of U13, U17 and U18 stay in force. Use cases CU19 and CU20 apply.
+
+- R46a: check_committed shall report an error whenever `source_id` or `record_id` in evidence/latest.json is missing, is not a 64-character lowercase hexadecimal digest, or differs from the fingerprint of the checked-out files, whether or not the per-file maps differ; it shall also list the differing files when there are any. Intact evidence passes.
+- R47a: While docs/project-status.json records this branch as not deployed, the README, docs/INDEX.md and docs/START_HERE_ES.md shall distinguish the published URL from the candidate under review, and give the commands to fetch the candidate branch, check out the reported commit and compare `git rev-parse HEAD` with the SHA reported in the PR #7 delivery. No SHA is written before its commit exists.
+- R48a: When the reviewer selects a requirement in Evidence, the address shall change to `#evidence/<ID>` and the selection shall survive a language change; a requirement linked from the tour stays selected until another one is chosen.
+
+| R46 | Fingerprint digests checked unconditionally, besides the per-file maps | U19 | CU20 | Negatives with correct maps and a corrupt, invalid or missing digest for each fingerprint; intact positive |
+| R47 | Published route and candidate route told apart, with fetch, checkout and SHA comparison | U19 | CU19/CU20 | README, INDEX and Spanish guide checks; commands followed in a fresh clone |
+| R48 | Selected requirement kept in the address and across language changes | U19 | CU20 | Handler check; browser R03, R11, EN, ES |

@@ -75,3 +75,10 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T68 | R43 | Revision, pins and resolved links in the build, server and view; README warning | T64,T67 | Implementing assistant | Link inventory and README checks pass; links resolve on the pushed SHA | IMPLEMENTED; C208–C209, C214 |
 | T69 | R44 | Bilingual footer and notices; current Spanish guide; browser pass ES-EN-ES | T64 | Implementing assistant | Markup and guide checks pass; browser pass recorded | IMPLEMENTED; C210–C212 |
 
+## U19 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T70 | R46 | Unconditional digest check with negatives and positive | U19,T67 | Implementing assistant | Corrupt, invalid and missing digests rejected; intact passes | IMPLEMENTED; C215–C216 |
+| T71 | R47 | Candidate review route in README, INDEX and Spanish guide | U19,T68 | Implementing assistant | Document checks pass; commands work in a fresh clone | IMPLEMENTED; C217–C218, C221 |
+| T72 | R48 | Requirement selection kept in the address and across languages | U19,T60 | Implementing assistant | Handler check and browser pass | IMPLEMENTED; C219–C220 |
+

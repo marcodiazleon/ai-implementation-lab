@@ -10,6 +10,8 @@ Current revision: the S01 version selected in [project-status.json](project-stat
 | 3 minutes | In the demo, open How it is built and follow the tour; optionally run `python run.py tour` locally | A fictional case, its controls and where each one is tested |
 | Technical review | This index: specification, architecture, decisions, tests and evidence | The full chain from need to evidence and the state of every record |
 
+> **Published or candidate.** The public demo serves main at the revision recorded under `deployment` in [project-status.json](project-status.json). While that record says `NOT_DEPLOYED` for this branch, the presentation and the tour above exist only on the candidate branch `claude/laughing-rubin-6e32ve-entry`: follow [Review this candidate](../README.md#review-this-candidate) (fetch the branch, check it out and compare `git rev-parse HEAD` with the SHA reported in pull request #7), then open http://127.0.0.1:8765.
+
 ## Technical review · Revisión técnica
 
 | Topic | Read |

@@ -17,6 +17,7 @@ import csv
 import hashlib
 import io
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -78,15 +79,26 @@ def _diff(label, recorded, current):
     changed = sorted(k for k in set(recorded) | set(current) if recorded.get(k) != current.get(k))
     return [f"{label}: " + ", ".join(changed[:8]) + (f" and {len(changed) - 8} more" if len(changed) > 8 else "")] if changed else []
 
+DIGEST = re.compile(r"^[0-9a-f]{64}$")
+
+def _check_digest(evidence, field, current, label, recorded_map, current_map):
+    """R46a / D40: the digest is checked on its own; the file list only explains a difference."""
+    value = evidence.get(field)
+    if value is None:
+        return [f"Committed evidence has no {field}"]
+    if not isinstance(value, str) or not DIGEST.match(value):
+        return [f"Committed evidence {field} is not a SHA-256 digest"]
+    if value != current:
+        return [f"Committed evidence {field} {value[:12]} does not match the checked-out {label} {current[:12]}"] \
+            + _diff(f"Committed evidence describes other {label}", recorded_map, current_map)
+    return []
+
 def check_committed(root=ROOT):
     evidence = json.loads((root / "evidence/latest.json").read_text(encoding="utf-8"))
-    errors = []
-    if evidence.get("source_id") != source_fingerprint(root):
-        errors += _diff("Committed evidence describes other sources", evidence.get("source_sha256", {}), source_hashes(root))
-    if "record_id" not in evidence:
-        errors.append("Committed evidence has no record fingerprint")
-    elif evidence["record_id"] != record_fingerprint(root):
-        errors += _diff("Committed evidence describes other records", evidence.get("record_sha256", {}), record_hashes(root))
+    errors = _check_digest(evidence, "source_id", source_fingerprint(root), "sources",
+                           evidence.get("source_sha256", {}), source_hashes(root))
+    errors += _check_digest(evidence, "record_id", record_fingerprint(root), "records",
+                            evidence.get("record_sha256", {}), record_hashes(root))
     if evidence.get("passed") is not True:
         errors.append("Committed evidence is not a passing run")
     return errors
