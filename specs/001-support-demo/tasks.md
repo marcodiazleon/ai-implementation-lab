@@ -61,7 +61,7 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T58 | R34,R38 | Session presentation block and README rewrite with a screenshot of this revision's public build | T57 | Implementing assistant | Presentation checks pass; README within 700 words | IMPLEMENTED; C183–C185, C171 |
 | T59 | R35 | Tour section in How it is built and `run.py tour` | T57 | Implementing assistant | Tour CLI and HTML checks pass | IMPLEMENTED; C186–C188, C172 |
 | T60 | R36 | Badge semantics, status route and view, validator negatives | T57 | Implementing assistant | Node badge and sdd_check negatives pass | IMPLEMENTED; C178–C182, C189–C192, C173 |
-| T61 | R39 | Single reusable CI and evidence reproducibility check | T60 | Implementing assistant | Workflow and drift checks pass; CI green on candidate SHA | IMPLEMENTED; C193–C195; CI run on the candidate SHA in C175 |
+| T61 | R39 | Single reusable CI and evidence reproducibility check | T60 | Implementing assistant | Workflow and drift checks pass; CI green on candidate SHA | IMPLEMENTED; C193–C195; CI green on 2be5cee (C175, run 38181150428) |
 | T62 | R37 | INDEX, historical register, canonical table, traceability example, verify warning, guide versions | T58–T61 | Implementing assistant | Document checks pass | IMPLEMENTED; C198–C199 |
 | T63 | R38,R34,R35,R36 | Browser pass at 375/390/1360 in ES/EN, contrast measurements, screenshots | T58–T62 | Implementing assistant | Measurements recorded; no page overflow | IMPLEMENTED; C174, C196–C197; reports/U17_BROWSER_CHECK_2026-10-11.md |
 
