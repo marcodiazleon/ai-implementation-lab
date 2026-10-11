@@ -1,5 +1,6 @@
 import argparse
 import json
+import sys
 from .controller import Lab, load_data
 from .models import RuleError
 
@@ -22,7 +23,7 @@ TOUR_TEXT = {
                         "Ninguna acción sin aprobación humana (R03)", "Decisión explícita del revisor (R03)",
                         "Un fallo no crea recibo y conserva la aprobación (R06)",
                         "El reintento crea exactamente un recibo simulado (R05)", "Repetir devuelve el mismo recibo (R05)"],
-           "receipts": "recibos simulados", "chain": "Cadena de auditoría válida", "reset": "Cada ejecución usa un laboratorio nuevo en memoria; no hay estado que limpiar.",
+           "receipts": "Recibos simulados", "chain": "Cadena de auditoría válida", "reset": "Cada ejecución usa un laboratorio nuevo en memoria; no hay estado que limpiar.",
            "limits": "Límites: datos ficticios, recibo local simulado, revisor sin autenticación real, estado solo en memoria."},
     "en": {"title": "Deterministic walkthrough: fictional refund request (no model, no real money)",
            "steps": ["Analyze eligible order DEMO-101: the lab generates a simulated proposal",
@@ -32,7 +33,7 @@ TOUR_TEXT = {
                         "No action without human approval (R03)", "Explicit reviewer decision (R03)",
                         "A failure creates no receipt and keeps the approval (R06)",
                         "The retry creates exactly one simulated receipt (R05)", "Repeating returns the same receipt (R05)"],
-           "receipts": "simulated receipts", "chain": "Audit chain valid", "reset": "Every run uses a fresh in-memory lab; there is no state to clear.",
+           "receipts": "Simulated receipts", "chain": "Audit chain valid", "reset": "Every run uses a fresh in-memory lab; there is no state to clear.",
            "limits": "Limits: fictional data, simulated local receipt, reviewer without real authentication, memory-only state."},
 }
 
@@ -67,8 +68,8 @@ def print_tour(language="es"):
     text, result = TOUR_TEXT[language], tour()
     print(text["title"])
     for row, step, control in zip(result["steps"], text["steps"], text["controls"]):
-        receipt = f" · {row['receipt_id']}" if row["receipt_id"] else ""
-        print(f"{row['step']}. {step}\n   → {row['result']} · {row['receipts']} {text['receipts']}{receipt}\n   {control}")
+        receipt = f" | {row['receipt_id']}" if row["receipt_id"] else ""
+        print(f"{row['step']}. {step}\n   -> {row['result']} | {text['receipts']}: {row['receipts']}{receipt}\n   {control}")
     print(f"{text['chain']}: {result['audit_chain_valid']}\n{text['reset']}\n{text['limits']}")
     return result
 
@@ -89,6 +90,9 @@ def main():
         print(json.dumps(result, indent=2))
         raise SystemExit(0 if result["passed"] else 1)
     elif args.command == "tour":
+        # R41a: ASCII separators, and a console that cannot encode an accent gets "?" instead of a traceback.
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(errors="replace")
         print_tour(args.lang)
     else:
         lab = Lab()

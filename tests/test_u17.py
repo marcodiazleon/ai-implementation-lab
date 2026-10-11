@@ -110,7 +110,7 @@ class TourTests(unittest.TestCase):
             output = buffer.getvalue()
             self.assertIn(phrase, output)
             self.assertNotRegex(output.lower(), r"\b(la ia propone|ai proposes)\b")
-            self.assertEqual(output.count("\n   → "), 6)
+            self.assertEqual(output.count("\n   -> "), 6)
 
     def test_in_app_tour_steps_have_expected_results_and_live_links(self):
         tour = HTML[HTML.index('<section class="tour"'):HTML.index('<h2 class="method-heading"')]
@@ -216,7 +216,8 @@ class EvidenceCheckTests(unittest.TestCase):
         root = Path(temp.name) / "repo"
         shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns(".git", "__pycache__", "_site", ".local"))
         evidence = json.loads((root / "evidence/latest.json").read_text(encoding="utf-8"))
-        evidence.update(source_id=check_evidence.source_fingerprint(root), source_sha256=check_evidence.source_hashes(root), passed=True)
+        evidence.update(source_id=check_evidence.source_fingerprint(root), source_sha256=check_evidence.source_hashes(root),
+                        record_id=check_evidence.record_fingerprint(root), record_sha256=check_evidence.record_hashes(root), passed=True)
         (root / "evidence/latest.json").write_text(json.dumps(evidence), encoding="utf-8")
         return root
 
@@ -250,7 +251,7 @@ class CiTests(unittest.TestCase):
             self.assertIn(trigger, verify)
         for combo in ('{ os: ubuntu-latest, python: "3.11" }', '{ os: ubuntu-latest, python: "3.13" }', '{ os: windows-latest, python: "3.13" }'):
             self.assertIn(combo, verify)
-        steps = [line.strip() for line in verify.splitlines() if line.strip().startswith("- run:")]
+        steps = [line.strip() for line in verify[:verify.index("  verify-windows:")].splitlines() if line.strip().startswith("- run:")]
         self.assertLess(steps.index("- run: python scripts/check_evidence.py"), steps.index("- run: python scripts/verify.py"))
         self.assertLess(steps.index("- run: python scripts/verify.py"),
                         steps.index("- run: python scripts/check_evidence.py --against committed-latest.json"))
@@ -264,7 +265,8 @@ class CiTests(unittest.TestCase):
 class LanguageAndDocsTests(unittest.TestCase):
     def test_new_copy_has_english_text(self):
         parser = Leaves(); parser.feed(HTML)
-        technical = re.compile(r"^(R\d+|PASS|PARCIAL|PENDIENTE|BLOQUEADO|FAIL|NO_APLICA|python run\.py tour|Marco Díaz de León)$")
+        technical = re.compile(r"^(R\d+|PASS|PARCIAL|PENDIENTE|BLOQUEADO|FAIL|NO_APLICA|python run\.py tour|Marco Díaz de León|\d+"
+                               r"|(PENDING_APPROVAL|APPROVAL_REQUIRED|APPROVED|SIMULATED_CONNECTOR_FAILURE|SIMULATED)( · SIM-[0-9a-f]+)?)$")
         missing = [n["text"].strip() for n in parser.leaves if "data-en" not in n["attrs"] and not technical.match(n["text"].strip())]
         self.assertEqual(missing, [])
         self.assertGreater(len(parser.leaves), 40)

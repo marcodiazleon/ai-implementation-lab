@@ -8,9 +8,11 @@ The code was written with AI assistance. The problem definition, scope, acceptan
 
 **First action: [open the public demo](https://marcodiazleon.github.io/ai-implementation-lab/)** and press *Start the three-minute tour*. No account, key or model is needed.
 
+> **Not published yet.** That URL serves main at the revision recorded under `deployment` in [project-status.json](docs/project-status.json). While that record says `NOT_DEPLOYED` for this branch, the URL does not include this delivery: no presentation, tour or evidence status. Until then, see them with the local lab (`python run.py serve`).
+
 ![Session in the public demo: presentation, three-step orientation and composer](docs/assets/presentation-20261011.jpg)
 
-The screenshot comes from the public build of this revision. GitHub Pages publishes main, so a branch shows there only after it is merged.
+The screenshot comes from the public build of this revision, served locally.
 
 ## Three routes
 
@@ -63,4 +65,4 @@ The repository is public for inspection; no open-source license is granted in th
 
 Convierto una idea de IA en una primera versión acotada: defino el problema y el alcance, fijo los criterios de aceptación, coordino la construcción y verifico el resultado. El código se escribió con asistencia de IA; las decisiones, el alcance y la verificación son trabajo mío.
 
-Primera acción: abre la demo pública y pulsa *Empezar el recorrido de 3 minutos*. En 30 segundos lees la presentación de Sesión; en 3 minutos sigues el recorrido de *Cómo está construido*; para una revisión técnica, empieza en el índice de documentación enlazado arriba. La [guía en español](docs/START_HERE_ES.md) explica la instalación local.
+Primera acción: abre la demo pública y pulsa *Empezar el recorrido de 3 minutos*. Aviso: mientras project-status.json registre esta rama como `NOT_DEPLOYED`, la URL pública sirve otra revisión de main sin esta entrega; usa el laboratorio local. En 30 segundos lees la presentación de Sesión; en 3 minutos sigues el recorrido de *Cómo está construido*; para una revisión técnica, empieza en el índice de documentación enlazado arriba. La [guía en español](docs/START_HERE_ES.md) explica la instalación local.

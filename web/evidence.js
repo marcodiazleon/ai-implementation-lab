@@ -3,7 +3,7 @@
 // recalculates a test result. The badge rule lives in evidence-rules.js (D33).
 (() => {
  const el = (id) => document.getElementById(id);
- const repo = "https://github.com/marcodiazleon/ai-implementation-lab/blob/main/";
+ const REPO = "https://github.com/marcodiazleon/ai-implementation-lab";
  const t = (es, en) => (LabI18n.language === "en" ? en : es);
  let evidence = null, cases = [], requirements = [], status = null, failed = false;
 
@@ -25,6 +25,14 @@
   if (field || row.length) { row.push(field); rows.push(row); }
   const [head, ...body] = rows;
   return body.map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
+ }
+
+ // R43a / D39: a file opens at the revision this page was produced from, or a historical case at the
+ // commit that recorded it. Only without a recorded revision does a link fall back to live main.
+ const revisionFor = (caseId) => (caseId && status?.pins?.[caseId]) || status?.revision || "main";
+ const fileUrl = (path, caseId, kind = "blob") => REPO + "/" + kind + "/" + revisionFor(caseId) + "/" + path;
+ function pinLinks() {
+  for (const a of document.querySelectorAll("a[data-repo-path]")) a.href = fileUrl(a.dataset.repoPath, null, a.dataset.repoKind || "blob");
  }
 
  const badge = (id) => LabEvidenceRules.badge(cases, id);
@@ -50,9 +58,13 @@
    const tr = document.createElement("tr");
    for (const value of [c.case_id, c.action, c.expected, c.status, c.test_id]) cell(tr, value);
    let link = c.evidence || "—";
-   if (/^[\w.-]+(\/[\w.-]+)+$/.test(c.evidence) && !c.evidence.split("/").includes("..")) {
+   const file = /^[\w.-]+(\/[\w.-]+)+$/.test(c.evidence) && !c.evidence.split("/").includes("..");
+   const run = /^https:\/\/github\.com\/marcodiazleon\/ai-implementation-lab\/actions\/runs\/\d+$/.test(c.evidence);
+   if (file || run) {
     link = document.createElement("a");
-    Object.assign(link, { href: repo + c.evidence, textContent: c.evidence, target: "_blank", rel: "noopener noreferrer" });
+    Object.assign(link, { href: run ? c.evidence : fileUrl(c.evidence, c.case_id), textContent: run ? "Actions run " + c.evidence.split("/").pop() : c.evidence,
+     target: "_blank", rel: "noopener noreferrer" });
+    if (file && status?.pins?.[c.case_id]) link.title = t("Registro histórico en ", "Historical record at ") + status.pins[c.case_id].slice(0, 7);
    }
    cell(tr, link);
    return tr;
@@ -82,14 +94,28 @@
    const dt = document.createElement("dt"), dd = document.createElement("dd");
    dt.textContent = k; dd.textContent = v; return [dt, dd];
   }));
-  const same = status.source_fingerprint && status.source_fingerprint === evidence.source_id;
+  // R42c: baseline and fingerprints come from evidence/latest.json, compared with this checkout.
+  const same = status.source_fingerprint && status.source_fingerprint === evidence.source_id
+   && status.record_fingerprint && status.record_fingerprint === evidence.record_id;
   el("runDetail").textContent = t("Base de la ejecución: ", "Run baseline: ") + String(evidence.input_revision || "—").slice(0, 7)
    + (evidence.input_worktree_dirty ? t(" con cambios sin confirmar", " with uncommitted changes") : "")
-   + t(". Huella de fuentes: ", ". Source fingerprint: ") + String(evidence.source_id || "—").slice(0, 12) + ". "
-   + (same ? t("Coincide con las fuentes de esta revisión; la revisión entregada es el commit que contiene evidence/latest.json.",
-               "It matches the sources of this revision; the delivered revision is the commit that contains evidence/latest.json.")
-           : t("No coincide con las fuentes de esta revisión: trátala como evidencia histórica.",
-               "It does not match the sources of this revision: treat it as historical evidence."));
+   + t(". Huellas: fuentes ", ". Fingerprints: sources ") + String(evidence.source_id || "—").slice(0, 12)
+   + t(", registros ", ", records ") + String(evidence.record_id || "—").slice(0, 12) + ". "
+   + (same ? t("Coinciden con las fuentes y registros de esta revisión; la revisión entregada es el commit que contiene evidence/latest.json.",
+               "They match the sources and records of this revision; the delivered revision is the commit that contains evidence/latest.json.")
+           : t("No coinciden con esta revisión: trátala como evidencia histórica.",
+               "They do not match this revision: treat it as historical evidence."));
+  const rev = String(status.revision || "");
+  const live = document.createElement("a");
+  Object.assign(live, { href: REPO + "/tree/main", target: "_blank", rel: "noopener noreferrer",
+   textContent: t("main en vivo (puede incluir cambios posteriores)", "live main (may include later changes)") });
+  el("revisionDetail").replaceChildren(
+   (rev ? t("Los enlaces a archivos abren la revisión ", "File links open revision ") + rev.slice(0, 7)
+     + (status.revision_dirty ? t(", de la que se generó esta página con cambios sin confirmar que esos enlaces no incluyen", ", which this page was produced from with uncommitted changes those links do not include")
+                              : t(", de la que se generó esta página", ", which this page was produced from"))
+     + t("; los casos históricos abren el commit que los registró. ", "; historical cases open the commit that recorded them. ")
+    : t("Sin revisión registrada: los enlaces abren main. ", "No recorded revision: links open main. ")),
+   t("Navegación viva: ", "Live navigation: "), live);
  }
 
  function render() {
@@ -102,6 +128,7 @@
    return;
   }
   el("evidenceStatus").textContent = "";
+  pinLinks();
   renderStatus();
   const tests = evidence.tests || {};
   el("evGenerated").textContent = String(evidence.generated_utc || "—").slice(0, 16).replace("T", " ");

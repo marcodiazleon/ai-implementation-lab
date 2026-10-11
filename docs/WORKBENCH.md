@@ -6,7 +6,7 @@ U09 · introduced in S01 0.8 · R21–R24. This interface replaces the U07 role 
 1. Open Agents from the sidebar. Choose Project Manager, Researcher, Implementer or Quality Reviewer as a starting template, or start blank.
 2. Give the agent a name, role/assignment, instructions and work mode: plan, research, implementation or review.
 3. Save. The server validates the fields and writes the definition atomically to `.local/agents.json`. Reloading retains it. Editing updates the same ID.
-4. Choose Chat to use this agent in Session. Connect your AI separately. Changing roles clears prior conversation context, while preserving the draft and request counter.
+4. Choose Chat to use this agent in Session. Connect a provider separately with Connection settings in Session (a dialog since U13). Changing roles clears prior conversation context, while preserving the draft and request counter.
 5. Download the JSON definition to reuse after reviewing its contents. The export describes text-only capabilities and implemented input/scope/output bounds; it does not install executable hooks in another client.
 
 The store accepts up to 50 agents and a 4,000-character prompt. No arbitrary file paths, credentials fields or tools can be added. Obvious key patterns are rejected, but this is not comprehensive secret detection. The `.local` folder is ignored by Git and the staged publication guard rejects it. Exported files are the operator's responsibility. The four modes shape instructions; they do not grant research, code execution, product-testing or release privileges.

@@ -1,6 +1,6 @@
 # S01 — AI conversation workspace and historical engineering sample
 
-Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment.
+Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -18,6 +18,7 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U07 | Owner requests functional internal PM, researcher, implementer and quality reviewer agents with hooks and responsibilities, plus MCP connection options starting with Context7. Both proposed additional roles confirmed. |
 | U10 | Owner's request 2026-10-04: a technical visitor sees, inside the app, the requirement → case → test → evidence chain and the real verification state without reading CSV/JSON by hand; a requirement without a passing case is shown as pending |
 | U17 | Marco's request relayed by Codex, 2026-10-11: improve the repository as a presentation for clients and recruiters (first minute, three-minute tour, coherent evidence and status, documentation by depth, navigation, mobile and languages), keeping U13 Session and its five destinations; implementation and verification on a working branch only, no merge or deployment |
+| U18 | Second independent review of PR #7 at f0f088b by Codex, authorized by Marco, 2026-10-11 (7.5/10, not ready to merge): required check names, CLI encoding, Spanish guide, evidence scope, revision links, footer language and tour close; same branch, no merge, deployment or permission change |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
@@ -224,3 +225,24 @@ A reviewer opens Evidence, reads which records exist (automated verification, in
 | R37 | Documentation by depth: three routes, index and historical register, canonical table, traceability example and verify rewrite warning | U17 | CU19/CU20 | Document structure and link checks |
 | R38 | Five labeled destinations, no horizontal overflow at 375/390/1360, skip link and headings, ES/EN for new copy, measured contrast | U17 | CU19/CU20 | HTML structure tests, browser measurements, contrast script |
 | R39 | Single reusable CI and reproducible committed evidence | U17 | CU20 | Workflow structure tests, fingerprint and status drift negatives, CI run on the candidate SHA |
+
+## U18 — Corrections after the second independent review
+Source: U18 (Codex review of f0f088b, authorized by Marco, 2026-10-11). Constraint: U13 and U17 stay in force; Session remains a conversation with five destinations, no visible refund exercise and no sixth destination. Branch protection, permissions and deployment are not changed. Use cases CU19 and CU20 apply.
+
+- R40a: The verification workflow shall emit check runs named exactly `verify (ubuntu-latest)` and `verify (windows-latest)`, the names required on main. Each shall depend on every matrix member, run even when a member failed, was skipped or was cancelled, state the result of each platform and succeed only when every member succeeded.
+- R41a: When `python run.py tour` writes to a stream encoded as UTF-8 or cp1252, in Spanish or English, it shall exit 0 without a traceback and print the same steps, results, receipt counts and controls; its separators are ASCII and a character the stream cannot encode is replaced, never raised. Domain logic does not change.
+- R42a: Committed evidence shall carry two fingerprints over disjoint file sets that never contain a fingerprint: sources (src, tests, scripts, data, web, agents, .github/workflows, run.py) and records (specs, with acceptance.csv read without its run-environment column, docs/project-status.json, docs/id-registry.json).
+- R42b: Before verification, CI shall reject sources or records that differ from the committed fingerprints and name the files; after verification, it shall reject test-status drift, state-count drift and any case whose requirement, test, expected result or status changed, even when every count is identical.
+- R42c: docs/project-status.json shall not repeat the run baseline or a fingerprint; the Evidence view reads them from evidence/latest.json and states run baseline, fingerprints and how the delivered revision is identified.
+- R43a: The public build and the local server shall record the Git revision they were built from. Every evidence, test and document link in the interface shall open its file at that revision, or, for a historical record, at a fixed commit (the SHA in its version field or the commit that added its report). Links to the live main branch are labeled as such.
+- R43b: While docs/project-status.json records this branch as not deployed, the README shall say next to its first action that the public URL serves another revision and does not include this delivery.
+- R44a: The footer and the public and local notices shall exist in Spanish and English in the source and in the public build, and follow language changes in both directions.
+- R44b: docs/START_HERE_ES.md shall describe the current Session, tour, CLI and public/local/pending boundary, and mark the historical review and the former in-app refund steps as historical.
+- R45a: The tour shall state that its three minutes exclude installation and close with a worked result that equals the output of `python run.py tour` (results and receipt counts per step), presented as deterministic local output, not as a model reply.
+
+| R40 | Required check names emitted by gate jobs that depend on the full matrix and report each platform | U18 | CU20 | Gate negatives for failure, skipped, cancelled and missing; workflow structure; CI run with the required names on the candidate SHA |
+| R41 | Encoding-tolerant CLI tour with identical content in UTF-8 and cp1252 | U18 | CU19 | Subprocess runs with both encodings in both languages |
+| R42 | Bounded evidence manifest: source and record fingerprints without cycles, case-level drift, no duplicated status data | U18 | CU20 | Negatives for role, expected result, case-test mapping, status, registry ID and swapped statuses with equal counts |
+| R43 | Links pinned to the build revision or a fixed historical commit; live main labeled; README publication warning | U18 | CU19/CU20 | Build revision and pins, link inventory, README warning, link resolution on the pushed SHA |
+| R44 | Bilingual footer and notices; current Spanish guide | U18 | CU19 | Build and source markup, browser ES-EN-ES pass, guide content checks |
+| R45 | Tour close with a worked result that equals the CLI output; installation outside the three minutes | U18 | CU19 | HTML against tour() in both languages |

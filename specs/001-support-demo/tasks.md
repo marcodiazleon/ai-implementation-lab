@@ -65,3 +65,13 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T62 | R37 | INDEX, historical register, canonical table, traceability example, verify warning, guide versions | T58–T61 | Implementing assistant | Document checks pass | IMPLEMENTED; C198–C199 |
 | T63 | R38,R34,R35,R36 | Browser pass at 375/390/1360 in ES/EN, contrast measurements, screenshots | T58–T62 | Implementing assistant | Measurements recorded; no page overflow | IMPLEMENTED; C174, C196–C197; reports/U17_BROWSER_CHECK_2026-10-11.md |
 
+## U18 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T64 | R40,R41,R42,R43,R44,R45 | U18 source, R40–R45, decisions D37–D39 and cases C200–C214 before implementation | U18,T57 | Implementing assistant | sdd_check passes | IMPLEMENTED |
+| T65 | R40 | Gate jobs with the required names and scripts/ci_gate.py | T64 | Implementing assistant | Gate negatives pass; CI shows both required names on the candidate SHA | IMPLEMENTED; C200–C202 |
+| T66 | R41,R45 | ASCII tour output, encoding tolerance, worked result in the tour | T64 | Implementing assistant | Subprocess encoding test and worked-result parity pass | IMPLEMENTED; C203, C213 |
+| T67 | R42 | Source and record manifests, case-level drift, project-status without fingerprint copy | T64 | Implementing assistant | Manifest negatives pass; check_evidence passes before and after verify | IMPLEMENTED; C204–C207 |
+| T68 | R43 | Revision, pins and resolved links in the build, server and view; README warning | T64,T67 | Implementing assistant | Link inventory and README checks pass; links resolve on the pushed SHA | IMPLEMENTED; C208–C209, C214 |
+| T69 | R44 | Bilingual footer and notices; current Spanish guide; browser pass ES-EN-ES | T64 | Implementing assistant | Markup and guide checks pass; browser pass recorded | IMPLEMENTED; C210–C212 |
+
