@@ -1,64 +1,66 @@
 # AI Implementation Lab
 
-**Marco Díaz de León · Forward Deployment / AI Implementation Strategy**
+**Marco Díaz de León · AI implementation strategy**
 
-[Open the public preview](https://marcodiazleon.github.io/ai-implementation-lab/)
+I turn an AI idea into a bounded first version. I define the problem and the scope, set the acceptance criteria, coordinate the build and verify the result. This repository is a small working lab that shows that method on a fictional case.
 
-The current redesign makes **Session** a conversation workspace with provider, model, effort and agent controls. The public preview lets visitors explore the interface and create agent definitions; real API conversations require the local backend and the operator's own API key. Check the published revision: a branch change does not update Pages until merged.
+The code was written with AI assistance. The problem definition, scope, acceptance criteria and verification are my work.
 
-I define the problem, choose the scope and coordinate delivery. This repository shows those decisions, requirements and verification records. Code was developed with AI assistance.
+**First action: [open the public demo](https://marcodiazleon.github.io/ai-implementation-lab/)** and press *Start the three-minute tour*. No account, key or model is needed.
 
-## Explore the application
-1. **Session:** compose a message, choose OpenAI or Claude/Anthropic and a model, select compatible effort and an agent. Open connection settings within the conversation.
-2. **Agents:** create, edit and export a text-only assistant.
-3. **MCPs:** prepare client configurations; only the local Context7 adapter has an implemented connection.
-4. **How it is built:** inspect components, decisions and the engineering method.
-5. **Evidence:** follow requirements to cases, tests and recorded results.
+![Session in the public demo: presentation, three-step orientation and composer](docs/assets/presentation-20261011.jpg)
 
-The refund exercise and operation log are no longer part of the interface. Their code, CLI, fixtures and historical tests remain in the repository.
+The screenshot comes from the public build of this revision. GitHub Pages publishes main, so a branch shows there only after it is merged.
+
+## Three routes
+
+- **30 seconds.** Read the presentation at the top of Session: who I am, what I contribute and what is still pending.
+- **3 minutes.** Follow the tour in *How it is built*. Each step names what you do, the expected result and the control it demonstrates, and links to that control's evidence.
+- **Technical review.** Start at the [documentation index](docs/INDEX.md): specification, architecture, decisions, tests, evidence and one requirement traced from need to evidence.
+
+## What the lab demonstrates
+
+- **Controls before effects.** In a fictional refund case, the lab generates a simulated proposal that cannot execute until a person approves it. A simulated failure creates no receipt, a retry creates exactly one, and repeating returns the same receipt.
+- **Traceability.** Every requirement links to tasks, acceptance cases, tests and recorded evidence. A requirement is PASS only when all its applicable cases passed; otherwise it shows as partial, pending, blocked or failed.
+- **Honest records.** Automated verification, independent review, owner acceptance, integration and deployment are recorded separately, and none of them is implied by another.
+- **Bounded AI connections.** The local lab can converse with OpenAI or Anthropic using your own key and explicit consent. Agents are text-only, and the MCP adapter is read-only.
+
+## Public demo, local lab and pending
+
+| | Public demo | Local lab |
+|---|---|---|
+| Needs | A browser | Python 3.11+ and Git; your own API key only for conversations |
+| Session | Presentation, model catalog and agent drafts; no model replies | Conversation with your own provider key |
+| Refund case | Described in the tour; not run in the interface by the owner's decision (U13) | `python run.py tour` and the test suite |
+| Evidence | Committed run, cases and project records | The same, plus `python scripts/verify.py` |
+
+Pending: owner acceptance, a test with a new visitor, a recorded live provider call, an owner decision on a visible route for the refund case, and the reconciliation of open pull requests #4 to #6. The full table is in [capabilities.md](docs/capabilities.md).
 
 ## Run locally
-Requirements: Python 3.11+ and Git. Node is needed for Python/JavaScript parity tests. No third-party Python packages are required.
 
 ```sh
 git clone https://github.com/marcodiazleon/ai-implementation-lab.git
 cd ai-implementation-lab
 python scripts/check_environment.py
+python run.py tour
 python scripts/verify.py
 python run.py serve
 ```
 
-Open **http://127.0.0.1:8765**. In Session, choose connection settings and supply your own provider key with explicit consent. API usage may incur provider charges. ChatGPT/Claude subscriptions are separate from API credentials. Stop with Ctrl+C; use `--port 8766` if the port is occupied.
+Open http://127.0.0.1:8765. `python scripts/verify.py` rewrites the versioned evidence files; review them with `git diff` and restore them if you do not mean to commit a new run. Node is needed only for the browser parity tests.
 
-The public static build accepts no API keys. It is an interface preview, not a hosted inference service. Local keys/history stay in server memory; custom agent definitions persist in the ignored `.local` directory. Public definitions last only in the tab. MCP configuration export does not execute a server or grant tools to chat agents.
+## Limits
 
-## Engineering and verification
-[Active status](docs/project-status.json) selects S01 **1.0**. Start with [the adopted method](docs/sdd-adoption.md), then [specification](specs/001-support-demo/spec.md), [plan](specs/001-support-demo/plan.md), [tasks](specs/001-support-demo/tasks.md) and [acceptance cases](specs/001-support-demo/acceptance.csv).
+Fictional data and simulated effects only. There are no real customers, refunds, integrations or commercial results. The reviewer role has no real authentication and state lives in memory. [Security boundaries](SECURITY.md).
 
-`evidence/latest.json` currently records the earlier source revision. It is historical evidence, not a PASS for the Session redesign. New cases remain NO_PROBADO until checked. Unit, integration, browser, live API and owner acceptance are separate results.
+## Reuse and contact
 
-[Working method](docs/engineering-guide.md) · [Architecture](docs/architecture.md) · [Tools](docs/tools-and-capabilities.md) · [Limits](docs/capabilities.md) · [Security](SECURITY.md)
+The repository is public for inspection; no open-source license is granted in this version. To discuss an implementation, contact Marco through [his GitHub profile](https://github.com/marcodiazleon).
 
-## Structure
-| Location | Purpose |
-|---|---|
-| src/lab/ | Domain, HTTP, provider sessions, agents and MCP adapters |
-| web/ | Session, agent builder, MCP configuration and evidence views |
-| specs/ | Requirements, plans, tasks and acceptance matrices |
-| tests/ and scripts/ | Behavior checks, static build and evidence generation |
-| docs/ | Decisions, research, operating instructions and continuity |
-| evidence/ and reports/ | Versioned observations and their interpretation |
+---
 
-## Debugging
-- **Blank or outdated UI:** check the branch/commit and Pages deployment before comparing screenshots.
-- **Server unavailable:** verify the printed address and selected port.
-- **Provider connection rejected:** inspect the displayed error code, model access and consent. Keys stay out of reports.
-- **Failing check:** preserve command, expected/observed behavior, source revision and environment; rerun after a bounded correction.
-- **MCP configuration:** prepared JSON is not proof of a live connection.
+## En español
 
-[Operation and handoff](docs/operations.md) · [API guide](docs/OPENAI_API.md) · [Contributing](CONTRIBUTING.md)
+Convierto una idea de IA en una primera versión acotada: defino el problema y el alcance, fijo los criterios de aceptación, coordino la construcción y verifico el resultado. El código se escribió con asistencia de IA; las decisiones, el alcance y la verificación son trabajo mío.
 
-## Scope and contact
-This is a demonstration for prospective employers and clients. It claims no production authentication, durable refund transactions, business outcomes or autonomous shell/file execution. Optional model calls are bounded text conversations.
-
-The repository is public for inspection; no open-source reuse license is granted in this version. Contact Marco through [GitHub](https://github.com/marcodiazleon).
+Primera acción: abre la demo pública y pulsa *Empezar el recorrido de 3 minutos*. En 30 segundos lees la presentación de Sesión; en 3 minutos sigues el recorrido de *Cómo está construido*; para una revisión técnica, empieza en el índice de documentación enlazado arriba. La [guía en español](docs/START_HERE_ES.md) explica la instalación local.
