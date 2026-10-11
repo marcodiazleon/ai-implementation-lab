@@ -10,10 +10,11 @@
   <script src="/cloud.js" defer></script>
   <script src="/workbench.js" defer></script>
   <script src="/studio.js" defer></script>
+  <script src="/evidence-rules.js" defer></script>
   <script src="/evidence.js" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#view-chat">Ir a la conversación</a>
+<a class="skip-link" href="#question" data-en="Skip to the message box">Ir al cuadro de mensaje</a>
 <aside class="sidebar"><div class="sidebar-head"><a class="brand" href="/" aria-label="AI Implementation Lab, inicio">
     <span class="monogram" aria-hidden="true">MD</span>
     <span class="brand-text">MARCO DÍAZ DE LEÓN<small>AI IMPLEMENTATION LAB</small></span>
@@ -21,7 +22,20 @@
 <main>
 <div id="view-demo" data-panel="demo"><section id="view-chat" class="conversation session" aria-label="Sesión" data-label-en="Session">
  <div class="session-topline"><span data-en="SESSION">SESIÓN</span><span id="chatStatus" role="status"></span><div class="session-actions"><button id="clearChat" type="button" disabled data-en="Clear">Vaciar</button><button id="disconnectChat" type="button" disabled data-en="Disconnect">Desconectar</button></div></div>
- <div class="session-welcome"><div class="welcome-mark" aria-hidden="true">✳</div><h1 id="chat-title" tabindex="-1"><span class="sr-only" data-en="Tell me what you want to solve">Cuéntame qué quieres resolver</span><span id="animatedGreeting" aria-hidden="true">Cuéntame qué quieres resolver</span><span class="typing-cursor" aria-hidden="true"></span></h1><p data-en="Your idea. Your tools. Let's get started.">Tu idea. Tus herramientas. Empecemos.</p></div>
+ <section class="presentation" aria-labelledby="introName">
+  <p class="eyebrow" data-en="AI IMPLEMENTATION STRATEGY · WORKING LAB">ESTRATEGIA E IMPLEMENTACIÓN DE IA · LABORATORIO</p>
+  <h1 id="introName" tabindex="-1">Marco Díaz de León</h1>
+  <p class="presentation-lead" data-en="I turn an AI idea into a bounded first version: I define the problem and the scope, set the acceptance criteria, coordinate the build and verify the result.">Convierto una idea de IA en una primera versión acotada: defino el problema y el alcance, fijo los criterios de aceptación, coordino la construcción y verifico el resultado.</p>
+  <p class="attribution" data-en="The code in this lab was written with AI assistance. The problem definition, scope, acceptance criteria and verification are my work.">El código de este laboratorio se escribió con asistencia de IA. La definición del problema, el alcance, los criterios de aceptación y la verificación son trabajo mío.</p>
+  <ol class="orientation">
+   <li><b data-en="Three-minute tour">Recorrido de 3 minutos</b><span data-en="You will see a fictional case, the controls it requires and where each one is tested.">Verás un caso ficticio, los controles que exige y dónde se prueba cada uno.</span></li>
+   <li><b data-en="Evidence">Evidencia</b><span data-en="You pick a requirement and see whether its checks are complete, partial or pending.">Eliges un requisito y ves si sus pruebas están completas, parciales o pendientes.</span></li>
+   <li><b data-en="Session">Sesión</b><span data-en="Below: explore models and agents here; the local lab converses with your own provider key.">Abajo: aquí exploras modelos y agentes; el laboratorio local conversa con la clave de tu proveedor.</span></li>
+  </ol>
+  <p class="presentation-actions"><a class="primary-link" href="#method" data-en="Start the three-minute tour">Empezar el recorrido de 3 minutos</a><a href="#evidence" data-en="Go to the evidence">Ir a la evidencia</a></p>
+  <p class="scope-line" data-en="Public demo: no account, key or model. Local lab: conversation with your own API key. Pending: owner acceptance and a test with a new visitor.">Demo pública: sin cuenta, clave ni modelo. Laboratorio local: conversación con tu propia clave API. Pendiente: aceptación del dueño y una prueba con un visitante nuevo.</p>
+ </section>
+ <div class="session-welcome"><div class="welcome-mark" aria-hidden="true">✳</div><h2 id="chat-title" tabindex="-1"><span class="sr-only" data-en="Tell me what you want to solve">Cuéntame qué quieres resolver</span><span id="animatedGreeting" aria-hidden="true">Cuéntame qué quieres resolver</span><span class="typing-cursor" aria-hidden="true"></span></h2><p data-en="Your idea. Your tools. Let's get started.">Tu idea. Tus herramientas. Empecemos.</p></div>
  <div id="messages" class="messages" role="log" aria-label="Conversación" aria-live="polite"></div>
  <div class="composer-dock"><form id="chatForm" class="composer"><label for="question" class="sr-only" data-en="Message">Mensaje</label><textarea id="question" maxlength="2000" rows="3" placeholder="Cuéntame qué quieres resolver…" data-placeholder-en="Tell me what you want to solve…" required></textarea>
  <div class="composer-controls">
@@ -57,6 +71,36 @@
 
 <section id="view-method" data-panel="method" class="panel cloud-panel" hidden aria-labelledby="method-title">
   <p class="eyebrow">DEL PROBLEMA A LA IMPLEMENTACIÓN</p><h1 id="method-title" tabindex="-1">Cómo está construido</h1>
+  <section class="tour" aria-labelledby="tourTitle">
+   <h2 id="tourTitle" data-en="Three-minute tour">Recorrido de 3 minutos</h2>
+   <p class="muted" data-en="Four steps on a fictional case. Each step names what you do, the expected result and the control it demonstrates. No account, key or model is needed.">Cuatro pasos sobre un caso ficticio. Cada paso dice qué haces, el resultado esperado y el control que demuestra. No necesitas cuenta, clave ni modelo.</p>
+   <ol class="tour-steps">
+    <li><span class="tour-time" data-en="30 seconds">30 segundos</span><h3 data-en="Read the case">Lee el caso</h3>
+     <p data-en="A fictional shop must answer refund requests without paying anything before a person approves it.">Una tienda ficticia debe responder solicitudes de devolución sin pagar nada antes de que una persona lo apruebe.</p>
+     <p class="tour-expected"><b data-en="Expected result:">Resultado esperado:</b> <span data-en="you know the exercise rules: delivered order, up to 14 days, at most 100 DEMO units, approval before any effect.">conoces las reglas del ejercicio: pedido entregado, hasta 14 días, máximo 100 unidades DEMO y aprobación antes de cualquier efecto.</span></p>
+     <p class="tour-control"><b data-en="Control:">Control:</b> <span data-en="explicit policy and validated input">política explícita y entrada validada</span> · <a href="#evidence/R02">R02</a></p></li>
+    <li><span class="tour-time" data-en="60 seconds">60 segundos</span><h3 data-en="Review the controls">Revisa los controles</h3>
+     <ul class="tour-controls">
+      <li><span data-en="The lab generates a simulated proposal; executing it without approval is blocked.">El laboratorio genera una propuesta simulada; ejecutarla sin aprobación queda bloqueado.</span> <a href="#evidence/R03">R03</a></li>
+      <li><span data-en="A simulated connector failure creates no receipt and keeps the approval.">Un fallo simulado del conector no crea recibo y conserva la aprobación.</span> <a href="#evidence/R06">R06</a></li>
+      <li><span data-en="Retrying creates exactly one simulated receipt; repeating returns the same one.">Reintentar crea exactamente un recibo simulado; repetir devuelve el mismo.</span> <a href="#evidence/R05">R05</a></li>
+      <li><span data-en="A proposal whose order or policy changed cannot be executed.">Una propuesta cuyo pedido o política cambió no se puede ejecutar.</span> <a href="#evidence/R04">R04</a></li>
+     </ul>
+     <p class="tour-expected"><b data-en="Expected result:">Resultado esperado:</b> <span data-en="each control opens its requirement with its cases and tests.">cada control abre su requisito con sus casos y pruebas.</span></p></li>
+    <li><span class="tour-time" data-en="60 seconds, optional">60 segundos, opcional</span><h3 data-en="Run the case on your computer">Ejecuta el caso en tu equipo</h3>
+     <p data-en="With Python 3.11 or later, from the repository folder:">Con Python 3.11 o superior, desde la carpeta del repositorio:</p>
+     <pre class="tour-command">python run.py tour</pre>
+     <p class="tour-expected"><b data-en="Expected result:">Resultado esperado:</b> <span data-en="six steps with 0, 0, 0, 0, 1 and 1 simulated receipts; the repeat returns the same receipt and the audit chain is valid. Every run starts from a fresh lab.">seis pasos con 0, 0, 0, 0, 1 y 1 recibos simulados; la repetición devuelve el mismo recibo y la cadena de auditoría es válida. Cada ejecución empieza con un laboratorio nuevo.</span></p>
+     <p class="muted" data-en="This public demo does not run the case: by the owner's decision, Session is a conversation only (U13).">Esta demo pública no ejecuta el caso: por decisión del dueño, Sesión es solo conversación (U13).</p></li>
+    <li><span class="tour-time" data-en="30 seconds">30 segundos</span><h3 data-en="Check the evidence and the limits">Comprueba la evidencia y los límites</h3>
+     <p class="tour-expected"><b data-en="Expected result:">Resultado esperado:</b> <span data-en="in Evidence you see what was verified automatically, what was reviewed, what is pending and which requirements are only partial.">en Evidencia ves qué se verificó automáticamente, qué se revisó, qué está pendiente y qué requisitos están solo parciales.</span></p>
+     <p class="tour-control"><b data-en="Limits:">Límites:</b> <span data-en="fictional data, simulated effects, reviewer without real authentication, memory-only state.">datos ficticios, efectos simulados, revisor sin autenticación real y estado solo en memoria.</span> <a href="#evidence" data-en="Open Evidence">Abrir Evidencia</a></p></li>
+   </ol>
+   <div class="tour-close"><h3 data-en="What I can bring to your team">Qué puedo aportar a tu equipo</h3>
+    <p data-en="Define the problem and the scope of an AI integration, decide which controls it needs before it touches real operations, coordinate an AI-assisted build and verify it with evidence.">Definir el problema y el alcance de una integración con IA, decidir qué controles necesita antes de tocar operaciones reales, coordinar una construcción asistida por IA y verificarla con evidencia.</p>
+    <p><a href="https://github.com/marcodiazleon" target="_blank" rel="noopener noreferrer" data-en="Contact Marco on GitHub">Contactar a Marco en GitHub</a></p></div>
+  </section>
+  <h2 class="method-heading" data-en="How the work is organized">Cómo se organiza el trabajo</h2>
   <p>El recorrido conecta un problema, sus reglas, una implementación acotada y evidencia de lo que se probó.</p>
   <ol class="steps">
     <li><b>Definir el alcance</b><span>Casos de uso, requisitos y resultados esperados antes de implementar.</span></li>
@@ -71,14 +115,18 @@
 <section id="view-evidence" data-panel="evidence" class="panel cloud-panel" hidden aria-labelledby="evidence-title">
   <p class="eyebrow" data-en="WHAT WAS TESTED">LO QUE SE PROBÓ</p><h1 id="evidence-title" tabindex="-1" data-en="Evidence for this version">Evidencia de esta versión</h1>
   <p class="lead" data-en="Summary of the last recorded scripts/verify.py run and the acceptance cases behind each requirement.">Resumen de la última ejecución registrada de scripts/verify.py y de los casos de aceptación de cada requisito.</p>
-  <p class="muted" data-en="The stored run predates the Session redesign. Its results remain historical until the new revision is verified; R31 tracks this change.">La ejecución guardada es anterior al rediseño de Sesión. Sus resultados son históricos hasta verificar la nueva revisión; R31 registra este cambio.</p>
   <p id="evidenceStatus" class="muted" role="status"></p>
   <section id="evidenceMetrics" class="metrics evidence-metrics" aria-label="Resumen de la ejecución" data-label-en="Run summary" hidden>
     <div><span data-en="Generated (UTC)">Generado (UTC)</span><b id="evGenerated"></b></div>
     <div><span data-en="Tests (run · failures · errors)">Tests (ejecutados · fallos · errores)</span><b id="evTests"></b></div>
     <div><span data-en="Scenarios">Escenarios</span><b id="evScenarios"></b></div>
     <div><span>Resultado</span><b id="evResult"></b></div>
-    <div><span>Commit</span><b id="evCommit"></b></div>
+    <div><span data-en="Run baseline">Base de la ejecución</span><b id="evCommit"></b></div>
+  </section>
+  <section id="statusRecords" class="status-records" aria-labelledby="statusTitle" hidden>
+   <h2 id="statusTitle" data-en="What is recorded, and what is not">Qué está registrado y qué no</h2>
+   <dl id="statusList"></dl>
+   <p id="runDetail" class="muted"></p>
   </section>
   <div id="evidenceExplorer" hidden>
     <label for="reqPicker" data-en="Requirement">Requisito</label>
@@ -86,6 +134,14 @@
     <p><span id="reqBadge" class="badge"></span> <span id="reqSource" class="muted"></span></p>
     <div class="table-wrap" role="region" aria-label="Casos del requisito" data-label-en="Requirement cases" tabindex="0"><table><thead><tr><th scope="col" data-en="Case">Caso</th><th scope="col">Acción</th><th scope="col" data-en="Expected">Esperado</th><th scope="col" data-en="Status">Estado</th><th scope="col">Test</th><th scope="col">Evidencia</th></tr></thead><tbody id="reqCases"></tbody></table></div>
   </div>
+  <details class="badge-legend"><summary data-en="What each requirement badge means">Qué significa cada estado de requisito</summary><ul>
+   <li><b>PASS</b> <span data-en="every applicable case passed with recorded evidence.">todos los casos aplicables pasaron con evidencia registrada.</span></li>
+   <li><b>PARCIAL</b> <span data-en="some applicable cases passed and others are still untested; the count is shown.">algunos casos aplicables pasaron y otros siguen sin probar; se muestra el conteo.</span></li>
+   <li><b>PENDIENTE</b> <span data-en="no applicable case has passed with evidence yet.">ningún caso aplicable ha pasado con evidencia todavía.</span></li>
+   <li><b>BLOQUEADO</b> <span data-en="a case cannot run until an external condition changes.">un caso no puede ejecutarse hasta que cambie una condición externa.</span></li>
+   <li><b>FAIL</b> <span data-en="at least one applicable case failed; it outweighs every other state.">al menos un caso aplicable falló; pesa más que cualquier otro estado.</span></li>
+   <li><b>NO_APLICA</b> <span data-en="excluded from the count and always recorded with its reason.">se excluye del conteo y siempre se registra con su motivo.</span></li>
+  </ul></details>
   <p class="muted"><span data-en="States come from scripts/verify.py; owner acceptance and independent review are recorded separately.">Los estados proceden de scripts/verify.py; la aceptación del dueño y la revisión independiente se registran por separado.</span> <a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/evidence/latest.json" target="_blank" rel="noopener noreferrer">latest.json</a> · <a href="https://github.com/marcodiazleon/ai-implementation-lab/blob/main/specs/001-support-demo/acceptance.csv" target="_blank" rel="noopener noreferrer">acceptance.csv</a></p>
 </section>
 

@@ -20,7 +20,8 @@ class PagesBuildTests(unittest.TestCase):
             self.assertIn(".public-demo #context7Details", css)
             self.assertIn("AI IMPLEMENTATION LAB · VISTA PÚBLICA", html)
             self.assertNotIn("ESPACIO LOCAL", html)
-            self.assertIn("Las conversaciones por API se ejecutan en la versión local.", html)
+            # U17: the presentation scope line states what the public demo does and what needs the local lab.
+            self.assertIn("Laboratorio local: conversación con tu propia clave API.", html)
             self.assertNotIn("por loopback", html)
 
     def test_public_build_ships_evidence_data_not_spec(self):

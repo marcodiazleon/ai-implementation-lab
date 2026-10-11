@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 from scripts.validate_data import validate
 from scripts.publication_check import check, files
 from scripts.sdd_check import validate as validate_sdd
+from scripts.check_evidence import source_hashes
 from src.lab.cli import evaluate
 
 class CaseResult(unittest.TextTestResult):
@@ -69,11 +70,8 @@ def main():
     print(stream.getvalue())
     fixture_errors, publication_errors, sdd_errors = validate(), check(), validate_sdd()
     evaluation = evaluate()
-    source = {}
-    for p in files():
-        rel = p.relative_to(ROOT).as_posix()
-        if rel.split("/")[0] in {"src", "tests", "scripts", "data", "web"} or rel == "run.py":
-            source[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+    # One definition of the source fingerprint, shared with scripts/check_evidence.py (R39b).
+    source = source_hashes()
     source_id = hashlib.sha256(json.dumps(source, sort_keys=True).encode()).hexdigest()
     by_test = {r["test_id"]: r for r in result.cases}
     path = ROOT / "specs/001-support-demo/acceptance.csv"
@@ -122,6 +120,9 @@ def main():
     evidence["passed"] = result.wasSuccessful() and not fixture_errors and not publication_errors and not sdd_errors and evaluation["passed"]
     (ROOT / "evidence/latest.json").write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"passed": evidence["passed"], "tests": result.testsRun, "scenarios": len(evaluation["cases"]), "sdd_errors": sdd_errors}))
+    # R37b: say plainly that versioned files changed, so nobody commits a local run by accident.
+    print("Note: this run rewrote evidence/latest.json, evidence/sdd-check.json and specs/001-support-demo/acceptance.csv. "
+          "Review them with git diff; restore with git checkout -- evidence specs/001-support-demo/acceptance.csv.")
     return 0 if evidence["passed"] else 1
 
 if __name__ == "__main__":

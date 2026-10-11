@@ -1,35 +1,54 @@
-name: Verify Session and static build
+name: Verify
+# D32 / R39: the only verification definition. pages.yml reuses it before building.
+# Read-only token, no secrets, no model calls. Based on PR #5's hardening, with PR #4's manual trigger
+# and all-branch pushes and PR #6's Python matrix.
 on:
   push:
-    branches: [main, "fix/session-first-public"]
   pull_request:
+  workflow_dispatch:
+  workflow_call:
 permissions:
   contents: read
 jobs:
   verify:
+    if: github.repository == 'marcodiazleon/ai-implementation-lab' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    name: verify (${{ matrix.os }}, Python ${{ matrix.python }})
+    timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        include:
+          - { os: ubuntu-latest, python: "3.11" }
+          - { os: ubuntu-latest, python: "3.13" }
+          - { os: windows-latest, python: "3.13" }
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: ${{ matrix.python }}
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      # R39b: the committed evidence must describe these exact sources before anything is rerun.
+      - run: python scripts/check_evidence.py
+      - run: python scripts/check_evidence.py --save committed-latest.json
       - run: python scripts/verify.py
+      # R39b: the rerun must reproduce every committed test status.
+      - run: python scripts/check_evidence.py --against committed-latest.json
       - run: python scripts/build_pages.py
       - run: node --check web/cloud.js
       - run: node --check web/studio.js
+      - run: node --check web/evidence.js
+      - run: node --check web/evidence-rules.js
       - run: node --check web/public-demo.js
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: session-verification-${{ matrix.os }}
+          name: verification-${{ matrix.os }}-py${{ matrix.python }}
           path: |
             evidence/latest.json
             evidence/sdd-check.json
             specs/001-support-demo/acceptance.csv
-            _site/

@@ -16,8 +16,14 @@
     "status": "LIMITED",
     "by": "Codex",
     "date": "2026-10-11",
-    "scope": "Document and pull-request review of main 81dfced and PRs #4-#6, and the reconciliation proposal; no independent execution",
-    "not": "Not owner acceptance and not a release decision"
+    "scope": {
+      "es": "Revisión documental de main 81dfced, de los PR #4 a #6 y de la propuesta de conciliación; sin ejecución independiente",
+      "en": "Document and pull-request review of main 81dfced, PRs #4-#6 and the reconciliation proposal; no independent execution"
+    },
+    "not": {
+      "es": "No es aceptación del dueño ni decisión de publicación",
+      "en": "Not owner acceptance and not a release decision"
+    }
   },
   "next_task": "Independent review of the U17 candidate SHA by Codex; owner decisions D35 and pending reconciliation of PRs #4-#6",
   "evidence": "evidence/latest.json",

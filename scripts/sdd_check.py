@@ -76,7 +76,7 @@ def version_errors(root, status):
         for line in path.read_text(encoding="utf-8").splitlines():
             for match in VERSION_CITE.finditer(line):
                 before = line[:match.start()].lower()
-                if match.group(1) != active and not before.endswith(("introduced in ", "introducido en ")):
+                if match.group(1) != active and not before.endswith(("introduced in ", "introducido en ", "written for ", "escrito para ")):
                     errors.append("Outdated S01 version in " + path.relative_to(root).as_posix() + ": " + match.group(1))
     return errors
 

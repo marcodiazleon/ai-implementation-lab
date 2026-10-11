@@ -8,16 +8,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.sdd_check import requirement_rows
+from scripts.check_evidence import source_fingerprint
 from src.lab.model_catalog import catalog
 
 DATA = ["data/orders.json", "data/policy.json", "data/scenarios.json", "agents/roles.json",
         "evidence/latest.json", "specs/001-support-demo/acceptance.csv"]
-NOTE = ('<p class="public-note" data-en="Public preview: explore models and create agents. '
-        'API conversations run in the local version.">Vista pública: explora modelos y crea agentes. '
-        'Las conversaciones por API se ejecutan en la versión local.</p>')
 REPLACEMENTS = [
     ('<script src="i18n.js"', '<script src="public-demo.js"></script>\n  <script src="i18n.js"'),
-    ('<div id="view-demo" data-panel="demo">', '<div id="view-demo" data-panel="demo">' + NOTE),
     ('Guardados en este repositorio en esta computadora.', 'Se guardan solo en esta pestaña y se borran al recargar.'),
     ('data-en="Saved in this repository on this computer.', 'data-en="Kept only in this tab and cleared on reload.'),
     ('Sesión en memoria · API opcional · Uso local', 'Vista pública · Agentes en esta pestaña · API en versión local'),
@@ -38,6 +35,10 @@ def build(out=ROOT / "_site"):
     spec = (ROOT / "specs/001-support-demo/spec.md").read_text(encoding="utf-8")
     (out / "data/requirements.json").write_text(
         json.dumps(requirement_rows(spec), ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
+    # R36b: the project records and the fingerprint of the sources this site was built from.
+    status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+    (out / "data/status.json").write_text(json.dumps(dict(status, source_fingerprint=source_fingerprint()),
+        ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
     (out / "data/model-catalog.json").write_text(
         json.dumps(catalog(), ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
     html = (out / "index.html").read_text(encoding="utf-8")
