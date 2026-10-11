@@ -47,9 +47,9 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T36 | R27,R15 | Bilingual Evidence view: run metrics, requirement picker, case table and PENDIENTE badge | T35,T28 | Implementing assistant | Local and public build show metrics and R02 cases in a browser | IMPLEMENTED; see U10 notebook entry |
 | T37 | R27 | Tests and acceptance cases for data routes, public build files and ID parity | T35 | Implementing assistant | C114–C120 mapped and passing in evidence/latest.json | IMPLEMENTED; see U10 notebook entry |
 
-## U12 delivery
+## U13 delivery
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
 |---|---|---|---|---|---|---|
-| T41 | R30,R21,R25 | Conversation-only Session and five destinations | U12,T28,T32 | Codex, directly authorized by Marco | Chat controls remain; exercise/log absent; dialog preserves draft | IMPLEMENTED; verification pending |
-| T42 | R30,R16,R26 | Public model catalog and explicit local-only connection boundary | T41,T22,T33 | Codex | Same reference catalog; static credential submission blocked | IMPLEMENTED; verification pending |
-| T43 | R30,R12,R14 | Regression checks, evidence classification and README | T41,T42 | Codex | Checks recorded by revision; historical results not reused as redesign acceptance | IMPLEMENTED; CI/browser pending |
+| T47 | R31,R21,R25 | Conversation-only Session and five destinations | U13,T28,T32 | Codex, directly authorized by Marco | Chat controls remain; exercise/log absent; dialog preserves draft | IMPLEMENTED; verification pending |
+| T48 | R31,R16,R26 | Public model catalog and explicit local-only connection boundary | T47,T22,T33 | Codex | Same reference catalog; static credential submission blocked | IMPLEMENTED; verification pending |
+| T49 | R31,R12,R14 | Regression checks, evidence classification and README | T47,T48 | Codex | Checks recorded by revision; historical results not reused as redesign acceptance | IMPLEMENTED; CI/browser pending |

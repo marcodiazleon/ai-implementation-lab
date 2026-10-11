@@ -1,4 +1,4 @@
-"""Regression checks for U12: conversation-only Session and truthful static preview."""
+"""Regression checks for U13: conversation-only Session and truthful static preview."""
 import json
 import tempfile
 import unittest
