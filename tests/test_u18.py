@@ -177,9 +177,13 @@ class LinkTests(unittest.TestCase):
         info = revision_info()
         git = lambda *args: subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True)
         self.assertEqual(info["revision"], git("rev-parse", "HEAD").stdout.strip())
-        self.assertTrue(info["pins_complete"])
         cases = historical_cases()
-        self.assertEqual(set(info["pins"]), set(cases))
+        self.assertLessEqual(set(info["pins"]), set(cases))
+        # Every committed historical case is pinned; only a row not yet in any commit falls back to the revision.
+        for case in set(cases) - set(info["pins"]):
+            recorded = git("log", "--format=%H", "-S", cases[case][1], "--", "specs/001-support-demo/acceptance.csv").stdout.strip()
+            self.assertEqual(recorded, "", case)
+        self.assertEqual(info["pins_complete"], set(info["pins"]) == set(cases))
         for case, sha in info["pins"].items():
             self.assertEqual(git("cat-file", "-e", sha + ":" + cases[case][0]).returncode, 0, case)
             self.assertEqual(git("merge-base", "--is-ancestor", sha, "HEAD").returncode, 0, case)

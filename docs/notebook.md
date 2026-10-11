@@ -110,3 +110,10 @@ Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20
 - Not executed: test with a new visitor (C170), injected-defect CI run (C176), route review by another person (C177), screen reader, published URL. D35 (visible route for the refund case) waits for Marco.
 - Not claimed: an 8/10 score, owner acceptance or release readiness. Codex reviews the final SHA independently.
 
+## 2026-10-11 · U18 corrections after the second independent review (working branch)
+- Source: U18, Codex's second review of PR #7 at f0f088b (7.5/10, not ready to merge), authorized by Marco. R40–R45, T64–T69, D37–D39 and C200–C214 recorded before the code change. Same branch; no merge, deployment, protection or permission change.
+- Delivered: gate jobs with the required names `verify (ubuntu-latest)` and `verify (windows-latest)` over the full matrix (R40); `run.py tour` safe in cp1252 (R41); source and record manifests with case-level drift, and project-status without a fingerprint copy (R42); links pinned to the build revision or to the commit that recorded a historical case, plus the README publication warning (R43); bilingual footer, Spanish guide and entry docs updated (R44); worked result of the tour checked against the CLI (R45).
+- Checks by the implementing assistant: 135 tests and 7 scenarios; negatives for gate failure/skip/cancel/missing, role, workflow, expected result, case-test mapping, status, registry ID and swapped statuses with equal counts; cp1252 failure reproduced on f0f088b (UnicodeEncodeError, exit 1) and passing after the fix; CI green on f15562d with the required names (runs 38183623455, 38183626007); browser and link pass in reports/U18_BROWSER_CHECK_2026-10-11.md.
+- Not executed: C170, C176, C177, screen reader, live API, another PC, published URL. D35 and the PR #4–#6 reconciliation wait for Marco.
+- Not claimed: an 8/10 score, owner acceptance or merge readiness.
+
