@@ -3,11 +3,11 @@
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
   "source_id": "34cf9d0558d565a4cd48d7c35c5069a1e2413884c346966239e05cca9b8d2bc5",
-  "record_id": "f867711233295300d036b595c949d8c0044e1d308a898461ed45eb69528b3eb7",
+  "record_id": "82b5cc39dae4e9f3567d93c4a960f3d7c6d35cdb7f4e5b4eab1e13f78b7a05bf",
   "record_sha256": {
     "docs/id-registry.json": "72a81536d3d94c6613169283c0d057e8f68b3a237446477634deedc12b5c99f5",
     "docs/project-status.json": "bd7de61b0ec5bc0551a42bc0aa53fc43b131a7daf3433d2b183fe6956a829753",
-    "specs/001-support-demo/acceptance.csv": "8a6c945184aa187ac9b5baaea3b9f5bda0ed2ae9062aa4aa9b90572690967bde",
+    "specs/001-support-demo/acceptance.csv": "6d5dacc32a609bf9983356d154d750e70e6a7bf07e960e1cd022028d2dfda765",
     "specs/001-support-demo/plan.md": "2024779dbc7bdb9ca61d971380ca9fb8b115cb77138d9807908e2aac6cefc10a",
     "specs/001-support-demo/spec.md": "4379a4ed615ad25959d6e71159e8866ae90c336880fb6475aadccea0f8d996de",
     "specs/001-support-demo/tasks.md": "9281f1108637161490d644c28e8d55110739b05185e813b1322334949d22a14a",

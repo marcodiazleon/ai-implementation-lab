@@ -117,3 +117,11 @@ Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20
 - Not executed: C170, C176, C177, screen reader, live API, another PC, published URL. D35 and the PR #4–#6 reconciliation wait for Marco.
 - Not claimed: an 8/10 score, owner acceptance or merge readiness.
 
+## 2026-10-11 · U19 findings of the review of U18 (working branch)
+- Source: U19, Codex verdict on 5c4292d (8/10 as a presentation, not ready to merge: two P2 and one P3), authorized by Marco. R46–R48, T70–T72, D40 and C215–C221 recorded before the change. Same branch and limits.
+- P2-01 reproduced on 5c4292d: with correct per-file maps, `source_id` or `record_id` set to 64 zeros passed check_committed. Fixed: a missing, malformed or differing digest is always an error (R46). The new tests fail on the 5c4292d checker and pass on the fix.
+- P2-02: README, INDEX and the Spanish guide separate the published URL from the candidate and give fetch, detached checkout and rev-parse commands (R47). Followed in a fresh clone: default clone at 81dfced, candidate at e4981e5.
+- P3: the requirement picker writes `#evidence/<ID>` (R48). Reproduced on the 5c4292d build (R11 reverted to R03 after English); fixed on e4981e5.
+- Checks: 140 tests and 7 scenarios; check_evidence before and after a second verify; CI green on e4981e5 with the required names (runs 38185148340, 38185150770); reports/U19_CHECK_2026-10-11.md.
+- Not executed or claimed: C170, C176, C177, screen reader, live API, another PC, published URL, owner acceptance, merge readiness. D35 and the PR #4–#6 reconciliation wait for Marco.
+
