@@ -1,27 +1,49 @@
 {
   "schema": 1,
   "project": "AI Implementation Lab",
-  "updated": "2026-10-05",
+  "updated": "2026-10-11",
   "active_spec": "specs/001-support-demo/spec.md",
-  "active_spec_version": "1.0",
+  "active_spec_version": "1.1",
   "expansion_spec": "specs/002-expansion/spec.md",
   "expansion_state": "BACKLOG",
   "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
   "owner": "Marco Diaz de Leon",
   "maintenance_owner": "Marco Diaz de Leon",
-  "development_executor": "Codex; direct repository changes authorized by Marco 2026-10-05",
+  "development_executor": "Implementing assistant (Claude Code) on branch claude/laughing-rubin-6e32ve-entry; authorized by Marco via Codex 2026-10-11",
   "runtime_model": "OPTIONAL_OPENAI_OR_ANTHROPIC_OPERATOR_SELECTED",
   "acceptance": "OWNER_ACCEPTANCE_NOT_RECORDED",
-  "independent_review": "NOT_PERFORMED",
-  "next_task": "Verify Session redesign and public/local behavior",
+  "independent_review": {
+    "status": "LIMITED",
+    "by": "Codex",
+    "date": "2026-10-11",
+    "scope": "Document and pull-request review of main 81dfced and PRs #4-#6, and the reconciliation proposal; no independent execution",
+    "not": "Not owner acceptance and not a release decision"
+  },
+  "next_task": "Independent review of the U17 candidate SHA by Codex; owner decisions D35 and pending reconciliation of PRs #4-#6",
   "evidence": "evidence/latest.json",
-  "latest_delivery": "U13 conversation-only Session, R31, T47-T49",
-  "current_task": "T47-T49 IMPLEMENTED; verification pending",
+  "latest_delivery": "U17 presentation, three-minute tour and coherent evidence status (R34-R39, T57-T63) on a working branch",
+  "current_task": "T57 IMPLEMENTED; T58-T63 in progress",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED",
   "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
   "json_browser_download": "VERIFIED_FILE_AND_HASH",
   "public_demo": "https://marcodiazleon.github.io/ai-implementation-lab/",
   "public_demo_verified": "Historical browser run 2026-10-04; U13 not deployed",
-  "evidence_scope": "Historical run; does not verify U13 source revision"
+  "evidence_scope": "Historical run; does not verify U13 source revision",
+  "integration": {
+    "main": "81dfced59cc85231e25732137859923b39a2beed",
+    "this_branch": "claude/laughing-rubin-6e32ve-entry",
+    "state": "NOT_INTEGRATED",
+    "open_prs": [
+      "#4 feat/reset-and-explain",
+      "#5 fix/session-first-public",
+      "#6 claude/laughing-rubin-6e32ve"
+    ]
+  },
+  "deployment": {
+    "pages_source": "main @ 81dfced59cc85231e25732137859923b39a2beed",
+    "run": "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/37248803646",
+    "this_branch": "NOT_DEPLOYED"
+  },
+  "id_registry": "docs/id-registry.json"
 }

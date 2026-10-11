@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 1.0. Current spec: spec.md 1.0. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 1.1. Current spec: spec.md 1.1. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -53,3 +53,15 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T47 | R31,R21,R25 | Conversation-only Session and five destinations | U13,T28,T32 | Codex, directly authorized by Marco | Chat controls remain; exercise/log absent; dialog preserves draft | IMPLEMENTED; verification pending |
 | T48 | R31,R16,R26 | Public model catalog and explicit local-only connection boundary | T47,T22,T33 | Codex | Same reference catalog; static credential submission blocked | IMPLEMENTED; verification pending |
 | T49 | R31,R12,R14 | Regression checks, evidence classification and README | T47,T48 | Codex | Checks recorded by revision; historical results not reused as redesign acceptance | IMPLEMENTED; CI/browser pending |
+
+## U17 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T57 | R34,R36,R39 | U17 source, R34–R39, CU19–CU20, ID registry, remap of carried PR #5 IDs, decisions D32–D36 and cases before implementation | U17,T47 | Implementing assistant | sdd_check passes with the registry | IMPLEMENTED |
+| T58 | R34,R38 | Session presentation block and README rewrite with a screenshot of this revision's public build | T57 | Implementing assistant | Presentation checks pass; README within 700 words | PENDING |
+| T59 | R35 | Tour section in How it is built and `run.py tour` | T57 | Implementing assistant | Tour CLI and HTML checks pass | PENDING |
+| T60 | R36 | Badge semantics, status route and view, validator negatives | T57 | Implementing assistant | Node badge and sdd_check negatives pass | PENDING |
+| T61 | R39 | Single reusable CI and evidence reproducibility check | T60 | Implementing assistant | Workflow and drift checks pass; CI green on candidate SHA | PENDING |
+| T62 | R37 | INDEX, historical register, canonical table, traceability example, verify warning, guide versions | T58–T61 | Implementing assistant | Document checks pass | PENDING |
+| T63 | R38,R34,R35,R36 | Browser pass at 375/390/1360 in ES/EN, contrast measurements, screenshots | T58–T62 | Implementing assistant | Measurements recorded; no page overflow | PENDING |
+

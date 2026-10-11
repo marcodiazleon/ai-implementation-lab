@@ -46,3 +46,19 @@ Replace the U08 oversized chat toolbar with four native keyboard-accessible sele
 
 ## D29 — Conversation is the primary experience
 Source: Marco, 2026-10-05, U13. Replace visible refund panels with the existing chat; five destinations only. API settings open within Session. This supersedes D19's public refund presentation. Existing deterministic examples and their results are retained as history. The static preview cannot claim live cloud chat; provider inference remains on the existing local backend until a hosted backend is separately supplied. D20's manual PR opening remains unchanged.
+
+## D32 — One reusable CI and reproducible committed evidence (U17, R39)
+2026-10-11. Three open pull requests defined CI differently: PR #4 (D27, verify.yml plus verify inside a single Pages job holding Pages permissions), PR #5 (verify.yml limited to main and its branch, hardened build/deploy split) and PR #6 (matrix inside pages.yml, own D22). Chosen: one definition, .github/workflows/verify.yml, based on PR #5's hardening (read-only token, no persisted credentials, repository guard, Node syntax checks), with PR #4's manual trigger and all-branch pushes and PR #6's Python 3.11/3.13 Linux plus 3.13 Windows matrix. pages.yml calls it as a reusable workflow; only its deploy job holds pages/id-token. Evidence: the published site keeps shipping the committed files (D21, unchanged). Reproducibility replaces regeneration at deploy: scripts/check_evidence.py fails when the committed source fingerprint or any committed test status differs from the checked-out revision. Alternatives rejected: publishing regenerated evidence (changes D21 without an owner decision) and keeping several workflows. Supersedes, in this branch only, PR #4 D27, the workflow part of PR #5 D25 and PR #6 D22.
+
+## D33 — Requirement badge semantics (U17, R36a)
+2026-10-11. Port of PR #4 D24 (ea5fe51, function tally) extended with BLOQUEADO: FAIL > BLOQUEADO > PASS when every applicable case passed with evidence > PARCIAL with "n of m" > PENDIENTE. NO_APLICA is excluded from the count and must state its reason. The rule is defined in spec R36a and implemented once in web/evidence.js.
+
+## D34 — ID registry and remap (U17, R36c)
+2026-10-11. docs/id-registry.json lists IDs held by open pull requests and the aliases of remapped ones. Rule: main is immutable; the earliest open PR keeps its IDs. PR #5's carried Session IDs became U13, R31, T47–T49, D29 and C148–C152. sdd_check rejects reserved or duplicated IDs. Historical text (commits, PR bodies, dated reports, cherry-picked notebook entries) is not rewritten.
+
+## D35 — Route for the deterministic refund case under U13 (U17, R35b)
+2026-10-11. U13 removes the refund exercise from the visible application and the constitution keeps it as code and CLI evidence. Authorized route here: the in-app tour describes the controls and links to their evidence; `python run.py tour` runs the case locally with receipt counts per step. Alternatives that need Marco's decision and are not implemented: (a) a read-only transcript of `run.py tour` shown in How it is built, generated from the controller; (b) an interactive exercise in a non-Session place, which would revise U13. PENDING OWNER DECISION.
+
+## D36 — Version 1.1 and one place for the number (U17, R36c)
+2026-10-11. Open branches declare 0.10 (PR #6), 0.11 (PR #4) and 1.0 (PR #5). This branch declares 1.1 so that no number means two things. Port of PR #4 D26: spec, plan and tasks headers must equal docs/project-status.json; current guides either link to project-status or state provenance as "introduced in S01 x.y"; dated reports and the notebook keep their historical numbers.
+

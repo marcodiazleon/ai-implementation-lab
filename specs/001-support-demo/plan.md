@@ -1,6 +1,6 @@
 # S01 implementation and maintenance plan
 
-Version 0.8. Basis: spec.md 0.8. Scope: maintain the existing local example and complete SDD traceability.
+Version 1.1. Basis: spec.md 1.1. Scope: maintain the existing local example and complete SDD traceability.
 
 ## Components and contracts
 | Component | Files | Contract / requirement |
@@ -77,3 +77,8 @@ Server adds three exact GET routes behind the existing trusted() check: /api/evi
 Retain the existing cloud transport and agent definitions. Remove the exercise markup and app.js from the browser entry, keeping domain code and tests for historical reproducibility. Move connection markup into connectionDialog; studio routes only the five destinations and resolves the legacy connection hash to that dialog.
 The static builder ships the existing reference catalog as model-catalog.json. The shim serves it; cloud.js recognizes the public preview and prevents credentials/provider submission. No static page is described as an inference backend.
 Verification: SessionShellTests, existing build/provider/session checks, JS syntax checks, and a real browser pass. Existing evidence/latest.json is historical until regenerated for this source. Revert with an ordinary commit restoring the changed UI/build files; preserve unrelated branch work.
+
+## U17 implementation
+Presentation (R34): a compact block inside Session above the welcome heading, static bilingual markup; the README is rewritten in the same order. Tour (R35): a section at the top of How it is built with steps, expected results and controls; `src/lab/cli.py` gains a `tour` command that drives the existing controller in a fresh Lab and returns structured steps; no UI exercise returns. Evidence (R36): web/evidence.js exposes a pure badge function (ported from PR #4 D24 at ea5fe51 and extended with BLOQUEADO) and renders a status block from docs/project-status.json, served at GET /api/status and shipped as _site/data/status.json. Validator (R36c): sdd_check reads docs/id-registry.json and adds version, guide, NO_APLICA and uniqueness checks (version rule ported from PR #4 D26). CI (R39): .github/workflows/verify.yml becomes the only verification definition and is reused by pages.yml; scripts/check_evidence.py compares the committed fingerprint and test statuses. Documentation (R37): README, docs/INDEX.md, capabilities table, startup warning. Navigation and language (R38): labels, skip link, overflow and contrast checks.
+Verification: unit and Node checks for every negative above, verify.py and sdd_check.py, a browser pass at 375/390/1360 in both languages, and CI on the candidate SHA. Revert with ordinary commits; PRs #4, #5 and #6 stay untouched.
+

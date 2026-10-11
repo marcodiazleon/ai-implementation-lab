@@ -1,6 +1,6 @@
 # Conecta tu IA: OpenAI y Claude
 
-U09 · S01 0.8 · R16,R21,R22,R24–R26. La demostración de devoluciones sigue siendo determinista. La nueva conversación es una función independiente y opcional.
+U09 · introduced in S01 0.8 · R16,R21,R22,R24–R26. La demostración de devoluciones sigue siendo determinista. La nueva conversación es una función independiente y opcional.
 
 ## Uso
 1. Ejecuta INICIAR_LAB.cmd desde la carpeta copiada, con Python 3.11 o posterior.

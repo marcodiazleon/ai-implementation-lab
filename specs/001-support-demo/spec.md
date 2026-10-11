@@ -1,6 +1,6 @@
 # S01 — AI conversation workspace and historical engineering sample
 
-Version: 1.0. Status: current specification; U13 supersedes the visible after-sales exercise.
+Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -17,6 +17,7 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U06 | Owner requests Spanish/English language selection throughout the current app |
 | U07 | Owner requests functional internal PM, researcher, implementer and quality reviewer agents with hooks and responsibilities, plus MCP connection options starting with Context7. Both proposed additional roles confirmed. |
 | U10 | Owner's request 2026-10-04: a technical visitor sees, inside the app, the requirement → case → test → evidence chain and the real verification state without reading CSV/JSON by hand; a requirement without a passing case is shown as pending |
+| U17 | Marco's request relayed by Codex, 2026-10-11: improve the repository as a presentation for clients and recruiters (first minute, three-minute tour, coherent evidence and status, documentation by depth, navigation, mobile and languages), keeping U13 Session and its five destinations; implementation and verification on a working branch only, no merge or deployment |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
@@ -140,7 +141,7 @@ Operator approves connection to the fixed Context7 HTTPS endpoint, optionally su
 ## Acceptance
 acceptance.csv contains precondition, action, expected, observed, status, evidence, product version, environment and authority per case. Automated PASS is bounded technical evidence. Owner comprehension and independent review, when requested, require their own observations.
 
-The active build is S01 0.9. S02 is an expansion backlog; its higher number does not make it active or implemented.
+The active build is the S01 version selected in docs/project-status.json. S02 is an expansion backlog; its higher number does not make it active or implemented.
 
 ### CU10 — Choose interface language
 Operator selects Español or English. All five views, accessible names, scenario titles, result messages and connection notices update without reload or API calls. Default Spanish; valid stored preference restored; unavailable storage falls back to in-tab behavior. User/model text and technical evidence codes are preserved.
@@ -191,3 +192,35 @@ R31d: While evidence from a prior source revision is displayed, identify it as h
 | R31 | Conversation-only Session, five destinations, provider/model controls, in-session API dialog and truthful local/static behavior | U13 | CU17 | Shell/build regression checks; browser navigation and local live API classified separately |
 
 This source supersedes the visible exercise portion of R11/R13/R21/R25 and the static refund presentation decision D19. It preserves R16/R22/R24/R26 provider, role, consent and session boundaries. Cloud hosting, new arbitrary MCP execution and paid inference are not introduced by this UI change.
+
+## U17 — Presentation, guided tour and coherent evidence status
+Source: U17 (Marco via Codex, 2026-10-11). Constraint: U13 stays in force. Session remains the entry and a conversation, navigation keeps exactly five destinations, and the refund case is not shown as a visible exercise. The case remains reachable as local CLI and test evidence, as the constitution's U13 correction allows. IDs reserved by open pull requests are listed in docs/id-registry.json and are not reused here.
+
+### CU19 — Understand the work in the first minute and follow a three-minute tour
+A visitor opens the public demo. Session shows who Marco is, what he contributes and what is pending, above the composer. The visitor opens the tour in How it is built, follows each step with its expected result, checks the evidence of a requirement and reads how to contact Marco. No account, key or model is needed. A local operator can run the deterministic refund walkthrough with `python run.py tour`.
+
+### CU20 — Review the state of the evidence technically
+A reviewer opens Evidence, reads which records exist (automated verification, independent review, owner acceptance, integration, deployment), the run baseline and the source fingerprint, selects a requirement and sees whether its cases are complete, partial, blocked, failed or pending.
+
+- R34a: When Session opens, the first screen shall show Marco's name, his positioning, his individual contribution (problem definition, scope, acceptance criteria, coordination and verification) separated from the AI-assisted code, and a visible link to the three-minute tour, above the composer.
+- R34b: The presentation shall state what the public demo does without account, key or model, what requires the local lab, and what is pending.
+- R34c: The README shall follow the same order (who, contribution, what it demonstrates, first action) in at most 700 words excluding code blocks and tables, and its main screenshot shall come from the public build of the same revision.
+- R35a: How it is built shall open with a three-minute tour whose steps each name the action, the expected result and the control demonstrated, and close with capabilities and contact; every step shall work without account, key or model.
+- R35b: When the operator runs `python run.py tour`, the system shall run, in a fresh in-memory lab, analysis of an eligible order, execution without approval, approval, simulated connector failure, retry and repeat, and print the simulated receipt count after each step as 0, 0, 0, 0, 1, 1 with the same receipt on repeat; the proposal shall be described as simulated, never as proposed by AI.
+- R35c: Moving between the tour, Evidence and Session shall not clear the Session message draft.
+- R36a: The requirement badge shall be FAIL if any applicable case failed; otherwise BLOQUEADO if any is blocked; PASS only when every applicable case passed with evidence; PARCIAL with "n of m" when only some did; PENDIENTE when none did. NO_APLICA cases are excluded and require a stated reason.
+- R36b: The Evidence view shall show, from docs/project-status.json, the separate states of automated verification, independent review, owner acceptance, integration and deployment, plus the run baseline commit, whether the tree had uncommitted changes, and the source fingerprint; it shall state that the delivered revision is the commit that contains the evidence file.
+- R36c: sdd_check shall reject a NO_APLICA case without reason, a version header that differs from project-status, a guide that cites another S01 version outside the provenance form, a duplicated ID and an ID reserved by another open pull request.
+- R37a: The README shall offer three routes (30 seconds, three minutes, technical review) without duplicated links; docs/INDEX.md shall index specification, architecture, decisions, tests and evidence, and list historical reports with date and version without calling them current.
+- R37b: docs/capabilities.md shall hold the canonical public/local/pending/limits table, docs/INDEX.md one complete need → requirement → task → code → test → evidence example, and the startup check and README shall warn that scripts/verify.py rewrites the versioned evidence files.
+- R38a: Navigation shall keep five destinations with visible text labels; at 375, 390 and 1360 pixels the document shall not scroll horizontally; the skip link shall target an existing landmark; headings shall start with one h1 per view.
+- R38b: New human copy shall exist in Spanish and English with technical IDs preserved; contrast ratios of the real color pairs used for text shall be measured and recorded, without a global WCAG claim.
+- R39a: One verification workflow shall run scripts/verify.py on Ubuntu with Python 3.11 and 3.13 and on Windows with Python 3.13 for pushes, pull requests and manual runs; the Pages workflow shall reuse it and give Pages permissions only to its deploy job, on main.
+- R39b: The committed evidence shall be reproducible: before and after verification, CI shall check that the source fingerprint in evidence/latest.json matches the checked-out sources and that every test status matches the committed one, and fail otherwise. The published site ships the committed evidence (D21).
+
+| R34 | First-minute presentation in Session and README: who, contribution separated from AI-assisted code, demo/local/pending and the first action | U17 | CU19 | HTML/build checks, README length and screenshot source, browser check; human 30-second test |
+| R35 | Three-minute tour compatible with U13: in-app steps with expected results and controls, local `run.py tour` for the deterministic case, draft preserved | U17 | CU19 | Tour CLI receipts and blocks, HTML/i18n checks, browser walkthrough |
+| R36 | Coherent evidence status: badge semantics with counts, separate verification/review/acceptance/integration/deployment states, baseline and fingerprint, validator negatives | U17 | CU20 | Badge negatives in Node, status route and build data, sdd_check negatives, browser check |
+| R37 | Documentation by depth: three routes, index and historical register, canonical table, traceability example and verify rewrite warning | U17 | CU19/CU20 | Document structure and link checks |
+| R38 | Five labeled destinations, no horizontal overflow at 375/390/1360, skip link and headings, ES/EN for new copy, measured contrast | U17 | CU19/CU20 | HTML structure tests, browser measurements, contrast script |
+| R39 | Single reusable CI and reproducible committed evidence | U17 | CU20 | Workflow structure tests, fingerprint and status drift negatives, CI run on the candidate SHA |

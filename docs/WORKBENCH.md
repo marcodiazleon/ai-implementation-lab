@@ -1,6 +1,6 @@
 # Agent builder and MCP connections
 
-U09 · S01 0.8 · R21–R24. This interface replaces the U07 role workbench; its lower-level executor and tests remain available as engineering examples.
+U09 · introduced in S01 0.8 · R21–R24. This interface replaces the U07 role workbench; its lower-level executor and tests remain available as engineering examples.
 
 ## Create an agent
 1. Open Agents from the sidebar. Choose Project Manager, Researcher, Implementer or Quality Reviewer as a starting template, or start blank.
