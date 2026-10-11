@@ -2,15 +2,15 @@
   "passed": true,
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
-  "source_id": "a00ae07ad76b133f567d1941bc66765d32a5603883593ddc1a9c32abe944cce4",
+  "source_id": "890277c7c7044e8810e6a99a05034ce5ce0d91efb2f93d94816e8c09e7758927",
   "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "f63ddaf5f2ce1ab416cc6566e6edff2e90bc6de7f226cb40c07589ce14c6fdb4",
-    "specs/001-support-demo/plan.md": "4a020e64696854863372b1f794e536b8a99ec5cde1a8048dbb04e3fd331b7664",
-    "specs/001-support-demo/spec.md": "77b65cb0c8136742c401f6252f630e5216060342253f42122fcb87296dc0051e",
-    "specs/001-support-demo/tasks.md": "baa667195e37f01ed7e0ce2504dd786d9bdd6e88938e78d2c0709709d3c4062f",
+    "specs/001-support-demo/acceptance.csv": "2c916bb50de7c0754320936cf8472308c06460570da2278d3b1614ec5e3e66f3",
+    "specs/001-support-demo/tasks.md": "9771d7b3cbf3bb1ff3acf8df9d3081d35037013841f526314468a31809cccb2d",
+    "specs/001-support-demo/spec.md": "757f3a515a14b0fe15efd7b7da3f6825f216e29980187c1dc80d9c6b91d7a6c6",
+    "specs/001-support-demo/plan.md": "05e116bb999cdb4e17c75d113ad70c6efb12a4741c219fa24209f602516d06bb",
     "specs/002-expansion/acceptance.csv": "bdf7b14190fde0c79ea68f4ff27d678af6f98f68ae6b070df4d8c1efa5789bbb",
-    "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
+    "specs/002-expansion/tasks.md": "f058de31bd09e0624a27d4bec2f4ce31fa3a7c8c91b93fd3b610ef99be746308",
     "specs/002-expansion/spec.md": "e12daff7181fcb0be9075a04d2d234e9ce04730db3de3d66a38883301d54385e",
-    "specs/002-expansion/tasks.md": "f058de31bd09e0624a27d4bec2f4ce31fa3a7c8c91b93fd3b610ef99be746308"
+    "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90"
   }
 }

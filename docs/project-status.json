@@ -25,17 +25,16 @@
       "en": "Not owner acceptance and not a release decision"
     }
   },
-  "next_task": "Independent review of the U17 candidate SHA by Codex; owner decisions D35 and pending reconciliation of PRs #4-#6",
   "evidence": "evidence/latest.json",
   "latest_delivery": "U17 presentation, three-minute tour and coherent evidence status (R34-R39, T57-T63) on a working branch",
-  "current_task": "T57 IMPLEMENTED; T58-T63 in progress",
+  "current_task": "T57-T63 IMPLEMENTED; independent review and owner decisions pending",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED",
   "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
   "json_browser_download": "VERIFIED_FILE_AND_HASH",
   "public_demo": "https://marcodiazleon.github.io/ai-implementation-lab/",
   "public_demo_verified": "Historical browser run 2026-10-04; U13 not deployed",
-  "evidence_scope": "Historical run; does not verify U13 source revision",
+  "evidence_scope": "Run on baseline 4b3a5a9 with the delivered changes uncommitted; source fingerprint 0fb95e161670 matches the commit that contains it (scripts/check_evidence.py)",
   "integration": {
     "main": "81dfced59cc85231e25732137859923b39a2beed",
     "this_branch": "claude/laughing-rubin-6e32ve-entry",
@@ -51,5 +50,6 @@
     "run": "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/37248803646",
     "this_branch": "NOT_DEPLOYED"
   },
-  "id_registry": "docs/id-registry.json"
+  "id_registry": "docs/id-registry.json",
+  "next_task": "Independent review of the U17 candidate SHA by Codex; owner decisions D35, PR #4-#6 reconciliation and C170 test with a new visitor"
 }

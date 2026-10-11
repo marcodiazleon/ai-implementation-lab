@@ -274,6 +274,12 @@ class LanguageAndDocsTests(unittest.TestCase):
         self.assertIn('id="' + target + '"', HTML)
         css = (ROOT / "web/style.css").read_text(encoding="utf-8")
         self.assertIn("body.sidebar-collapsed .sidebar nav a .nav-label{display:block", css)
+        # The router would move focus to the view heading; the skip link handler keeps it in the message box.
+        studio = (ROOT / "web/studio.js").read_text(encoding="utf-8")
+        self.assertIn("document.querySelector('.skip-link').addEventListener('click'", studio)
+        self.assertIn("el('question').focus()", studio)
+        for gray in ("#666672", "#72727e", "color:#777;"):
+            self.assertNotIn(gray, css)
 
     def test_index_routes_history_and_traceability_example(self):
         index = (ROOT / "docs/INDEX.md").read_text(encoding="utf-8")

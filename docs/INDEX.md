@@ -62,5 +62,6 @@ Kept as written. Each one describes the version named here, not the current appl
 | [PUBLICATION.md](../reports/PUBLICATION.md) | 2026-10-03 | Publication record of that date |
 | [SDD_REVIEW.md](../reports/SDD_REVIEW.md) | 2026-10-03 | Method completion review of that date |
 | [VALIDATION.md](../reports/VALIDATION.md) | 2026-10-03 | Validation report of that date |
+| [U17_BROWSER_CHECK_2026-10-11.md](../reports/U17_BROWSER_CHECK_2026-10-11.md) | 2026-10-11 | written for S01 1.1, source fingerprint 890277c7c704 |
 | [investigacion.md](investigacion.md), [INVESTIGACION_EXPANSION_2026-10-03.md](INVESTIGACION_EXPANSION_2026-10-03.md), [INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md](INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md), [PLAN_PRODUCTO_Y_DISENO.md](PLAN_PRODUCTO_Y_DISENO.md) | 2026-10-03 | Research and plans; proposals, not implemented features |
 | [notebook.md](notebook.md) | Running log | Dated entries; each describes its own moment |

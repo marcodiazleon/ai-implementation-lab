@@ -12,7 +12,9 @@ class SddTests(unittest.TestCase):
         self.root = Path(self.temp.name) / "sample"
         shutil.copytree(ROOT, self.root, ignore=shutil.ignore_patterns(".git", "__pycache__", "*.jpg", ".venv"))
         # Link checks need the image paths, not the binary contents.
-        for p in (ROOT / "docs/assets").glob("*.jpg"):
+        for p in ROOT.rglob("*.jpg"):
+            if ".git" in p.relative_to(ROOT).parts:
+                continue
             target = self.root / p.relative_to(ROOT)
             target.parent.mkdir(parents=True, exist_ok=True)
             target.touch()

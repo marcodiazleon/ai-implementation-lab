@@ -101,3 +101,12 @@ Marco authorized Codex to modify the repository directly. Base main: 81dfced59cc
 R30 / T41-T43 restore the existing chat, remove the visible refund exercise/log, embed API configuration in a dialog and keep five navigation destinations. The public build now ships the reference model catalog and exposes the conversation UI, but disables credentials and labels inference as local-backend functionality.
 Regression tests are added; prior latest.json remains historical. Terminal execution is unavailable in the authoring session. No live inference, hosted backend, new arbitrary MCP execution, merge or deployment is claimed.
 Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20.
+
+## 2026-10-11 · U17 presentation, tour and evidence status (working branch)
+- Source: U17, Marco via Codex 2026-10-11; implementation and verification on `claude/laughing-rubin-6e32ve-entry` only, no merge or deployment. U13 (Session as conversation, five destinations, no visible refund exercise) stays in force.
+- Base: main 81dfced plus PR #5's Session commit 00d827b cherry-picked with `-x`. Its IDs collided with PR #4 and are remapped here (U12→U13, R30→R31, T41–T43→T47–T49, D24→D29, C139–C143→C148–C152); the entry "2026-10-05 · U12 Direct Session correction" above keeps its original wording. docs/id-registry.json lists the IDs still held by PRs #4, #5 and #6 (D34).
+- Delivered: Session presentation (R34), three-minute tour and `python run.py tour` (R35), badge rule with BLOQUEADO and the five separate records in Evidence (R36, D33), sdd_check registry/version/NO_APLICA checks, README by depth, docs/INDEX.md and the canonical table (R37), labeled rail, working skip link and raised secondary grays (R38), one reusable CI with scripts/check_evidence.py (R39, D32). Spec 1.1 (D36).
+- Checks by the implementing assistant: verify.py 123 tests and 7 scenarios; sdd_check clean; check_evidence passes, and a second verification run reproduced every status; browser pass recorded in reports/U17_BROWSER_CHECK_2026-10-11.md.
+- Not executed: test with a new visitor (C170), injected-defect CI run (C176), route review by another person (C177), screen reader, published URL. D35 (visible route for the refund case) waits for Marco.
+- Not claimed: an 8/10 score, owner acceptance or release readiness. Codex reviews the final SHA independently.
+
