@@ -390,7 +390,9 @@
     "src/lab/sensitive.py::def find_secrets",
     "scripts/publication_check.py::def check",
     "src/lab/server.py::INTERNAL_ERROR",
-    "src/lab/cloud.py::def disconnect"
+    "src/lab/cloud.py::def disconnect",
+    "web/sensitive-rules.js::findSecrets",
+    "scripts/publication_check.py::def candidates"
    ]
   },
   "R55": {
@@ -400,7 +402,9 @@
     "src/lab/server.py::SERVER_BUSY",
     "src/lab/server.py::REQUEST_TIMEOUT",
     "src/lab/cloud.py::API_RESPONSE_TOO_LARGE",
-    "scripts/build_pages.py::Content-Security-Policy"
+    "scripts/build_pages.py::Content-Security-Policy",
+    "src/lab/server.py::def process_request",
+    "src/lab/server.py::REQUEST_DEADLINE"
    ]
   },
   "R56": {
@@ -429,7 +433,8 @@
    "code": [
     "docs/security-runbook.md",
     "scripts/sandbox/run_isolated.sh",
-    "scripts/publication_check.py::def inspect"
+    "scripts/publication_check.py::def inspect",
+    "scripts/sandbox/run_isolated.sh::pivot_root"
    ]
   }
  },
@@ -1476,6 +1481,30 @@
   },
   "C306": {
    "kind": "manual",
+   "polarity": "positive"
+  },
+  "C307": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C308": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C309": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C310": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C311": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C312": {
+   "kind": "behavior",
    "polarity": "positive"
   }
  },

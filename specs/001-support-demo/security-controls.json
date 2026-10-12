@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "rule": "R57b / D49. Each control names its trust boundary, the code behind it, its acceptance cases, a recorded state that scripts/security_catalog.py derives from the records (VERIFICADO: every case PASS with a positive and a negative or limit case; PARCIAL: some PASS; NO_PROBADO: none PASS; FUTURO: no case, never counted as passed), its limit and the item numbers of Codex's checklist as references only. The checklist itself is not in this repository and these states are an evaluation, not compliance.",
+ "rule": "R57b / D49. Each control names its trust boundary, the code behind it, its acceptance cases, a recorded state that scripts/security_catalog.py derives from the records (VERIFICADO: every case PASS with a positive and a negative or limit case; PARCIAL: some PASS; NO_PROBADO: none PASS; FUTURO: no case, never counted as passed), its limit and the item numbers of Codex's checklist as references only. The checklist itself is not in this repository and these states are an evaluation, not compliance. States derive from case polarities and statuses; they do not prove the checklist items a control references.",
  "boundaries": [
   "browser",
   "local-server",
@@ -18,17 +18,20 @@
    "code": [
     "src/lab/sensitive.py::def find_secrets",
     "scripts/publication_check.py::def check",
-    ".githooks/pre-commit"
+    ".githooks/pre-commit",
+    "scripts/publication_check.py::def candidates"
    ],
    "cases": [
     "C270",
     "C271",
     "C272",
     "C273",
-    "C305"
+    "C305",
+    "C311",
+    "C312"
    ],
    "state": "VERIFICADO",
-   "limit": "Named formats only, no entropy analysis; the local hook can be bypassed; the worktree scan skips hidden tool directories",
+   "limit": "Named formats only, no entropy analysis; the local hook can be bypassed; the worktree scan covers every versioned candidate with Git and falls back to a narrower walk without it",
    "checklist": [
     "REQ052",
     "REQ053",
@@ -50,14 +53,16 @@
     "src/lab/agents.py::def validate_input",
     "src/lab/agents.py::def validate_output",
     "src/lab/agent_store.py::def validate",
-    "web/studio.js::secretLike"
+    "web/studio.js::secretLike",
+    "web/sensitive-rules.js::findSecrets"
    ],
    "cases": [
     "C274",
-    "C276"
+    "C276",
+    "C310"
    ],
    "state": "VERIFICADO",
-   "limit": "Same named formats; the interface guard mirrors the prefixes and the server is the authority",
+   "limit": "Same named formats in Python and JavaScript, checked against each other with Node; the server is the authority where one exists, the browser guard is the only one on the static build",
    "checklist": [
     "REQ070",
     "REQ071",
@@ -69,7 +74,7 @@
   {
    "id": "SC-03",
    "boundary": "local-server",
-   "control": "Credentials, authorization headers and session tokens never appear in responses, standard error or artifacts; unexpected exceptions become 500 INTERNAL_ERROR without a message",
+   "control": "Credentials and authorization headers never appear in responses, standard error or artifacts; session tokens only in the connect responses and the session fields; unexpected exceptions become 500 INTERNAL_ERROR without a message",
    "code": [
     "src/lab/server.py::INTERNAL_ERROR",
     "src/lab/server.py::def handle_error",
@@ -123,7 +128,7 @@
     "C277"
    ],
    "state": "PARCIAL",
-   "limit": "References are emptied; absolute erasure of memory and cancellation of a request already received by the provider are not provided",
+   "limit": "References are emptied; expired sessions are pruned when another operation is served, not at the exact minute; absolute erasure of memory and cancellation of a request already received by the provider are not provided",
    "checklist": [
     "REQ063",
     "REQ064",
@@ -134,19 +139,23 @@
   {
    "id": "SC-06",
    "boundary": "local-server",
-   "control": "Read timeout and bounded concurrent handlers with fixed codes (408, 503) and recovery; body size, content type, JSON shape and nesting, route, method, Host and Origin checks",
+   "control": "Connection cap before any thread or byte (503), inactivity timeout and total delivery deadline (408) with recovery; body, type, nesting, route, method, Host and Origin checks",
    "code": [
     "src/lab/server.py::REQUEST_TIMEOUT",
     "src/lab/server.py::SERVER_BUSY",
     "src/lab/server.py::RecursionError",
-    "src/lab/server.py::def trusted"
+    "src/lab/server.py::def trusted",
+    "src/lab/server.py::def process_request",
+    "src/lab/server.py::REQUEST_DEADLINE"
    ],
    "cases": [
     "C280",
     "C281",
     "C282",
     "C283",
-    "C284"
+    "C284",
+    "C308",
+    "C309"
    ],
    "state": "VERIFICADO",
    "limit": "Process-level limits; no protection against a hostile local process or a network exposure, which the server does not support; Host and Origin are a same-origin boundary, not authentication",
@@ -383,7 +392,7 @@
     "C303"
    ],
    "state": "VERIFICADO",
-   "limit": "The drill is synthetic; no real incident has been handled",
+   "limit": "The drill is synthetic; the GitHub profile is the public contact, not evidence of an operative private channel",
    "checklist": [
     "REQ074",
     "REQ085",
@@ -444,16 +453,17 @@
   {
    "id": "SC-16",
    "boundary": "runtime",
-   "control": "Validation under an OS sandbox with an inspectable script: no external network, isolated loopback, empty environment, scratch HOME and TMP, read-only target, size-limited scratch, process, memory, CPU, file-size and time limits",
+   "control": "Validation under an OS sandbox with an inspectable script: minimal root with the toolchain read-only and no home, credentials, host temp or original target path; isolated loopback; empty environment; mandatory process, memory, CPU, file-size and time limits; fail-closed probes",
    "code": [
     "scripts/sandbox/run_isolated.sh",
     "reports/U21_SECURITY_2026-10-12.md"
    ],
    "cases": [
-    "C306"
+    "C306",
+    "C307"
    ],
    "state": "PARCIAL",
-   "limit": "Linux with cgroups and user namespaces; the report records which run used it",
+   "limit": "Linux with cgroups and user namespaces; runs under the earlier runner are reported and superseded, not verified",
    "checklist": [
     "REQ168"
    ]
