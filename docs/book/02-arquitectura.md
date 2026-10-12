@@ -18,7 +18,7 @@ flowchart TB
   CX["Codex: revisión"]:::ext --> G
   O["Operador local"]:::ok --> S["Servidor Python<br/>127.0.0.1, memoria"]:::ok
   S --> L[".local/agents.json"]:::ok
-  subgraph OPT["Destinos opcionales: clave + consentimiento"]
+  subgraph OPT["Opcionales: clave y consentimiento"]
     direction TB
     OA["OpenAI (opcional)"]:::opt
     AN["Anthropic (opcional)"]:::opt
@@ -68,7 +68,7 @@ flowchart TB
   HS --> CS
   CS ~~~ C7["context7.py<br/>MCP remoto, 2 herramientas"]
   HS --> C7
-  C7 ~~~ AG["agents.py · agent_store.py<br/>agentes de texto"]
+  C7 ~~~ AG["agents.py, agent_store.py<br/>agentes de texto"]
   HS --> AG
   AG --> SE["sensitive.py<br/>11 patrones"]
   AG --> LOC[(".local/agents.json")]
