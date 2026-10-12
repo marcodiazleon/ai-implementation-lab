@@ -468,6 +468,9 @@ class PayloadTests(unittest.TestCase):
     @unittest.skipUnless(NODE, "node is required")
     def test_payload_validator_accepts_good_and_rejects_bad_shapes(self):
         evidence = json.loads((ROOT / "evidence/latest.json").read_text(encoding="utf-8"))
+        # The base is normalized to an all-PASS run, so the negatives below mean the same whatever the last local run recorded.
+        evidence["test_results"] = [dict(r, status="PASS") for r in evidence["test_results"]]
+        evidence["tests"] = dict(evidence["tests"], run=len(evidence["test_results"]), failures=0, errors=0, skipped=0); evidence["passed"] = True
         status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
         with (ROOT / "specs/001-support-demo/acceptance.csv").open(encoding="utf-8", newline="") as h:
             cases = list(csv.DictReader(h))
@@ -481,17 +484,32 @@ class PayloadTests(unittest.TestCase):
             ("passed with failures", ev(passed=True, tests=dict(evidence["tests"], failures=2))),
             ("results not a list", ev(test_results={})), ("results shorter", ev(test_results=evidence["test_results"][:3])),
             ("passed with FAIL row", ev(passed=True, test_results=[dict(r, status="FAIL") for r in evidence["test_results"]])),
+            ("status outside the enumeration", ev(test_results=[dict(evidence["test_results"][0], status="UNKNOWN_INVALID")] + evidence["test_results"][1:])),
+            ("status typo FAILURE", ev(test_results=[dict(evidence["test_results"][0], status="FAILURE")] + evidence["test_results"][1:])),
+            ("empty status", ev(test_results=[dict(evidence["test_results"][0], status="")] + evidence["test_results"][1:])),
+            ("empty test id", ev(test_results=[dict(evidence["test_results"][0], test_id=" ")] + evidence["test_results"][1:])),
+            ("repeated test id", ev(test_results=[dict(evidence["test_results"][1], status="PASS")] + evidence["test_results"][1:])),
+            ("FAIL row with zero failures", ev(passed=False, test_results=[dict(evidence["test_results"][0], status="FAIL")] + evidence["test_results"][1:])),
+            ("skipped count without NO_PROBADO rows", ev(tests=dict(evidence["tests"], skipped=evidence["tests"].get("skipped", 0) + 1))),
         ]
-        calls = [[evidence, cases, reqs, status, "en"]] + [[e, cases, reqs, status, "en"] for _, e in bad]
+        valid_statuses = ev(passed=False, tests=dict(evidence["tests"], failures=1, errors=0, skipped=1),
+                            test_results=[dict(evidence["test_results"][0], status="FAIL"), dict(evidence["test_results"][1], status="NO_PROBADO")] + evidence["test_results"][2:])
+        calls = [[evidence, cases, reqs, status, "en"], [valid_statuses, cases, reqs, status, "es"]] + [[e, cases, reqs, status, "en"] for _, e in bad]
         calls += [[evidence, cases, [{"text": "no id"}], status, "es"], [evidence, [{"case_id": "C1"}], reqs, status, "en"], [evidence, cases, reqs, [], "en"],
                   [evidence, cases, reqs, {k: v for k, v in status.items() if k != "acceptance"}, "en"]]
         out = json.loads(run_text([NODE, "-e", NODE_VALIDATE, str(ROOT / "web/evidence-rules.js")], check=True, input=json.dumps(calls)).stdout)
-        self.assertIsNone(out[0])
-        for (label, _), message in zip(bad, out[1:len(bad) + 1]):
+        self.assertIsNone(out[0]); self.assertIsNone(out[1])
+        results = out[2:len(bad) + 2]
+        for (label, _), message in zip(bad, results):
             self.assertTrue(message and message.startswith("Invalid evidence: "), label)
-        self.assertIn("tests —", out[1]); self.assertIn("tests.run", out[3]); self.assertIn("passed", out[5]); self.assertIn("test_results", out[7])
-        self.assertTrue(out[len(bad) + 1].startswith("Evidencia inválida: requirements"))
-        self.assertIn("acceptance.csv", out[len(bad) + 2]); self.assertIn("status.json", out[len(bad) + 3]); self.assertIn("status.acceptance", out[len(bad) + 4])
+        self.assertIn("tests —", results[0]); self.assertIn("tests.run", results[2]); self.assertIn("passed", results[4]); self.assertIn("test_results", results[6])
+        self.assertIn("status outside PASS, FAIL or NO_PROBADO: UNKNOWN_INVALID", results[9]); self.assertIn(evidence["test_results"][0]["test_id"], results[9])
+        self.assertIn("FAILURE", results[10]); self.assertIn("status outside", results[11])
+        self.assertIn("an id and a status", results[12]); self.assertIn("repeated test ids", results[13])
+        self.assertIn("FAIL rows do not match", results[14]); self.assertIn("NO_PROBADO rows", results[15])
+        tail = out[len(bad) + 2:]
+        self.assertTrue(tail[0].startswith("Evidencia inválida: requirements"))
+        self.assertIn("acceptance.csv", tail[1]); self.assertIn("status.json", tail[2]); self.assertIn("status.acceptance", tail[3])
         view = (ROOT / "web/evidence.js").read_text(encoding="utf-8")
         self.assertIn("LabEvidenceRules.validatePayload(e, parsed, reqs, st, LabI18n.language)", view)
         self.assertLess(view.index("validatePayload"), view.index("evidence = e; cases = parsed"))

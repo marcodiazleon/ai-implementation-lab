@@ -1276,6 +1276,10 @@
   "C268": {
    "kind": "structure",
    "polarity": "positive"
+  },
+  "C269": {
+   "kind": "manual",
+   "polarity": "negative"
   }
  },
  "overrides": {}

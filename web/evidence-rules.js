@@ -33,11 +33,19 @@
   if (tests.run === 0) return bad("tests.run", "ninguna prueba ejecutada", "no test was run");
   if (typeof evidence.passed !== "boolean") return bad("passed", "debe ser verdadero o falso", "must be true or false");
   if (evidence.passed && (tests.failures > 0 || tests.errors > 0)) return bad("passed", "verdadero con fallos o errores registrados", "true with recorded failures or errors");
-  if (!Array.isArray(evidence.test_results) || evidence.test_results.some((r) => !r || typeof r.test_id !== "string" || typeof r.status !== "string")) {
-   return bad("test_results", "debe ser una lista de pruebas con estado", "must be a list of tests with a status");
+  // The runner (scripts/verify.py CaseResult) records exactly these statuses, once per test.
+  const STATUSES = ["PASS", "FAIL", "NO_PROBADO"];
+  if (!Array.isArray(evidence.test_results) || evidence.test_results.some((r) => !r || typeof r.test_id !== "string" || !r.test_id.trim() || typeof r.status !== "string")) {
+   return bad("test_results", "debe ser una lista de pruebas con identificador y estado", "must be a list of tests with an id and a status");
   }
+  const unknown = evidence.test_results.find((r) => !STATUSES.includes(r.status));
+  if (unknown) return bad("test_results[" + unknown.test_id + "].status", "estado fuera de PASS, FAIL o NO_PROBADO: " + unknown.status, "status outside PASS, FAIL or NO_PROBADO: " + unknown.status);
+  if (new Set(evidence.test_results.map((r) => r.test_id)).size !== evidence.test_results.length) return bad("test_results", "identificadores de prueba repetidos", "repeated test ids");
   if (evidence.test_results.length !== tests.run) return bad("test_results", "su número no coincide con tests.run", "its length does not match tests.run");
-  if (evidence.passed && evidence.test_results.some((r) => r.status === "FAIL")) return bad("passed", "verdadero con una prueba FAIL", "true with a FAIL test");
+  const failRows = evidence.test_results.filter((r) => r.status === "FAIL").length, skippedRows = evidence.test_results.filter((r) => r.status === "NO_PROBADO").length;
+  if ((tests.failures + tests.errors === 0) !== (failRows === 0)) return bad("test_results", "las filas FAIL no coinciden con failures y errors", "FAIL rows do not match failures and errors");
+  if (isCount(tests.skipped) && skippedRows !== tests.skipped) return bad("test_results", "las filas NO_PROBADO no coinciden con tests.skipped", "NO_PROBADO rows do not match tests.skipped");
+  if (evidence.passed && failRows) return bad("passed", "verdadero con una prueba FAIL", "true with a FAIL test");
   if (!Array.isArray(requirements) || requirements.length === 0 || requirements.some((r) => !r || typeof r.id !== "string" || !/^R\d+$/.test(r.id) || typeof r.text !== "string")) {
    return bad("requirements", "cada fila necesita id y texto", "each row needs an id and a text");
   }
