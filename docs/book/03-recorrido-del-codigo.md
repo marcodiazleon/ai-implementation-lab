@@ -1,6 +1,6 @@
 # 3 Recorrido del código y secuencias
 
-[Índice del libro](README.md) · Código descrito: `a16a4e67b4257c2cb13054efd3ffa20acc2dd3be` (PR #9). Las tres secuencias dibujan comportamiento que existe en esa revisión, con el archivo y la línea de cada paso. Donde hay rechazo, error, límite o desconexión se dice qué código devuelve el servidor y qué ve la persona.
+[Índice del libro](README.md) · Código descrito: `a16a4e67b4257c2cb13054efd3ffa20acc2dd3be` (PR #9). Las secuencias dibujan comportamiento que existe en esa revisión; están trazadas para una pantalla de 390 px (fragmentos de tres participantes como máximo y mensajes cortos), y el archivo y la línea de cada paso están en el equivalente textual que sigue a cada una. Donde hay rechazo, error, límite o desconexión se dice qué código devuelve el servidor y qué ve la persona.
 
 ## 3.1 Mapa de carpetas en una pantalla
 
@@ -27,21 +27,19 @@ Qué es el "recorrido": una página estática dentro del destino *Cómo está co
 sequenceDiagram
   autonumber
   participant V as Visitante
-  participant P as GitHub Pages (estático)
-  participant N as Navegador: studio.js · evidence.js · public-demo.js
-  V->>P: GET index.html, JS, data/*.json
-  P-->>N: build estático (build_pages.py:34-61)
-  N->>N: public-demo.js añade html.public-demo y sustituye fetch (public-demo.js:6,149)
-  N->>N: route() muestra Sesión · conexión deshabilitada (studio.js:11 · cloud.js:32-33,63)
-  V->>N: clic "Empezar el recorrido" → #35;method (index.html:37)
-  N->>N: route() muestra view-method: 4 pasos estáticos y tabla fija (index.html:76-115)
-  V->>N: clic en un paso → #35;evidence/R02 (index.html:83-89)
-  N->>N: load() ya corrió al cargar (evidence.js:176) · fetch de 4 rutas
-  N->>P: GET data/latest.json, acceptance.csv, requirements.json, status.json (public-demo.js:147,154)
-  P-->>N: archivos comprometidos en el build
-  N->>N: validatePayload: forma y coherencia · un payload inválido nunca muestra PASS (evidence-rules.js:24-61)
-  N->>N: statusRows: verificación, revisión, aceptación, integración, despliegue (evidence-rules.js:66-108)
-  N-->>V: insignias por requisito y casos · #35;evidence/Rnn selecciona R02 (evidence.js:135,174)
+  participant P as Pages
+  participant N as Navegador
+  V->>P: GET build estático
+  P-->>N: HTML, JS, data/*.json
+  N->>N: fetch simulado (public-demo.js)
+  N->>N: Sesión, conexión deshabilitada
+  V->>N: Empezar recorrido → #35;method
+  N->>N: 4 pasos estáticos, tabla fija
+  V->>N: un paso → #35;evidence/R02
+  N->>P: GET 4 archivos de evidencia
+  P-->>N: archivos del build
+  N->>N: validatePayload antes de pintar
+  N-->>V: insignias y 5 registros
 ```
 
 **Equivalente en texto.** 1) Pages entrega el build; 2) `public-demo.js` marca la página como pública y redirige `/api/*` a archivos o a memoria; 3) Sesión aparece con la conexión deshabilitada; 4) el recorrido es contenido estático; 5) Evidencia lee cuatro archivos comprometidos en el build (`status.json` se calculó en CI al construir, `build_pages.py:44-46`), valida su forma antes de pintar nada y muestra cinco registros separados. En la demo pública **no hay** llamada a ningún servidor Python ni a ningún modelo.
@@ -50,41 +48,51 @@ Qué significa "mismo contenido que la revisión aceptada/publicada": `scripts/r
 
 ## 3.3 Secuencia B: pregunta local con conexión opcional y consentimiento
 
+Fragmento B1, conectar:
+
 ```mermaid
 sequenceDiagram
   autonumber
-  participant O as Operador
-  participant B as Navegador: cloud.js
-  participant S as server.py (127.0.0.1:8765)
-  participant C as cloud.py: CloudSessions
-  participant X as Proveedor (api.openai.com o api.anthropic.com)
-  O->>B: Configurar conexión: proveedor, clave, modelo, esfuerzo, límite, casilla de consentimiento (required)
-  B->>B: lee la clave y vacía el campo antes de enviar (cloud.js:64)
-  B->>S: POST /api/cloud/connect {provider, api_key, model, effort, max_output_tokens, consent}
-  S->>S: Host/Origin, Content-Type JSON, tamaño ≤ 16384, objeto JSON (server.py:260-274)
-  S->>C: connect(body) (server.py:288-293)
-  C->>C: consent debe ser true → si no, 400 CONSENT_REQUIRED (cloud.py:140-141)
-  C->>C: formato de clave 20–300 [A-Za-z0-9_-] → 400 INVALID_KEY_FORMAT · modelo, límite 256–8192, esfuerzo · capacidad 8 → 429 SESSION_CAPACITY (cloud.py:147-158)
-  C->>X: GET /v1/models/{model} con la clave (check · cloud.py:52-55)
-  X-->>C: 200 o 401/403/404/429 → 502 API_KEY_REJECTED / API_ACCESS_DENIED / MODEL_UNAVAILABLE / API_LIMIT (cloud.py:35-38)
-  C-->>S: {session_id = token_urlsafe(32), modelo, esfuerzo, límites} (cloud.py:162-170)
-  S-->>B: 200 JSON · el token vive solo en la variable session (cloud.js:65)
-  O->>B: escribe una pregunta y envía
-  B->>S: POST /api/cloud/ask {session_id, message, agent_id} (cloud.js:68-70)
-  S->>S: agent_store.resolve(agent_id) → instrucciones y context_id (server.py:278-280 · agent_store.py:63-73)
-  S->>C: ask(body, instructions, context_id)
-  C->>C: mensaje 1–2000 · busy → 409 REQUEST_IN_PROGRESS · 20 peticiones → 429 SESSION_REQUEST_LIMIT · el contador sube antes de llamar (cloud.py:176-186)
-  C->>X: POST /v1/responses (store:false) o POST /v1/messages: instrucciones del agente + hasta 16 mensajes + el nuevo (cloud.py:57-66,99-115,194)
-  X-->>C: texto y uso · respuesta ≤ 1 MiB · sin reintentos ni redirecciones (cloud.py:29,34,39)
-  C-->>S: {text, usage, requests_used, request_limit} · historial recortado a 16 / 24 000 caracteres (cloud.py:201-203)
-  S-->>B: 200 · muestra respuesta y "usadas/límite · tokens" (cloud.js:70)
-  O->>B: Desconectar
-  B->>S: POST /api/cloud/disconnect {session_id} (cloud.js:46)
-  S->>C: disconnect: borra clave e historial de la fila (cloud.py:244-252)
-  S-->>B: 200 · la vista vacía mensajes y la casilla de consentimiento
+  participant B as Navegador
+  participant S as Servidor local
+  participant X as Proveedor
+  B->>B: lee la clave, vacía el campo
+  B->>S: POST /api/cloud/connect
+  S->>S: Host/Origin, JSON, tamaño
+  S->>S: consent true, si no 400
+  S->>S: formato de clave, si no 400
+  S->>S: capacidad 8, si no 429
+  S->>X: GET /v1/models/modelo
+  X-->>S: 200 o error → 502 con código fijo
+  S-->>B: 200 session_id (solo en memoria)
 ```
 
-**Equivalente en texto y casos de rechazo.**
+**Equivalente en texto:** pasos 1–9 de la lista que sigue y la tabla de rechazos.
+
+Fragmento B2, preguntar y desconectar:
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant B as Navegador
+  participant S as Servidor local
+  participant X as Proveedor
+  B->>S: POST /api/cloud/ask
+  S->>S: resolve(agent_id) → instrucciones
+  S->>S: 1–2000 chars · busy 409 · 20 → 429
+  S->>X: POST responses o messages
+  X-->>S: texto y uso, ≤ 1 MiB, sin reintentos
+  S->>S: historial 16 mensajes / 24 000
+  S-->>B: 200 texto, usadas/límite
+  B->>S: POST /api/cloud/disconnect
+  S->>S: borra clave e historial
+  S-->>B: 200, vista vacía
+  note over B,S: 503 tope · 408 lento · 401 expirada
+```
+
+**Equivalente en texto, con archivo y línea.** 1) El diálogo lee la clave y vacía el campo antes de enviar (`cloud.js:64`); 2) `POST /api/cloud/connect` con proveedor, clave, modelo, esfuerzo, límite y consentimiento; 3) el servidor comprueba Host/Origin, tipo JSON, tamaño ≤ 16384 y objeto (`server.py:260-274`); 4) `connect` exige `consent: true` (`cloud.py:140-141`); 5) formato de clave 20–300 caracteres `[A-Za-z0-9_-]` antes de cualquier red (`cloud.py:147-148`), modelo, límite 256–8192, esfuerzo; 6) capacidad 8 sesiones (`cloud.py:157-158`); 7) `GET /v1/models/{model}` al host fijo con la clave (`cloud.py:52-55`); 8) 401/403/404/429 del proveedor se devuelven como 502 con código fijo (`cloud.py:35-38`); 9) token `token_urlsafe(32)` devuelto y guardado solo en la variable `session` (`cloud.py:162-170`, `cloud.js:65`). Preguntar: 10) `POST /api/cloud/ask` con `session_id`, `message`, `agent_id` (`cloud.js:68-70`); 11) `agent_store.resolve` da instrucciones y `context_id` (`server.py:278-280`, `agent_store.py:63-73`); 12) mensaje 1–2000, `busy` → 409, 20 peticiones → 429, el contador sube antes de llamar (`cloud.py:176-186`); 13) `POST /v1/responses` con `store:false` o `POST /v1/messages`, con instrucciones del agente, hasta 16 mensajes y el nuevo (`cloud.py:57-66,99-115,194`); 14) respuesta ≤ 1 MiB, sin reintentos ni redirecciones (`cloud.py:29,34,39`); 15) historial recortado a 16 mensajes / 24 000 caracteres (`cloud.py:201-203`); 16) la vista muestra la respuesta y "usadas/límite · tokens" (`cloud.js:70`). Desconectar: 17) `POST /api/cloud/disconnect` (`cloud.js:46`); 18) la fila borra clave e historial (`cloud.py:244-252`); 19) la vista vacía mensajes y consentimiento.
+
+**Casos de rechazo.**
 
 | Situación | Dónde se corta | Código | Qué ve la persona |
 |---|---|---|---|
@@ -103,57 +111,65 @@ Qué sale hacia el proveedor y nada más: la clave en una cabecera, el modelo, l
 
 ## 3.4 Secuencia C: agente en la conversación y MCP (configurar frente a conectar)
 
+Fragmento C1, agente personalizado:
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant B as Navegador
+  participant S as Servidor local
+  participant A as Almacén y agentes
+  B->>S: POST /api/custom-agents/save
+  S->>A: validate: claves, longitudes, patrones
+  A-->>S: 400 sensible · 409 lleno · OK atómico
+  S-->>B: 200 definición
+  B->>B: Exportar: con credencial, sin descarga
+  B->>S: POST /api/cloud/ask con agent_id
+  S->>A: resolve: instrucciones + "sin herramientas"
+  note over S,A: el prompt es texto, nunca permisos
+```
+
+**Equivalente en texto:** primer bloque de la lista que sigue.
+
+Fragmento C2, configurar un perfil MCP (sin conexión):
+
 ```mermaid
 sequenceDiagram
   autonumber
   participant O as Operador
-  participant B as Navegador: studio.js · workbench.js
-  participant S as server.py
-  participant A as agent_store.py · agents.py
-  participant M as context7.py
-  participant R as mcp.context7.com
-  rect rgb(245,245,245)
-  note over O,A: Agente personalizado (texto, sin herramientas)
-  O->>B: Agentes: nombre, rol, prompt, modo de trabajo → Guardar
-  B->>S: POST /api/custom-agents/save (≤ 20000 bytes) (studio.js:31 · server.py:276-277)
-  S->>A: validate: claves exactas, longitudes, id custom-[0-9a-f]{32}, find_secrets_in (agent_store.py:32-39)
-  A-->>S: 400 AGENT_SENSITIVE_INPUT si hay credencial · 409 AGENT_STORE_FULL (50 filas) · si no, escritura atómica en .local/agents.json (agent_store.py:44-61)
-  S-->>B: 200 con la definición
-  O->>B: Exportar → LabSensitive.findSecretsIn(row) · con hallazgo: "Retira las credenciales…" y sin descarga (studio.js:9,33)
-  O->>B: Conversar → selecciona el agente en Sesión (studio.js:28)
-  B->>S: POST /api/cloud/ask {…, agent_id}
-  S->>A: resolve(agent_id) → rol integrado: sus instrucciones (agent_store.py:67) · personalizado: "Role/Work mode/Instructions" (71) · a ambos el sufijo "no tools, no filesystem, no authority" (72)
-  note over S,A: el prompt del agente son instrucciones de texto para el modelo · no concede permisos
-  end
-  rect rgb(245,245,245)
-  note over O,B: MCPs: configurar NO es conectar
-  O->>B: Guía de perfiles: nombre, URL, transporte → Guardar / Exportar mcp-config.json
-  B->>B: safeProfile: LabSensitive + palabras de credencial · rechaza usuario, contraseña, query y hash en la URL (studio.js:34-41)
-  B->>B: localStorage lab.mcp-profiles (máx. 20) · descarga del JSON · ninguna conexión de red (studio.js:42-50)
-  end
-  rect rgb(245,245,245)
-  note over O,R: Context7: conectar y llamar (opcional, solo local)
-  O->>B: clave (opcional) y casilla de consentimiento → Conectar
-  B->>S: POST /api/mcp/connect {api_key, consent} · el campo de clave se vacía (workbench.js:9-14)
-  S->>M: connect: consent true, clave 0–300 imprimible, 8 sesiones (context7.py:75-83)
-  M->>R: initialize · notifications/initialized · tools/list (context7.py:88-96)
-  R-->>M: debe listar resolve-library-id y query-docs · respuesta ≤ 256 KiB, 25 s
-  M-->>S: {session_id, tools}
-  S-->>B: 200 JSON · workbench.js guarda la sesión en memoria (workbench.js:13)
-  O->>B: herramienta, argumentos, consentimiento por llamada → Llamar
-  B->>S: POST /api/mcp/call {session_id, tool, arguments, consent} (workbench.js:15-26)
-  S->>M: call: MCP_CONSENT_REQUIRED · MCP_TOOL_BLOCKED · MCP_INVALID_ARGUMENTS (cadenas 1–1000 · libraryId empieza por "/") · 409 MCP_BUSY · 429 MCP_REQUEST_LIMIT (context7.py:105-124)
-  M->>R: tools/call
-  R-->>M: texto, truncado a 12 000 (context7.py:140)
-  M-->>B: resultado en #35;mcpResult · la casilla de consentimiento se reinicia tras cada llamada (workbench.js:21,25)
-  end
+  participant B as Navegador
+  O->>B: perfil MCP: nombre, URL, transporte
+  B->>B: safeProfile: patrones, URL limpia
+  B->>B: localStorage, máximo 20
+  B-->>O: mcp-config.json · ninguna conexión
 ```
 
-**Equivalente en texto.**
+**Equivalente en texto:** segundo bloque de la lista que sigue.
 
-- Un agente es un rol de `agents/roles.json` o una definición guardada; en la conversación se convierte en instrucciones de texto que `agent_store.resolve` antepone al historial con un sufijo que niega herramientas y autoridad (`agent_store.py:72`). El contrato público declara `can_execute_code: False` (`agents.py:16-19`). El endpoint `POST /api/agents/run` (`agents.py:98-134`: modo `local` con plantillas o una sola llamada `cloud.task` con consentimiento) existe pero ninguna vista lo invoca; lo cubren las pruebas.
-- "Configurar un MCP" en la pestaña *MCPs* produce un archivo `mcp-config.json` validado por la guarda y guardado en `localStorage`; no abre ninguna conexión.
-- "Conectar Context7" sí habla con `mcp.context7.com`, solo desde el servidor local, con consentimiento en `connect` y en cada `call`, dos herramientas de lectura, 8 sesiones, 20 llamadas, TTL 1800 s, y `disconnect` local (`context7.py:145-152`). En la demo pública estas rutas responden `403 PUBLIC_DEMO_DISABLED` y el panel está oculto por CSS (`web/style.css:188`).
+Fragmento C3, Context7 (opcional, solo local):
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant B as Navegador
+  participant S as Servidor local
+  participant M as Context7
+  B->>S: POST /api/mcp/connect
+  S->>M: initialize, initialized, tools/list
+  M-->>S: 2 herramientas, ≤ 256 KiB
+  S-->>B: session_id, tools
+  B->>S: POST /api/mcp/call con consent
+  S->>S: tool, args · busy 409 · 20 → 429
+  S->>M: tools/call
+  M-->>S: texto ≤ 12 000
+  S-->>B: resultado, solo para leer
+```
+
+**Equivalente en texto, con archivo y línea.**
+
+- Agente personalizado (C1): guardar envía `POST /api/custom-agents/save` (≤ 20000 bytes; `studio.js:31`, `server.py:276-277`); `validate` exige claves exactas, longitudes, id `custom-[0-9a-f]{32}` y pasa `find_secrets_in` (`agent_store.py:32-39`); credencial → `400 AGENT_SENSITIVE_INPUT`, 50 filas → `409 AGENT_STORE_FULL`, si no, escritura atómica en `.local/agents.json` (`agent_store.py:44-61`); exportar pasa `LabSensitive.findSecretsIn(row)` y con hallazgo muestra "Retira las credenciales…" sin descarga (`studio.js:9,33`); conversar selecciona el agente (`studio.js:28`) y `resolve` antepone sus instrucciones con el sufijo "no tools, no filesystem, no authority" (`agent_store.py:67-72`). Un agente es un rol de `agents/roles.json` o una definición guardada; en la conversación se convierte en instrucciones de texto que `agent_store.resolve` antepone al historial con un sufijo que niega herramientas y autoridad (`agent_store.py:72`). El contrato público declara `can_execute_code: False` (`agents.py:16-19`). El endpoint `POST /api/agents/run` (`agents.py:98-134`: modo `local` con plantillas o una sola llamada `cloud.task` con consentimiento) existe pero ninguna vista lo invoca; lo cubren las pruebas.
+- Configurar un perfil MCP (C2): `safeProfile` aplica `LabSensitive` y una expresión de palabras de credencial y rechaza usuario, contraseña, query y hash en la URL (`studio.js:34-41`); guarda hasta 20 perfiles en `localStorage` `lab.mcp-profiles` y descarga `mcp-config.json` (`studio.js:42-50`). "Configurar un MCP" en la pestaña *MCPs* produce un archivo `mcp-config.json` validado por la guarda y guardado en `localStorage`; no abre ninguna conexión.
+- Context7 (C3): `POST /api/mcp/connect` con clave opcional y consentimiento, el campo se vacía (`workbench.js:9-14`); `connect` exige consent, clave 0–300 imprimible, 8 sesiones y hace initialize, initialized y tools/list, que debe listar `resolve-library-id` y `query-docs`, respuesta ≤ 256 KiB en 25 s (`context7.py:75-96`); `POST /api/mcp/call` con consentimiento por llamada (`workbench.js:15-26`), argumentos en lista blanca (cadenas 1–1000, `libraryId` empieza por `/`), `MCP_BUSY` 409, 20 llamadas → 429 (`context7.py:105-124`), texto truncado a 12 000 (`context7.py:140`); el resultado se muestra en `#mcpResult` y la casilla se reinicia (`workbench.js:21,25`). "Conectar Context7" sí habla con `mcp.context7.com`, solo desde el servidor local, con consentimiento en `connect` y en cada `call`, dos herramientas de lectura, 8 sesiones, 20 llamadas, TTL 1800 s, y `disconnect` local (`context7.py:145-152`). En la demo pública estas rutas responden `403 PUBLIC_DEMO_DISABLED` y el panel está oculto por CSS (`web/style.css:188`).
 - El resultado de Context7 se guarda en una variable (`workbench.js:22`) que ninguna otra función lee; el texto de la interfaz decía "El Investigador podrá usar el resultado cuando lo selecciones" (`index.html:187` en `a16a4e6`), algo que el código no hace; en esta entrega el texto ES/EN pasa a describir la lectura manual sin implementar ningún reenvío (fila 19 del [cap. 7](07-operacion-y-limites.md#73-discrepancias-encontradas-entre-documentos-y-código-clasificadas)).
 
 ## 3.5 El caso de devoluciones: `python run.py tour`

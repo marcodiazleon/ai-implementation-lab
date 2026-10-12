@@ -38,7 +38,7 @@ Qué es: una ruta de lectura para entender toda la aplicación, por qué está c
 
 ## Cómo se mantiene
 
-- Fuente editable: este Markdown y los bloques Mermaid dentro de cada capítulo; cada diagrama lleva debajo su equivalente en texto (lectores de pantalla, móvil, y respaldo si el render falla). Ningún CDN ni dependencia nueva: GitHub renderiza Mermaid al mostrar el archivo.
+- Fuente editable: este Markdown y los bloques Mermaid dentro de cada capítulo; cada diagrama lleva debajo su equivalente en texto (lectores de pantalla, móvil, y respaldo si el render falla). Ningún CDN ni dependencia nueva: GitHub renderiza Mermaid al mostrar el archivo. Los diez diagramas (contexto, navegador, servidor, recorrido, conectar, preguntar, agente, perfil MCP, Context7, cadena SDD) están trazados para 390 px: verticales, etiquetas breves, tres participantes como máximo; el detalle vive en el texto (C328).
 - Cuando cambie el código descrito, se actualiza el SHA de esta página y de cada capítulo, y las referencias archivo:línea que hayan cambiado. Los casos C322–C324 comprueban enlaces, alternativa textual y SHA ([acceptance.csv](../../specs/001-support-demo/acceptance.csv)).
 - Registro de esta entrega: U22, R59, T89, D58 ([decisions.md](../decisions.md#d58--un-libro-de-ingeniería-que-consolida-sin-sustituir-u22-r59)).
 

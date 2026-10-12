@@ -4,7 +4,7 @@
 
 ## 2.1 Diagrama de contexto
 
-Leyenda: borde continuo = implementado en esta revisión; `opcional` = necesita una clave del operador y su consentimiento; `simulado` = datos sintéticos, sin efecto real; `futuro` = no existe en el código. Los colores solo refuerzan; el texto de cada nodo lleva la etiqueta.
+Leyenda: borde continuo = implementado en esta revisión; `(opcional)` = necesita una clave del operador y su consentimiento; `simulado` = datos sintéticos, sin efecto real; `futuro` = no existe en el código y no aparece como nodo. Los colores solo refuerzan; el texto de cada nodo lleva la etiqueta. GitHub Pages NO ejecuta Python ni inferencia: sirve archivos. Los diagramas están trazados para una pantalla de 390 px: etiquetas breves, y todo detalle (archivo y línea, límites, rutas) está en el equivalente textual que sigue.
 
 ```mermaid
 flowchart TB
@@ -12,28 +12,19 @@ flowchart TB
   classDef opt fill:#f3f3f3,stroke:#555,stroke-dasharray:6 3,color:#111
   classDef sim fill:#fafafa,stroke:#888,color:#111
   classDef ext fill:#ffffff,stroke:#222,stroke-width:2px,color:#111
-
-  V["Visitante<br/>(navegador, sin cuenta ni clave)"]:::ok
-  O["Operador local<br/>(navegador en la misma máquina)"]:::ok
-  P["GitHub Pages<br/>archivos estáticos: index.html, JS, data/*.json<br/>NO ejecuta Python ni inferencia"]:::ok
-  B1["Navegador en la demo pública<br/>controlador portado a JS (simulado)<br/>estado solo en memoria de la pestaña"]:::sim
-  S["Servidor Python local<br/>127.0.0.1:8765 · biblioteca estándar<br/>reglas, sesiones y guardas en memoria"]:::ok
-  L[".local/agents.json<br/>definiciones de agentes (ignorado por Git)"]:::ok
-  OA["api.openai.com (opcional)<br/>clave y consentimiento del operador"]:::opt
-  AN["api.anthropic.com (opcional)<br/>clave y consentimiento del operador"]:::opt
-  C7["mcp.context7.com (opcional)<br/>MCP remoto de solo lectura: 2 herramientas"]:::opt
-  G["GitHub: repositorio, Actions (verify.yml), Pages (pages.yml)<br/>CI verifica; publica solo main"]:::ext
-  CX["Codex: revisión independiente<br/>(fuera del repositorio)"]:::ext
-
-  V -->|"HTTPS"| P
-  P -->|"sirve build estático"| B1
-  O -->|"HTTP solo loopback"| S
-  S -->|"lee y escribe (atómico)"| L
-  S -.->|"HTTPS fijo, sin redirecciones"| OA
-  S -.->|"HTTPS fijo, sin redirecciones"| AN
-  S -.->|"HTTPS fijo, JSON-RPC"| C7
-  G -->|"deploy tras verify en main"| P
-  CX -->|"lee fuentes y CI"| G
+  V["Visitante"]:::ok --> P["GitHub Pages<br/>solo archivos estáticos"]:::ok
+  P --> B1["Demo pública<br/>simulado en el navegador"]:::sim
+  G["GitHub: CI y Pages"]:::ext --> P
+  CX["Codex: revisión"]:::ext --> G
+  O["Operador local"]:::ok --> S["Servidor Python<br/>127.0.0.1, memoria"]:::ok
+  S --> L[".local/agents.json"]:::ok
+  subgraph OPT["Destinos opcionales: clave + consentimiento"]
+    direction TB
+    OA["OpenAI (opcional)"]:::opt
+    AN["Anthropic (opcional)"]:::opt
+    C7["Context7 (opcional)"]:::opt
+  end
+  S -.-> OPT
 ```
 
 **Equivalente en texto.** Hay dos rutas y nunca se cruzan en tiempo de ejecución:
@@ -50,53 +41,40 @@ Lo que **no** es una flecha: un rol o prompt de agente no concede permisos (cons
 
 ## 2.2 Diagrama de componentes
 
-```mermaid
-flowchart LR
-  subgraph NAV["Navegador (web/)"]
-    direction TB
-    IDX["index.html<br/>5 destinos: Sesión · Agentes · MCPs · Cómo está construido · Evidencia"]
-    ST["studio.js<br/>router de destinos, constructor de agentes,<br/>guía/export de perfiles MCP (sin conexión)"]
-    CL["cloud.js<br/>diálogo de conexión, consentimiento,<br/>ask / configure / clear / disconnect"]
-    WB["workbench.js<br/>Context7: connect y call"]
-    EV["evidence.js + evidence-rules.js<br/>valida y muestra evidencia y 5 registros"]
-    SR["sensitive-rules.js<br/>guarda de exportación (11 patrones)"]
-    I18["i18n.js<br/>ES/EN desde data-en; 1 clave localStorage"]
-    PD["public-demo.js<br/>solo en el build estático: fetch simulado"]
-  end
-  subgraph SRV["Servidor local (src/lab/)"]
-    direction TB
-    HS["server.py<br/>rutas explícitas, Host/Origin, tamaño por ruta,<br/>tope 8 conexiones, 10 s inactividad, 30 s total"]
-    CT["controller.py + models.py + hooks.py<br/>reglas de devolución, propuesta → decisión → ejecución simulada,<br/>cadena de auditoría; RLock; memoria"]
-    CS["cloud.py<br/>CloudSessions: 8 sesiones, 20 peticiones, TTL 1800 s,<br/>clave solo en memoria; transports fijos OpenAI/Anthropic"]
-    C7["context7.py<br/>Context7Sessions: 8 sesiones, 20 llamadas,<br/>2 herramientas, host fijo"]
-    AG["agents.py + agent_store.py<br/>agentes de texto (sin ejecución),<br/>definiciones validadas, guarda de credenciales"]
-    SE["sensitive.py<br/>11 patrones compartidos por todas las guardas Python"]
-    MC["model_catalog.py<br/>catálogo de referencia, 7 modelos"]
-  end
-  subgraph DATA["Datos y registros (en Git)"]
-    D1["data/*.json, agents/roles.json<br/>sintéticos"]
-    D2["specs/001-support-demo/*<br/>spec, plan, tasks, acceptance.csv,<br/>case-kinds, security-controls"]
-    D3["evidence/latest.json, sdd-check.json<br/>docs/project-status.json, id-registry.json"]
-  end
-  LOC[(".local/agents.json<br/>fuera de Git")]
-  SC["scripts/<br/>verify, check_evidence, sdd_check, requirement_matrix,<br/>security_check, security_catalog, publication_check,<br/>revision, build_pages, ci_gate, sandbox/, browser/"]
+Dos fragmentos, navegador y servidor, para leerlos en un teléfono; la tabla que sigue lleva archivos, líneas y límites.
 
-  IDX --> ST & CL & WB & EV & I18
-  ST --> SR
-  CL -->|"POST /api/cloud/*<br/>GET /api/model-catalog"| HS
-  WB -->|"POST /api/mcp/*"| HS
-  ST -->|"POST /api/custom-agents/save<br/>GET /api/agents, /api/custom-agents"| HS
-  EV -->|"GET /api/evidence, /acceptance,<br/>/requirements, /status"| HS
-  PD -. "sustituye fetch en Pages" .-> IDX
-  HS --> CT & CS & C7 & AG & MC
-  AG --> SE
+Navegador:
+
+```mermaid
+flowchart TB
+  IDX["index.html<br/>5 destinos"] --> ST["studio.js<br/>router, agentes, perfiles MCP"]
+  IDX --> CL["cloud.js<br/>conexión y conversación"]
+  ST --> WB["workbench.js<br/>Context7"]
+  CL --> EV["evidence.js<br/>evidencia y 5 registros"]
+  WB --> SR["sensitive-rules.js<br/>guarda, 11 patrones"]
+  EV --> I18["i18n.js<br/>ES/EN"]
+  PD["public-demo.js<br/>solo en Pages: fetch simulado"] -.-> IDX
+```
+
+**Equivalente en texto:** la tabla de componentes de abajo, filas de los cinco destinos a las guardas.
+
+Servidor local y datos:
+
+```mermaid
+flowchart TB
+  JS["Navegador"] -->|"HTTP /api/*"| HS["server.py<br/>rutas, límites, Host/Origin"]
+  HS --> CT["controller.py<br/>devoluciones simuladas"]
+  CT ~~~ CS["cloud.py<br/>sesiones de proveedor"]
+  HS --> CS
+  CS ~~~ C7["context7.py<br/>MCP remoto, 2 herramientas"]
+  HS --> C7
+  C7 ~~~ AG["agents.py · agent_store.py<br/>agentes de texto"]
+  HS --> AG
+  AG --> SE["sensitive.py<br/>11 patrones"]
+  AG --> LOC[(".local/agents.json")]
   AG -->|"cloud.task()"| CS
-  AG --> D1
-  AG --> LOC
-  CT --> D1
-  HS -->|"lee"| D2 & D3
-  SC -->|"escribe evidence/*, specs/acceptance.csv<br/>y docs/requirements-matrix.md"| D3 & D2
-  SC -->|"lee"| D2
+  HS --> D["data/ · specs/ · evidence/"]
+  SC["scripts/<br/>verify, check_evidence, …"] --> D
 ```
 
 **Equivalente en texto: componentes, estado y fronteras de confianza.**

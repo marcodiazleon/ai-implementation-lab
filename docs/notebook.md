@@ -190,3 +190,8 @@ Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20
 - B3: not executed. The capture of GitHub's rendering at 77e1712 (desktop 1280 px, mobile 390 px, pre-installed Chromium) failed because the environment's network policy denies github.githubassets.com and viewscreen.githubusercontent.com, so GitHub's scripts and the render iframe never load; nothing installed, no CDN. C327 stays NO_PROBADO with the missing capability named (those hosts allowed in the environment, or a person capturing). Codex reported DOM renders for five of six diagrams at afd6e04; the SDD diagram has no render evidence. Legibility and the human readings stay NO_PROBADO.
 - Not claimed: acceptance, a 9 in any area, Codex's reproduction, any change to the security score.
 
+## 2026-10-12 · U22 mobile presentation after Codex's second review of 55197be (PR #10, not accepted)
+- Source: Codex, 8.5/10 provisional, not ready by B3 only: the SDD diagram at 390 px needed zoom and pan; B1 and B2 confirmed closed in the sources; no network change requested. Records first: R59g, T89 and D58 amended, C328.
+- Done: the six diagrams became ten, all laid out for a phone: vertical flowcharts with short labels (context; navigator and server as two fragments; SDD chain) and sequences split into fragments of at most three participants with short messages (tour and evidence; connect; ask and disconnect; custom agent; MCP profile; Context7). File and line references moved to the textual equivalents. No renderer, CDN or dependency; the Mermaid source stays the single editable source.
+- Not claimed: a visual reading by a person (C327 stays NO_PROBADO until external evidence), screen-reader or human PASS, any change of the security score.
+

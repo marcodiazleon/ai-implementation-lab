@@ -5,18 +5,18 @@
 ## 4.1 La cadena: de la necesidad a la evidencia
 
 ```mermaid
-flowchart LR
-  U["Fuente U-nn<br/>petición de Marco<br/>(spec.md)"] --> CU["Caso de uso CU-nn<br/>actor, disparador, precondiciones, errores"]
-  CU --> R["Requisito R-nn<br/>'shall', con enmiendas fechadas"]
-  R --> T["Tarea T-nn<br/>(tasks.md)"]
-  R --> C["Caso C-nn<br/>(acceptance.csv: esperado, observado,<br/>estado, evidencia, entorno, test_id)"]
-  T --> CODE["Código<br/>src/ web/ scripts/"]
-  C --> TEST["Prueba unittest<br/>(tests/)"]
-  TEST --> EV["evidence/latest.json<br/>sdd-check.json<br/>(verify.py)"]
-  CODE --> EV
-  R --> D["Decisión D-nn<br/>(decisions.md)"]
-  EV --> MX["requirements-matrix.md<br/>(generada; clasificación en case-kinds.json)"]
-  EV --> NB["notebook.md<br/>qué se hizo, qué queda"]
+flowchart TB
+  U["Fuente U<br/>petición de Marco"] --> CU["Caso de uso CU"]
+  CU --> R["Requisito R"]
+  R --> T["Tarea T"]
+  R --> C["Caso C<br/>acceptance.csv"]
+  R --> D["Decisión D"]
+  T --> CODE["Código"]
+  C --> TEST["Prueba"]
+  CODE --> EV["Evidencia<br/>verify.py"]
+  TEST --> EV
+  EV --> MX["Matriz generada"]
+  EV --> NB["Bitácora"]
 ```
 
 **Equivalente en texto.** Una petición de Marco se registra como fuente U; de ella salen casos de uso CU y requisitos R escritos con *shall*; cada requisito tiene tareas T y casos de aceptación C; cada caso nombra la prueba que lo ejecuta (`test_id`) y `scripts/verify.py` escribe el resultado observado, el estado, la evidencia, el entorno y la huella de fuentes en `acceptance.csv` y `evidence/latest.json`; las decisiones D explican por qué se construyó así; la matriz de requisitos se genera de los registros y una clasificación revisada; la bitácora cierra cada cambio con lo hecho y lo pendiente (constitución, reglas 2, 4 y 11).

@@ -1002,6 +1002,29 @@ class BookTests(unittest.TestCase):
         self.assertIn("no se reenvía a ningún agente ni a la conversación", html); self.assertIn("it is not forwarded to any agent or to the conversation", html)
 
 
+    def test_diagrams_are_laid_out_for_a_phone(self):
+        """C328 (R59g): vertical flowcharts with short labels; sequences of at most three participants with short messages."""
+        seen = 0
+        for path in self.chapters():
+            text = path.read_text(encoding="utf-8")
+            for source in re.findall(r"```mermaid\n(.*?)```", text, flags=re.S):
+                seen += 1
+                head = source.strip().splitlines()[0]
+                if head.startswith("flowchart"):
+                    self.assertEqual(head, "flowchart TB", f"{path.name}: {head}")
+                    for label in re.findall(r'\["([^"]+)"\]|\[\("([^"]+)"\)\]|subgraph \w+\["([^"]+)"\]', source):
+                        plain = re.sub(r"<br/?>", " ", next(x for x in label if x))
+                        self.assertLessEqual(len(plain), 56, f"{path.name}: label too long: {plain}")
+                else:
+                    self.assertTrue(head.startswith("sequenceDiagram"), f"{path.name}: {head}")
+                    self.assertLessEqual(len(re.findall(r"^\s*participant ", source, flags=re.M)), 3, f"{path.name}: too many participants")
+                    for line in source.splitlines():
+                        if "->>" in line or "-->>" in line or line.strip().startswith("note"):
+                            message = line.split(": ", 1)[1] if ": " in line else ""
+                            self.assertLessEqual(len(message), 64, f"{path.name}: message too long: {message}")
+        self.assertGreaterEqual(seen, 10)
+
+
 class DocsTests(unittest.TestCase):
     def test_data_inventory_covers_each_store(self):
         threat = DOC("threat-model.md")
