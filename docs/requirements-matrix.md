@@ -12,8 +12,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C022 | behavior | positive | PASS | `test_lab.WorkflowTests.test_lookup_does_not_propose` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C034 | behavior | negative | PASS | `test_lab.WorkflowTests.test_unknown_and_foreign_are_indistinguishable` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C022 | behavior | positive | PASS | `test_lab.WorkflowTests.test_lookup_does_not_propose` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C034 | behavior | negative | PASS | `test_lab.WorkflowTests.test_unknown_and_foreign_are_indistinguishable` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R02 — When a refund request is eligible, create/reuse its proposal; if fields, tool or eligibility fail, block without receipt.
 
@@ -23,12 +23,12 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C019 | behavior | positive | PASS | `test_lab.WorkflowTests.test_identical_proposal_reused` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C021 | behavior | negative | PASS | `test_lab.WorkflowTests.test_invalid_requests` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C028 | behavior | positive | PASS | `test_lab.WorkflowTests.test_scenarios` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C033 | behavior | negative | PASS | `test_lab.WorkflowTests.test_tool_allowlist` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C112 | behavior | positive | PASS | `test_pages.PagesBuildTests.test_public_build_runs_in_browser_without_credentials` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C113 | behavior | positive | PASS | `test_parity.ParityTests.test_public_demo_matches_python_controller` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C019 | behavior | positive | PASS | `test_lab.WorkflowTests.test_identical_proposal_reused` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C021 | behavior | negative | PASS | `test_lab.WorkflowTests.test_invalid_requests` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C028 | behavior | positive | PASS | `test_lab.WorkflowTests.test_scenarios` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C033 | behavior | negative | PASS | `test_lab.WorkflowTests.test_tool_allowlist` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C112 | behavior | positive | PASS | `test_pages.PagesBuildTests.test_public_build_runs_in_browser_without_credentials` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C113 | behavior | positive | PASS | `test_parity.ParityTests.test_public_demo_matches_python_controller` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R03 — While approval is absent or rejected, block execution; reject invalid decision transitions.
 
@@ -38,14 +38,14 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C013 | behavior | negative | PASS | `test_http.HttpTests.test_workflow_and_replay` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C018 | behavior | negative | PASS | `test_lab.WorkflowTests.test_execute_requires_approval` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C020 | behavior | negative | PASS | `test_lab.WorkflowTests.test_invalid_decision` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C023 | behavior | negative | PASS | `test_lab.WorkflowTests.test_missing_proposal` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C024 | behavior | negative | PASS | `test_lab.WorkflowTests.test_rejection_blocks_execution` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C025 | behavior | negative | PASS | `test_lab.WorkflowTests.test_repeated_decision_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C026 | behavior | negative | PASS | `test_lab.WorkflowTests.test_reviewer_role_required` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C029 | behavior | positive | PASS | `test_lab.WorkflowTests.test_simulated_receipt` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C013 | behavior | negative | PASS | `test_http.HttpTests.test_workflow_and_replay` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C018 | behavior | negative | PASS | `test_lab.WorkflowTests.test_execute_requires_approval` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C020 | behavior | negative | PASS | `test_lab.WorkflowTests.test_invalid_decision` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C023 | behavior | negative | PASS | `test_lab.WorkflowTests.test_missing_proposal` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C024 | behavior | negative | PASS | `test_lab.WorkflowTests.test_rejection_blocks_execution` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C025 | behavior | negative | PASS | `test_lab.WorkflowTests.test_repeated_decision_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C026 | behavior | negative | PASS | `test_lab.WorkflowTests.test_reviewer_role_required` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C029 | behavior | positive | PASS | `test_lab.WorkflowTests.test_simulated_receipt` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R04 — If order or policy differs from the approved proposal, block execution.
 
@@ -55,9 +55,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C031 | behavior | negative | PASS | `test_lab.WorkflowTests.test_stale_order_even_without_version_change` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C032 | behavior | negative | PASS | `test_lab.WorkflowTests.test_stale_policy` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C242 | behavior | positive | PASS | `test_lab.WorkflowTests.test_simulated_receipt` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C031 | behavior | negative | PASS | `test_lab.WorkflowTests.test_stale_order_even_without_version_change` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C032 | behavior | negative | PASS | `test_lab.WorkflowTests.test_stale_policy` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C242 | behavior | positive | PASS | `test_lab.WorkflowTests.test_simulated_receipt` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R05 — When identical approved execution is retried in one process, return one receipt; prohibit a second compensation for that order.
 
@@ -67,8 +67,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C016 | behavior | positive | PASS | `test_lab.WorkflowTests.test_concurrent_retry_exactly_one_local_receipt` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C027 | behavior | negative | PASS | `test_lab.WorkflowTests.test_same_order_cannot_be_compensated_twice` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C016 | behavior | positive | PASS | `test_lab.WorkflowTests.test_concurrent_retry_exactly_one_local_receipt` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C027 | behavior | negative | PASS | `test_lab.WorkflowTests.test_same_order_cannot_be_compensated_twice` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R06 — If the simulated connector fails before its effect, keep approval and create no receipt; allow a later explicit retry.
 
@@ -78,8 +78,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C017 | behavior | negative | PASS | `test_lab.WorkflowTests.test_connector_failure_keeps_approval_and_retry_works` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C243 | behavior | positive | PASS | `test_lab.WorkflowTests.test_connector_failure_keeps_approval_and_retry_works` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C017 | behavior | negative | PASS | `test_lab.WorkflowTests.test_connector_failure_keeps_approval_and_retry_works` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C243 | behavior | positive | PASS | `test_lab.WorkflowTests.test_connector_failure_keeps_approval_and_retry_works` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R07 — Record before/after outcomes and detect partial event edits; if the before hook fails, stop the attempted effect.
 
@@ -89,9 +89,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C014 | behavior | negative | PASS | `test_lab.WorkflowTests.test_audit_detects_edit` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C015 | behavior | negative | PASS | `test_lab.WorkflowTests.test_before_hook_failure_prevents_action` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C030 | behavior | positive | PASS | `test_lab.WorkflowTests.test_snapshot_is_a_copy` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C014 | behavior | negative | PASS | `test_lab.WorkflowTests.test_audit_detects_edit` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C015 | behavior | negative | PASS | `test_lab.WorkflowTests.test_before_hook_failure_prevents_action` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C030 | behavior | positive | PASS | `test_lab.WorkflowTests.test_snapshot_is_a_copy` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R08 — Serve named routes on loopback; reject foreign Host/Origin, invalid JSON type and oversized bodies.
 
@@ -101,11 +101,11 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C008 | behavior | negative | PASS | `test_http.HttpTests.test_content_type_and_size` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C009 | behavior | negative | PASS | `test_http.HttpTests.test_external_origin_blocked` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C010 | behavior | positive | PASS | `test_http.HttpTests.test_security_headers` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C011 | behavior | limit | PASS | `test_http.HttpTests.test_static_and_no_directory_access` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C012 | behavior | negative | PASS | `test_http.HttpTests.test_untrusted_host_blocked` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C008 | behavior | negative | PASS | `test_http.HttpTests.test_content_type_and_size` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C009 | behavior | negative | PASS | `test_http.HttpTests.test_external_origin_blocked` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C010 | behavior | positive | PASS | `test_http.HttpTests.test_security_headers` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C011 | behavior | limit | PASS | `test_http.HttpTests.test_static_and_no_directory_access` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C012 | behavior | negative | PASS | `test_http.HttpTests.test_untrusted_host_blocked` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R09 — After MCP initialization, expose only the two documented read tools; reject write tools and invalid arguments.
 
@@ -115,14 +115,14 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C035 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_bad_args` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C036 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_initialization_required` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C037 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_invalid_initialization_does_not_mark_ready` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C038 | behavior | positive | PASS | `test_protocol.ProtocolTests.test_only_two_read_tools` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C039 | behavior | positive | PASS | `test_protocol.ProtocolTests.test_protocol_negotiation_returns_supported_version` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C040 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_scope_is_preserved` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C041 | behavior | positive | PASS | `test_protocol.ProtocolTests.test_stdio_round_trip` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C042 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_write_tool_denied` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C035 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_bad_args` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C036 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_initialization_required` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C037 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_invalid_initialization_does_not_mark_ready` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C038 | behavior | positive | PASS | `test_protocol.ProtocolTests.test_only_two_read_tools` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C039 | behavior | positive | PASS | `test_protocol.ProtocolTests.test_protocol_negotiation_returns_supported_version` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C040 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_scope_is_preserved` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C041 | behavior | positive | PASS | `test_protocol.ProtocolTests.test_stdio_round_trip` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C042 | behavior | negative | PASS | `test_protocol.ProtocolTests.test_write_tool_denied` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R10 — Validate synthetic fixtures and inspect staged bytes for the documented publication patterns.
 
@@ -132,13 +132,13 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C001 | behavior | negative | PASS | `test_guards.GuardTests.test_actual_precommit_hook_blocks_then_accepts` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C002 | behavior | negative | PASS | `test_guards.GuardTests.test_data_rejects_real_currency` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C003 | behavior | negative | PASS | `test_guards.GuardTests.test_env_file_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C004 | behavior | positive | PASS | `test_guards.GuardTests.test_fixture_contract` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C005 | behavior | negative | PASS | `test_guards.GuardTests.test_private_key_pattern` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C006 | behavior | negative | PASS | `test_guards.GuardTests.test_staged_bytes_not_clean_worktree` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C007 | behavior | negative | PASS | `test_guards.GuardTests.test_token_pattern` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C001 | behavior | negative | PASS | `test_guards.GuardTests.test_actual_precommit_hook_blocks_then_accepts` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C002 | behavior | negative | PASS | `test_guards.GuardTests.test_data_rejects_real_currency` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C003 | behavior | negative | PASS | `test_guards.GuardTests.test_env_file_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C004 | behavior | positive | PASS | `test_guards.GuardTests.test_fixture_contract` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C005 | behavior | negative | PASS | `test_guards.GuardTests.test_private_key_pattern` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C006 | behavior | negative | PASS | `test_guards.GuardTests.test_staged_bytes_not_clean_worktree` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C007 | behavior | negative | PASS | `test_guards.GuardTests.test_token_pattern` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R11 — Provide readable purpose, startup steps, folder guide and limitations, with working local links.
 
@@ -150,7 +150,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 |---|---|---|---|---|---|---|
 | C045 | manual | positive | NO_PROBADO | `MANUAL:visitor` | — | S01-0.2 |
 | C047 | manual | positive | PASS | `MANUAL:walkthrough` | reports/VALIDATION.md | 9ca4631 |
-| C259 | structure | positive | PASS | `test_u20.DocsTests.test_relative_links_resolve_and_startup_commands_exist` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C259 | structure | positive | PASS | `test_u20.DocsTests.test_relative_links_resolve_and_startup_commands_exist` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R12 — Maintain source → use case → requirement → task → test → evidence links and a method-equivalence map.
 
@@ -160,11 +160,11 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C043 | document | positive | PASS | `DOCUMENT:sdd` | evidence/sdd-check.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C048 | behavior | positive | PASS | `test_sdd.SddTests.test_valid_project` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C049 | behavior | negative | PASS | `test_sdd.SddTests.test_unknown_test_reference_is_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C050 | behavior | negative | PASS | `test_sdd.SddTests.test_empty_expected_result_is_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C051 | behavior | negative | PASS | `test_sdd.SddTests.test_duplicate_case_is_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C043 | document | positive | PASS | `DOCUMENT:sdd` | evidence/sdd-check.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C048 | behavior | positive | PASS | `test_sdd.SddTests.test_valid_project` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C049 | behavior | negative | PASS | `test_sdd.SddTests.test_unknown_test_reference_is_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C050 | behavior | negative | PASS | `test_sdd.SddTests.test_empty_expected_result_is_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C051 | behavior | negative | PASS | `test_sdd.SddTests.test_duplicate_case_is_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R13 — Use descriptive copy and factual AI-assistance disclosure; render a black canvas, white text, clear personal identity, readable controls/focus and a responsive request/review/activity layout.
 
@@ -177,7 +177,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | C046 | manual | positive | PASS | `MANUAL:editorial` | reports/EDITORIAL_REVIEW.md | c4366a8 |
 | C052 | manual | positive | PASS | `MANUAL:dark-desktop` | reports/VISUAL_REVIEW_2026-10-03.md | S01-0.3; HTML 820aa669268e; CSS 8dd5a9cc65f2 |
 | C053 | manual | positive | PASS | `MANUAL:dark-responsive` | reports/VISUAL_REVIEW_2026-10-03.md | S01-0.3; HTML 820aa669268e; CSS 8dd5a9cc65f2 |
-| C253 | structure | positive | PASS | `test_u20.InterfaceTests.test_identity_tokens_and_attribution` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C253 | structure | positive | PASS | `test_u20.InterfaceTests.test_identity_tokens_and_attribution` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R14 — Record active spec, versions, responsibilities, changes, next action and the 20-item expansion backlog at each relevant delivery.
 
@@ -187,7 +187,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C044 | document | positive | PASS | `DOCUMENT:sdd` | evidence/sdd-check.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C044 | document | positive | PASS | `DOCUMENT:sdd` | evidence/sdd-check.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R15 — Menu views, hashes and keyboard controls reach demo, chat, connection and method; original demo needs no key. A Spanish/English selector translates static and dynamic UI, updates document language and remembers only the language preference; switching does not reset the case, chat, draft or connection.
 
@@ -199,7 +199,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 |---|---|---|---|---|---|---|
 | C065 | manual | positive | PASS | `MANUAL:menu-cloud` | reports/MENU_API_REVIEW_2026-10-03.md | S01-0.4 |
 | C068 | manual | positive | PASS | `MANUAL:language` | reports/LANGUAGE_REVIEW_2026-10-03.md | S01-0.5 |
-| C254 | structure | positive | PASS | `test_u20.InterfaceTests.test_routes_and_legacy_hashes` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C254 | structure | positive | PASS | `test_u20.InterfaceTests.test_routes_and_legacy_hashes` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R16 — Optional OpenAI connection and bounded Q&A require explicit consent, isolate sessions, sanitize errors, support local disconnect/history clearing and never expose keys in outputs.
 
@@ -209,16 +209,16 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C054 | behavior | negative | PASS | `test_cloud.CloudTests.test_consent_and_validation_precede_network` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C055 | behavior | negative | PASS | `test_cloud.CloudTests.test_key_not_returned_or_demo_exported` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C056 | behavior | positive | PASS | `test_cloud.CloudTests.test_history_clear_and_session_isolation` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C057 | behavior | negative | PASS | `test_cloud.CloudTests.test_expiry_disconnect_and_unknown_session` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C058 | behavior | negative | PASS | `test_cloud.CloudTests.test_limits_and_failed_attempt_count` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C059 | behavior | negative | PASS | `test_cloud.CloudTests.test_no_concurrent_request_and_disconnect_discards_result` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C060 | behavior | negative | PASS | `test_cloud.CloudTests.test_capacity_and_failed_connection_releases_reservation` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C061 | behavior | negative | PASS | `test_cloud.CloudTests.test_transport_contract_and_malformed_response` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C062 | behavior | negative | PASS | `test_cloud.CloudTests.test_provider_errors_sanitized_no_retry` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C063 | behavior | negative | PASS | `test_cloud.CloudHttpTests.test_http_consent_origin_and_no_key_in_state` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C054 | behavior | negative | PASS | `test_cloud.CloudTests.test_consent_and_validation_precede_network` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C055 | behavior | negative | PASS | `test_cloud.CloudTests.test_key_not_returned_or_demo_exported` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C056 | behavior | positive | PASS | `test_cloud.CloudTests.test_history_clear_and_session_isolation` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C057 | behavior | negative | PASS | `test_cloud.CloudTests.test_expiry_disconnect_and_unknown_session` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C058 | behavior | negative | PASS | `test_cloud.CloudTests.test_limits_and_failed_attempt_count` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C059 | behavior | negative | PASS | `test_cloud.CloudTests.test_no_concurrent_request_and_disconnect_discards_result` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C060 | behavior | negative | PASS | `test_cloud.CloudTests.test_capacity_and_failed_connection_releases_reservation` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C061 | behavior | negative | PASS | `test_cloud.CloudTests.test_transport_contract_and_malformed_response` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C062 | behavior | negative | PASS | `test_cloud.CloudTests.test_provider_errors_sanitized_no_retry` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C063 | behavior | negative | PASS | `test_cloud.CloudHttpTests.test_http_consent_origin_and_no_key_in_state` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C066 | manual | positive | NO_PROBADO | `MANUAL:live-api` | — | S01-0.4 |
 
 ## R17 — Provide portable source/startup instructions and a read-only destination check without credentials or implicit installation.
@@ -229,9 +229,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C064 | behavior | negative | PASS | `test_cloud.PortableTests.test_audit_reports_missing_files_without_writes` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C064 | behavior | negative | PASS | `test_cloud.PortableTests.test_audit_reports_missing_files_without_writes` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C067 | manual | positive | NO_PROBADO | `MANUAL:other-pc` | — | S01-0.4 |
-| C244 | behavior | positive | PASS | `test_u20.CodeTests.test_environment_check_reports_a_complete_repository` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C244 | behavior | positive | PASS | `test_u20.CodeTests.test_environment_check_reports_a_complete_repository` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R18 — Four visible role contracts produce scoped deliverables in clearly labeled local or optional model mode; runs are explicit and previous artifacts match the brief.
 
@@ -242,8 +242,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C069 | manual | positive | PASS | `MANUAL:agents-workflow` | reports/AGENTS_REVIEW_2026-10-03.md | S01-0.6 |
-| C245 | behavior | positive | PASS | `test_agents.AgentTests.test_all_roles_produce_hashed_bilingual_templates` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C246 | behavior | negative | PASS | `test_agents.AgentTests.test_invalid_or_truncated_model_output_fails` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C245 | behavior | positive | PASS | `test_agents.AgentTests.test_all_roles_produce_hashed_bilingual_templates` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C246 | behavior | negative | PASS | `test_agents.AgentTests.test_invalid_or_truncated_model_output_fails` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R19 — Enforce input/permission/output hooks, retain per-run evidence without secrets, export role artifacts and distinguish review from executed tests.
 
@@ -254,14 +254,14 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C070 | manual | positive | PASS | `MANUAL:agent-evidence` | reports/AGENTS_REVIEW_2026-10-03.md | S01-0.6 |
-| C073 | behavior | positive | PASS | `test_agents.AgentTests.test_all_roles_produce_hashed_bilingual_templates` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C074 | behavior | negative | PASS | `test_agents.AgentTests.test_stale_brief_context_blocked` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C075 | behavior | negative | PASS | `test_agents.AgentTests.test_context_size_and_secret_guards` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C076 | behavior | negative | PASS | `test_agents.AgentTests.test_openai_requires_consent_before_call` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C077 | behavior | positive | PASS | `test_agents.AgentTests.test_model_task_isolated_from_chat_and_bounded` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C078 | behavior | negative | PASS | `test_agents.AgentTests.test_invalid_or_truncated_model_output_fails` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C079 | behavior | negative | PASS | `test_agents.AgentTests.test_shared_budget_and_revocation` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C080 | behavior | negative | PASS | `test_agents.AgentTests.test_reviewer_reports_missing_artifacts` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C073 | behavior | positive | PASS | `test_agents.AgentTests.test_all_roles_produce_hashed_bilingual_templates` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C074 | behavior | negative | PASS | `test_agents.AgentTests.test_stale_brief_context_blocked` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C075 | behavior | negative | PASS | `test_agents.AgentTests.test_context_size_and_secret_guards` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C076 | behavior | negative | PASS | `test_agents.AgentTests.test_openai_requires_consent_before_call` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C077 | behavior | positive | PASS | `test_agents.AgentTests.test_model_task_isolated_from_chat_and_bounded` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C078 | behavior | negative | PASS | `test_agents.AgentTests.test_invalid_or_truncated_model_output_fails` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C079 | behavior | negative | PASS | `test_agents.AgentTests.test_shared_budget_and_revocation` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C080 | behavior | negative | PASS | `test_agents.AgentTests.test_reviewer_reports_missing_artifacts` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R20 — Fixed-host Context7 MCP supports initialize, discovery and two read-only tools with explicit consent, bounded expiring sessions and safe error rendering.
 
@@ -273,16 +273,16 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 |---|---|---|---|---|---|---|
 | C071 | manual | positive | PASS | `MANUAL:mcp-browser` | reports/AGENTS_REVIEW_2026-10-03.md | S01-0.6 |
 | C072 | manual | positive | PASS | `MANUAL:mcp-live` | reports/AGENTS_REVIEW_2026-10-03.md | S01-0.6 |
-| C081 | behavior | positive | PASS | `test_context7.McpTests.test_handshake_discovery_and_explicit_query` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C082 | behavior | negative | PASS | `test_context7.McpTests.test_unlisted_tool_and_unconsented_query_blocked` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C083 | behavior | negative | PASS | `test_context7.McpTests.test_missing_tools_do_not_connect` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C084 | behavior | negative | PASS | `test_context7.McpTests.test_expiry_disconnect_and_limit` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C085 | behavior | negative | PASS | `test_context7.McpTests.test_remote_error_releases_busy_and_is_sanitized` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C086 | behavior | negative | PASS | `test_context7.McpTests.test_disconnect_during_query_discards_result` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C087 | behavior | negative | PASS | `test_context7.McpTests.test_transport_json_sse_and_wrong_id` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C088 | behavior | positive | PASS | `test_workbench_http.WorkbenchHTTPTests.test_contracts_run_and_assets` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C089 | behavior | negative | PASS | `test_workbench_http.WorkbenchHTTPTests.test_origin_body_and_provider_boundaries` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C090 | behavior | positive | PASS | `test_workbench_http.WorkbenchHTTPTests.test_mcp_endpoints` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C081 | behavior | positive | PASS | `test_context7.McpTests.test_handshake_discovery_and_explicit_query` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C082 | behavior | negative | PASS | `test_context7.McpTests.test_unlisted_tool_and_unconsented_query_blocked` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C083 | behavior | negative | PASS | `test_context7.McpTests.test_missing_tools_do_not_connect` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C084 | behavior | negative | PASS | `test_context7.McpTests.test_expiry_disconnect_and_limit` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C085 | behavior | negative | PASS | `test_context7.McpTests.test_remote_error_releases_busy_and_is_sanitized` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C086 | behavior | negative | PASS | `test_context7.McpTests.test_disconnect_during_query_discards_result` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C087 | behavior | negative | PASS | `test_context7.McpTests.test_transport_json_sse_and_wrong_id` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C088 | behavior | positive | PASS | `test_workbench_http.WorkbenchHTTPTests.test_contracts_run_and_assets` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C089 | behavior | negative | PASS | `test_workbench_http.WorkbenchHTTPTests.test_origin_body_and_provider_boundaries` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C090 | behavior | positive | PASS | `test_workbench_http.WorkbenchHTTPTests.test_mcp_endpoints` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R21 — Five sidebar destinations and a collapsible accessible menu; only ES/EN in the top bar. Demonstration embeds conversation first and optional deterministic exercise. Preserve existing hash aliases and drafts.
 
@@ -293,7 +293,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C091 | manual | positive | PASS | `MANUAL:sidebar-demo` | reports/STUDIO_REVIEW_2026-10-03.md | S01-0.7 |
-| C255 | structure | positive | PASS | `test_u20.InterfaceTests.test_menu_landmarks_and_language_options` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C255 | structure | positive | PASS | `test_u20.InterfaceTests.test_menu_landmarks_and_language_options` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R22 — Create/edit/export custom roles from templates or blank input; persist bounded definitions in ignored repository-local storage with no provider/key fields, traversal or shell execution. Saved roles can guide the conversation.
 
@@ -304,11 +304,11 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C092 | manual | positive | PASS | `MANUAL:agent-builder` | reports/STUDIO_REVIEW_2026-10-03.md | S01-0.7 |
-| C095 | behavior | positive | PASS | `test_studio.StudioTests.test_create_edit_and_restart_preserve_definition` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C096 | behavior | negative | PASS | `test_studio.StudioTests.test_input_traversal_and_secret_fields_are_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C097 | behavior | negative | PASS | `test_studio.StudioTests.test_corrupt_store_fails_without_overwriting` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C098 | behavior | positive | PASS | `test_studio.StudioTests.test_resolved_role_changes_context_revision` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C099 | behavior | negative | PASS | `test_studio.StudioTests.test_private_definitions_cannot_be_staged` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C095 | behavior | positive | PASS | `test_studio.StudioTests.test_create_edit_and_restart_preserve_definition` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C096 | behavior | negative | PASS | `test_studio.StudioTests.test_input_traversal_and_secret_fields_are_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C097 | behavior | negative | PASS | `test_studio.StudioTests.test_corrupt_store_fails_without_overwriting` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C098 | behavior | positive | PASS | `test_studio.StudioTests.test_resolved_role_changes_context_revision` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C099 | behavior | negative | PASS | `test_studio.StudioTests.test_private_definitions_cannot_be_staged` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R23 — Elegant multiple-MCP guide and valid configuration exports for HTTP/stdio, explicitly distinguishing configured from executable; keep bounded Context7 behavior.
 
@@ -319,7 +319,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C093 | manual | positive | PASS | `MANUAL:mcp-guide` | reports/STUDIO_REVIEW_2026-10-03.md | S01-0.7 |
-| C256 | structure | positive | PASS | `test_u20.InterfaceTests.test_mcp_guide_fields_and_export_shape` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C256 | structure | positive | PASS | `test_u20.InterfaceTests.test_mcp_guide_fields_and_export_shape` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R24 — Provider-neutral connection guide and bounded OpenAI/Anthropic sessions using fixed destinations, correct protocol adapters and isolated keys/history. No fallback or paid test without operator key.
 
@@ -330,9 +330,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C094 | manual | positive | PASS | `MANUAL:provider-guide` | reports/STUDIO_REVIEW_2026-10-03.md | S01-0.7 |
-| C100 | behavior | positive | PASS | `test_studio.StudioTests.test_providers_route_keys_without_fallback` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C101 | behavior | negative | PASS | `test_studio.StudioTests.test_agent_context_does_not_leak_into_other_role` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C102 | behavior | negative | PASS | `test_studio.StudioTests.test_anthropic_protocol_and_partial_output` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C100 | behavior | positive | PASS | `test_studio.StudioTests.test_providers_route_keys_without_fallback` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C101 | behavior | negative | PASS | `test_studio.StudioTests.test_agent_context_does_not_leak_into_other_role` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C102 | behavior | negative | PASS | `test_studio.StudioTests.test_anthropic_protocol_and_partial_output` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R25 — Compact bilingual Session view with accessible hidden message label, animated invitation that pauses for typing/hidden page/reduced motion, and selectors below the composer. Preserve drafts and support narrow layouts.
 
@@ -343,7 +343,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C103 | manual | positive | PASS | `MANUAL:compact-session` | reports/SESSION_UI_REVIEW_2026-10-03.md | S01-0.8 |
-| C257 | structure | positive | PASS | `test_u20.InterfaceTests.test_composer_label_and_motion_rules` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C257 | structure | positive | PASS | `test_u20.InterfaceTests.test_composer_label_and_motion_rules` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R26 — Documented provider-specific model catalog and validated effort sent through the correct API field. Transactional same-provider configuration; no cross-provider key reuse, automatic inference or request budget reset.
 
@@ -354,13 +354,13 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C104 | manual | positive | PASS | `MANUAL:model-controls` | reports/SESSION_UI_REVIEW_2026-10-03.md | S01-0.8 |
-| C105 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_native_effort_payloads` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C106 | behavior | negative | PASS | `test_session_controls.SessionControlTests.test_unsupported_effort_rejected_before_provider` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C107 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_same_provider_model_change_is_transactional` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C108 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_effort_change_preserves_history_and_budget` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C109 | behavior | negative | PASS | `test_session_controls.SessionControlTests.test_configuration_cannot_switch_provider_or_bypass_busy` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C110 | behavior | negative | PASS | `test_session_controls.SessionControlTests.test_disconnect_during_access_check_does_not_restore_session` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C111 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_catalog_is_reference_copy_not_account_claim` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C105 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_native_effort_payloads` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C106 | behavior | negative | PASS | `test_session_controls.SessionControlTests.test_unsupported_effort_rejected_before_provider` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C107 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_same_provider_model_change_is_transactional` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C108 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_effort_change_preserves_history_and_budget` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C109 | behavior | negative | PASS | `test_session_controls.SessionControlTests.test_configuration_cannot_switch_provider_or_bypass_busy` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C110 | behavior | negative | PASS | `test_session_controls.SessionControlTests.test_disconnect_during_access_check_does_not_restore_session` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C111 | behavior | positive | PASS | `test_session_controls.SessionControlTests.test_catalog_is_reference_copy_not_account_claim` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R27 — Evidence view shows the committed run summary and a requirement → case → test → evidence explorer; a requirement without a PASS case with evidence is PENDIENTE, never approved by default.
 
@@ -370,12 +370,12 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C114 | behavior | positive | PASS | `test_evidence_http.EvidenceHTTPTests.test_evidence_route_serves_committed_run` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C115 | behavior | positive | PASS | `test_evidence_http.EvidenceHTTPTests.test_acceptance_route_serves_csv_text` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C116 | behavior | positive | PASS | `test_evidence_http.EvidenceHTTPTests.test_requirements_route_lists_spec_rows` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C117 | behavior | negative | PASS | `test_evidence_http.EvidenceHTTPTests.test_untrusted_host_is_blocked` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C118 | behavior | limit | PASS | `test_pages.PagesBuildTests.test_public_build_ships_evidence_data_not_spec` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C119 | behavior | positive | PASS | `test_pages.PagesBuildTests.test_requirement_ids_match_acceptance_requirements` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C114 | behavior | positive | PASS | `test_evidence_http.EvidenceHTTPTests.test_evidence_route_serves_committed_run` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C115 | behavior | positive | PASS | `test_evidence_http.EvidenceHTTPTests.test_acceptance_route_serves_csv_text` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C116 | behavior | positive | PASS | `test_evidence_http.EvidenceHTTPTests.test_requirements_route_lists_spec_rows` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C117 | behavior | negative | PASS | `test_evidence_http.EvidenceHTTPTests.test_untrusted_host_is_blocked` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C118 | behavior | limit | PASS | `test_pages.PagesBuildTests.test_public_build_ships_evidence_data_not_spec` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C119 | behavior | positive | PASS | `test_pages.PagesBuildTests.test_requirement_ids_match_acceptance_requirements` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C120 | manual | positive | PASS | `MANUAL:evidence-view` | docs/notebook.md | S01-0.9 (feat/evidence-view, uncommitted tree) |
 
 ## R31 — Conversation-only Session, five destinations, provider/model controls, in-session API dialog and truthful local/static behavior
@@ -386,9 +386,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C148 | structure | positive | PASS | `test_session_shell.SessionShellTests.test_session_has_chat_and_five_destinations_without_refund_exercise` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C149 | behavior | negative | PASS | `test_session_shell.SessionShellTests.test_public_catalog_matches_local_catalog_without_enabling_credentials` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C150 | structure | negative | PASS | `test_session_shell.SessionShellTests.test_legacy_connection_hash_opens_dialog_and_never_targets_removed_exercise` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C148 | structure | positive | PASS | `test_session_shell.SessionShellTests.test_session_has_chat_and_five_destinations_without_refund_exercise` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C149 | behavior | negative | PASS | `test_session_shell.SessionShellTests.test_public_catalog_matches_local_catalog_without_enabling_credentials` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C150 | structure | negative | PASS | `test_session_shell.SessionShellTests.test_legacy_connection_hash_opens_dialog_and_never_targets_removed_exercise` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C151 | manual | positive | NO_PROBADO | `MANUAL:session-redesign` | — | S01-1.0 |
 | C152 | manual | positive | NO_PROBADO | `MANUAL:session-live-api` | — | S01-1.0 |
 | C236 | manual | positive | PASS | `MANUAL:browser-session-r31` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
@@ -403,9 +403,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 |---|---|---|---|---|---|---|
 | C170 | manual | positive | NO_PROBADO | `MANUAL:first-minute-person` | — | S01-1.1 |
 | C171 | manual | positive | PASS | `MANUAL:browser-presentation` | reports/U17_BROWSER_CHECK_2026-10-11.md | S01-1.1, source fingerprint 890277c7c704 |
-| C183 | structure | positive | PASS | `test_u17.PresentationTests.test_session_first_screen_presents_marco_before_the_composer` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C184 | behavior | positive | PASS | `test_u17.PresentationTests.test_public_build_keeps_presentation_and_five_destinations` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C185 | structure | positive | PASS | `test_u17.PresentationTests.test_readme_order_length_and_screenshot` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C183 | structure | positive | PASS | `test_u17.PresentationTests.test_session_first_screen_presents_marco_before_the_composer` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C184 | behavior | positive | PASS | `test_u17.PresentationTests.test_public_build_keeps_presentation_and_five_destinations` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C185 | structure | positive | PASS | `test_u17.PresentationTests.test_readme_order_length_and_screenshot` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R35 — Three-minute tour compatible with U13: in-app steps with expected results and controls, local `run.py tour` for the deterministic case, draft preserved
 
@@ -416,9 +416,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C172 | manual | positive | PASS | `MANUAL:browser-tour` | reports/U17_BROWSER_CHECK_2026-10-11.md | S01-1.1, source fingerprint 890277c7c704 |
-| C186 | behavior | positive | PASS | `test_u17.TourTests.test_tour_receipts_blocks_and_replay` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C187 | behavior | negative | PASS | `test_u17.TourTests.test_tour_text_names_a_simulated_proposal_in_both_languages` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C188 | structure | positive | PASS | `test_u17.TourTests.test_in_app_tour_steps_have_expected_results_and_live_links` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C186 | behavior | positive | PASS | `test_u17.TourTests.test_tour_receipts_blocks_and_replay` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C187 | behavior | negative | PASS | `test_u17.TourTests.test_tour_text_names_a_simulated_proposal_in_both_languages` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C188 | structure | positive | PASS | `test_u17.TourTests.test_in_app_tour_steps_have_expected_results_and_live_links` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R36 — Coherent evidence status: badge semantics with counts, separate verification/review/acceptance/integration/deployment states, baseline and fingerprint, validator negatives
 
@@ -429,15 +429,15 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C173 | manual | positive | PASS | `MANUAL:browser-evidence-status` | reports/U17_BROWSER_CHECK_2026-10-11.md | S01-1.1, source fingerprint 890277c7c704 |
-| C178 | behavior | negative | PASS | `test_sdd.SddTests.test_version_header_mismatch_is_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C179 | behavior | negative | PASS | `test_sdd.SddTests.test_outdated_guide_version_is_rejected_but_provenance_is_allowed` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C180 | behavior | negative | PASS | `test_sdd.SddTests.test_id_reserved_by_another_pull_request_is_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C181 | behavior | negative | PASS | `test_sdd.SddTests.test_duplicated_task_and_decision_ids_are_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C182 | behavior | negative | PASS | `test_sdd.SddTests.test_no_aplica_requires_a_reason` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C189 | behavior | negative | PASS | `test_u17.EvidenceRuleTests.test_badge_negatives` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C190 | behavior | positive | PASS | `test_u17.EvidenceRuleTests.test_committed_cases_with_untested_rows_are_partial` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C191 | behavior | positive | PASS | `test_u17.StatusTests.test_status_route_separates_records_and_reports_fingerprint` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C192 | behavior | positive | PASS | `test_u17.StatusTests.test_public_build_ships_status_and_view` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C178 | behavior | negative | PASS | `test_sdd.SddTests.test_version_header_mismatch_is_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C179 | behavior | negative | PASS | `test_sdd.SddTests.test_outdated_guide_version_is_rejected_but_provenance_is_allowed` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C180 | behavior | negative | PASS | `test_sdd.SddTests.test_id_reserved_by_another_pull_request_is_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C181 | behavior | negative | PASS | `test_sdd.SddTests.test_duplicated_task_and_decision_ids_are_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C182 | behavior | negative | PASS | `test_sdd.SddTests.test_no_aplica_requires_a_reason` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C189 | behavior | negative | PASS | `test_u17.EvidenceRuleTests.test_badge_negatives` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C190 | behavior | positive | PASS | `test_u17.EvidenceRuleTests.test_committed_cases_with_untested_rows_are_partial` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C191 | behavior | positive | PASS | `test_u17.StatusTests.test_status_route_separates_records_and_reports_fingerprint` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C192 | behavior | positive | PASS | `test_u17.StatusTests.test_public_build_ships_status_and_view` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R37 — Documentation by depth: three routes, index and historical register, canonical table, traceability example and verify rewrite warning
 
@@ -448,8 +448,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C177 | manual | positive | NO_PROBADO | `MANUAL:docs-routes` | — | S01-1.1 |
-| C198 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_index_routes_history_and_traceability_example` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C199 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_startup_and_verify_warn_about_rewritten_evidence` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C198 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_index_routes_history_and_traceability_example` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C199 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_startup_and_verify_warn_about_rewritten_evidence` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R38 — Five labeled destinations, no horizontal overflow at 375/390/1360, skip link and headings, ES/EN for new copy, measured contrast
 
@@ -460,8 +460,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
 | C174 | manual | positive | PASS | `MANUAL:browser-responsive` | reports/U17_BROWSER_CHECK_2026-10-11.md | S01-1.1, source fingerprint 890277c7c704 |
-| C196 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_new_copy_has_english_text` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C197 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_skip_link_targets_an_existing_element_and_rail_has_labels` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C196 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_new_copy_has_english_text` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C197 | structure | positive | PASS | `test_u17.LanguageAndDocsTests.test_skip_link_targets_an_existing_element_and_rail_has_labels` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R39 — Single reusable CI and reproducible committed evidence
 
@@ -473,10 +473,10 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 |---|---|---|---|---|---|---|
 | C175 | manual | positive | PASS | `MANUAL:ci-candidate-sha` | https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/38181150428 | 2be5ceebd7dd88f314d06c9f845959960e75642b |
 | C176 | manual | negative | NO_PROBADO | `MANUAL:ci-injected-defect` | — | S01-1.1 |
-| C193 | behavior | negative | PASS | `test_u17.EvidenceCheckTests.test_fingerprint_drift_is_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C194 | behavior | negative | PASS | `test_u17.EvidenceCheckTests.test_failed_committed_run_and_status_drift_are_rejected` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C195 | structure | positive | PASS | `test_u17.CiTests.test_single_reusable_verification_and_least_privilege_deploy` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C248 | behavior | positive | PASS | `test_u20.CodeTests.test_matching_evidence_and_identical_runs_pass` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C193 | behavior | negative | PASS | `test_u17.EvidenceCheckTests.test_fingerprint_drift_is_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C194 | behavior | negative | PASS | `test_u17.EvidenceCheckTests.test_failed_committed_run_and_status_drift_are_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C195 | structure | positive | PASS | `test_u17.CiTests.test_single_reusable_verification_and_least_privilege_deploy` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C248 | behavior | positive | PASS | `test_u20.CodeTests.test_matching_evidence_and_identical_runs_pass` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R40 — Required check names emitted by gate jobs that depend on the full matrix and report each platform
 
@@ -486,10 +486,10 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C200 | behavior | negative | PASS | `test_u18.CiGateTests.test_gate_fails_on_failure_skip_cancel_or_missing` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C201 | structure | positive | PASS | `test_u18.CiGateTests.test_workflow_emits_required_names_from_the_full_matrix` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C200 | behavior | negative | PASS | `test_u18.CiGateTests.test_gate_fails_on_failure_skip_cancel_or_missing` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C201 | structure | positive | PASS | `test_u18.CiGateTests.test_workflow_emits_required_names_from_the_full_matrix` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C202 | manual | positive | PASS | `MANUAL:ci-required-names` | https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/38183623455 | f15562d1f0cffe63fda01b52c780748e1856f28e |
-| C249 | behavior | positive | PASS | `test_u20.CodeTests.test_gate_passes_when_every_member_succeeded` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C249 | behavior | positive | PASS | `test_u20.CodeTests.test_gate_passes_when_every_member_succeeded` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R41 — Encoding-tolerant CLI tour with identical content in UTF-8 and cp1252
 
@@ -499,8 +499,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C203 | behavior | positive | PASS | `test_u18.TourEncodingTests.test_tour_runs_in_cp1252_and_utf8_in_both_languages` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C250 | behavior | limit | PASS | `test_u20.CodeTests.test_tour_on_an_ascii_stream_replaces_instead_of_raising` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C203 | behavior | positive | PASS | `test_u18.TourEncodingTests.test_tour_runs_in_cp1252_and_utf8_in_both_languages` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C250 | behavior | limit | PASS | `test_u20.CodeTests.test_tour_on_an_ascii_stream_replaces_instead_of_raising` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R42 — Bounded evidence manifest: source and record fingerprints without cycles, case-level drift, no duplicated status data
 
@@ -510,11 +510,11 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C204 | behavior | negative | PASS | `test_u18.ManifestTests.test_source_manifest_covers_roles_and_workflows` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C205 | behavior | negative | PASS | `test_u18.ManifestTests.test_record_changes_are_rejected_and_environment_is_not` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C206 | behavior | negative | PASS | `test_u18.ManifestTests.test_case_drift_with_equal_counts_is_reported` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C207 | behavior | positive | PASS | `test_u18.ManifestTests.test_no_cycle_and_no_fingerprint_copy_in_status` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C251 | behavior | positive | PASS | `test_u20.CodeTests.test_record_fingerprint_ignores_the_run_environment` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C204 | behavior | negative | PASS | `test_u18.ManifestTests.test_source_manifest_covers_roles_and_workflows` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C205 | behavior | negative | PASS | `test_u18.ManifestTests.test_record_changes_are_rejected_and_environment_is_not` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C206 | behavior | negative | PASS | `test_u18.ManifestTests.test_case_drift_with_equal_counts_is_reported` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C207 | behavior | positive | PASS | `test_u18.ManifestTests.test_no_cycle_and_no_fingerprint_copy_in_status` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C251 | behavior | positive | PASS | `test_u20.CodeTests.test_record_fingerprint_ignores_the_run_environment` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R43 — Links pinned to the build revision or a fixed historical commit; live main labeled; README publication warning
 
@@ -524,10 +524,10 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C208 | behavior | positive | PASS | `test_u18.LinkTests.test_build_records_revision_and_pins_and_view_has_no_main_file_links` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C209 | structure | positive | PASS | `test_u18.LinkTests.test_readme_warns_next_to_first_action_while_not_deployed` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C208 | behavior | positive | PASS | `test_u18.LinkTests.test_build_records_revision_and_pins_and_view_has_no_main_file_links` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C209 | structure | positive | PASS | `test_u18.LinkTests.test_readme_warns_next_to_first_action_while_not_deployed` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C214 | manual | positive | PASS | `MANUAL:link-resolution` | reports/U18_BROWSER_CHECK_2026-10-11.md | S01-1.1, revision f15562d, source fingerprint 17c2039d8d0b |
-| C252 | behavior | limit | PASS | `test_u20.CodeTests.test_revision_info_without_git_is_explicit` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C252 | behavior | limit | PASS | `test_u20.CodeTests.test_revision_info_without_git_is_explicit` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R44 — Bilingual footer and notices; current Spanish guide
 
@@ -537,9 +537,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C210 | behavior | positive | PASS | `test_u18.LanguageTests.test_footer_and_notices_have_english_in_source_and_build` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C210 | behavior | positive | PASS | `test_u18.LanguageTests.test_footer_and_notices_have_english_in_source_and_build` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C211 | manual | positive | PASS | `MANUAL:browser-language` | reports/U18_BROWSER_CHECK_2026-10-11.md | S01-1.1, revision f15562d, source fingerprint 17c2039d8d0b |
-| C212 | structure | positive | PASS | `test_u18.LanguageTests.test_spanish_guide_describes_the_current_entry` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C212 | structure | positive | PASS | `test_u18.LanguageTests.test_spanish_guide_describes_the_current_entry` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R45 — Tour close with a worked result that equals the CLI output; installation outside the three minutes
 
@@ -549,7 +549,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C213 | behavior | positive | PASS | `test_u18.TourCloseTests.test_worked_result_equals_cli_output` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C213 | behavior | positive | PASS | `test_u18.TourCloseTests.test_worked_result_equals_cli_output` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C258 | manual | positive | PASS | `MANUAL:browser-tour-result` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
 
 ## R46 — Fingerprint digests checked unconditionally, besides the per-file maps
@@ -560,8 +560,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C215 | behavior | negative | PASS | `test_u19.DigestTests.test_corrupt_invalid_or_missing_digest_is_rejected_with_correct_maps` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C216 | behavior | positive | PASS | `test_u19.DigestTests.test_intact_evidence_passes_and_file_list_accompanies_the_digest_error` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C215 | behavior | negative | PASS | `test_u19.DigestTests.test_corrupt_invalid_or_missing_digest_is_rejected_with_correct_maps` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C216 | behavior | positive | PASS | `test_u19.DigestTests.test_intact_evidence_passes_and_file_list_accompanies_the_digest_error` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R47 — Published route and candidate route told apart, with fetch, checkout and SHA comparison
 
@@ -571,8 +571,8 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C217 | structure | positive | PASS | `test_u19.CandidateRouteTests.test_readme_separates_published_and_candidate_review` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C218 | structure | positive | PASS | `test_u19.CandidateRouteTests.test_index_and_spanish_guide_carry_the_candidate_route` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C217 | structure | positive | PASS | `test_u19.CandidateRouteTests.test_readme_separates_published_and_candidate_review` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C218 | structure | positive | PASS | `test_u19.CandidateRouteTests.test_index_and_spanish_guide_carry_the_candidate_route` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C221 | manual | positive | PASS | `MANUAL:candidate-checkout` | reports/U19_CHECK_2026-10-11.md | S01-1.1, revision e4981e5, source fingerprint 34cf9d0558d5 |
 
 ## R48 — Selected requirement kept in the address and across language changes
@@ -583,7 +583,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C219 | structure | positive | PASS | `test_u19.SelectionTests.test_choosing_a_requirement_updates_the_address` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C219 | structure | positive | PASS | `test_u19.SelectionTests.test_choosing_a_requirement_updates_the_address` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C220 | manual | positive | PASS | `MANUAL:browser-selection` | reports/U19_CHECK_2026-10-11.md | S01-1.1, revision e4981e5, source fingerprint 34cf9d0558d5 |
 
 ## R49 — Separate verification, review, acceptance, integration and deployment records, with states computed against this build
@@ -594,17 +594,17 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C222 | behavior | positive | PASS | `test_u20.RecordTests.test_git_states_on_a_synthetic_repository` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C223 | behavior | negative | PASS | `test_u20.RecordTests.test_status_view_model_states_and_negatives` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C224 | behavior | negative | PASS | `test_u20.RecordTests.test_sdd_check_rejects_bad_or_missing_record_revisions` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C225 | behavior | positive | PASS | `test_u20.RecordTests.test_build_and_server_payload_agree_with_git` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C226 | structure | positive | PASS | `test_u20.RecordTests.test_evidence_markup_has_error_state_and_no_hand_written_states` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C222 | behavior | positive | PASS | `test_u20.RecordTests.test_git_states_on_a_synthetic_repository` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C223 | behavior | negative | PASS | `test_u20.RecordTests.test_status_view_model_states_and_negatives` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C224 | behavior | negative | PASS | `test_u20.RecordTests.test_sdd_check_rejects_bad_or_missing_record_revisions` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C225 | behavior | positive | PASS | `test_u20.RecordTests.test_build_and_server_payload_agree_with_git` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C226 | structure | positive | PASS | `test_u20.RecordTests.test_evidence_markup_has_error_state_and_no_hand_written_states` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C227 | manual | positive | PASS | `MANUAL:published-url` | docs/project-status.json | 166ea91030c5ccff1d4accba34228bf48582c0c4 |
 | C238 | manual | negative | PASS | `MANUAL:browser-evidence-error` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
-| C260 | behavior | negative | PASS | `test_u20.PayloadTests.test_payload_validator_accepts_good_and_rejects_bad_shapes` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C260 | behavior | negative | PASS | `test_u20.PayloadTests.test_payload_validator_accepts_good_and_rejects_bad_shapes` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C261 | manual | negative | PASS | `MANUAL:browser-bad-payload` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
-| C262 | behavior | negative | PASS | `test_u20.RecordTests.test_dirty_build_is_not_the_accepted_content` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C263 | behavior | positive | PASS | `test_u20.RecordTests.test_status_rows_show_the_reason_of_a_false_state` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C262 | behavior | negative | PASS | `test_u20.RecordTests.test_dirty_build_is_not_the_accepted_content` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C263 | behavior | positive | PASS | `test_u20.RecordTests.test_status_rows_show_the_reason_of_a_false_state` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 | C269 | manual | negative | PASS | `MANUAL:browser-invalid-status` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
 
 ## R50 — Touch targets, compact first screen, keyboard, reflow, reduced motion, state preservation and bilingual form errors
@@ -619,7 +619,7 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 | C229 | manual | positive | PASS | `MANUAL:browser-keyboard` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
 | C230 | manual | positive | PASS | `MANUAL:browser-state` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
 | C231 | manual | positive | PASS | `MANUAL:browser-form-language` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
-| C232 | structure | positive | PASS | `test_u20.InterfaceTests.test_validation_and_mcp_notices_are_bilingual` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C232 | structure | positive | PASS | `test_u20.InterfaceTests.test_validation_and_mcp_notices_are_bilingual` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R51 — Semantic requirement matrix with positives, negatives, code and evidence; structural cases marked; offline fail-closed demonstration
 
@@ -629,12 +629,12 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C233 | behavior | positive | PASS | `test_u20.MatrixTests.test_matrix_passes_on_the_records` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C234 | behavior | negative | PASS | `test_u20.MatrixTests.test_matrix_rejects_gaps` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C235 | behavior | negative | PASS | `test_u20.MatrixTests.test_injected_defect_fails_closed` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C264 | behavior | negative | PASS | `test_u20.MatrixTests.test_matrix_rejects_missing_or_malformed_code` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C265 | behavior | negative | PASS | `test_u20.MatrixTests.test_matrix_floors_block_downgrades_without_an_override` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C266 | behavior | positive | PASS | `test_u20.MatrixTests.test_classification_respects_the_floors` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C233 | behavior | positive | PASS | `test_u20.MatrixTests.test_matrix_passes_on_the_records` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C234 | behavior | negative | PASS | `test_u20.MatrixTests.test_matrix_rejects_gaps` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C235 | behavior | negative | PASS | `test_u20.MatrixTests.test_injected_defect_fails_closed` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C264 | behavior | negative | PASS | `test_u20.MatrixTests.test_matrix_rejects_missing_or_malformed_code` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C265 | behavior | negative | PASS | `test_u20.MatrixTests.test_matrix_floors_block_downgrades_without_an_override` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C266 | behavior | positive | PASS | `test_u20.MatrixTests.test_classification_respects_the_floors` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R52 — Documentation true on main and on a branch, troubleshooting, honest scope line, visitor script
 
@@ -644,9 +644,9 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 
 | Case | Kind | Polarity | Status | Test | Evidence | Version |
 |---|---|---|---|---|---|---|
-| C237 | structure | positive | PASS | `test_u20.DocsTests.test_routes_stay_true_on_main_and_branch` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C241 | structure | positive | PASS | `test_u20.DocsTests.test_scope_line_is_not_stale` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
-| C268 | structure | positive | PASS | `test_u20.DocsTests.test_console_note_and_restore_procedure_are_precise` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C237 | structure | positive | PASS | `test_u20.DocsTests.test_routes_stay_true_on_main_and_branch` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C241 | structure | positive | PASS | `test_u20.DocsTests.test_scope_line_is_not_stale` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C268 | structure | positive | PASS | `test_u20.DocsTests.test_console_note_and_restore_procedure_are_precise` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
 
 ## R53 — Measured payload and layout shift; clean-clone reproduction
 
@@ -658,7 +658,89 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 |---|---|---|---|---|---|---|
 | C239 | manual | positive | PASS | `MANUAL:performance` | reports/U20_CHECK_2026-10-12.md | S01-1.1, U20 candidate, source fingerprint 747dbd22acd3 |
 | C240 | manual | positive | PASS | `MANUAL:clean-clone` | reports/U20_CHECK_2026-10-12.md | 68684b611363e831bfae554c00e10415cbc6e460 |
-| C267 | behavior | limit | PASS | `test_u20.CodeTests.test_subprocess_helper_is_encoding_safe` | evidence/latest.json | source:747dbd22acd312c34770ae4a27fff4a30ed5c06c009bc58347e4f01c6c56f053 |
+| C267 | behavior | limit | PASS | `test_u20.CodeTests.test_subprocess_helper_is_encoding_safe` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+
+## R54 — Shared sensitive-pattern definition, publication guard over staged blobs and artifacts, no credentials in responses, logs, storage or exports, session data discarded
+
+- Source U21 · CU22 · verification: **code**
+- Observable behavior: Named credential formats, private files, links and artifacts are rejected by one shared detector; responses, logs, storage and exports never carry a credential; sessions discard keys
+- Code: `src/lab/sensitive.py::def find_secrets`, `scripts/publication_check.py::def check`, `src/lab/server.py::INTERNAL_ERROR`, `src/lab/cloud.py::def disconnect`
+
+| Case | Kind | Polarity | Status | Test | Evidence | Version |
+|---|---|---|---|---|---|---|
+| C270 | behavior | negative | PASS | `test_u21.SecretTests.test_named_credential_formats_are_detected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C271 | behavior | positive | PASS | `test_u21.SecretTests.test_sanitized_text_and_tree_pass` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C272 | behavior | negative | PASS | `test_u21.SecretTests.test_private_files_links_and_artifacts_are_flagged` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C273 | behavior | negative | PASS | `test_u21.SecretTests.test_hook_blocks_provider_keys_then_accepts` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C274 | behavior | negative | PASS | `test_u21.SecretTests.test_agent_inputs_outputs_and_definitions_reject_credentials` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C275 | behavior | negative | PASS | `test_u21.SecretTests.test_errors_and_logs_never_carry_credentials` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C276 | structure | positive | PASS | `test_u21.SecretTests.test_interface_never_stores_keys_and_renders_text_only` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C277 | behavior | negative | PASS | `test_u21.SecretTests.test_disconnect_and_expiry_discard_key_and_history` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C278 | manual | negative | PASS | `MANUAL:browser-secrets` | reports/U21_SECURITY_2026-10-12.md | candidate on branch claude/laughing-rubin-6e32ve-sec, U21, base 86051b5 (revision inside the report) |
+| C279 | structure | positive | PASS | `test_u21.DocsTests.test_data_inventory_covers_each_store` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+
+## R55 — Read timeout, concurrency cap, fixed error codes, remote response limits, endpoint matrix, CSP in the public build
+
+- Source U21 · CU22 · verification: **code**
+- Observable behavior: The local server bounds read time and concurrency, refuses malformed requests and remote responses with fixed codes and keeps serving; the public build carries the CSP meta
+- Code: `src/lab/server.py::SERVER_BUSY`, `src/lab/server.py::REQUEST_TIMEOUT`, `src/lab/cloud.py::API_RESPONSE_TOO_LARGE`, `scripts/build_pages.py::Content-Security-Policy`
+
+| Case | Kind | Polarity | Status | Test | Evidence | Version |
+|---|---|---|---|---|---|---|
+| C280 | behavior | positive | PASS | `test_u21.HttpTests.test_limits_positive_and_recovery` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C281 | behavior | negative | PASS | `test_u21.HttpTests.test_incomplete_or_slow_body_times_out_and_server_recovers` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C282 | behavior | negative | PASS | `test_u21.HttpTests.test_malformed_requests_are_rejected_with_fixed_codes` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C283 | behavior | negative | PASS | `test_u21.HttpTests.test_origin_host_and_session_states` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C284 | behavior | negative | PASS | `test_u21.HttpTests.test_concurrency_cap_rejects_then_recovers` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C285 | behavior | limit | PASS | `test_u21.HttpTests.test_quotas_and_capacity` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C286 | behavior | negative | PASS | `test_u21.HttpTests.test_remote_responses_malformed_or_giant_are_rejected` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C287 | structure | positive | PASS | `test_u21.DocsTests.test_endpoint_matrix_matches_server_routes` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C288 | behavior | positive | PASS | `test_u21.HttpTests.test_headers_local_and_public_build` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C289 | manual | negative | PASS | `MANUAL:browser-csp` | reports/U21_SECURITY_2026-10-12.md | candidate on branch claude/laughing-rubin-6e32ve-sec, U21, base 86051b5 (revision inside the report) |
+
+## R56 — Actions pinned by commit SHA, stdlib-only inventory, static rules, security gate in verify and CI, declared analysis coverage
+
+- Source U21 · CU22 · verification: **code**
+- Observable behavior: Floating action tags, third-party imports, package manifests, dangerous constructs and foreign hosts fail the security check; evidence without the check is rejected
+- Code: `scripts/security_check.py::def check`, `scripts/check_evidence.py::security_check`, `scripts/verify.py::security_check`, `.github/workflows/verify.yml::security_check.py`
+
+| Case | Kind | Polarity | Status | Test | Evidence | Version |
+|---|---|---|---|---|---|---|
+| C290 | behavior | positive | PASS | `test_u21.SupplyChainTests.test_actions_pinned_and_documented` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C291 | behavior | negative | PASS | `test_u21.SupplyChainTests.test_security_check_rejects_weakened_workflows` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C292 | behavior | negative | PASS | `test_u21.SupplyChainTests.test_static_rules_reject_dangerous_constructs` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C293 | behavior | positive | PASS | `test_u21.SupplyChainTests.test_runtime_inventory_is_stdlib_only_and_documented` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C294 | behavior | negative | PASS | `test_u21.SupplyChainTests.test_inventory_rejects_third_party_dependency` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C295 | behavior | negative | PASS | `test_u21.SupplyChainTests.test_security_gate_fails_closed` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C296 | structure | positive | PASS | `test_u21.DocsTests.test_analysis_coverage_is_declared` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C297 | manual | positive | PASS | `MANUAL:ruff-local` | reports/U21_SECURITY_2026-10-12.md | candidate on branch claude/laughing-rubin-6e32ve-sec, U21, base 86051b5 (revision inside the report) |
+
+## R57 — Threat model, control catalog with states, untrusted content cannot widen tools or destinations, consent and budgets
+
+- Source U21 · CU22 · verification: **code**
+- Observable behavior: Injected instructions in model, MCP or operator content leave hosts, tools, hooks and destinations unchanged; the control catalog states follow the records
+- Code: `specs/001-support-demo/security-controls.json`, `scripts/security_catalog.py::def states`, `src/lab/agents.py::def validate_output`, `src/lab/context7.py::TOOLS`
+
+| Case | Kind | Polarity | Status | Test | Evidence | Version |
+|---|---|---|---|---|---|---|
+| C298 | document | positive | PASS | `test_u21.CatalogTests.test_control_catalog_is_consistent_with_records` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C299 | behavior | positive | PASS | `test_u21.DocsTests.test_threat_model_lists_boundaries_and_catalog_states` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C300 | behavior | negative | PASS | `test_u21.CatalogTests.test_untrusted_content_cannot_widen_tools_destinations_or_permissions` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C301 | behavior | positive | PASS | `test_u21.CatalogTests.test_consent_minimization_and_budgets` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+
+## R58 — Runbook, synthetic drill, pending owner evidence, clean artifacts, sandboxed validation
+
+- Source U21 · CU22 · verification: **code**
+- Observable behavior: The drill's technical steps are rejected by the guards; artifacts carry no sensitive data; the runbook and the sandbox procedure exist
+- Code: `docs/security-runbook.md`, `scripts/sandbox/run_isolated.sh`, `scripts/publication_check.py::def inspect`
+
+| Case | Kind | Polarity | Status | Test | Evidence | Version |
+|---|---|---|---|---|---|---|
+| C302 | structure | positive | PASS | `test_u21.DocsTests.test_runbook_has_required_sections_and_no_invented_contact` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C303 | behavior | negative | PASS | `test_u21.CatalogTests.test_synthetic_incident_drill` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C304 | manual | positive | NO_PROBADO | `MANUAL:owner-settings-evidence` | — | candidate on branch claude/laughing-rubin-6e32ve-sec, U21, base 86051b5 (revision inside the report) |
+| C305 | behavior | positive | PASS | `test_u21.SecretTests.test_artifacts_carry_no_sensitive_data` | evidence/latest.json | source:62f5206793a0c0cb9d315ab9e1bd10748c3a2da2b3605a67a071fc6a0c9f18a8 |
+| C306 | manual | positive | PASS | `MANUAL:sandbox-run` | reports/U21_SECURITY_2026-10-12.md | candidate on branch claude/laughing-rubin-6e32ve-sec, U21, base 86051b5 (revision inside the report) |
 
 ## Open items · Pendientes
 
@@ -670,3 +752,4 @@ Kinds: behavior = executes code and checks results; structure = inspects markup,
 - C170 (R34, manual): NO_PROBADO — MANUAL:first-minute-person
 - C176 (R39, manual): NO_PROBADO — MANUAL:ci-injected-defect
 - C177 (R37, manual): NO_PROBADO — MANUAL:docs-routes
+- C304 (R58, manual): NO_PROBADO — MANUAL:owner-settings-evidence

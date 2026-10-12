@@ -12,7 +12,8 @@ Current implementation: the S01 version in [project-status.json](project-status.
 | Agents | Drafts kept in the tab | Definitions kept in the ignored `.local` folder | — | No shell, file or deployment access |
 | MCP | Configuration export only | Context7 read-only connection | Live assistant-client interoperability | Exported configuration is not a connection |
 | Evidence | Committed run, cases and project records | Same, plus `python scripts/verify.py` | Owner acceptance; integration of PRs #4–#6 | Automated checks are not owner acceptance |
-| Verification | — | Local run | CI result on the candidate revision | Limited publication guard patterns |
+| Verification | — | Local run | CI result on the candidate revision | Named publication guard patterns |
+| Security | CSP meta element in the public build; no server, keys or visitor data | Read timeout, concurrency cap, fixed error codes, shared credential detector, pinned actions, security gate in verify and CI, threat model and control catalog with derived states ([threat-model.md](threat-model.md)) | Owner evidence for MFA, branch protection and private vulnerability reporting (C304); ruff in CI needs a dependency decision | Named rules, not an external audit or certification; loopback server without authentication; FUTURO controls never count as passed |
 
 The rows below are the earlier ledger by increment; they keep their own scope.
 
