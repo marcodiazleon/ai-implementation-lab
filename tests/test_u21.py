@@ -904,6 +904,73 @@ class PromoteTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256((dest / n).read_bytes()).hexdigest(), hashlib.sha256(b).hexdigest(), n)
 
 
+BOOK = ROOT / "docs/book"
+BOOK_SHA = "a16a4e67b4257c2cb13054efd3ffa20acc2dd3be"
+
+
+def slug(text):
+    return re.sub(r"[^\w\- ]", "", text.lower().replace("·", "")).strip().replace(" ", "-")
+
+
+class BookTests(unittest.TestCase):
+    """U22, R59: the engineering book is navigable, accessible and names the code it describes."""
+
+    def chapters(self):
+        return sorted(BOOK.glob("*.md"))
+
+    def test_book_links_and_entry_points_resolve(self):
+        """C322 (R59a): every relative link and anchor of the book resolves; the three entry documents link the book."""
+        self.assertGreaterEqual(len(self.chapters()), 8)
+        for path in self.chapters():
+            text = path.read_text(encoding="utf-8")
+            for target in re.findall(r"\]\(([^)\s]+)\)", text):
+                if target.startswith(("http://", "https://", "mailto:")):
+                    continue
+                file_part, _, anchor = target.partition("#")
+                resolved = (path.parent / file_part).resolve() if file_part else path
+                self.assertTrue(resolved.exists(), f"{path.name}: {target}")
+                if anchor and resolved.suffix == ".md":
+                    headings = {slug(h) for h in re.findall(r"^#+ (.+)$", resolved.read_text(encoding="utf-8"), flags=re.M)}
+                    self.assertIn(anchor, headings, f"{path.name}: {target}")
+        for entry, link in (("README.md", "docs/book/README.md"), ("docs/INDEX.md", "book/README.md"), ("docs/START_HERE_ES.md", "book/README.md")):
+            self.assertIn("](" + link + ")", (ROOT / entry).read_text(encoding="utf-8"), entry)
+
+    def test_book_diagrams_have_textual_equivalents(self):
+        """C323 (R59b): each Mermaid diagram is followed by its textual equivalent; no arrow makes Pages run Python or a model."""
+        diagrams = 0
+        for path in self.chapters():
+            text = path.read_text(encoding="utf-8")
+            blocks = re.findall(r"```mermaid\n(.*?)```(.*?)(?=\n#{1,3} |\Z)", text, flags=re.S)
+            for source, after in blocks:
+                diagrams += 1
+                self.assertIn("Equivalente en texto", after, f"{path.name}: a diagram without its textual equivalent")
+                self.assertNotRegex(source, r"P\s*-+>.*(Python|inferencia|modelo)", f"{path.name}: Pages must not execute Python or inference")
+            if "flowchart TB" in text and path.name == "02-arquitectura.md":
+                for marker in ("(opcional)", "simulado", "NO ejecuta Python ni inferencia"):
+                    self.assertIn(marker, text, marker)                      # legend carried in the node text, not only in color
+        self.assertGreaterEqual(diagrams, 6)
+
+    def test_book_names_sha_version_and_reuses_decision_ids(self):
+        """C324 (R59c, R59d): every chapter names the described SHA; the index names the version and the published record;
+        the decision chapter carries every D-ID of docs/decisions.md and no reserved ID, with the honesty markers."""
+        for path in self.chapters():
+            self.assertIn(BOOK_SHA, path.read_text(encoding="utf-8"), path.name)
+        index = (BOOK / "README.md").read_text(encoding="utf-8")
+        self.assertIn("Versión del libro:", index); self.assertIn("deployment", index); self.assertIn("project-status.json", index)
+        decisions = (ROOT / "docs/decisions.md").read_text(encoding="utf-8")
+        chapter = (BOOK / "05-decisiones.md").read_text(encoding="utf-8")
+        defined = set(re.findall(r"^## (D\d{2}) ", decisions, flags=re.M)) | set(re.findall(r"^\| (D\d{2}) \|", decisions, flags=re.M))
+        for ident in sorted(defined):                                        # every decision defined there, not every mention
+            self.assertIn(ident, chapter, ident)
+        registry = json.loads((ROOT / "docs/id-registry.json").read_text(encoding="utf-8"))
+        reserved = {i for block in registry["reserved"] for i in block["ids"] if i.startswith("D")}
+        table_ids = set(re.findall(r"^\| (D\d{2})", chapter, flags=re.M))
+        self.assertFalse(reserved & table_ids, reserved & table_ids)
+        self.assertIn("no registrado", chapter); self.assertIn("Inferido (no registrado)", chapter)
+        for marker in ("implementado", "opcional", "simulado", "futuro"):
+            self.assertIn(marker, (BOOK / "01-proposito-y-alcance.md").read_text(encoding="utf-8").lower(), marker)
+
+
 class DocsTests(unittest.TestCase):
     def test_data_inventory_covers_each_store(self):
         threat = DOC("threat-model.md")

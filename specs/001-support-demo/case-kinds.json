@@ -440,6 +440,16 @@
     "scripts/sandbox/run_isolated.sh::pivot_root",
     "scripts/sandbox/run_isolated.sh::synthetic /etc"
    ]
+  },
+  "R59": {
+   "verification": "document",
+   "behavior": "The engineering book exists with its index, diagrams followed by textual equivalents, the described SHA and the reused decision IDs; the three entry documents link it",
+   "code": [
+    "docs/book/README.md",
+    "docs/book/02-arquitectura.md",
+    "docs/book/05-decisiones.md",
+    "tests/test_u21.py::class BookTests"
+   ]
   }
  },
  "cases": {
@@ -1546,6 +1556,18 @@
   "C321": {
    "kind": "manual",
    "polarity": "negative"
+  },
+  "C322": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C323": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C324": {
+   "kind": "structure",
+   "polarity": "positive"
   }
  },
  "overrides": {}
