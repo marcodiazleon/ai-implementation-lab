@@ -346,48 +346,48 @@ class HttpTests(unittest.TestCase):
         self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
         self.assertLessEqual(threading.active_count() - before, 1)
 
+    def trickle(self, server, head, chunk, gap=0.5, rounds=10):
+        """Send head, then chunk every gap seconds, reading whatever the server answers between sends.
+
+        The answer is read as soon as it arrives: on Windows a write after the server closed resets the connection
+        and discards unread data, so the response must be collected before the next send."""
+        sock = socket.create_connection(("127.0.0.1", server.server_port), timeout=10)
+        started = time.monotonic(); data = b""
+        sock.sendall(head)
+        for _ in range(rounds):
+            time.sleep(gap)
+            sock.settimeout(0.05)
+            try:
+                piece = sock.recv(4096)
+                data += piece
+                if not piece or data:
+                    break
+            except TimeoutError:
+                pass
+            except ConnectionError:
+                break
+            try:
+                sock.sendall(chunk)
+            except OSError:
+                break
+        sock.settimeout(5)
+        try:
+            while True:
+                piece = sock.recv(4096)
+                if not piece:
+                    break
+                data += piece
+        except (ConnectionError, TimeoutError):
+            pass
+        sock.close()
+        return data, time.monotonic() - started
+
     def test_trickle_and_partial_headers_hit_the_deadline(self):
         """C309 (R55a, D51): bytes faster than the inactivity timeout but slower than the deadline end in 408."""
         server = serve(self, read_timeout=1, deadline=2)
-        sock = socket.create_connection(("127.0.0.1", server.server_port), timeout=10)
-        started = time.monotonic()
-        sock.sendall(f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\n".encode())
-        data = b""
-        try:
-            for _ in range(10):                                   # partial headers, then a trickle of header bytes
-                time.sleep(0.5); sock.sendall(b"X-Trickle: a\r\n")
-        except OSError:
-            pass
-        sock.settimeout(5)
-        try:
-            while True:
-                piece = sock.recv(4096)
-                if not piece:
-                    break
-                data += piece
-        except (ConnectionError, TimeoutError):
-            pass
-        sock.close()
-        elapsed = time.monotonic() - started
+        data, elapsed = self.trickle(server, f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\n".encode(), b"X-Trickle: a\r\n")
         self.assertIn(b"REQUEST_TIMEOUT", data); self.assertLess(elapsed, 8)
-        sock = socket.create_connection(("127.0.0.1", server.server_port), timeout=10)
-        sock.sendall(f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\nContent-Type: application/json\r\nContent-Length: 400\r\n\r\n".encode())
-        data = b""
-        try:
-            for _ in range(10):                                   # body trickle below the inactivity timeout
-                time.sleep(0.5); sock.sendall(b'{"a": "b",')
-        except OSError:
-            pass
-        sock.settimeout(5)
-        try:
-            while True:
-                piece = sock.recv(4096)
-                if not piece:
-                    break
-                data += piece
-        except (ConnectionError, TimeoutError):
-            pass
-        sock.close()
+        data, _ = self.trickle(server, f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\nContent-Type: application/json\r\nContent-Length: 400\r\n\r\n".encode(), b'{"a": "b",')
         self.assertIn(b"REQUEST_TIMEOUT", data)
         status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
         self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
