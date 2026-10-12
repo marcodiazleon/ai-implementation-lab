@@ -382,6 +382,55 @@
     "scripts/browser/audit.js",
     "tests/test_u20.py::def run_text"
    ]
+  },
+  "R54": {
+   "verification": "code",
+   "behavior": "Named credential formats, private files, links and artifacts are rejected by one shared detector; responses, logs, storage and exports never carry a credential; sessions discard keys",
+   "code": [
+    "src/lab/sensitive.py::def find_secrets",
+    "scripts/publication_check.py::def check",
+    "src/lab/server.py::INTERNAL_ERROR",
+    "src/lab/cloud.py::def disconnect"
+   ]
+  },
+  "R55": {
+   "verification": "code",
+   "behavior": "The local server bounds read time and concurrency, refuses malformed requests and remote responses with fixed codes and keeps serving; the public build carries the CSP meta",
+   "code": [
+    "src/lab/server.py::SERVER_BUSY",
+    "src/lab/server.py::REQUEST_TIMEOUT",
+    "src/lab/cloud.py::API_RESPONSE_TOO_LARGE",
+    "scripts/build_pages.py::Content-Security-Policy"
+   ]
+  },
+  "R56": {
+   "verification": "code",
+   "behavior": "Floating action tags, third-party imports, package manifests, dangerous constructs and foreign hosts fail the security check; evidence without the check is rejected",
+   "code": [
+    "scripts/security_check.py::def check",
+    "scripts/check_evidence.py::security_check",
+    "scripts/verify.py::security_check",
+    ".github/workflows/verify.yml::security_check.py"
+   ]
+  },
+  "R57": {
+   "verification": "code",
+   "behavior": "Injected instructions in model, MCP or operator content leave hosts, tools, hooks and destinations unchanged; the control catalog states follow the records",
+   "code": [
+    "specs/001-support-demo/security-controls.json",
+    "scripts/security_catalog.py::def states",
+    "src/lab/agents.py::def validate_output",
+    "src/lab/context7.py::TOOLS"
+   ]
+  },
+  "R58": {
+   "verification": "code",
+   "behavior": "The drill's technical steps are rejected by the guards; artifacts carry no sensitive data; the runbook and the sandbox procedure exist",
+   "code": [
+    "docs/security-runbook.md",
+    "scripts/sandbox/run_isolated.sh",
+    "scripts/publication_check.py::def inspect"
+   ]
   }
  },
  "cases": {
@@ -1280,6 +1329,154 @@
   "C269": {
    "kind": "manual",
    "polarity": "negative"
+  },
+  "C270": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C271": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C272": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C273": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C274": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C275": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C276": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C277": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C278": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C279": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C280": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C281": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C282": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C283": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C284": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C285": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C286": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C287": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C288": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C289": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C290": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C291": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C292": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C293": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C294": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C295": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C296": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C297": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C298": {
+   "kind": "document",
+   "polarity": "positive"
+  },
+  "C299": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C300": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C301": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C302": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C303": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C304": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C305": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C306": {
+   "kind": "manual",
+   "polarity": "positive"
   }
  },
  "overrides": {}

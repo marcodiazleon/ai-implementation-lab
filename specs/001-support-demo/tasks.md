@@ -93,3 +93,14 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T78 | R53 | Payload and layout-shift measurement; clean-clone reproduction | T75 | Implementing assistant | Measurements recorded for the pushed revision | IMPLEMENTED; C239–C240 |
 | T79 | R49,R51,R53 | Findings of the independent review of 3f2c7ea: payload validation, dirty-build policy, classification floors and overrides, subprocess encoding, documentation precision | T74–T78 | Implementing assistant | Node, Python and browser negatives pass; suite identical under the three console configurations | IMPLEMENTED; C260–C268 |
 
+## U21 delivery
+
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T80 | R54–R58 | U21 source, CU22, R54–R58, D45–D49 and cases C270–C306 before implementation | U21,T79 | Implementing assistant | sdd_check passes | IMPLEMENTED |
+| T81 | R54 | Shared sensitive patterns, publication guard over staged blobs, private files and artifacts, fixed error envelope, interface guards, data inventory | T80 | Implementing assistant | Dummy fixtures rejected, sanitized tree passes, no credential in responses, stderr or exports | IMPLEMENTED; C270–C279 |
+| T82 | R55 | Read timeout, concurrency cap, nested-JSON guard, remote response negatives, endpoint matrix, CSP in the public build | T80 | Implementing assistant | Isolated server refuses and recovers; matrix covers every route | IMPLEMENTED; C280–C289 |
+| T83 | R56 | Actions pinned by SHA, security check (static rules, inventory, pins, secrets) in verify and CI, fail-closed gate, declared coverage | T80 | Implementing assistant | Negatives fail the check; evidence without the check is rejected; CI green on the final revision | IMPLEMENTED; C290–C297 |
+| T84 | R57 | Threat model, control catalog with states, untrusted-content and consent demonstrations | T81–T83 | Implementing assistant | Catalog consistent with the records; fake-transport negatives pass | IMPLEMENTED; C298–C301 |
+| T85 | R58 | Runbook, synthetic drill, pending owner evidence, artifact scan, sandbox script and report | T84 | Implementing assistant | Drill steps pass against fakes; sandbox controls demonstrated in the report | IMPLEMENTED; C302–C306 |
+
