@@ -247,7 +247,10 @@ class HttpTests(unittest.TestCase):
             sock.sendall(chunk); time.sleep(gap)
         started = time.monotonic(); data = b""
         while b"\r\n\r\n" not in data or len(data.split(b"\r\n\r\n", 1)[1]) < int(re.search(rb"Content-Length: (\d+)", data).group(1)):
-            piece = sock.recv(4096)
+            try:
+                piece = sock.recv(4096)
+            except ConnectionError:  # Windows reports the server's close as a reset once the client kept writing
+                break
             if not piece:
                 break
             data += piece
@@ -258,7 +261,9 @@ class HttpTests(unittest.TestCase):
         server = serve(self, read_timeout=1)
         data, elapsed = self.partial(server, b'{"order_id"', 60)
         self.assertIn(b"408", data.split(b"\r\n")[0]); self.assertIn(b"REQUEST_TIMEOUT", data); self.assertLess(elapsed, 5)
-        data, _ = self.partial(server, None, 40, chunks=[b'{"order_', b'id": "DEMO-101"'], gap=1.5)
+        # Slow body: the first bytes arrive, then nothing for longer than the timeout; the client reads only afterwards
+        # (a second write after the server closed would be reset on Windows before the response is read).
+        data, _ = self.partial(server, None, 40, chunks=[b'{"order_'], gap=1.5)
         self.assertIn(b"REQUEST_TIMEOUT", data)
         status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
         self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
