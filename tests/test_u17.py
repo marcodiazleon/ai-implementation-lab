@@ -53,9 +53,18 @@ class Leaves(HTMLParser):
 
 
 class PresentationTests(unittest.TestCase):
+    def test_visible_name_uses_the_published_form(self):
+        """C330 (R34, U23): the title, sidebar, h1 and footer carry the published form of the name and the old form is gone."""
+        self.assertIn("<title>AI Implementation Lab · Marco A Díaz de León</title>", HTML)
+        self.assertIn('<span class="brand-text">MARCO A DÍAZ DE LEÓN<small>', HTML)
+        self.assertIn('<h1 id="introName" tabindex="-1">Marco A Díaz de León</h1>', HTML)
+        self.assertIn("<footer><span>MARCO A DÍAZ DE LEÓN <span", HTML)
+        self.assertEqual(HTML.count("Marco A Díaz de León"), 2); self.assertEqual(HTML.count("MARCO A DÍAZ DE LEÓN"), 2)
+        self.assertNotIn("Marco Díaz de León", HTML); self.assertNotIn("MARCO DÍAZ DE LEÓN", HTML)
+
     def test_session_first_screen_presents_marco_before_the_composer(self):
         session = HTML[HTML.index('id="view-chat"'):HTML.index('id="chatForm"')]
-        self.assertIn('<h1 id="introName" tabindex="-1">Marco Díaz de León</h1>', session)
+        self.assertIn('<h1 id="introName" tabindex="-1">Marco A Díaz de León</h1>', session)
         for text in ("ESTRATEGIA E IMPLEMENTACIÓN DE IA", "defino el problema y el alcance, fijo los criterios de aceptación",
                      "El código de este laboratorio se escribió con asistencia de IA.",
                      'href="#method" data-en="Start the three-minute tour"',
@@ -265,7 +274,7 @@ class CiTests(unittest.TestCase):
 class LanguageAndDocsTests(unittest.TestCase):
     def test_new_copy_has_english_text(self):
         parser = Leaves(); parser.feed(HTML)
-        technical = re.compile(r"^(R\d+|PASS|PARCIAL|PENDIENTE|BLOQUEADO|FAIL|NO_APLICA|python run\.py tour|Marco Díaz de León|\d+"
+        technical = re.compile(r"^(R\d+|PASS|PARCIAL|PENDIENTE|BLOQUEADO|FAIL|NO_APLICA|python run\.py tour|Marco A Díaz de León|\d+"
                                r"|(PENDING_APPROVAL|APPROVAL_REQUIRED|APPROVED|SIMULATED_CONNECTOR_FAILURE|SIMULATED)( · SIM-[0-9a-f]+)?)$")
         missing = [n["text"].strip() for n in parser.leaves if "data-en" not in n["attrs"] and not technical.match(n["text"].strip())]
         self.assertEqual(missing, [])
