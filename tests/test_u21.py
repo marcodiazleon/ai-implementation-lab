@@ -971,6 +971,37 @@ class BookTests(unittest.TestCase):
             self.assertIn(marker, (BOOK / "01-proposito-y-alcance.md").read_text(encoding="utf-8").lower(), marker)
 
 
+    def test_discrepancies_are_classified_and_current_guides_corrected(self):
+        """C325 (R59e): every discrepancy row carries a class; the current guides corrected carry dated amendments."""
+        chapter = (BOOK / "07-operacion-y-limites.md").read_text(encoding="utf-8")
+        table = chapter[chapter.index("| # | Clase |"):chapter.index("Las filas PENDIENTE TÉCNICO")]
+        rows = [line for line in table.splitlines() if re.match(r"^\| \d+ \|", line)]
+        self.assertGreaterEqual(len(rows), 24)
+        for row in rows:
+            self.assertRegex(row, r"^\| \d+ \| (HISTÓRICA|CORREGIDA|DECISIÓN|PENDIENTE TÉCNICO) \|", row[:40])
+        for path, text in (("docs/START_HERE_ES.md", "conexión de solo lectura a Context7"), ("docs/engineering-guide.md", "optional conversation with OpenAI or Anthropic"),
+                           ("docs/architecture.md", "Scope note 2026-10-12"), ("docs/architecture.md", "[engineering book](book/README.md)"),
+                           ("docs/decisions.md", "Amended 2026-10-12: Marco, via Codex, authorized the assistant to open draft pull requests"),
+                           ("SECURITY.md", "fake-transport demonstrations"), ("docs/roadmap.md", "Scope note 2026-10-12"), ("docs/sdd-adoption.md", "scope note 2026-10-12")):
+            self.assertIn(text, (ROOT / path).read_text(encoding="utf-8"), path)
+        decisions = (ROOT / "docs/decisions.md").read_text(encoding="utf-8")
+        self.assertIn("the owner opens pull requests manually; the assistant only pushes branches", decisions)   # history kept
+        self.assertIn("Model integration is deferred", (ROOT / "docs/engineering-guide.md").read_text(encoding="utf-8"))  # earlier wording cited
+
+    def test_pages_guard_gap_is_recorded_and_context7_copy_is_true(self):
+        """C326 (R59e): the Pages save guard gap is recorded as pending, not patched; the Context7 copy describes manual reading."""
+        controls = json.loads((ROOT / "specs/001-support-demo/security-controls.json").read_text(encoding="utf-8"))
+        limit = next(c for c in controls["controls"] if c["id"] == "SC-02")["limit"]
+        self.assertIn("public-demo.js saveAgent", limit); self.assertIn("pending a code decision", limit)
+        self.assertIn("Code decision on the Pages save guard (C326", DOC("capabilities.md"))
+        public = (ROOT / "web/public-demo.js").read_text(encoding="utf-8")
+        self.assertNotIn("LabSensitive", public)                       # no silent patch in a documentation change
+        self.assertIn("PRIVATE KEY", public)
+        html = (ROOT / "web/index.html").read_text(encoding="utf-8")
+        self.assertNotIn("El Investigador podrá usar el resultado", html); self.assertNotIn("The researcher can use the result", html)
+        self.assertIn("no se reenvía a ningún agente ni a la conversación", html); self.assertIn("it is not forwarded to any agent or to the conversation", html)
+
+
 class DocsTests(unittest.TestCase):
     def test_data_inventory_covers_each_store(self):
         threat = DOC("threat-model.md")

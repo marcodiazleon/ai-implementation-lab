@@ -16,7 +16,7 @@ python run.py mcp                     # servidor MCP por stdio, dos herramientas
 - Parar el servidor (Ctrl+C) borra las referencias en memoria a claves e historiales; "un borrado absoluto de la memoria del proceso y la protección frente a otros procesos locales no se proporcionan" (R54e).
 - Estado durable local: solo `.local/agents.json`. Reiniciar el servidor vacía propuestas, recibos, auditoría y sesiones.
 - Revisar un candidato no publicado: traer la rama, `git checkout --detach FETCH_HEAD`, comparar `git rev-parse HEAD` con el SHA informado en su PR, `python scripts/check_evidence.py`, `python run.py serve` (README, *Published or candidate*).
-- Publicación: solo Marco, con un push a `main` que `pages.yml` verifica y despliega; el asistente no abre PR (D20) ni fusiona.
+- Publicación: solo Marco, con un push a `main` que `pages.yml` verifica y despliega. El asistente puede abrir PR en borrador para revisión (D20 enmendado el 2026-10-12) y nunca fusiona ni publica.
 
 ## 7.2 Límites que permanecen (por frontera)
 
@@ -34,37 +34,43 @@ python run.py mcp                     # servidor MCP por stdio, dos herramientas
 | Corredor aislado | Linux con cgroups y user namespaces; el payload es root de su namespace anidado; el kernel es el del host | D57, [informe U21](../../reports/U21_SECURITY_2026-10-12.md) |
 | Futuro (SC-17) | Autenticación real, aislamiento de usuarios, cifrado en reposo, auditoría durable, firma | security-controls.json |
 
-## 7.3 Contradicciones encontradas entre documentos y código
+## 7.3 Discrepancias encontradas entre documentos y código, clasificadas
 
-Al escribir este libro se contrastaron los documentos con el código de `a16a4e6`. Lo que sigue **se señala y no se corrige**: modificar los registros es decisión de Marco, y el histórico no se reescribe (constitución, regla 9). Cada fila dice dónde está la discrepancia y qué dice el código hoy.
+Al escribir este libro se contrastaron los documentos con el código de `a16a4e6`. La primera versión del libro se limitó a listarlas; la revisión de Codex de `afd6e04` pidió, con razón, que una guía vigente no quede describiendo el código de forma falsa. Cada fila lleva ahora una clase (R59e):
 
-| # | Documentos | Qué dice el código o el registro más reciente |
-|---|---|---|
-| 1 | `decisions.md` D19 sigue en "RESOLVED" con "chat, API-key and MCP views hidden in public"; D29 dice que sustituye "D19's public refund presentation" sin decir qué pasa con el resto; la bitácora U12 dice que el build público muestra la conversación | El build público muestra Sesión con la conexión deshabilitada (`cloud.js:32-33,63`) |
-| 2 | `decisions.md` cabecera "Updated 2026-10-04"; D57 aparece antes que D56 | Entradas hasta 2026-10-12 |
-| 3 | `plan.md` U10: insignia "PASS if at least one PASS case has evidence" | R36a/D33: PASS solo cuando todos los casos aplicables pasaron; `evidence-rules.js:5-20` |
-| 4 | `plan.md` U21 y el texto de límites de D45 dicen que el escaneo del árbol omite directorios ocultos | D53 y R54b enmendado: con Git se escanea todo candidato versionado, ocultos incluidos (`scripts/publication_check.py`) |
-| 5 | S02 EXP-M07 "no CI versionado"; `capabilities.md` deja CI de navegador en EXP-M07 | CI en Linux y Windows existe (D32, R39a); las comprobaciones de navegador siguen fuera de CI |
-| 6 | CU09 "Fixed HTTPS destination api.openai.com"; constitución "opt-in OpenAI text Q&A"; `capabilities.md` "Optional OpenAI" | U08 y `SECURITY.md` añaden Anthropic; `cloud.py:93` |
-| 7 | CU08 "choose demonstration, conversation, API connection or engineering" | U13: cinco destinos con la conexión dentro de Sesión |
-| 8 | `architecture.md` describe la vista como "selection, reviewer controls and event trace" y su diagrama parte de un operador hacia el controlador; también "The view selects when documentation is included" | `index.html` no carga `app.js` (`tests/test_session_shell.py:31`); ninguna vista llama a `/api/agents/run` ni reenvía la documentación de Context7 |
-| 9 | `engineering-guide.md`: "Model integration is deferred", "no live model", roles "conceptual, not claimed independent agents" | Conversación opcional con dos proveedores (U05, U08) y cuatro roles de texto (U07) |
-| 10 | `roadmap.md` (2026-10-03): "next task remains the M02 selection-state correction" | `project-status.json` `next_task` nombra la revisión U21, C304, D35, ruff, PR #4–#6 y C170 |
-| 11 | `sdd-adoption.md` "Version 0.2, reviewed 2026-10-03" con alcance U17; etapa 5B "no independent-review claim" | `project-status.json` registra una revisión independiente COMPLETED sobre `fb7ecf6` |
-| 12 | `project-status.json`: `current_task` "T80–T85 IMPLEMENTED"; `development_executor` nombra la rama `-sec`; `open_prs` solo #4–#6 | `tasks.md` registra T86–T88; PR #8 y #9 abiertos en borrador |
-| 13 | `spec.md`, línea de versión, lista incrementos hasta U20 | El archivo define U21 y R54–R58 |
-| 14 | R58a pide un canal privado "through the existing GitHub profile"; `SECURITY.md` dice "to arrange a suitable disclosure channel" | La bitácora lo lista como pendiente: no hay canal operativo confirmado |
-| 15 | `SECURITY.md` "Controls not supplied: LLM prompt-injection defenses" | R57c/T84 demuestran con transportes falsos que instrucciones inyectadas no amplían herramientas ni destinos; redacciones compatibles pero distintas |
-| 16 | `START_HERE_ES.md`: MCP "aquí son dos consultas de datos ficticios" | Además existe la conexión de lectura a Context7 (U07, `context7.py`) |
-| 17 | `tools-and-capabilities.md`: "local check 3.12.14", revisado 2026-10-03 | CI corre 3.11 y 3.13 |
-| 18 | Constitución, regla 6: "A future model proposes through the same controlled interface" | U13: el ejemplo de devoluciones es histórico como código/CLI, no interfaz actual |
-| 19 | `index.html:187`: "El Investigador podrá usar el resultado cuando lo selecciones" | `workbench.js:22` guarda `documentation` y nada lo lee; `WORKBENCH.md:20` ("not forwarded automatically") coincide con el código |
-| 20 | `spec.md` R21: "Demonstration embeds conversation first and optional deterministic exercise" | No hay ejercicio en la interfaz; U13 y D29 lo sustituyen |
-| 21 | `WORKBENCH.md:12`: "Obvious key patterns are rejected" (demo pública) | En Pages, guardar un agente usa solo `sk-` y bloque de clave privada (`public-demo.js:119`), no los 11 patrones compartidos |
-| 22 | `agents.py:27`: el modo se llama `openai` | `cloud.task` usa el proveedor de la sesión, Anthropic incluido |
-| 23 | `decisions.md` D33 nombra `web/evidence.js` como código de la regla de insignias | La regla vive en `web/evidence-rules.js:5-20`; `evidence.js` la usa |
+- **HISTÓRICA**: el texto describe una versión anterior; se conserva y lleva una nota de alcance fechada.
+- **CORREGIDA**: guía vigente corregida con enmienda fechada; la entrada histórica se conserva.
+- **DECISIÓN**: solo Marco puede resolverla; queda pendiente y nombrada.
+- **PENDIENTE TÉCNICO**: diferencia real en el código, registrada como pendiente en los registros y no parcheada en esta entrega documental.
 
-Ninguna de estas filas es un hallazgo de seguridad nuevo; son textos que envejecieron o nombres heredados. Decidir cuáles corregir, y cómo, queda para Marco; el libro describe el código tal como está.
+| # | Clase | Documentos | Qué dice el código o el registro más reciente | Qué se hizo |
+|---|---|---|---|---|
+| 1 | DECISIÓN | `decisions.md` D19 sigue en "RESOLVED" con "chat, API-key and MCP views hidden in public"; D29 dice que sustituye "D19's public refund presentation" sin decir qué pasa con el resto; la bitácora U12 dice que el build público muestra la conversación | El build público muestra Sesión con la conexión deshabilitada (`cloud.js:32-33,63`) | Qué queda de D19 lo decide Marco; está en `next_task` de project-status.json |
+| 2 | CORREGIDA | `decisions.md` cabecera "Updated 2026-10-04"; D58 y D57 aparecen antes que D56 | Entradas hasta 2026-10-12 | Cabecera enmendada: la tabla es de 2026-10-04 y las secciones fechadas se ordenan por ID |
+| 3 | CORREGIDA | `plan.md` U10: insignia "PASS if at least one PASS case has evidence" | R36a/D33: PASS solo cuando todos los casos aplicables pasaron; `evidence-rules.js:5-20` | Nota fechada en plan.md que remite a R36a/D33 |
+| 4 | CORREGIDA | `plan.md` U21 y el texto de límites de D45 dicen que el escaneo del árbol omite directorios ocultos | D53 y R54b enmendado: con Git se escanea todo candidato versionado, ocultos incluidos (`scripts/publication_check.py`) | Notas fechadas en plan.md y en D45 que remiten a D53 |
+| 5 | CORREGIDA | S02 EXP-M07 "no CI versionado"; `capabilities.md` deja CI de navegador en EXP-M07 | CI en Linux y Windows existe (D32, R39a); las comprobaciones de navegador siguen fuera de CI | Notas fechadas en EXP-M07 y en capabilities.md |
+| 6 | CORREGIDA | CU09 "Fixed HTTPS destination api.openai.com"; constitución "opt-in OpenAI text Q&A"; `capabilities.md` "Optional OpenAI" | U08 y `SECURITY.md` añaden Anthropic; `cloud.py:93` | Notas de alcance en CU09 y en la constitución (U08, U13); la fila histórica de capabilities conserva su alcance por incremento |
+| 7 | HISTÓRICA | CU08 "choose demonstration, conversation, API connection or engineering" | U13: cinco destinos con la conexión dentro de Sesión | Nota de alcance en CU08 |
+| 8 | CORREGIDA | `architecture.md` describe la vista como "selection, reviewer controls and event trace", su diagrama parte de un operador hacia el controlador, y dice "The view selects when documentation is included" | `index.html` no carga `app.js` (`tests/test_session_shell.py:31`); ninguna vista llama a `/api/agents/run` ni reenvía la documentación de Context7 | Nota de alcance al inicio (tabla y primer diagrama = historia U01–U12; lo vigente está en este libro), fila de la vista marcada como histórica, frase de la documentación corregida |
+| 9 | CORREGIDA | `engineering-guide.md`: "Model integration is deferred", "no live model", roles "conceptual, not claimed independent agents" | Conversación opcional con dos proveedores (U05, U08) y cuatro roles de texto (U07) | Tres filas de la tabla de capas enmendadas con fecha y con el texto anterior citado |
+| 10 | HISTÓRICA | `roadmap.md` (2026-10-03): "next task remains the M02 selection-state correction" | `project-status.json` `next_task` nombra lo vigente | Nota de alcance al inicio del roadmap |
+| 11 | CORREGIDA | `sdd-adoption.md` "Version 0.2, reviewed 2026-10-03" con alcance U17; etapa 5B "no independent-review claim" | `project-status.json` registra una revisión independiente COMPLETED sobre `fb7ecf6` | Nota de alcance en la cabecera: 5B es la autorrevisión de esa fecha; las revisiones independientes están en project-status y en la bitácora |
+| 12 | CORREGIDA | `project-status.json`: `current_task` "T80–T85 IMPLEMENTED"; `development_executor` nombra la rama `-sec`; `open_prs` solo #4–#6 | `tasks.md` registra T86–T89; PR #8, #9 y #10 abiertos en borrador | Campos actualizados (registro, no evidencia: ningún estado de aceptación, integración o despliegue cambia) |
+| 13 | CORREGIDA | `spec.md`, línea de versión, lista incrementos hasta U20 | El archivo define U21, U22 y R54–R59 | Línea de versión actualizada |
+| 14 | DECISIÓN | R58a pide un canal privado "through the existing GitHub profile"; `SECURITY.md` dice "to arrange a suitable disclosure channel" | No hay canal operativo confirmado | Pendiente del propietario; en `next_task` |
+| 15 | CORREGIDA | `SECURITY.md` "Controls not supplied: LLM prompt-injection defenses" | R57c/T84 demuestran con transportes falsos que instrucciones inyectadas no amplían herramientas ni destinos | Frase reconciliada: no hay defensa general; sí existen esas demostraciones |
+| 16 | CORREGIDA | `START_HERE_ES.md`: MCP "aquí son dos consultas de datos ficticios" | Además existe la conexión de lectura a Context7 (U07, `context7.py`) | Frase enmendada con fecha |
+| 17 | CORREGIDA | `tools-and-capabilities.md`: "local check 3.12.14", revisado 2026-10-03 | CI corre 3.11 y 3.13 | Celda enmendada con fecha |
+| 18 | DECISIÓN | Constitución, regla 6: "A future model proposes through the same controlled interface" | U13: el ejemplo de devoluciones es histórico como código/CLI, no interfaz actual | Principio de la constitución; su redacción es de Marco |
+| 19 | CORREGIDA | `index.html:187` en `a16a4e6`: "El Investigador podrá usar el resultado cuando lo selecciones" | `workbench.js:22` guarda `documentation` y nada lo lee; `WORKBENCH.md:20` ("not forwarded automatically") coincide con el código | Texto ES/EN corregido: el resultado se muestra para leerlo y no se reenvía; sin implementar ninguna integración (C326) |
+| 20 | HISTÓRICA | `spec.md` R21: "Demonstration embeds conversation first and optional deterministic exercise" | No hay ejercicio en la interfaz; U13 y D29 lo sustituyen | Nota de alcance en R21 |
+| 21 | PENDIENTE TÉCNICO | `WORKBENCH.md:12`: "Obvious key patterns are rejected" (demo pública) | En Pages, guardar un agente usa solo `sk-` y bloque de clave privada (`public-demo.js:119`), no los 11 patrones compartidos del almacén local y de las exportaciones | **Brecha de cobertura de guardas**, no un mero nombre viejo: registrada en el límite de SC-02 (security-controls.json), en capabilities.md (Pendiente), en C326 y en `next_task`; no se parchea en esta entrega documental; sin afirmar explotación (el dato no sale de la pestaña) |
+| 22 | PENDIENTE TÉCNICO | `agents.py:27`: el modo se llama `openai` | `cloud.task` usa el proveedor de la sesión, Anthropic incluido | Nombre heredado en código; cambiarlo es un cambio de fuente fuera de esta entrega |
+| 23 | CORREGIDA | `decisions.md` D33 nombra `web/evidence.js` como código de la regla de insignias | La regla vive en `web/evidence-rules.js:5-20`; `evidence.js` la usa | Nota fechada en D33 |
+| 24 | CORREGIDA | `decisions.md` D20: "the owner opens pull requests manually; the assistant only pushes branches"; este libro y `operations.md` lo presentaban como vigente | Marco, vía Codex, autorizó al asistente a abrir PR en borrador para revisión (PR #9, #10); fusionar y publicar siguen siendo del dueño | Enmienda fechada en D20; 7.1 y el cap. 5 actualizados |
+
+Las filas PENDIENTE TÉCNICO son diferencias reales del código y quedan registradas como tales; las DECISIÓN son de Marco; las HISTÓRICA conservan su texto con aviso; las CORREGIDA llevan enmienda fechada y no reescriben la entrada original.
 
 ## 7.4 Validación de este libro
 
@@ -76,4 +82,4 @@ Lo que se verificó para esta entrega y lo que no (detalle en el PR):
 
 ## Summary in English
 
-Operate with five commands (environment check, tour, verify, serve, stdio MCP); `verify.py` rewrites four generated files; durable local state is only `.local/agents.json`; publication happens only from main by the owner. The limits that remain are listed per boundary with their records: fictional data, simulated identity, memory-only state, a same-origin local server without authentication against local processes, named-pattern credential detection that does not scan chat messages, a static CSP without `frame-ancestors`, fixed providers without retries, read-only MCP, no third-party packages or external SAST, and a Linux-only isolated runner. Twenty-three mismatches between older documents and the code were found while writing and are listed without being corrected, because changing records is the owner's call and history is not rewritten. The book's own validation is stated honestly: references read at `a16a4e6`, links and textual alternatives checked by tests, SDD and verify run under the isolated runner, Mermaid rendering reported from GitHub rather than verified by a local tool.
+Operate with five commands (environment check, tour, verify, serve, stdio MCP); `verify.py` rewrites four generated files; durable local state is only `.local/agents.json`; publication happens only from main by the owner. The limits that remain are listed per boundary with their records: fictional data, simulated identity, memory-only state, a same-origin local server without authentication against local processes, named-pattern credential detection that does not scan chat messages, a static CSP without `frame-ancestors`, fixed providers without retries, read-only MCP, no third-party packages or external SAST, and a Linux-only isolated runner. Twenty-four mismatches between older documents and the code are classified: historical (kept with a dated scope note), corrected (current guide amended with a date, history kept), owner decision (named, pending) or technical pending (recorded, never patched silently here); the Pages agent-save guard gap and the Context7 copy are the two bounded by the review of afd6e04. The book's own validation is stated honestly: references read at `a16a4e6`, links and textual alternatives checked by tests, SDD and verify run under the isolated runner, Mermaid rendering reported from GitHub rather than verified by a local tool.

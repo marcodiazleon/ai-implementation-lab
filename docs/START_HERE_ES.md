@@ -59,7 +59,7 @@ Todos los datos son ficticios. El recibo es local y simulado. El estado se pierd
 - **evidence/** contiene los resultados de ejecución y sus versiones; **reports/** explica su alcance.
 - **docs/** conserva decisiones, herramientas, operación y continuidad.
 
-**MVC** organiza datos, coordinación y pantalla. **MCP** expone herramientas mediante un protocolo: aquí son dos consultas de datos ficticios. Una **skill** define un procedimiento; su archivo por sí solo no demuestra que un ejecutor lo haya cargado.
+**MVC** organiza datos, coordinación y pantalla. **MCP** expone herramientas mediante un protocolo: aquí son dos consultas de datos ficticios por stdio (`python run.py mcp`) y, en el laboratorio local, una conexión de solo lectura a Context7 con dos herramientas de documentación, con consentimiento en cada llamada (U07; enmienda 2026-10-12). Una **skill** define un procedimiento; su archivo por sí solo no demuestra que un ejecutor lo haya cargado.
 
 ## Qué sigue
 

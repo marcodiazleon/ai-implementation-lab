@@ -1,6 +1,6 @@
 # S01 — AI conversation workspace and historical engineering sample
 
-Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review; U19 closes the findings of the review of U18; U20 raises every area to the owner's 9/10 target after acceptance of fb7ecf6.
+Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review; U19 closes the findings of the review of U18; U21 adds the security increment (R54–R58) and U22 the engineering book (R59), both on stacked branches under review; U20 raises every area to the owner's 9/10 target after acceptance of fb7ecf6.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -90,9 +90,11 @@ Alternatives: test or publication guard fails → correct before publication; un
 Result: commit-associated evidence and updated continuity. A commit is not owner acceptance.
 
 ### CU08 — Navigate the workspace
+Scope note 2026-10-12: written for U05; superseded by U13 (five destinations, with the connection inside Session). Kept as history.
 Actor: visitor. Trigger: menu selection. Flow: choose demonstration, conversation, API connection or engineering → matching view appears and menu marks it active. Back/forward and direct hashes restore the view. Offline demonstration remains available without a key.
 
 ### CU09 — Connect and ask a cloud model
+Scope note 2026-10-12: written for U05 with OpenAI only; U08 added Anthropic (api.anthropic.com) with the same rules. Kept as history.
 Actor: local operator using their own API key. Trigger: explicit connection consent and submit.
 Preconditions: OpenAI key, exact model ID and chosen output limit. Fixed HTTPS destination api.openai.com.
 Flow: validate fields → verify model access without generating text → create opaque local session → operator submits question → send bounded conversation to Responses API with store=false, no tools → render plain text and usage.
@@ -161,7 +163,7 @@ Operator names a role, writes its prompt and selects a work mode (plan/research/
 ### CU14 — Prepare MCP configurations
 Operator selects a remote HTTP or local stdio guide, names a server and specifies its URL or command/argument list. Preview/download a client configuration. Multiple non-secret profiles can be kept in browser storage. These configurations are not connections. Context7 remains the verified built-in execution adapter; arbitrary commands and OAuth are not executed by this sample.
 
-| R21 | Five sidebar destinations and a collapsible accessible menu; only ES/EN in the top bar. Demonstration embeds conversation first and optional deterministic exercise. Preserve existing hash aliases and drafts. | U08 | CU08 | Desktop/mobile navigation, collapse, keyboard and chat-in-demo |
+| R21 | Five sidebar destinations and a collapsible accessible menu; only ES/EN in the top bar. Demonstration embeds conversation first and optional deterministic exercise (scope note 2026-10-12: the exercise was removed from the interface by U13; see D29, D35). Preserve existing hash aliases and drafts. | U08 | CU08 | Desktop/mobile navigation, collapse, keyboard and chat-in-demo |
 | R22 | Create/edit/export custom roles from templates or blank input; persist bounded definitions in ignored repository-local storage with no provider/key fields, traversal or shell execution. Saved roles can guide the conversation. | U08 | CU13 | Round-trip/restart, malformed inputs, secret patterns and role use |
 | R23 | Elegant multiple-MCP guide and valid configuration exports for HTTP/stdio, explicitly distinguishing configured from executable; keep bounded Context7 behavior. | U08 | CU14 | Multiple profiles, invalid config and export; no commands executed |
 | R24 | Provider-neutral connection guide and bounded OpenAI/Anthropic sessions using fixed destinations, correct protocol adapters and isolated keys/history. No fallback or paid test without operator key. | U08 | CU09/CU13 | Provider routing, format, errors, context reset and authorization checks |
@@ -340,6 +342,8 @@ A local operator pastes a provider key, converses, creates agents, exports defin
 ## U22 — Architecture diagrams and the engineering book
 Source: U22 (Marco via Codex, 2026-10-12), after the fourth review of a16a4e6 (8.5/10 provisional, no go). Constraints: U13 and U17–U21 stay in force; documentation only on a new branch from a16a4e6, stacked on PR #9; no merge, publication, installation, paid API or new dependency; documentation is not acceptance and raises no score; diagrams represent the delivered code with exact references, never promises; owner evidence, external analysis and human tests stay pending.
 
+Amendment 2026-10-12 (Codex review of afd6e04, 8/10 provisional, not ready): B1 current guides reconciled with a classification of every discrepancy; B2 guard coverage and the Context7 copy bounded; B3 visual evidence of the render. Authorized as bounded documentary corrections on PR #10.
+
 ### CU23 — Understand the whole application from one reading route
 A visitor understands the context in one minute; a reviewer locates frontend, backend, adapters, state, evidence and CI in three minutes; a person about to change the code follows the code walk, the method and the validation procedure; the owner reads the decisions with their recorded reasons and the contradictions found between older documents and the code. Errors: a diagram arrow without code behind it, a reason attributed to a person without a record, a second register that contradicts the first.
 
@@ -347,4 +351,6 @@ A visitor understands the context in one minute; a reviewer locates frontend, ba
 - R59b: Every diagram shall be editable source in the repository (Mermaid inside the Markdown), rendered without a CDN or a new dependency, followed by a textual equivalent that does not depend on color, and every arrow shall represent behavior that exists at the described revision with a file and line reference; Pages never executes Python or inference, configuring an MCP profile never implies a connection, and a role or prompt never grants authority.
 - R59c: The decision register of the book shall reuse the existing IDs and, for each decision, give the problem, the decision, the recorded reason, the alternatives, the trade-offs and consequences, the requirement and the code, test or evidence named by the record; where the record is silent it shall say "no registrado", and an inferred explanation shall be marked as such and attributed to nobody.
 - R59d: The book shall name its version and the exact SHA it describes, distinguish implemented, optional, simulated and future, distinguish the candidate from the published revision, list the contradictions found between documents and code without correcting history, and state which of its own checks were executed and which are reported.
+- R59e (added after the review of afd6e04): Every discrepancy the book lists shall be classified as historical (kept with a dated scope notice), current and correctable (the current guide corrected with a dated amendment, the historical entry kept), a real owner decision (left pending and named) or a technical pending item (recorded as such in the records, never patched silently in a documentation change); current guides shall not keep a false description of the delivered code; the Pages in-tab agent save, which checks two formats while the local store and the export guards use the shared patterns, shall be recorded as a coverage gap pending a code decision, and the interface copy shall describe the Context7 result as read manually, not as forwarded to an agent.
+- R59f (added after the review of afd6e04): The render of every diagram shall be evidenced with captures taken from GitHub's rendering of the exact SHA at a desktop and a mobile viewport, stored in the repository with the SHA and viewport named, without installing a renderer, a CDN or a dependency; legibility and the one-minute and three-minute human readings stay NO_PROBADO until a person records them.
 

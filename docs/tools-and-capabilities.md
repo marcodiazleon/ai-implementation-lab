@@ -5,7 +5,7 @@ Reviewed 2026-10-03. This register describes this repository and the current wor
 ## Selection by use case
 | Capability | Purpose / CU | Version or source | State and evidence | Data, access, cost and removal |
 |---|---|---|---|---|
-| Python standard library | Domain, HTTP, CLI and verification; CU01–CU07 | Intended 3.11+; local check 3.12.14 | LOCAL_EXECUTION, evidence/latest.json | Synthetic local files and loopback; no product model billing; stop process to disable |
+| Python standard library | Domain, HTTP, CLI and verification; CU01–CU07 | Intended 3.11+; local check 3.12.14 (2026-10-03); CI runs 3.11 and 3.13 (D32, 2026-10-11) | LOCAL_EXECUTION, evidence/latest.json | Synthetic local files and loopback; no product model billing; stop process to disable |
 | Git | Track/review/publish sample; CU07 | Local 2.55.0.windows.5 | LOCAL_EXECUTION and publication records | Only explicitly staged sample files uploaded; credentials handled outside repo; remove remote configuration to stop publishing |
 | Browser | Operator view and UI review; CU01/CU03–CU06 | Current in-app browser; exact engine version not recorded | Observed walkthrough; reports/VALIDATION.md | Loopback synthetic pages; no personal browser data needed; close tab/server |
 | HTTP adapter | GUI-to-controller interface | Repository source/version hashes | Positive/negative integration tests | 127.0.0.1 only, no real authentication; stop server |

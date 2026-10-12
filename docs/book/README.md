@@ -11,7 +11,7 @@ Qué es: una ruta de lectura para entender toda la aplicación, por qué está c
 | 1 minuto | Visitante | [1 · Propósito y alcance](01-proposito-y-alcance.md), secciones 1.1 y 1.2 |
 | 3 minutos | Revisor | [2 · Arquitectura](02-arquitectura.md): diagrama de contexto y tabla de componentes (frontend, backend, adaptadores, estado, evidencia, CI con archivo y línea) |
 | Media hora | Quien va a tocar el código | [3 · Recorrido del código](03-recorrido-del-codigo.md), [4 · Método y SDD](04-metodo-y-sdd.md), [6 · Validación](06-validacion.md) |
-| Antes de decidir | Marco | [5 · Decisiones](05-decisiones.md) y [7 · Límites y contradicciones](07-operacion-y-limites.md#73-contradicciones-encontradas-entre-documentos-y-código) |
+| Antes de decidir | Marco | [5 · Decisiones](05-decisiones.md) y [7 · Límites y discrepancias](07-operacion-y-limites.md#73-discrepancias-encontradas-entre-documentos-y-código-clasificadas) |
 
 ## Capítulos
 
@@ -21,7 +21,7 @@ Qué es: una ruta de lectura para entender toda la aplicación, por qué está c
 4. [Método de ingeniería y SDD](04-metodo-y-sdd.md): la cadena de la necesidad a la evidencia, reglas de la constitución, vocabulario, qué hace `verify.py`.
 5. [Decisiones](05-decisiones.md): D01–D58 con problema, decisión, motivo registrado, alternativas, trade-offs, requisito y evidencia; "no registrado" e "inferido" marcados.
 6. [Validación](06-validacion.md): los cinco registros, CI, el corredor aislado, las rondas de revisión independiente, lo pendiente.
-7. [Operación y límites](07-operacion-y-limites.md): cómo operar, límites por frontera, 23 contradicciones entre documentos y código, validación de este libro.
+7. [Operación y límites](07-operacion-y-limites.md): cómo operar, límites por frontera, 24 discrepancias entre documentos y código clasificadas (histórica, corregida, decisión, pendiente técnico), validación de este libro.
 
 ## Las preguntas que responde
 
@@ -44,4 +44,4 @@ Qué es: una ruta de lectura para entender toda la aplicación, por qué está c
 
 ## In English
 
-An engineering book for the code at `a16a4e67b4257c2cb13054efd3ffa20acc2dd3be` (head of PR #9; the public demo serves `166ea91`, the revision recorded under `deployment`). It consolidates the existing records into one reading route and cites file and line for every claim; it is not acceptance, not an independent review and changes no score. Routes: one minute for a visitor (chapter 1, sections 1.1–1.2), three minutes for a reviewer (chapter 2: context diagram and component table), half an hour for someone about to change the code (chapters 3, 4, 6). Each chapter ends with a summary in English; each Mermaid diagram is followed by its textual equivalent. Chapter 7 lists twenty-three mismatches between older documents and the code, flagged for the owner and not corrected here.
+An engineering book for the code at `a16a4e67b4257c2cb13054efd3ffa20acc2dd3be` (head of PR #9; the public demo serves `166ea91`, the revision recorded under `deployment`). It consolidates the existing records into one reading route and cites file and line for every claim; it is not acceptance, not an independent review and changes no score. Routes: one minute for a visitor (chapter 1, sections 1.1–1.2), three minutes for a reviewer (chapter 2: context diagram and component table), half an hour for someone about to change the code (chapters 3, 4, 6). Each chapter ends with a summary in English; each Mermaid diagram is followed by its textual equivalent. Chapter 7 classifies twenty-four mismatches between older documents and the code: historical entries keep a dated scope note, current guides were corrected with dated amendments, owner decisions are named and left pending, and technical gaps are recorded as pending items, never patched silently in a documentation change.

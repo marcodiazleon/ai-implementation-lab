@@ -448,7 +448,8 @@
     "docs/book/README.md",
     "docs/book/02-arquitectura.md",
     "docs/book/05-decisiones.md",
-    "tests/test_u21.py::class BookTests"
+    "tests/test_u21.py::class BookTests",
+    "docs/book/07-operacion-y-limites.md"
    ]
   }
  },
@@ -1567,6 +1568,18 @@
   },
   "C324": {
    "kind": "structure",
+   "polarity": "positive"
+  },
+  "C325": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C326": {
+   "kind": "structure",
+   "polarity": "negative"
+  },
+  "C327": {
+   "kind": "manual",
    "polarity": "positive"
   }
  },

@@ -1,5 +1,7 @@
 # Architecture and contracts
 
+Scope note 2026-10-12: the table and the first diagram below were written for the U01 refund interface, which U13 removed from the application; they stay as the history of the controller and its contracts. The current application, with every component and flow at an exact revision, is described in the [engineering book](book/README.md).
+
 ## MVC is not MCP
 MVC organizes application responsibilities. MCP defines a client-to-tool protocol. This sample uses both for different purposes.
 
@@ -7,7 +9,7 @@ MVC organizes application responsibilities. MCP defines a client-to-tool protoco
 |---|---|
 | Model | `models.py`, synthetic fixtures and proposal state |
 | Controller | `controller.py`: eligibility, decisions, scope and retry rules |
-| View | `web/`: selection, reviewer controls and event trace |
+| View | `web/`: selection, reviewer controls and event trace (historical, U01–U12; since U13 the view is the conversation workspace with five destinations, see the book) |
 | HTTP adapter | `server.py`: explicit routes on loopback |
 | MCP adapter | `mcp_server.py`: two read-only tools over stdio |
 | Hooks | `hooks.py`: before/after application events |
@@ -45,7 +47,7 @@ Run `python run.py mcp` from the repository. A client would launch that command 
 
 ## U07 workbench
 
-The browser coordinates four role contracts. `src/lab/agents.py` owns input, permission, output and evidence hooks. `CloudSessions.task` makes a single isolated model request without touching chat history. `src/lab/context7.py` owns the fixed remote MCP transport and expiring sessions. The view selects when documentation is included; returned text cannot invoke tools. [Details](WORKBENCH.md).
+The browser coordinates four role contracts. `src/lab/agents.py` owns input, permission, output and evidence hooks. `CloudSessions.task` makes a single isolated model request without touching chat history. `src/lab/context7.py` owns the fixed remote MCP transport and expiring sessions. The Context7 result is shown for manual reading and is not forwarded to any role (amended 2026-10-12; the earlier sentence "The view selects when documentation is included" described a selection that the current code does not perform); returned text cannot invoke tools. [Details](WORKBENCH.md).
 
 ## U08 workspace
 `studio.js` owns routing, the sidebar, agent forms and public MCP configuration export. `cloud.js` handles provider sessions and chat. `AgentStore` persists validated definitions at a fixed local path. The server resolves agent IDs into instructions; clients cannot select files or grant tools. Each cloud session owns a fixed transport for OpenAI or Anthropic. Changing agent or prompt revision isolates conversation context. The refund domain and its simulated connector remain independent.

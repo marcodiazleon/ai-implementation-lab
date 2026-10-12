@@ -45,7 +45,7 @@ Registrado en dos momentos: D03 da el motivo de instalación ("Framework/cloud i
 | ID | Problema | Decisión | Motivo registrado | Alternativas | Trade-offs / límites | Requisito | Código / prueba / evidencia |
 |---|---|---|---|---|---|---|---|
 | D19 | Publicar sin servidor | Build estático en GitHub Pages con las reglas en el navegador; sin datos de visitantes | "A hosted Python server would need hosting, identity and cost decisions; the browser port reuses the fixtures" | servidor Python alojado | RESOLVED; D29 dice que sustituye "D19's public refund presentation"; el registro no dice qué pasa con el resto de D19 (hoy el build público muestra Sesión con la conexión deshabilitada, `cloud.js:32-33,63`) | no registrado | paridad C113 |
-| D20 | Quién abre los PR | El dueño abre los PR; el asistente solo empuja ramas | "Assistant-opened PRs would bypass the owner's review step" | no registrado | RESOLVED | no registrado | no registrado |
+| D20 | Quién abre los PR | El dueño abre los PR; el asistente solo empuja ramas. Enmienda 2026-10-12: Marco, vía Codex, autorizó al asistente a abrir PR en borrador para revisión independiente (PR #9, #10); fusionar, publicar y todo lo que toque main sigue siendo del dueño | "Assistant-opened PRs would bypass the owner's review step" | no registrado | RESOLVED con enmienda fechada | no registrado | no registrado |
 | D21 | Datos de la vista Evidencia | JSON generado de la tabla de la spec (misma expresión que sdd_check); latest.json y acceptance.csv sin cambios; spec.md no publicado | no registrado | "Publishing spec.md and parsing Markdown in the browser; recalculating states client-side" | RESOLVED | R27 | C116, C118, C119 |
 
 ## 5.4 Registros honestos y CI (U17–U20, 2026-10-11/12)
