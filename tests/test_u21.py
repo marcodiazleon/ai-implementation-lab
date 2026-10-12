@@ -845,12 +845,13 @@ class SandboxTests(unittest.TestCase):
         self.assertNotIn("$EXPORT", stage2)                                             # the host export path never enters stage 2
         self.assertLess(script.index('unshare --user --map-root-user --mount \\\n  sh -c "$STAGE1"'), len(script))
         promote = PROMOTE.read_text(encoding="utf-8")
-        for required in ("O_NOFOLLOW", "O_NONBLOCK", "O_EXCL", "st_nlink != 1", "S_ISREG", "FILE_MAX", "TOTAL_MAX", "source changed during the copy", "dir_fd=src", "dir_fd=dst"):
+        for required in ('FLAG("O_NOFOLLOW")', 'FLAG("O_NONBLOCK")', "os.O_EXCL", "st_nlink != 1", "S_ISLNK", "S_ISREG", "FILE_MAX", "TOTAL_MAX", "source changed during the copy", "dir_fd=self.fd", "changed between inspection and open"):
             self.assertIn(required, promote, required)
 
 
-@unittest.skipUnless(os.name == "posix", "promotion runs on the Linux host of the runner")
 class PromoteTests(unittest.TestCase):
+    """promote.py runs on the Linux host of the runner; these cases also run on Windows through its path-based branch,
+    where the sub-cases that need a FIFO or a symbolic link privilege are left out without changing the case."""
     def promote(self, source, dest, names, env=None):
         full = dict(os.environ); full.update(env or {})
         return run_text([sys.executable, "-I", str(PROMOTE), str(source), str(dest), *names], env=full)
@@ -866,8 +867,12 @@ class PromoteTests(unittest.TestCase):
         def case(name, prepare, expected):
             source, dest = self.dirs(); (source / "good.json").write_text("fine", encoding="utf-8"); prepare(source, dest)
             cases.append((name, source, dest, expected))
-        case("symlink", lambda s, d: os.symlink("/etc/hostname", s / "verify.log"), "verify.log: cannot open")
-        case("fifo", lambda s, d: os.mkfifo(s / "verify.log"), "verify.log: not a regular file")
+        def symlink(s, d):
+            try: os.symlink(str(s / "good.json"), s / "verify.log")
+            except (OSError, NotImplementedError): raise unittest.SkipTest("no symbolic link privilege")
+        try: case("symlink", symlink, "verify.log: symbolic link")
+        except unittest.SkipTest: pass
+        if hasattr(os, "mkfifo"): case("fifo", lambda s, d: os.mkfifo(s / "verify.log"), "verify.log: not a regular file")
         case("hardlink", lambda s, d: ((s / "verify.log").write_text("twin"), os.link(s / "verify.log", s / "twin")), "verify.log: 2 links")
         case("directory", lambda s, d: (s / "verify.log").mkdir(), "verify.log: not a regular file")
         case("oversize", lambda s, d: (s / "verify.log").write_bytes(b"x" * 2049), "verify.log: 2049 bytes exceed the per-file limit 2048")
