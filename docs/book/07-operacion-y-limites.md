@@ -70,7 +70,7 @@ Ninguna de estas filas es un hallazgo de seguridad nuevo; son textos que envejec
 
 Lo que se verificó para esta entrega y lo que no (detalle en el PR):
 
-- Verificado: cada referencia archivo:línea se leyó en `a16a4e6`; los enlaces relativos de `docs/book/` resuelven (caso C322); cada diagrama Mermaid va seguido de su equivalente textual (C323); el libro nombra el SHA descrito (C324); `python scripts/sdd_check.py` y `python scripts/verify.py` corrieron bajo el corredor aislado.
+- Verificado: cada referencia archivo:línea se leyó en `a16a4e6`; los enlaces relativos de `docs/book/` resuelven (caso C322); cada diagrama Mermaid va seguido de su equivalente textual (C323); el libro nombra el SHA descrito (C324); `python scripts/sdd_check.py` y la cadena de `python scripts/verify.py` corrieron bajo el corredor aislado de tres etapas (corrida A de arranque, B y C idénticas: 219 pruebas, 7 escenarios, casos PASS 270 / NO_PROBADO 9 / FAIL 0, huella de fuentes `147511afd522…`), y un pase interno de revisión de los diagramas contra el código cuyos hallazgos se aplicaron antes de la entrega.
 - Reportado, no verificado localmente: el render de Mermaid lo hace GitHub al mostrar el Markdown; en el entorno del implementador no hay un renderizador de Mermaid instalado y no se instaló ninguno, así que la sintaxis se revisó a mano. Si un diagrama no renderiza, el equivalente textual que lo sigue es la fuente accesible.
 - No reclamado: aceptación, revisión independiente de los diagramas (la hace Codex), ningún cambio de nota.
 
