@@ -102,7 +102,8 @@ class RecordTests(unittest.TestCase):
         unknown = dict(status, build_states={"git": False, "reasons": {"acceptance": "Git unavailable", "integration": "Git unavailable", "deployment": "Git unavailable", "independent_review": "Git unavailable"}})
         absent = {k: v for k, v in status.items() if k not in ("acceptance", "deployment")}
         absent["build_states"] = {"git": True, "reasons": {"acceptance": "no revision recorded", "deployment": "no revision recorded"}, "integration": True, "independent_review": True}
-        out = subprocess.run([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], capture_output=True, text=True, check=True,
+        # encoding is explicit: on Windows the console codec is cp1252 and the Spanish strings would be mangled.
+        out = subprocess.run([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], capture_output=True, text=True, encoding="utf-8", check=True,
                              input=json.dumps([[covered, evidence, "en"], [candidate, evidence, "es"], [unknown, evidence, "en"], [absent, evidence, "en"],
                                                [None, evidence, "en"], [status, {"tests": {}}, "es"], [status, "text", "en"]]))
         results = json.loads(out.stdout)
@@ -178,7 +179,7 @@ class InterfaceTests(unittest.TestCase):
     def test_validation_and_mcp_notices_are_bilingual(self):
         messages = {}
         for lang in ("es", "en"):
-            out = subprocess.run([NODE, "-e", NODE_I18N, str(ROOT / "web/i18n.js"), lang], capture_output=True, text=True, check=True)
+            out = subprocess.run([NODE, "-e", NODE_I18N, str(ROOT / "web/i18n.js"), lang], capture_output=True, text=True, encoding="utf-8", check=True)
             messages[lang] = json.loads(out.stdout)
         self.assertEqual(messages["es"], ["Completa este campo.", "Escribe al menos 20 caracteres.", "", "Revisa el formato de este campo."])
         self.assertEqual(messages["en"], ["Fill in this field.", "Enter at least 20 characters.", "", "Check the format of this field."])
