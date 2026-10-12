@@ -17,6 +17,7 @@ Restoration of runtime state is not supported and is not required for the dispos
 The browser displays blocked outcomes and server-contact errors. The event log and exported snapshot support local diagnosis.
 There is no background alert channel. Marco owns issue triage; collaborators should report reproducible synthetic cases without sensitive data.
 For a failure: preserve the synthetic request, expected result, version and error; reproduce locally; change the relevant requirement/code/test; regenerate affected evidence. A failed test remains a failure until a recorded successful rerun.
+For a security event (an exposed credential, a weakened workflow, an unexpected request pattern): follow [security-runbook.md](security-runbook.md) (detection, containment, revocation, recovery, follow-up); report privately through the GitHub profile.
 Do not turn a lost response from a future external service into an automatic repeat operation.
 
 ## Release checklist
@@ -24,7 +25,7 @@ Do not turn a lost response from a future external service into an automatic rep
 2. Update requirement source, task and acceptance before behavior changes.
 3. Run relevant checks; preserve PASS/FAIL/NO_PROBADO separately.
 4. Review diff, documents, privacy, tools and known limitations.
-5. Stage exact intended files; run the staged publication guard.
+5. Stage exact intended files; run the staged publication guard and `python scripts/security_check.py`.
 6. Commit/push only within the owner's publication scope.
 7. Confirm remote commit, record notebook handoff and next task.
 

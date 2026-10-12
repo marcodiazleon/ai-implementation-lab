@@ -19,6 +19,7 @@ Current revision: the S01 version selected in [project-status.json](project-stat
 | Specification: sources, use cases, requirements | [spec.md](../specs/001-support-demo/spec.md) |
 | Plan and tasks | [plan.md](../specs/001-support-demo/plan.md) · [tasks.md](../specs/001-support-demo/tasks.md) |
 | Acceptance cases and their status | [acceptance.csv](../specs/001-support-demo/acceptance.csv) |
+| Engineering book: one reading route with diagrams, decisions and limits (candidate a16a4e6) | [book/README.md](book/README.md) |
 | Architecture | [architecture.md](architecture.md) |
 | Decisions | [decisions.md](decisions.md) |
 | ID registry for open pull requests | [id-registry.json](id-registry.json) |
@@ -31,6 +32,9 @@ Current revision: the S01 version selected in [project-status.json](project-stat
 | Requirement matrix: behavior, code, positives, negatives and evidence per requirement (generated) | [requirements-matrix.md](requirements-matrix.md) |
 | Visitor test script (C170, C177) | [visitor-test.md](visitor-test.md) |
 | Security boundaries | [SECURITY.md](../SECURITY.md) |
+| Threat model, data inventory, endpoint matrix and control catalog with derived states | [threat-model.md](threat-model.md) · [security-controls.json](../specs/001-support-demo/security-controls.json) |
+| Supply chain: inventory, pinned actions, analysis coverage | [supply-chain.md](supply-chain.md) |
+| Security runbook: reporting, severities, patches, revocation, rollback, synthetic drill | [security-runbook.md](security-runbook.md) |
 | Spanish guide | [START_HERE_ES.md](START_HERE_ES.md) |
 
 Outside the main route: [API connection guide](OPENAI_API.md), [agents and MCP guide](WORKBENCH.md), [tool register](tools-and-capabilities.md), [roadmap](roadmap.md) and the [expansion backlog](../specs/002-expansion/spec.md).
@@ -70,5 +74,6 @@ Kept as written. Each one describes the version named here, not the current appl
 | [U18_BROWSER_CHECK_2026-10-11.md](../reports/U18_BROWSER_CHECK_2026-10-11.md) | 2026-10-11 | written for S01 1.1, revision f15562d, source fingerprint 17c2039d8d0b |
 | [U19_CHECK_2026-10-11.md](../reports/U19_CHECK_2026-10-11.md) | 2026-10-11 | written for S01 1.1, revision e4981e5, source fingerprint 34cf9d0558d5 |
 | [U20_CHECK_2026-10-12.md](../reports/U20_CHECK_2026-10-12.md) | 2026-10-12 | written for S01 1.1, U20 candidate on a working branch (source fingerprint inside the report); before/after screenshots in reports/u20/ |
+| [U21_SECURITY_2026-10-12.md](../reports/U21_SECURITY_2026-10-12.md) | 2026-10-12 | written for S01 1.1, U21 security candidate stacked on the U20 branch (revision inside the report); sandboxed validation, browser checks and the local ruff triage |
 | [investigacion.md](investigacion.md), [INVESTIGACION_EXPANSION_2026-10-03.md](INVESTIGACION_EXPANSION_2026-10-03.md), [INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md](INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md), [PLAN_PRODUCTO_Y_DISENO.md](PLAN_PRODUCTO_Y_DISENO.md) | 2026-10-03 | Research and plans; proposals, not implemented features |
 | [notebook.md](notebook.md) | Running log | Dated entries; each describes its own moment |

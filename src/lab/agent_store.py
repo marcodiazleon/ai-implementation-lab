@@ -8,6 +8,7 @@ import uuid
 from pathlib import Path
 from .cloud import CloudError
 from .agents import ROLES
+from .sensitive import find_secrets_in
 
 MODES = {'plan','research','implementation','review'}
 
@@ -35,7 +36,7 @@ class AgentStore:
             if not isinstance(body[key],str) or not low<=len(body[key].strip())<=high:raise CloudError('AGENT_DEFINITION_INVALID')
         if not isinstance(body['id'],str) or (body['id'] and not re.fullmatch(r'custom-[0-9a-f]{32}',body['id'])):raise CloudError('AGENT_DEFINITION_INVALID')
         if not isinstance(body['work_mode'],str) or body['work_mode'] not in MODES:raise CloudError('AGENT_DEFINITION_INVALID')
-        if re.search(r'sk-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----',json.dumps(body)):raise CloudError('AGENT_SENSITIVE_INPUT')
+        if find_secrets_in(body):raise CloudError('AGENT_SENSITIVE_INPUT')
 
     def list(self):
         with self.lock:return self._read()
