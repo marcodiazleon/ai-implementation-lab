@@ -533,16 +533,16 @@ class HttpTests(unittest.TestCase):
         server = serve(self, cloud=CloudSessions(Blocking()), max_active=2)
         tokens = [json.loads(call(server, "/api/cloud/connect", CONNECT)[2])["session_id"] for _ in range(2)]
         results = []
-        def ask_until_accepted(t):
-            # The keep-alive connection of the previous request releases its slot after the client's EOF, which can
-            # be an instant after call() returned; a refusal here is the cap working, so retry until accepted.
+        def until_accepted(path, body=None):
+            # The keep-alive connection of a previous request releases its slot after the client's EOF, which can be
+            # an instant after call() returned; a refusal here is the cap working, so retry until accepted (bounded).
             status = 503
             for _ in range(100):
-                status = call(server, "/api/cloud/ask", {"session_id": t, "message": "x", "agent_id": ""})[0]
+                status = call(server, path, body)[0]
                 if status != 503: break
                 time.sleep(0.05)
-            results.append(status)
-        workers = [threading.Thread(target=ask_until_accepted, args=(t,)) for t in tokens]
+            return status
+        workers = [threading.Thread(target=lambda t=t: results.append(until_accepted("/api/cloud/ask", {"session_id": t, "message": "x", "agent_id": ""}))) for t in tokens]
         for w in workers: w.start()
         self.assertTrue(entered.acquire(timeout=5) and entered.acquire(timeout=5))
         status, _, raw = call(server, "/api/state")
@@ -556,7 +556,7 @@ class HttpTests(unittest.TestCase):
         release.set()
         for w in workers: w.join(10)
         self.assertEqual(results, [200, 200])
-        self.assertEqual(call(server, "/api/state")[0], 200)
+        self.assertEqual(until_accepted("/api/state"), 200)        # the two released handlers may still hold their slots for an instant
 
     def test_quotas_and_capacity(self):
         transport = FakeTransport(text="answer"); cloud = CloudSessions(transport)

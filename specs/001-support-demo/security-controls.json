@@ -474,7 +474,7 @@
     "C320",
     "C321"
    ],
-   "state": "PARCIAL",
+   "state": "VERIFICADO",
    "limit": "Linux with cgroups and user namespaces; the kernel is the host's and the payload is root of its own nested namespace; runs under the earlier runners are reported and superseded, not verified",
    "checklist": [
     "REQ168"

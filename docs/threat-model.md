@@ -100,10 +100,10 @@ Generated states (`python scripts/security_catalog.py`); the checklist column ho
 | SC-13 | runtime | Threat model, data inventory and catalog kept with the records | C279, C298, C299 | PARCIAL |
 | SC-14 | git-github | Runbook, patch policy, reporting channel, severities, rollback; synthetic drill executed | C302, C303 | VERIFICADO |
 | SC-15 | git-github | Owner and provider settings: MFA, branch protection, private vulnerability reporting, Pages | C304 | NO_PROBADO |
-| SC-16 | runtime | Sandboxed validation with an inspectable script: minimal root with a synthetic /etc, no writable host path, fail-closed probes inside the limits; the export owner outside the payload's namespace, non-dumpable supervisor, nested namespace with locked flags for the payload, promotion after every process ended with safe opens and limits | C306, C307, C313, C318–C321 | PARCIAL |
+| SC-16 | runtime | Sandboxed validation with an inspectable script: minimal root with a synthetic /etc, no writable host path, fail-closed probes inside the limits; the export owner outside the payload's namespace, non-dumpable supervisor, nested namespace with locked flags for the payload, promotion after every process ended with safe opens and limits | C306, C307, C313, C318–C321 | VERIFICADO |
 | SC-17 | local-server | Real authentication, user isolation, encryption at rest, durable audit, signing | — | FUTURO |
 
-PARCIAL on SC-05, SC-13 and SC-16 means the listed cases passed but the control has only positive cases, or only one manual case; FUTURO never counts as passed. States derive from case polarities and statuses; they do not prove the checklist items a control references, which stay Codex's evaluation.
+PARCIAL on SC-05 and SC-13 means the listed cases passed but the control has only positive cases, or only one manual case; VERIFICADO on SC-16 means its listed cases of both polarities passed, with the manual negatives executed by the implementer and quoted in the report, not reproduced by Codex; FUTURO never counts as passed. States derive from case polarities and statuses; they do not prove the checklist items a control references, which stay Codex's evaluation.
 
 ## Resumen en español
 
