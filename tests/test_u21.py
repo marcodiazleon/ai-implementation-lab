@@ -538,6 +538,12 @@ class HttpTests(unittest.TestCase):
         self.assertTrue(entered.acquire(timeout=5) and entered.acquire(timeout=5))
         status, _, raw = call(server, "/api/state")
         self.assertEqual((status, json.loads(raw)), (503, {"error": "SERVER_BUSY"}))
+        with socket.create_connection(("127.0.0.1", server.server_port), timeout=5) as sock:
+            sock.sendall(b"GET /api/state HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n")
+            refusal = b""
+            while b"SERVER_BUSY" not in refusal: refusal += sock.recv(4096)
+            self.assertTrue(refusal.startswith(b"HTTP/1.0 503"))
+            self.assertEqual(sock.recv(4096), b"")  # end of stream after the input was read, never ConnectionResetError
         release.set()
         for w in workers: w.join(10)
         self.assertEqual(results, [200, 200])

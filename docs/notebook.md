@@ -163,3 +163,9 @@ Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20
 - Checks: under the corrected runner, the HTTP, secret, sandbox, agent, studio and guard suites (50 tests), the browser checks with the real export form (C278, C289, C317) and verify.py three times (A bootstrap, B and C identical: 213 tests, 7 scenarios, PASS 263, NO_PROBADO 9, FAIL 0, source fingerprint 910b76335865); CI on the pushed revision.
 - Not claimed: a 9/10, certification, checklist compliance, owner acceptance or merge readiness. Pending unchanged: owner evidence, external SAST and vulnerability coverage in CI, an operative private channel, the human and device tests.
 
+## 2026-10-12 · U21 Windows CI failure closed on PR #9 (stacked branch, not accepted)
+- Source: the CI run on df8ece0 failed on Windows only, in C284, and the two runs on a52d071 passed on every job (10 of 10): the busy path wrote the 503 and closed before reading the request, and Windows reports a reset and discards the unread response (WinError 10053) when its write loses the race. Linux and the local runs never saw it.
+- Fix: `drain()` in src/lab/server.py reads and discards what the client already sent, bounded by half a second of total wall time, after a 503 and after a 408, before the close; the cap, the deadline and the limits are unchanged. C284 amended first (end of stream after the refusal); the Linux assertion is a positive, the negative is the Windows job itself (reports/U21_SECURITY_2026-10-12.md).
+- Checks: HTTP suites under the runner three times after the bound (18 tests each); verify.py chain under the runner (A bootstrap, B and C identical) recorded in the report with the new fingerprint; CI on the new revision is the evidence for Windows.
+- Not claimed: a 9/10, certification, owner acceptance or merge readiness.
+

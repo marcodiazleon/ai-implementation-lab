@@ -91,6 +91,24 @@ class DeadlineReader:
         self.buffer = b""
 
 
+def drain(connection, seconds=0.5):
+    """Read and discard what the client already sent before closing, so the close is not a reset.
+
+    Windows discards an unread response when the peer closes with unread input (WinError 10053); a well-behaved
+    client stops writing once it has the answer, so this returns as soon as it closes or after `seconds`."""
+    end = time.monotonic() + seconds
+    try:
+        while True:
+            remaining = end - time.monotonic()
+            if remaining <= 0:
+                return
+            connection.settimeout(remaining)
+            if not connection.recv(65536):
+                return
+    except OSError:
+        pass
+
+
 class LabServer(ThreadingHTTPServer):
     daemon_threads = True
     request_queue_size = 16   # listen backlog: a queue of accepted-but-unserved connections, not a cap
@@ -106,6 +124,7 @@ class LabServer(ThreadingHTTPServer):
             self.refused += 1
             try:
                 request.sendall(BUSY)
+                drain(request)
             except OSError:
                 pass
             self.shutdown_request(request)
@@ -194,6 +213,8 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None, max_active=MA
                 self.close_connection = True
                 try:
                     self.respond(408, {"error": "REQUEST_TIMEOUT"})
+                    self.wfile.flush()
+                    drain(self.connection)
                 except OSError:
                     pass
 
