@@ -48,7 +48,7 @@ Not provided: zeroing of memory, isolation from other processes of the same user
 
 ## Endpoint matrix · Matriz de endpoints
 
-Every route the local server defines. Authority "simulated" means the request stands for a role in the fictional case; nothing authenticates a person. Session tokens (`session_id`) are returned by design by the connect routes and accepted in the session fields; they appear in no error response, state snapshot, standard error output or artifact. Common refusals on every route: 503 SERVER_BUSY written on the socket before any byte is read when the connection cap (8) is reached, 408 REQUEST_TIMEOUT after 10 seconds without bytes or when the request line, headers and body take longer than 30 seconds in total, 403 HOST_OR_ORIGIN_BLOCKED, 500 INTERNAL_ERROR (no message), 501 for other methods. The listen backlog of 16 is a queue of accepted connections, not a cap. POST routes also refuse 415 JSON_REQUIRED, 413 INVALID_BODY_SIZE, 400 INVALID_JSON (non-object, invalid or deeply nested). Static assets (`/`, `/app.js`, `/cloud.js`, `/evidence.js`, `/evidence-rules.js`, `/i18n.js`, `/orientation.js`, `/studio.js`, `/style.css`, `/workbench.js`) are a fixed allowlist; anything else is 404.
+Every route the local server defines. Authority "simulated" means the request stands for a role in the fictional case; nothing authenticates a person. Session tokens (`session_id`) are returned by design by the connect routes and accepted in the session fields; they appear in no error response, state snapshot, standard error output or artifact. Common refusals on every route: 503 SERVER_BUSY written on the socket before any byte is read when the connection cap (8) is reached, 408 REQUEST_TIMEOUT after 10 seconds without bytes or when the request line, headers and body take longer than 30 seconds in total (enforced inside every read, so a continuous trickle within a line or the body ends at the deadline too), 403 HOST_OR_ORIGIN_BLOCKED, 500 INTERNAL_ERROR (no message), 501 for other methods. The listen backlog of 16 is a queue of accepted connections, not a cap. POST routes also refuse 415 JSON_REQUIRED, 413 INVALID_BODY_SIZE, 400 INVALID_JSON (non-object, invalid or deeply nested). Static assets (`/`, `/app.js`, `/cloud.js`, `/evidence.js`, `/evidence-rules.js`, `/i18n.js`, `/orientation.js`, `/studio.js`, `/style.css`, `/workbench.js`) are a fixed allowlist; anything else is 404.
 
 | Route | Method | Fields | Limit | Authority | Errors |
 |---|---|---|---|---|---|
@@ -86,11 +86,11 @@ Generated states (`python scripts/security_catalog.py`); the checklist column ho
 | ID | Boundary | Control | Cases | State |
 |---|---|---|---|---|
 | SC-01 | runtime | Shared detector for named credential formats, private files and personal paths; guard over staged blobs, links, artifacts and every versioned candidate | C270–C273, C305, C311, C312 | VERIFICADO |
-| SC-02 | runtime | Agent briefs, documentation, artifacts, model output and saved definitions reject credential material; exports guarded with the same formats in the browser | C274, C276, C310 | VERIFICADO |
+| SC-02 | runtime | Agent briefs, documentation, artifacts, model output and saved definitions reject credential material by walking every string value raw and serialized; exports guarded with the same formats in the browser, real form checked | C274, C276, C310, C316, C317 | VERIFICADO |
 | SC-03 | local-server | No credential or authorization header in responses, standard error or artifacts; session tokens only where the protocol returns them; fixed 500 envelope | C275, C305 | VERIFICADO |
 | SC-04 | browser | Key field cleared before each request; no key in browser storage; text nodes only | C276, C278 | VERIFICADO |
 | SC-05 | runtime | Sessions discard key and history on disconnect, expiry and stop; role tasks never read chat history | C277 | PARCIAL |
-| SC-06 | local-server | Connection cap before any thread or byte (503), inactivity timeout and total delivery deadline (408) with recovery; body, type, nesting, route, method, Host and Origin checks | C280–C284, C308, C309 | VERIFICADO |
+| SC-06 | local-server | Connection cap before any thread or byte (503), inactivity timeout and total delivery deadline enforced inside every read (408) with recovery; body, type, nesting, route, method, Host and Origin checks | C280–C284, C308, C309, C314, C315 | VERIFICADO |
 | SC-07 | providers | TTL, budget, capacity, busy flag, revocation; remote responses bounded; fixed hosts, no redirects, no retries | C285, C286 | VERIFICADO |
 | SC-08 | pages | Security headers locally and the CSP meta element in the public build; endpoint matrix complete | C287–C289 | VERIFICADO |
 | SC-09 | git-github | Actions pinned by verified commit SHA; persist-credentials false; minimal permissions; required check names | C290, C291 | VERIFICADO |
@@ -100,7 +100,7 @@ Generated states (`python scripts/security_catalog.py`); the checklist column ho
 | SC-13 | runtime | Threat model, data inventory and catalog kept with the records | C279, C298, C299 | PARCIAL |
 | SC-14 | git-github | Runbook, patch policy, reporting channel, severities, rollback; synthetic drill executed | C302, C303 | VERIFICADO |
 | SC-15 | git-github | Owner and provider settings: MFA, branch protection, private vulnerability reporting, Pages | C304 | NO_PROBADO |
-| SC-16 | runtime | Sandboxed validation with an inspectable script: minimal root, fail-closed probes | C306, C307 | PARCIAL |
+| SC-16 | runtime | Sandboxed validation with an inspectable script: minimal root with a synthetic /etc, no writable host path, fail-closed probes inside the limits | C306, C307, C313 | PARCIAL |
 | SC-17 | local-server | Real authentication, user isolation, encryption at rest, durable audit, signing | — | FUTURO |
 
 PARCIAL on SC-05, SC-13 and SC-16 means the listed cases passed but the control has only positive cases, or only one manual case; FUTURO never counts as passed. States derive from case polarities and statuses; they do not prove the checklist items a control references, which stay Codex's evaluation.

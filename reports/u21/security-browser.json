@@ -1,5 +1,5 @@
 {
- "runner": "scripts/sandbox/run_isolated.sh with the minimal root (D50), 2026-10-12",
+ "runner": "scripts/sandbox/run_isolated.sh with the minimal root and the synthetic /etc (D50, D54), exported through the allowlist, 2026-10-12",
  "secrets": {
   "keyFieldAfterSubmit": "",
   "connectionStatus": "Conexión comprobada. Puedes volver a Sesión.",
@@ -16,15 +16,41 @@
  "csp": {
   "public": {
    "metaCsp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'",
-   "viewsRendered": {"session": true, "agents": true, "mcp": true, "method": true, "evidence": true},
+   "viewsRendered": {
+    "session": true,
+    "agents": true,
+    "mcp": true,
+    "method": true,
+    "evidence": true
+   },
    "templateCards": 4,
    "violations": []
   },
   "local": {
    "metaCsp": null,
-   "viewsRendered": {"session": true, "agents": true, "mcp": true, "method": true, "evidence": true},
+   "viewsRendered": {
+    "session": true,
+    "agents": true,
+    "mcp": true,
+    "method": true,
+    "evidence": true
+   },
    "templateCards": 4,
    "violations": []
+  }
+ },
+ "exportGuard": {
+  "public": {
+   "downloadsWithCredential": 0,
+   "statusAfterExport": "Retira las credenciales antes de exportar.",
+   "statusAfterSave": null,
+   "downloadsAfterSanitizing": 1
+  },
+  "local": {
+   "downloadsWithCredential": 0,
+   "statusAfterExport": "Retira las credenciales antes de exportar.",
+   "statusAfterSave": "No se guardó el agente. Revisa los campos y evita credenciales. AGENT_SENSITIVE_INPUT",
+   "downloadsAfterSanitizing": 1
   }
  }
 }
