@@ -16,7 +16,7 @@ Screenshot from the public build of the revision that added it, served locally.
 
 - **30 seconds.** Read the presentation at the top of Session: who I am, what I contribute, what is pending.
 - **3 minutes.** Follow the tour in *How it is built*. Each step names what you do, the expected result and the control it demonstrates, with a link to its evidence.
-- **Technical review.** Start at the [documentation index](docs/INDEX.md): specification, architecture, decisions, tests, evidence, the [requirement matrix](docs/requirements-matrix.md) and one requirement traced from need to evidence.
+- **Technical review.** Start at the [documentation index](docs/INDEX.md): specification, architecture, decisions, tests, evidence, the [requirement matrix](docs/requirements-matrix.md) and the [engineering book](docs/book/README.md).
 
 ## What the lab demonstrates
 

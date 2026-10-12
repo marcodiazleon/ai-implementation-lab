@@ -16,7 +16,7 @@ Este repositorio muestra mi trabajo de definición, selección de herramientas y
 | 6. Comprobar el resultado | Condición, acción, resultado esperado y observado por caso | [Matriz de aceptación](../specs/001-support-demo/acceptance.csv) |
 | 7. Entregar y continuar | Evidencia, estado de cada registro, límites, siguiente tarea y mantenimiento | [Evidencia de esta revisión](../evidence/latest.json), [estado del proyecto](project-status.json), [operación](operations.md) y [bitácora](notebook.md). La [revisión del método del 2026-10-03](../reports/SDD_REVIEW.md) es histórica |
 
-El [mapa del método](sdd-adoption.md) explica cómo se aplica cada área del libro de ingeniería a este proyecto. El [estado actual](project-status.json) identifica la especificación activa.
+El [libro de ingeniería](book/README.md) recorre toda la aplicación en una sola ruta: contexto, componentes, secuencias, método, decisiones, validación y límites, con el SHA exacto que describe. El [mapa del método](sdd-adoption.md) explica cómo se aplica cada área del libro de ingeniería a este proyecto. El [estado actual](project-status.json) identifica la especificación activa.
 
 ## Un recorrido concreto
 
@@ -59,7 +59,7 @@ Todos los datos son ficticios. El recibo es local y simulado. El estado se pierd
 - **evidence/** contiene los resultados de ejecución y sus versiones; **reports/** explica su alcance.
 - **docs/** conserva decisiones, herramientas, operación y continuidad.
 
-**MVC** organiza datos, coordinación y pantalla. **MCP** expone herramientas mediante un protocolo: aquí son dos consultas de datos ficticios. Una **skill** define un procedimiento; su archivo por sí solo no demuestra que un ejecutor lo haya cargado.
+**MVC** organiza datos, coordinación y pantalla. **MCP** expone herramientas mediante un protocolo: aquí son dos consultas de datos ficticios por stdio (`python run.py mcp`) y, en el laboratorio local, una conexión de solo lectura a Context7 con dos herramientas de documentación, con consentimiento en cada llamada (U07; enmienda 2026-10-12). Una **skill** define un procedimiento; su archivo por sí solo no demuestra que un ejecutor lo haya cargado.
 
 ## Qué sigue
 

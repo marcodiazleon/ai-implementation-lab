@@ -65,7 +65,7 @@
     "C317"
    ],
    "state": "VERIFICADO",
-   "limit": "Same named formats in Python and JavaScript, applied to every string value of objects and arrays raw and serialized, checked against each other with Node and on the real export form; the server is the authority where one exists, the browser guard is the only one on the static build",
+   "limit": "Same named formats in Python and JavaScript, applied to every string value of objects and arrays raw and serialized, checked against each other with Node and on the real export form; the server is the authority where one exists, the browser guard is the only one on the static build; the Pages in-tab agent save (web/public-demo.js saveAgent) checks two formats only, while the local store and the export guards use the shared patterns: a coverage gap recorded 2026-10-12 (U22, C326), pending a code decision",
    "checklist": [
     "REQ070",
     "REQ071",

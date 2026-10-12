@@ -9,7 +9,7 @@ Current implementation: the S01 version in [project-status.json](project-status.
 | Presentation and tour | Session presentation; three-minute tour in How it is built | Same | Test with a new visitor (C170) | Fictional case only |
 | Refund case | Described in the tour; not executed in the interface (U13) | `python run.py tour` and the test suite | Owner decision on a visible route (D35) | Simulated receipts; reviewer without real authentication; memory-only state |
 | Session conversation | Model catalog and agent drafts; no replies | Conversation with OpenAI or Anthropic using your own key and consent | A recorded live provider call | Text only; no tools; provider charges apply locally |
-| Agents | Drafts kept in the tab | Definitions kept in the ignored `.local` folder | — | No shell, file or deployment access |
+| Agents | Drafts kept in the tab (the in-tab save checks two credential formats only) | Definitions kept in the ignored `.local` folder, checked with the shared patterns | Code decision on the Pages save guard (C326, 2026-10-12) | No shell, file or deployment access |
 | MCP | Configuration export only | Context7 read-only connection | Live assistant-client interoperability | Exported configuration is not a connection |
 | Evidence | Committed run, cases and project records | Same, plus `python scripts/verify.py` | Owner acceptance; integration of PRs #4–#6 | Automated checks are not owner acceptance |
 | Verification | — | Local run | CI result on the candidate revision | Named publication guard patterns |
@@ -29,7 +29,7 @@ The rows below are the earlier ledger by increment; they keep their own scope.
 | Data skill | Manual read plus validator/evaluation | Native assistant discovery unverified |
 | Implementation-review skill | Manual read, traceability and diff review | Same implementing assistant, not independent QA |
 | MCP | Unit and subprocess wire exchange | Live assistant-client interoperability EXP-M09 |
-| Verification tooling | Per-case results, environment and source hashes; one CI on Linux and Windows with a reproducibility check (D32) | Browser checks in CI and an injected-defect run still EXP-M07 |
+| Verification tooling | Per-case results, environment and source hashes; one CI on Linux and Windows with a reproducibility check (D32; the EXP-M07 wording "no versioned CI" is historical, only the browser checks stay outside CI) | Browser checks in CI and an injected-defect run still EXP-M07 |
 | Runtime model | Optional OpenAI via operator-selected model | Offline transport validated; paid inference pending |
 | Deployment | Loopback server + static public demo on GitHub Pages (browser-side rules) | No server-side public API or customer service; model/MCP features local only |
 | Expansion | 20 items with requirements, dependencies and acceptance | Planning is not implementation |

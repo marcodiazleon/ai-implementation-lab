@@ -904,6 +904,171 @@ class PromoteTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256((dest / n).read_bytes()).hexdigest(), hashlib.sha256(b).hexdigest(), n)
 
 
+BOOK = ROOT / "docs/book"
+BOOK_SHA = "a16a4e67b4257c2cb13054efd3ffa20acc2dd3be"
+
+
+def slug(text):
+    return re.sub(r"[^\w\- ]", "", text.lower().replace("·", "")).strip().replace(" ", "-")
+
+
+class BookTests(unittest.TestCase):
+    """U22, R59: the engineering book is navigable, accessible and names the code it describes."""
+
+    def chapters(self):
+        return sorted(BOOK.glob("*.md"))
+
+    def test_book_links_and_entry_points_resolve(self):
+        """C322 (R59a): every relative link and anchor of the book resolves; the three entry documents link the book."""
+        self.assertGreaterEqual(len(self.chapters()), 8)
+        for path in self.chapters():
+            text = path.read_text(encoding="utf-8")
+            for target in re.findall(r"\]\(([^)\s]+)\)", text):
+                if target.startswith(("http://", "https://", "mailto:")):
+                    continue
+                file_part, _, anchor = target.partition("#")
+                resolved = (path.parent / file_part).resolve() if file_part else path
+                self.assertTrue(resolved.exists(), f"{path.name}: {target}")
+                if anchor and resolved.suffix == ".md":
+                    headings = {slug(h) for h in re.findall(r"^#+ (.+)$", resolved.read_text(encoding="utf-8"), flags=re.M)}
+                    self.assertIn(anchor, headings, f"{path.name}: {target}")
+        for entry, link in (("README.md", "docs/book/README.md"), ("docs/INDEX.md", "book/README.md"), ("docs/START_HERE_ES.md", "book/README.md")):
+            self.assertIn("](" + link + ")", (ROOT / entry).read_text(encoding="utf-8"), entry)
+
+    def test_book_diagrams_have_textual_equivalents(self):
+        """C323 (R59b): each Mermaid diagram is followed by its textual equivalent; no arrow makes Pages run Python or a model."""
+        diagrams = 0
+        for path in self.chapters():
+            text = path.read_text(encoding="utf-8")
+            blocks = re.findall(r"```mermaid\n(.*?)```(.*?)(?=\n#{1,3} |\Z)", text, flags=re.S)
+            for source, after in blocks:
+                diagrams += 1
+                self.assertIn("Equivalente en texto", after, f"{path.name}: a diagram without its textual equivalent")
+                self.assertNotRegex(source, r"P\s*-+>.*(Python|inferencia|modelo)", f"{path.name}: Pages must not execute Python or inference")
+            if "flowchart TB" in text and path.name == "02-arquitectura.md":
+                for marker in ("(opcional)", "simulado", "NO ejecuta Python ni inferencia"):
+                    self.assertIn(marker, text, marker)                      # legend carried in the node text, not only in color
+        self.assertGreaterEqual(diagrams, 6)
+
+    def test_book_names_sha_version_and_reuses_decision_ids(self):
+        """C324 (R59c, R59d): every chapter names the described SHA; the index names the version and the published record;
+        the decision chapter carries every D-ID of docs/decisions.md and no reserved ID, with the honesty markers."""
+        for path in self.chapters():
+            self.assertIn(BOOK_SHA, path.read_text(encoding="utf-8"), path.name)
+        index = (BOOK / "README.md").read_text(encoding="utf-8")
+        self.assertIn("Versión del libro:", index); self.assertIn("deployment", index); self.assertIn("project-status.json", index)
+        decisions = (ROOT / "docs/decisions.md").read_text(encoding="utf-8")
+        chapter = (BOOK / "05-decisiones.md").read_text(encoding="utf-8")
+        defined = set(re.findall(r"^## (D\d{2}) ", decisions, flags=re.M)) | set(re.findall(r"^\| (D\d{2}) \|", decisions, flags=re.M))
+        for ident in sorted(defined):                                        # every decision defined there, not every mention
+            self.assertIn(ident, chapter, ident)
+        registry = json.loads((ROOT / "docs/id-registry.json").read_text(encoding="utf-8"))
+        reserved = {i for block in registry["reserved"] for i in block["ids"] if i.startswith("D")}
+        table_ids = set(re.findall(r"^\| (D\d{2})", chapter, flags=re.M))
+        self.assertFalse(reserved & table_ids, reserved & table_ids)
+        self.assertIn("no registrado", chapter); self.assertIn("Inferido (no registrado)", chapter)
+        for marker in ("implementado", "opcional", "simulado", "futuro"):
+            self.assertIn(marker, (BOOK / "01-proposito-y-alcance.md").read_text(encoding="utf-8").lower(), marker)
+
+
+    def test_discrepancies_are_classified_and_current_guides_corrected(self):
+        """C325 (R59e): every discrepancy row carries a class; the current guides corrected carry dated amendments."""
+        chapter = (BOOK / "07-operacion-y-limites.md").read_text(encoding="utf-8")
+        table = chapter[chapter.index("| # | Clase |"):chapter.index("Las filas PENDIENTE TÉCNICO")]
+        rows = [line for line in table.splitlines() if re.match(r"^\| \d+ \|", line)]
+        self.assertGreaterEqual(len(rows), 24)
+        for row in rows:
+            self.assertRegex(row, r"^\| \d+ \| (HISTÓRICA|CORREGIDA|DECISIÓN|PENDIENTE TÉCNICO) \|", row[:40])
+        for path, text in (("docs/START_HERE_ES.md", "conexión de solo lectura a Context7"), ("docs/engineering-guide.md", "optional conversation with OpenAI or Anthropic"),
+                           ("docs/architecture.md", "Scope note 2026-10-12"), ("docs/architecture.md", "[engineering book](book/README.md)"),
+                           ("docs/decisions.md", "Amended 2026-10-12: Marco, via Codex, authorized the assistant to open draft pull requests"),
+                           ("SECURITY.md", "fake-transport demonstrations"), ("docs/roadmap.md", "Scope note 2026-10-12"), ("docs/sdd-adoption.md", "scope note 2026-10-12")):
+            self.assertIn(text, (ROOT / path).read_text(encoding="utf-8"), path)
+        decisions = (ROOT / "docs/decisions.md").read_text(encoding="utf-8")
+        self.assertIn("the owner opens pull requests manually; the assistant only pushes branches", decisions)   # history kept
+        self.assertIn("Model integration is deferred", (ROOT / "docs/engineering-guide.md").read_text(encoding="utf-8"))  # earlier wording cited
+
+    def test_pages_guard_gap_is_recorded_and_context7_copy_is_true(self):
+        """C326 (R59e): the Pages save guard gap is recorded as pending, not patched; the Context7 copy describes manual reading."""
+        controls = json.loads((ROOT / "specs/001-support-demo/security-controls.json").read_text(encoding="utf-8"))
+        limit = next(c for c in controls["controls"] if c["id"] == "SC-02")["limit"]
+        self.assertIn("public-demo.js saveAgent", limit); self.assertIn("pending a code decision", limit)
+        self.assertIn("Code decision on the Pages save guard (C326", DOC("capabilities.md"))
+        public = (ROOT / "web/public-demo.js").read_text(encoding="utf-8")
+        self.assertNotIn("LabSensitive", public)                       # no silent patch in a documentation change
+        self.assertIn("PRIVATE KEY", public)
+        html = (ROOT / "web/index.html").read_text(encoding="utf-8")
+        self.assertNotIn("El Investigador podrá usar el resultado", html); self.assertNotIn("The researcher can use the result", html)
+        self.assertIn("no se reenvía a ningún agente ni a la conversación", html); self.assertIn("it is not forwarded to any agent or to the conversation", html)
+
+
+    def test_diagrams_are_laid_out_for_a_phone(self):
+        """C328 (R59g): vertical flowcharts with short labels; sequences of at most three participants with short messages."""
+        seen = 0
+        for path in self.chapters():
+            text = path.read_text(encoding="utf-8")
+            for source in re.findall(r"```mermaid\n(.*?)```", text, flags=re.S):
+                seen += 1
+                head = source.strip().splitlines()[0]
+                if head.startswith("flowchart"):
+                    self.assertEqual(head, "flowchart TB", f"{path.name}: {head}")
+                    for label in re.findall(r'\["([^"]+)"\]|\[\("([^"]+)"\)\]|subgraph \w+\["([^"]+)"\]', source):
+                        plain = re.sub(r"<br/?>", " ", next(x for x in label if x))
+                        self.assertLessEqual(len(plain), 56, f"{path.name}: label too long: {plain}")
+                else:
+                    self.assertTrue(head.startswith("sequenceDiagram"), f"{path.name}: {head}")
+                    self.assertLessEqual(len(re.findall(r"^\s*participant ", source, flags=re.M)), 3, f"{path.name}: too many participants")
+                    for line in source.splitlines():
+                        if "->>" in line or "-->>" in line or line.strip().startswith("note"):
+                            message = line.split(": ", 1)[1] if ": " in line else ""
+                            self.assertLessEqual(len(message), 64, f"{path.name}: message too long: {message}")
+        self.assertGreaterEqual(seen, 10)
+
+    def test_browser_component_arrows_come_from_the_source(self):
+        """C329 (R59h): every arrow of the browser fragments is a script index.html loads or a global one module reads from
+        another; every such use among the loaded modules is drawn; ordering uses invisible links, never an arrow."""
+        text = (BOOK / "02-arquitectura.md").read_text(encoding="utf-8")
+        blocks = re.findall(r"```mermaid\n(.*?)```", text, flags=re.S)
+        load, use = blocks[1], blocks[2]
+        self.assertIn("index.html", load)
+        self.assertNotIn("index.html", use)
+        html = (ROOT / "web/index.html").read_text(encoding="utf-8")
+        loaded = re.findall(r'<script src="/([\w.-]+\.js)"', html)
+        self.assertEqual(len(loaded), 8)
+        injected = re.findall(r'<script src="([\w.-]+\.js)"', (ROOT / "scripts/build_pages.py").read_text(encoding="utf-8"))
+        self.assertIn("public-demo.js", injected)
+        globals_by_file = {}
+        for js in sorted((ROOT / "web").glob("*.js")):
+            for name in re.findall(r"\bwindow\.(Lab\w+)\s*=|\bglobalThis\)\.(Lab\w+)\s*=", js.read_text(encoding="utf-8")):
+                globals_by_file[next(x for x in name if x)] = js.name
+        self.assertEqual(sorted(globals_by_file), ["LabCloud", "LabEvidenceRules", "LabI18n", "LabSensitive"])
+        expected_use = set()
+        for js in loaded:
+            body = (ROOT / "web" / js).read_text(encoding="utf-8")
+            for name, owner in globals_by_file.items():
+                if owner != js and re.search(r"\b" + name + r"\b", body):
+                    expected_use.add((js, owner, name))
+
+        def nodes(block):
+            return {i: re.sub(r"<br/?>.*", "", label) for i, label in re.findall(r'(\w+)\["([^"]+)"\]', block)}
+
+        def arrows(block):
+            found = []
+            for line in block.splitlines():
+                m = re.match(r"\s*(\w+)(?:\[[^\]]*\])?\s*(-->|-\.->)(?:\|\"([^\"]*)\"\|)?\s*(\w+)", line)
+                if m:
+                    found.append((m.group(1), m.group(4), m.group(2), m.group(3)))
+            return found
+
+        ln, un = nodes(load), nodes(use)
+        drawn_load = {(ln[a], ln[b], kind) for a, b, kind, _ in arrows(load)}
+        self.assertEqual(drawn_load, {("index.html", js, "-->") for js in loaded} | {("index.html", "public-demo.js", "-.->")})
+        drawn_use = {(un[a], un[b], label) for a, b, kind, label in arrows(use)}
+        self.assertEqual(drawn_use, expected_use)
+        self.assertNotIn("app.js", ln.values())
+        self.assertNotIn("->", re.sub(r"-->|-\.->", "", load + use).replace("->>", ""))
+
+
 class DocsTests(unittest.TestCase):
     def test_data_inventory_covers_each_store(self):
         threat = DOC("threat-model.md")

@@ -19,6 +19,7 @@ Current revision: the S01 version selected in [project-status.json](project-stat
 | Specification: sources, use cases, requirements | [spec.md](../specs/001-support-demo/spec.md) |
 | Plan and tasks | [plan.md](../specs/001-support-demo/plan.md) · [tasks.md](../specs/001-support-demo/tasks.md) |
 | Acceptance cases and their status | [acceptance.csv](../specs/001-support-demo/acceptance.csv) |
+| Engineering book: one reading route with diagrams, decisions and limits (candidate a16a4e6) | [book/README.md](book/README.md) |
 | Architecture | [architecture.md](architecture.md) |
 | Decisions | [decisions.md](decisions.md) |
 | ID registry for open pull requests | [id-registry.json](id-registry.json) |
