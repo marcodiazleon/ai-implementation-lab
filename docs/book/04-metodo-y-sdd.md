@@ -6,20 +6,20 @@
 
 ```mermaid
 flowchart TB
-  U["Fuente U<br/>petición de Marco"] --> CU["Caso de uso CU"]
-  CU --> R["Requisito R"]
+  U["Fuente U<br/>petición de Marco"] -.-> CU["Caso de uso CU"]
+  CU -.-> R["Requisito R"]
+  D["Decisión D"] -.-> R
   R --> T["Tarea T"]
   R --> C["Caso C<br/>acceptance.csv"]
-  R --> D["Decisión D"]
-  T --> CODE["Código"]
+  T -.-> CODE["Código"]
   C --> TEST["Prueba"]
   CODE --> EV["Evidencia<br/>verify.py"]
   TEST --> EV
-  EV --> MX["Matriz generada"]
-  EV --> NB["Bitácora"]
+  C --> MX["Matriz generada"]
+  EV -.-> NB["Bitácora"]
 ```
 
-**Equivalente en texto.** Una petición de Marco se registra como fuente U; de ella salen casos de uso CU y requisitos R escritos con *shall*; cada requisito tiene tareas T y casos de aceptación C; cada caso nombra la prueba que lo ejecuta (`test_id`) y `scripts/verify.py` escribe el resultado observado, el estado, la evidencia, el entorno y la huella de fuentes en `acceptance.csv` y `evidence/latest.json`; las decisiones D explican por qué se construyó así; la matriz de requisitos se genera de los registros y una clasificación revisada; la bitácora cierra cada cambio con lo hecho y lo pendiente (constitución, reglas 2, 4 y 11).
+**Equivalente en texto.** Flecha continua = enlace que `sdd_check.py`, `verify.py` o `requirement_matrix.py` leen de los registros (R→T por `sdd_check.py:158-160`; R→C por `requirement_id` en `acceptance.csv`; C→Prueba por `test_id`; Código y Prueba→Evidencia por `verify.py:70-137`; C→Matriz porque `requirement_matrix.render` lee `acceptance.csv` y `case-kinds.json`, `verify.py:104-106`). Flecha discontinua = paso del método que una persona escribe, sin enlace de máquina (U→CU y CU→R son columnas de la spec; D→R porque los requisitos citan decisiones en su columna de fuente, `spec.md:117`; T→Código porque `tasks.md` no nombra rutas; Evidencia→Bitácora por la regla 11 de la constitución, ningún script la escribe). Una petición de Marco se registra como fuente U; de ella salen casos de uso CU y requisitos R escritos con *shall*; cada requisito tiene tareas T y casos de aceptación C; cada caso nombra la prueba que lo ejecuta (`test_id`) y `scripts/verify.py` escribe el resultado observado, el estado, la evidencia, el entorno y la huella de fuentes en `acceptance.csv` y `evidence/latest.json`; las decisiones D explican por qué se construyó así; la matriz de requisitos se genera de los registros y una clasificación revisada; la bitácora cierra cada cambio con lo hecho y lo pendiente (constitución, reglas 2, 4 y 11).
 
 Qué aporta cada pieza, en una frase:
 
@@ -61,7 +61,7 @@ De la [constitución](../constitution.md) (versión 0.2, 2026-10-03), las que m�
 
 1. Descubre y ejecuta `tests/` con `unittest`; registra cada prueba.
 2. Valida los fixtures (`validate_data.py`), pasa la guarda de publicación sobre el árbol, el `sdd_check` (estructura de spec, plan, tasks, casos, registros e IDs), la comprobación de seguridad (`security_check.py`: reglas estáticas, inventario de biblioteca estándar, pins y permisos de los workflows, secretos) y la evaluación de los siete escenarios.
-3. Reescribe cuatro archivos generados: `evidence/latest.json`, `evidence/sdd-check.json`, `specs/001-support-demo/acceptance.csv` y `docs/requirements-matrix.md` (`scripts/verify.py:64-144`).
+3. Reescribe cuatro archivos generados (la matriz solo si no hay errores, `verify.py:105`): `evidence/latest.json`, `evidence/sdd-check.json`, `specs/001-support-demo/acceptance.csv` y `docs/requirements-matrix.md` (`scripts/verify.py:64-144`).
 4. `scripts/check_evidence.py` comprueba que la evidencia comprometida describe exactamente estas fuentes y registros (`--save` y `--against` en CI). Tras editar un registro, la primera corrida falla por construcción hasta que registros y evidencia se describen mutuamente (C233, C248); por eso cada entrega muestra una corrida de arranque y dos idénticas.
 
 Inferido (no registrado): el requisito de "dos corridas idénticas" funciona como prueba de reproducibilidad barata; el registro lo formula como regla (R53b, D32) sin explicar ese motivo.
