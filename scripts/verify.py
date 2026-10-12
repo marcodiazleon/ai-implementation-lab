@@ -18,6 +18,7 @@ from scripts.publication_check import check, files
 from scripts.sdd_check import validate as validate_sdd
 from scripts.check_evidence import source_hashes, record_hashes, case_map
 from scripts import requirement_matrix
+from scripts import security_check
 from src.lab.cli import evaluate
 
 class CaseResult(unittest.TextTestResult):
@@ -70,6 +71,8 @@ def main():
         unittest.defaultTestLoader.discover(str(ROOT / "tests")))
     print(stream.getvalue())
     fixture_errors, publication_errors, sdd_errors = validate(), check(), validate_sdd()
+    # R56d / D48: named security rules, inventory, pins and secrets; recorded here and required by check_evidence.
+    security = security_check.check()
     evaluation = evaluate()
     # One definition of the source fingerprint, shared with scripts/check_evidence.py (R39b, R42a).
     source = source_hashes()
@@ -123,15 +126,17 @@ def main():
         "publication_guard": {"passed": not publication_errors, "errors": publication_errors, "scope": "Limited patterns"},
         "sdd_check": {"passed": not sdd_errors, "errors": sdd_errors},
         "requirement_matrix": {"passed": not matrix_errors, "errors": matrix_errors, "scope": "Completeness per requirement; not semantic review or owner acceptance"},
+        "security_check": security,
         "scenario_evaluation": evaluation, "source_sha256": source,
         "record_id": record_id, "record_sha256": records, "acceptance_cases": case_map(path),
         "acceptance_states": {s: sum(c["status"] == s for c in cases) for s in ("PASS", "FAIL", "NO_PROBADO", "BLOQUEADO", "NO_APLICA")},
         "limitations": ["Manual acceptance retains its original evidence/version", "No LLM evaluation",
                        "No live MCP client integration", "No authenticated reviewer",
                        "No durable transaction recovery", "No external business integration"]}
-    evidence["passed"] = result.wasSuccessful() and not fixture_errors and not publication_errors and not sdd_errors and not matrix_errors and evaluation["passed"]
+    evidence["passed"] = result.wasSuccessful() and not fixture_errors and not publication_errors and not sdd_errors and not matrix_errors and security["passed"] and evaluation["passed"]
     (ROOT / "evidence/latest.json").write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"passed": evidence["passed"], "tests": result.testsRun, "scenarios": len(evaluation["cases"]), "sdd_errors": sdd_errors}))
+    print(json.dumps({"passed": evidence["passed"], "tests": result.testsRun, "scenarios": len(evaluation["cases"]), "sdd_errors": sdd_errors,
+                      "security_errors": security["errors"]}))
     # R37b: say plainly that versioned files changed, so nobody commits a local run by accident.
     print("Note: this run rewrote evidence/latest.json, evidence/sdd-check.json, specs/001-support-demo/acceptance.csv and docs/requirements-matrix.md. "
           "Review them with git diff; to discard only those four: git checkout -- evidence/latest.json evidence/sdd-check.json "

@@ -101,6 +101,10 @@ def check_committed(root=ROOT):
                             evidence.get("record_sha256", {}), record_hashes(root))
     if evidence.get("passed") is not True:
         errors.append("Committed evidence is not a passing run")
+    # R56d / D48: an absent or failed security check never reads as green.
+    security = evidence.get("security_check")
+    if not isinstance(security, dict) or security.get("passed") is not True:
+        errors.append("Committed evidence has no passing security_check")
     return errors
 
 def compare_statuses(committed, current):
