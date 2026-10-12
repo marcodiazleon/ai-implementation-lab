@@ -1,15 +1,19 @@
 "use strict";
 (() => {
  const el=id=>document.getElementById(id), t=(es,en)=>LabI18n.language==='en'?en:es;
- const views=['demo','agents','mcp','connection','method','evidence'];let templates=[],custom=[],saving=false,profiles=[];
+ const views=['demo','agents','mcp','method','evidence'];let templates=[],custom=[],saving=false,profiles=[];
  const notices={};
  const notice=(id,es,en)=>{notices[id]=[es,en];el(id).textContent=t(es,en);};
  const modeNames={plan:['Planificar','Plan'],research:['Investigar','Research'],implementation:['Implementar','Implement'],review:['Revisar','Review']};
+ // R54g / D52: the named formats of web/sensitive-rules.js (the same as src/lab/sensitive.py), on raw text and JSON.
+ const secretLike=value=>LabSensitive.findSecretsIn(value).length>0;
  const download=(value,name)=>{const url=URL.createObjectURL(new Blob([value],{type:'application/octet-stream'}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);};
- function route(focus=false){const hash=location.hash.slice(1),view=['chat','session'].includes(hash)?'demo':views.includes(hash)?hash:'demo';document.body.classList.toggle('session-view',view==='demo');document.querySelectorAll('[data-panel]').forEach(n=>n.hidden=n.dataset.panel!==view);document.querySelectorAll('[data-view]').forEach(n=>{if(n.dataset.view===view)n.setAttribute('aria-current','page');else n.removeAttribute('aria-current');});if(['workspace','trace'].includes(hash))el('examplePanel').open=true;if(focus){const heading=el('view-'+view).querySelector('h1');heading.tabIndex=-1;heading.focus();}}
+ function route(focus=false){const hash=location.hash.slice(1).split('/')[0],view=['chat','session'].includes(hash)?'demo':views.includes(hash)?hash:'demo';document.body.classList.toggle('session-view',view==='demo');document.querySelectorAll('[data-panel]').forEach(n=>n.hidden=n.dataset.panel!==view);document.querySelectorAll('[data-view]').forEach(n=>{if(n.dataset.view===view)n.setAttribute('aria-current','page');else n.removeAttribute('aria-current');});if(hash==='connection')window.LabCloud?.openConnection();if(focus){const heading=el('view-'+view).querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus();}}}
+ // R38a: the skip link always lands in the message box, even when it has to open Session first.
+ document.querySelector('.skip-link').addEventListener('click',e=>{e.preventDefault();const go=()=>el('question').focus();if(el('view-demo').hidden){addEventListener('hashchange',go,{once:true});location.hash='session';}else go();});
  addEventListener('hashchange',()=>{route(true);if(matchMedia('(max-width: 800px)').matches){collapsed=true;sidebar();}});route();
  let collapsed=matchMedia('(max-width: 800px)').matches;try{const saved=localStorage.getItem('lab.sidebar');if(saved!==null&&!matchMedia('(max-width: 800px)').matches)collapsed=saved==='collapsed';}catch{}
- function sidebar(){el('navBackdrop').hidden=collapsed||!matchMedia('(max-width: 800px)').matches;document.body.classList.toggle('sidebar-collapsed',collapsed);el('toggleSidebar').setAttribute('aria-expanded',String(!collapsed));el('toggleSidebar').setAttribute('aria-label',collapsed?t('Expandir menú','Expand menu'):t('Contraer menú','Collapse menu'));}
+ function sidebar(){el('navBackdrop').hidden=collapsed||!matchMedia('(max-width: 800px)').matches;document.body.classList.toggle('sidebar-collapsed',collapsed);document.body.classList.toggle('sidebar-open',!collapsed);el('toggleSidebar').setAttribute('aria-expanded',String(!collapsed));el('toggleSidebar').setAttribute('aria-label',collapsed?t('Expandir menú','Expand menu'):t('Contraer menú','Collapse menu'));}
  el('toggleSidebar').onclick=()=>{collapsed=!collapsed;try{localStorage.setItem('lab.sidebar',collapsed?'collapsed':'expanded');}catch{}sidebar();};el('navBackdrop').onclick=()=>{collapsed=true;sidebar();};sidebar();
  function buildData(){return {id:el('builderId').value,name:el('builderName').value.trim(),role:el('builderRole').value.trim(),prompt:el('builderPrompt').value.trim(),work_mode:el('builderMode').value};}
  function fill(row){el('builderId').value=row.id||'';el('builderName').value=row.name;el('builderRole').value=row.role;el('builderPrompt').value=row.prompt;el('builderMode').value=row.work_mode;el('builderName').focus();}
@@ -26,12 +30,14 @@
  async function loadAgents(){const [a,b]=await Promise.all([fetch('/api/agents'),fetch('/api/custom-agents')]);if(!a.ok||!b.ok)throw Error();templates=await a.json();custom=await b.json();renderAgents();}
  el('builderForm').onsubmit=async e=>{e.preventDefault();if(saving)return;saving=true;el('saveAgent').disabled=true;try{const response=await fetch('/api/custom-agents/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(buildData())});const row=await response.json();if(!response.ok)throw {code:row.error};el('builderId').value=row.id;await loadAgents();notice('builderStatus','Agente guardado en el proyecto. Ya puedes elegirlo en Sesión.','Agent saved in the project. You can select it in Session.');}catch(e){notice('builderStatus','No se guardó el agente. Revisa los campos y evita credenciales. '+(e.code||''),'Agent was not saved. Check fields and avoid credentials. '+(e.code||''));}finally{saving=false;el('saveAgent').disabled=false;}};
  el('newAgent').onclick=blank;
- el('exportAgent').onclick=()=>{if(!el('builderForm').reportValidity())return;const row=buildData();if(/sk-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/.test(JSON.stringify(row))){notice('builderStatus','Retira las credenciales antes de exportar.','Remove credentials before exporting.');return;}download(JSON.stringify({schema:1,...row,capabilities:['text_only'],hooks:['input_validation','text_only_scope','bounded_output']},null,2),'agent-definition.json');};
+ el('exportAgent').onclick=()=>{if(!el('builderForm').reportValidity())return;const row=buildData();if(secretLike(row)){notice('builderStatus','Retira las credenciales antes de exportar.','Remove credentials before exporting.');return;}download(JSON.stringify({schema:1,...row,capabilities:['text_only'],hooks:['input_validation','text_only_scope','bounded_output']},null,2),'agent-definition.json');};
  const safeProfile=p=>{
   if(!p||typeof p.name!=='string'||!/^[A-Za-z0-9_-]{1,60}$/.test(p.name)||!['http','stdio'].includes(p.type))throw Error();
+  // Both transport branches: named formats first, then the generic credential words.
+  if(secretLike(p)||/(?:api[-_]?key|token|password|secret)(?:=|\s)/i.test(JSON.stringify(p)))throw Error();
   if(p.type==='http'){const url=new URL(p.url);if(!['https:','http:'].includes(url.protocol)||url.username||url.password||url.search||url.hash||p.url.length>500)throw Error();return {name:p.name,type:p.type,url:p.url};}
   if(typeof p.command!=='string'||!p.command.trim()||p.command.length>150||!Array.isArray(p.args)||p.args.length>20||p.args.some(x=>typeof x!=='string'||x.length>300))throw Error();
-  if(/sk-[A-Za-z0-9_-]{20,}|(?:api[-_]?key|token|password|secret)(?:=|\s)/i.test(JSON.stringify(p)))throw Error();return {name:p.name,type:p.type,command:p.command,args:p.args};
+  return {name:p.name,type:p.type,command:p.command,args:p.args};
  };
  try{const rows=JSON.parse(localStorage.getItem('lab.mcp-profiles')||'[]');if(Array.isArray(rows)&&rows.length<=20)profiles=rows.map(safeProfile);}catch{profiles=[];}
  function config(){const servers=Object.create(null);for(const p of profiles)servers[p.name]=p.type==='http'?{url:p.url}:{command:p.command,args:p.args};return {mcpServers:servers};}

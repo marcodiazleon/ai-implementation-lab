@@ -1,7 +1,7 @@
 # Engineering method adoption
 
-Version 0.2, reviewed 2026-10-03. Owner: Marco Díaz de León.
-Current scope: the S01 version selected in [project-status.json](project-status.json): documentation and local synthetic implementation; S02 is the planned expansion.
+Version 0.2, reviewed 2026-10-03; scope note 2026-10-12: stage 5B below records the self-review of that date; the independent reviews by Codex are recorded in [project-status.json](project-status.json) (PR #7) and in the [notebook](notebook.md) (PR #8, #9, #10). Owner: Marco Díaz de León.
+Current scope: the S01 version selected in [project-status.json](project-status.json): conversation-only Session (U13), presentation and evidence-status increment (U17), existing local provider backend and retained historical synthetic implementation; S02 is the planned expansion.
 The first release preceded completion of its specification. That historical deviation remains recorded; this revision completes the current project's method documents and checks their relationships.
 
 ## Source and interpretation

@@ -1,0 +1,356 @@
+{
+ "language": {
+  "public": [
+   [
+    "es",
+    {
+     "footerScope": "Vista pública · Agentes en esta pestaña · API en versión local",
+     "footerRole": "ESTRATEGIA E IMPLEMENTACIÓN DE IA",
+     "sidebarNote": "AI IMPLEMENTATION LAB · VISTA PÚBLICA",
+     "chatStatus": "Vista pública",
+     "connectionStatus": "Para conectar tu API y conversar, ejecuta la versión local desde el repositorio. Esta vista pública permite explorar los modelos y crear agentes.",
+     "htmlLang": "es"
+    }
+   ],
+   [
+    "en",
+    {
+     "footerScope": "Public preview · Agents in this tab · API in the local version",
+     "footerRole": "AI STRATEGY AND IMPLEMENTATION",
+     "sidebarNote": "AI IMPLEMENTATION LAB · PUBLIC PREVIEW",
+     "chatStatus": "Public preview",
+     "connectionStatus": "Run the local version from the repository to connect your API and chat. This public preview lets you explore models and create agents.",
+     "htmlLang": "en"
+    }
+   ],
+   [
+    "es",
+    {
+     "footerScope": "Vista pública · Agentes en esta pestaña · API en versión local",
+     "footerRole": "ESTRATEGIA E IMPLEMENTACIÓN DE IA",
+     "sidebarNote": "AI IMPLEMENTATION LAB · VISTA PÚBLICA",
+     "chatStatus": "Vista pública",
+     "connectionStatus": "Para conectar tu API y conversar, ejecuta la versión local desde el repositorio. Esta vista pública permite explorar los modelos y crear agentes.",
+     "htmlLang": "es"
+    }
+   ]
+  ],
+  "local": [
+   [
+    "es",
+    {
+     "footerScope": "Sesión en memoria · API opcional · Uso local",
+     "footerRole": "ESTRATEGIA E IMPLEMENTACIÓN DE IA",
+     "sidebarNote": "AI IMPLEMENTATION LAB · ESPACIO LOCAL",
+     "chatStatus": "Sin conexión",
+     "connectionStatus": "Sin conexión.",
+     "htmlLang": "es"
+    }
+   ],
+   [
+    "en",
+    {
+     "footerScope": "In-memory session · Optional API · Local use",
+     "footerRole": "AI STRATEGY AND IMPLEMENTATION",
+     "sidebarNote": "AI IMPLEMENTATION LAB · LOCAL WORKSPACE",
+     "chatStatus": "Not connected",
+     "connectionStatus": "Not connected.",
+     "htmlLang": "en"
+    }
+   ],
+   [
+    "es",
+    {
+     "footerScope": "Sesión en memoria · API opcional · Uso local",
+     "footerRole": "ESTRATEGIA E IMPLEMENTACIÓN DE IA",
+     "sidebarNote": "AI IMPLEMENTATION LAB · ESPACIO LOCAL",
+     "chatStatus": "Sin conexión",
+     "connectionStatus": "Sin conexión.",
+     "htmlLang": "es"
+    }
+   ]
+  ]
+ },
+ "overflow": [
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "entry",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "tour",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "evidence",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "entry",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "tour",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "evidence",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "entry",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "tour",
+   "overflow": 0
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "evidence",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "entry",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "tour",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "evidence",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "entry",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "tour",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "evidence",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "entry",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "tour",
+   "overflow": 0
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "evidence",
+   "overflow": 0
+  }
+ ],
+ "links": [
+  "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/38181150428|C175",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/1c36f9034d85222b1d1741ac4090a20660b09618/reports/STUDIO_REVIEW_2026-10-03.md|C091",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/1c36f9034d85222b1d1741ac4090a20660b09618/reports/STUDIO_REVIEW_2026-10-03.md|C092",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/1c36f9034d85222b1d1741ac4090a20660b09618/reports/STUDIO_REVIEW_2026-10-03.md|C093",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/1c36f9034d85222b1d1741ac4090a20660b09618/reports/STUDIO_REVIEW_2026-10-03.md|C094",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/2092ac6295b32052929bf0220d8dc6b5d378a373/reports/MENU_API_REVIEW_2026-10-03.md|C065",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/2be5ceebd7dd88f314d06c9f845959960e75642b/reports/U17_BROWSER_CHECK_2026-10-11.md|C171",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/2be5ceebd7dd88f314d06c9f845959960e75642b/reports/U17_BROWSER_CHECK_2026-10-11.md|C172",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/2be5ceebd7dd88f314d06c9f845959960e75642b/reports/U17_BROWSER_CHECK_2026-10-11.md|C173",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/2be5ceebd7dd88f314d06c9f845959960e75642b/reports/U17_BROWSER_CHECK_2026-10-11.md|C174",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/5a11d8f0cff18de9eaa7fa79a76d242a5d08ef1d/docs/notebook.md|C120",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/63061b7dcabc197f9f245bf787dc78161c47368f/reports/SESSION_UI_REVIEW_2026-10-03.md|C103",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/63061b7dcabc197f9f245bf787dc78161c47368f/reports/SESSION_UI_REVIEW_2026-10-03.md|C104",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/723b24ea500889c940241407ad761d6b04132958/reports/LANGUAGE_REVIEW_2026-10-03.md|C068",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/97775f51ea701808cff656de6ed58f0680d1eef6/reports/EDITORIAL_REVIEW.md|C046",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/97775f51ea701808cff656de6ed58f0680d1eef6/reports/VALIDATION.md|C047",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/9a187ad38401a6846d46d9ab10937defa8b22bf9/reports/VISUAL_REVIEW_2026-10-03.md|C052",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/9a187ad38401a6846d46d9ab10937defa8b22bf9/reports/VISUAL_REVIEW_2026-10-03.md|C053",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/a103497b8e49b7bb0f3e6c012eb6cfe7d835f8df/reports/AGENTS_REVIEW_2026-10-03.md|C069",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/a103497b8e49b7bb0f3e6c012eb6cfe7d835f8df/reports/AGENTS_REVIEW_2026-10-03.md|C070",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/a103497b8e49b7bb0f3e6c012eb6cfe7d835f8df/reports/AGENTS_REVIEW_2026-10-03.md|C071",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/a103497b8e49b7bb0f3e6c012eb6cfe7d835f8df/reports/AGENTS_REVIEW_2026-10-03.md|C072",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/docs/tools-and-capabilities.md",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C001",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C002",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C003",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C004",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C005",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C006",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C007",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C008",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C009",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C010",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C011",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C012",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C013",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C014",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C015",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C016",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C017",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C018",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C019",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C020",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C021",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C022",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C023",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C024",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C025",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C026",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C027",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C028",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C029",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C030",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C031",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C032",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C033",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C034",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C035",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C036",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C037",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C038",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C039",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C040",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C041",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C042",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C048",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C049",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C050",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C051",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C054",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C055",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C056",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C057",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C058",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C059",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C060",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C061",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C062",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C063",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C064",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C073",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C074",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C075",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C076",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C077",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C078",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C079",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C080",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C081",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C082",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C083",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C084",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C085",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C086",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C087",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C088",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C089",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C090",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C095",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C096",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C097",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C098",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C099",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C100",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C101",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C102",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C105",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C106",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C107",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C108",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C109",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C110",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C111",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C112",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C113",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C114",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C115",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C116",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C117",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C118",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C119",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C148",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C149",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C150",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C178",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C179",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C180",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C181",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C182",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C183",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C184",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C185",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C186",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C187",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C188",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C189",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C190",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C191",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C192",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C193",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C194",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C195",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C196",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C197",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C198",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C199",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C200",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C201",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C203",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C204",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C205",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C206",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C207",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C208",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C209",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C210",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C212",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/latest.json|C213",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/sdd-check.json|C043",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence/sdd-check.json|C044",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/specs/001-support-demo/acceptance.csv",
+  "https://github.com/marcodiazleon/ai-implementation-lab/blob/f15562d1f0cffe63fda01b52c780748e1856f28e/specs/001-support-demo/spec.md",
+  "https://github.com/marcodiazleon/ai-implementation-lab/tree/f15562d1f0cffe63fda01b52c780748e1856f28e/evidence",
+  "https://github.com/marcodiazleon/ai-implementation-lab/tree/main"
+ ],
+ "revisionDetail": {
+  "es": "Los enlaces a archivos abren la revisión f15562d, de la que se generó esta página; los casos históricos abren el commit que los registró. Navegación viva: main en vivo (puede incluir cambios posteriores)",
+  "en": "File links open revision f15562d, which this page was produced from; historical cases open the commit that recorded them. Live navigation: live main (may include later changes)"
+ },
+ "errors": []
+}

@@ -15,6 +15,9 @@ def inspect(root=None, port=8765):
     return {"python": sys.version.split()[0], "python_supported": sys.version_info >= (3, 10),
             "missing": missing, "port": port, "port_in_use": occupied,
             "api_credentials": "NOT_READ", "destination_runtime": "NOT_TESTED",
+            # R37b: verification is not read-only for versioned files.
+            "note": "scripts/verify.py rewrites evidence/latest.json, evidence/sdd-check.json, "
+                    "specs/001-support-demo/acceptance.csv and docs/requirements-matrix.md; review them with git diff before committing.",
             "ready_to_start": sys.version_info >= (3, 10) and not missing and not occupied}
 
 if __name__ == "__main__":

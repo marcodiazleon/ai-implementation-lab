@@ -1,0 +1,4905 @@
+{
+ "label": "before",
+ "base": "http://127.0.0.1:8790/ai-implementation-lab/",
+ "pages": [
+  {
+   "lang": "es",
+   "width": 320,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 222,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 1175,
+   "composerTop": 1339,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 320,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 320,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 320,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Especificación",
+     "w": 110,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Herramientas",
+     "w": 102,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidencia",
+     "w": 73,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 320,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Qué significa cada estado de requisito",
+     "w": 190,
+     "h": 40,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 320,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 222,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "Autorizo comprobar acceso a los modelos ",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 156,
+   "composerTop": 320,
+   "viewport": 760,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 277,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 963,
+   "composerTop": 1127,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Guardado y portabilidad",
+     "w": 245,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Guía oficial de conexión MCP",
+     "w": 222,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Especificación",
+     "w": 110,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Herramientas",
+     "w": 102,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidencia",
+     "w": 73,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Qué significa cada estado de requisito",
+     "w": 245,
+     "h": 40,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 375,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 277,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "Autorizo comprobar acceso a los modelos ",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 175,
+   "composerTop": 339,
+   "viewport": 760,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 292,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 941,
+   "composerTop": 1105,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Guardado y portabilidad",
+     "w": 260,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Guía oficial de conexión MCP",
+     "w": 222,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Especificación",
+     "w": 110,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Herramientas",
+     "w": 102,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidencia",
+     "w": 73,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Qué significa cada estado de requisito",
+     "w": 260,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 390,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 292,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "Autorizo comprobar acceso a los modelos ",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 174,
+   "composerTop": 338,
+   "viewport": 760,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "es",
+   "width": 768,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 648,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 577,
+   "composerTop": 756,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 768,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Guardado y portabilidad",
+     "w": 612,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 768,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Guía oficial de conexión MCP",
+     "w": 222,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 768,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Especificación",
+     "w": 110,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Herramientas",
+     "w": 102,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidencia",
+     "w": 73,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 768,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Qué significa cada estado de requisito",
+     "w": 612,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 768,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expandir menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 648,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "Autorizo comprobar acceso a los modelos ",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Datos de sesión y otros proveedores",
+     "w": 650,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 329,
+   "composerTop": 508,
+   "viewport": 900,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Contraer menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 90,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 185,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 100,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 157,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 810,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 543,
+   "composerTop": 728,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Contraer menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Usar plantilla",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Guardado y portabilidad",
+     "w": 433,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Contraer menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Guía oficial de conexión MCP",
+     "w": 222,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Contraer menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Especificación",
+     "w": 110,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Herramientas",
+     "w": 102,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidencia",
+     "w": 73,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Contraer menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Qué significa cada estado de requisito",
+     "w": 946,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "es",
+   "width": 1360,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, inicio",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Contraer menú",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Idioma",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Proveedor de la sesión",
+     "w": 90,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Modelo de la sesión",
+     "w": 185,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Esfuerzo",
+     "w": 100,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agente",
+     "w": 157,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Conectar IA",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Sobre modelos y esfuerzo",
+     "w": 810,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "Autorizo comprobar acceso a los modelos ",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Datos de sesión y otros proveedores",
+     "w": 816,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 376,
+   "composerTop": 561,
+   "viewport": 900,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "en",
+   "width": 320,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 222,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 1095,
+   "composerTop": 1259,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 320,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 190,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 320,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 320,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Specification",
+     "w": 99,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Tools",
+     "w": 41,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidence",
+     "w": 70,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 320,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "What each requirement badge means",
+     "w": 190,
+     "h": 40,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 320,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 94,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 222,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "I authorize access checks for models I s",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 155,
+   "composerTop": 319,
+   "viewport": 760,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 277,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 916,
+   "composerTop": 1080,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 245,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Storage and portability",
+     "w": 245,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Official MCP connection guide",
+     "w": 230,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Specification",
+     "w": 99,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Tools",
+     "w": 41,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidence",
+     "w": 70,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "What each requirement badge means",
+     "w": 245,
+     "h": 40,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 375,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 122,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 277,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "I authorize access checks for models I s",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 174,
+   "composerTop": 338,
+   "viewport": 760,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 292,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 896,
+   "composerTop": 1060,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 260,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Storage and portability",
+     "w": 260,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Official MCP connection guide",
+     "w": 230,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Specification",
+     "w": 99,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Tools",
+     "w": 41,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidence",
+     "w": 70,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "What each requirement badge means",
+     "w": 260,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 760,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 390,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 129,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 292,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "I authorize access checks for models I s",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Session data and other providers",
+     "w": 276,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 174,
+   "composerTop": 338,
+   "viewport": 760,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "en",
+   "width": 768,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 648,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 552,
+   "composerTop": 731,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 768,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 280,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Storage and portability",
+     "w": 612,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 768,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Official MCP connection guide",
+     "w": 230,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 768,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Specification",
+     "w": 99,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Tools",
+     "w": 41,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidence",
+     "w": 70,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 768,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "What each requirement badge means",
+     "w": 612,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 768,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 32,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Expand menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 305,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 648,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "I authorize access checks for models I s",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Session data and other providers",
+     "w": 650,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 329,
+   "composerTop": 508,
+   "viewport": 900,
+   "h1": 2,
+   "dialogOpen": true
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "session",
+   "overflow": 0,
+   "controls": 19,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Collapse menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 90,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 185,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 93,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 157,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 810,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 543,
+   "composerTop": 728,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "agents",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Collapse menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": null,
+     "name": "Use template",
+     "w": 215,
+     "h": 35,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Storage and portability",
+     "w": 433,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "mcp",
+   "overflow": 0,
+   "controls": 17,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Collapse menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Official MCP connection guide",
+     "w": 230,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "method",
+   "overflow": 0,
+   "controls": 21,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Collapse menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Specification",
+     "w": 99,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Tools",
+     "w": 41,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "a",
+     "id": null,
+     "name": "Evidence",
+     "w": 70,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "evidence",
+   "overflow": 0,
+   "controls": 16,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Collapse menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "What each requirement badge means",
+     "w": 946,
+     "h": 20,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": null,
+   "composerTop": null,
+   "viewport": 900,
+   "h1": 1
+  },
+  {
+   "lang": "en",
+   "width": 1360,
+   "view": "connection-dialog",
+   "overflow": 0,
+   "controls": 30,
+   "small": [
+    {
+     "tag": "a",
+     "id": null,
+     "name": "AI Implementation Lab, home",
+     "w": 152,
+     "h": 32,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "toggleSidebar",
+     "name": "Collapse menu",
+     "w": 38,
+     "h": 44,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "language",
+     "name": "Language",
+     "w": 96,
+     "h": 30,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionProvider",
+     "name": "Session provider",
+     "w": 90,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionModel",
+     "name": "Session model",
+     "w": 185,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "sessionEffort",
+     "name": "Effort",
+     "w": 93,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "select",
+     "id": "chatAgent",
+     "name": "Agent",
+     "w": 157,
+     "h": 23,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "button",
+     "id": "sendQuestion",
+     "name": "Connect AI",
+     "w": 36,
+     "h": 36,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "About models and effort",
+     "w": 810,
+     "h": 16,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "input",
+     "id": "apiConsent",
+     "name": "I authorize access checks for models I s",
+     "w": 17,
+     "h": 17,
+     "prose": false,
+     "accessibleName": true
+    },
+    {
+     "tag": "summary",
+     "id": null,
+     "name": "Session data and other providers",
+     "w": 816,
+     "h": 25,
+     "prose": false,
+     "accessibleName": true
+    }
+   ],
+   "unnamed": [],
+   "introBottom": 376,
+   "composerTop": 561,
+   "viewport": 900,
+   "h1": 2,
+   "dialogOpen": true
+  }
+ ],
+ "keyboard": {
+  "es/320/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "es/320/rail-expanded": {
+   "nav": [
+    {
+     "name": "Sesión",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agentes",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Cómo está construido",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidencia",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "es/375/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "es/375/rail-expanded": {
+   "nav": [
+    {
+     "name": "Sesión",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agentes",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Cómo está construido",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidencia",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "es/390/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "es/390/rail-expanded": {
+   "nav": [
+    {
+     "name": "Sesión",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agentes",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Cómo está construido",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidencia",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "es/768/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "es/768/rail-expanded": {
+   "nav": [
+    {
+     "name": "Sesión",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agentes",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Cómo está construido",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidencia",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "es/1360/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "en/320/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "en/320/rail-expanded": {
+   "nav": [
+    {
+     "name": "Session",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agents",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "How it is built",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidence",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "en/375/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "en/375/rail-expanded": {
+   "nav": [
+    {
+     "name": "Session",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agents",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "How it is built",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidence",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "en/390/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "en/390/rail-expanded": {
+   "nav": [
+    {
+     "name": "Session",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agents",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "How it is built",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidence",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "en/768/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "en/768/rail-expanded": {
+   "nav": [
+    {
+     "name": "Session",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Agents",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "MCPs",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "How it is built",
+     "w": 189,
+     "h": 53
+    },
+    {
+     "name": "Evidence",
+     "w": 189,
+     "h": 53
+    }
+   ],
+   "overflow": 0
+  },
+  "en/1360/dialog": {
+   "dialogOpen": true,
+   "afterEsc": {
+    "open": false,
+    "focus": "openConnection"
+   }
+  },
+  "375/tab-order": {
+   "stops": [
+    "a",
+    "a",
+    "toggleSidebar",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "language",
+    "a",
+    "a",
+    "question (no outline)"
+   ],
+   "skipTarget": "sessionProvider"
+  },
+  "1360/tab-order": {
+   "stops": [
+    "a",
+    "a",
+    "toggleSidebar",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "language",
+    "a",
+    "a",
+    "question (no outline)"
+   ],
+   "skipTarget": "sessionProvider"
+  }
+ },
+ "errors": [],
+ "consoleErrors": [
+  "es/320: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ]
+}

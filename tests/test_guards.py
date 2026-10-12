@@ -50,6 +50,8 @@ class GuardTests(unittest.TestCase):
             root = Path(temp)
             subprocess.run(["git", "init", "-q", str(root)], check=True, capture_output=True)
             shutil.copytree(ROOT / "scripts", root / "scripts", ignore=shutil.ignore_patterns("__pycache__"))
+            # D45: the guard imports the shared detector from src/lab/sensitive.py.
+            shutil.copytree(ROOT / "src", root / "src", ignore=shutil.ignore_patterns("__pycache__"))
             shutil.copytree(ROOT / ".githooks", root / ".githooks")
             subprocess.run(["git", "-C", str(root), "config", "--local", "core.hooksPath", ".githooks"], check=True)
             sample = root / "sample.txt"

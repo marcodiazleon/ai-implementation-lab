@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.11. Current spec: spec.md 0.11. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 1.1. Current spec: spec.md 1.1. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -46,14 +46,67 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T35 | R27,R12 | U10 source, R27 EARS, task and case records; read-only evidence/acceptance/requirements data routes and public data files | U10,T15 | Implementing assistant | Spec, routes and build data exist; sdd_check passes with R27 | IMPLEMENTED; see U10 notebook entry |
 | T36 | R27,R15 | Bilingual Evidence view: run metrics, requirement picker, case table and PENDIENTE badge | T35,T28 | Implementing assistant | Local and public build show metrics and R02 cases in a browser | IMPLEMENTED; see U10 notebook entry |
 | T37 | R27 | Tests and acceptance cases for data routes, public build files and ID parity | T35 | Implementing assistant | C114–C120 mapped and passing in evidence/latest.json | IMPLEMENTED; see U10 notebook entry |
+| T38 | R28,R29 | U11 source, R28/R29 EARS and CU16; Lab.reset() and Lab.explain() in the controller; POST /api/reset and /api/explain behind trusted(); the browser port is not carried | U11,T05 | Implementing assistant | Spec, controller, server and browser port exist; sdd_check passes with R28/R29 | IMPLEMENTED; carried 2026-10-12 without the port; see the PR #4 notebook entry |
+| T40 | R28,R29 | Controller and HTTP tests; acceptance cases C121–C132 and C141 | T38 | Implementing assistant | Cases mapped and passing in evidence/latest.json; parity, UI and walkthrough cases are not carried | IMPLEMENTED; carried 2026-10-12 |
 
-| T38 | R28,R29 | U11 source, R28/R29 EARS and CU16; Lab.reset() and Lab.explain() in the controller; POST /api/reset and /api/explain behind trusted(); same routes in public-demo.js | U11,T05,T35 | Implementing assistant | Spec, controller, server and browser port exist; sdd_check passes with R28/R29 | IMPLEMENTED; see U11 notebook entry |
-| T39 | R28,R29,R15 | Reset button and confirmation dialog with export; disabled actions after case change; bilingual "Analyze your own request" panel with per-condition list, verdict and JSON download | T38,T24 | Implementing assistant | Local and public build show reset and explanation in ES/EN in a browser | IMPLEMENTED; see U11 notebook entry |
-| T40 | R28,R29 | Controller, HTTP, parity and UI-harness tests; acceptance cases C121+ | T38,T39 | Implementing assistant | Cases mapped and passing in evidence/latest.json | IMPLEMENTED; see U11 notebook entry |
+## U13 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T47 | R31,R21,R25 | Conversation-only Session and five destinations | U13,T28,T32 | Codex, directly authorized by Marco | Chat controls remain; exercise/log absent; dialog preserves draft | IMPLEMENTED; verification pending |
+| T48 | R31,R16,R26 | Public model catalog and explicit local-only connection boundary | T47,T22,T33 | Codex | Same reference catalog; static credential submission blocked | IMPLEMENTED; verification pending |
+| T49 | R31,R12,R14 | Regression checks, evidence classification and README | T47,T48 | Codex | Checks recorded by revision; historical results not reused as redesign acceptance | IMPLEMENTED; CI/browser pending |
 
-| T41 | R27 | U12 badge rule in the Evidence view (FAIL, PASS only when every applicable case passes, PARCIAL, PENDIENTE) and the count of passing cases; Node harness tests on synthetic and committed cases | U12,T36 | Implementing assistant | C139 and C140 mapped and passing; no requirement with a NO_PROBADO case shows PASS | IMPLEMENTED; see U12 notebook entry |
-| T42 | R29 | One order-status vocabulary: explain accepts delivered/in_transit/returned/cancelled in the controller, browser port, form and labels | U12,T38 | Implementing assistant | C124 and C141 pass; no "shipped" left in src/ or web/ | IMPLEMENTED; see U12 notebook entry |
-| T43 | R14,R12 | Version headers of spec, plan and tasks aligned with project-status.json; sdd_check fails on a mismatch; README, D13, sdd-adoption and roadmap link to project-status.json instead of repeating a number | U12 | Implementing assistant | C142 passes; sdd_check passes | IMPLEMENTED; see U12 notebook entry |
-| T44 | R30 | .github/workflows/verify.yml (push and pull_request, ubuntu-latest and windows-latest, contents: read, 15-minute limit) and a verify.py step before the Pages build | U12,T15 | Implementing assistant | C143 passes; C144 records a green GitHub Actions run on both systems | IMPLEMENTED; run 37361481399 green on both systems |
-| T45 | R28,R29 | Real browser walkthrough of "Descargar y reiniciar" and "Descargar explicación" on the local server and the static build, with file name, size and SHA-256 | U12,T39 | Implementing assistant | C145 and C146 recorded; C147 (published URL) stays NO_PROBADO until the merge | IMPLEMENTED; C145/C146 PASS, C147 NO_PROBADO until merge |
-| T46 | R12 | Review brief for the external reviewer versioned in reports/ | U12 | Implementing assistant | reports/BRIEF_REVISION_OPENAI_2026-10-05.md exists in the branch | IMPLEMENTED; see U12 notebook entry |
+## U17 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T57 | R34,R36,R39 | U17 source, R34–R39, CU19–CU20, ID registry, remap of carried PR #5 IDs, decisions D32–D36 and cases before implementation | U17,T47 | Implementing assistant | sdd_check passes with the registry | IMPLEMENTED |
+| T58 | R34,R38 | Session presentation block and README rewrite with a screenshot of this revision's public build | T57 | Implementing assistant | Presentation checks pass; README within 700 words | IMPLEMENTED; C183–C185, C171 |
+| T59 | R35 | Tour section in How it is built and `run.py tour` | T57 | Implementing assistant | Tour CLI and HTML checks pass | IMPLEMENTED; C186–C188, C172 |
+| T60 | R36 | Badge semantics, status route and view, validator negatives | T57 | Implementing assistant | Node badge and sdd_check negatives pass | IMPLEMENTED; C178–C182, C189–C192, C173 |
+| T61 | R39 | Single reusable CI and evidence reproducibility check | T60 | Implementing assistant | Workflow and drift checks pass; CI green on candidate SHA | IMPLEMENTED; C193–C195; CI green on 2be5cee (C175, run 38181150428) |
+| T62 | R37 | INDEX, historical register, canonical table, traceability example, verify warning, guide versions | T58–T61 | Implementing assistant | Document checks pass | IMPLEMENTED; C198–C199 |
+| T63 | R38,R34,R35,R36 | Browser pass at 375/390/1360 in ES/EN, contrast measurements, screenshots | T58–T62 | Implementing assistant | Measurements recorded; no page overflow | IMPLEMENTED; C174, C196–C197; reports/U17_BROWSER_CHECK_2026-10-11.md |
+
+## U18 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T64 | R40,R41,R42,R43,R44,R45 | U18 source, R40–R45, decisions D37–D39 and cases C200–C214 before implementation | U18,T57 | Implementing assistant | sdd_check passes | IMPLEMENTED |
+| T65 | R40 | Gate jobs with the required names and scripts/ci_gate.py | T64 | Implementing assistant | Gate negatives pass; CI shows both required names on the candidate SHA | IMPLEMENTED; C200–C202 |
+| T66 | R41,R45 | ASCII tour output, encoding tolerance, worked result in the tour | T64 | Implementing assistant | Subprocess encoding test and worked-result parity pass | IMPLEMENTED; C203, C213 |
+| T67 | R42 | Source and record manifests, case-level drift, project-status without fingerprint copy | T64 | Implementing assistant | Manifest negatives pass; check_evidence passes before and after verify | IMPLEMENTED; C204–C207 |
+| T68 | R43 | Revision, pins and resolved links in the build, server and view; README warning | T64,T67 | Implementing assistant | Link inventory and README checks pass; links resolve on the pushed SHA | IMPLEMENTED; C208–C209, C214 |
+| T69 | R44 | Bilingual footer and notices; current Spanish guide; browser pass ES-EN-ES | T64 | Implementing assistant | Markup and guide checks pass; browser pass recorded | IMPLEMENTED; C210–C212 |
+
+## U19 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T70 | R46 | Unconditional digest check with negatives and positive | U19,T67 | Implementing assistant | Corrupt, invalid and missing digests rejected; intact passes | IMPLEMENTED; C215–C216 |
+| T71 | R47 | Candidate review route in README, INDEX and Spanish guide | U19,T68 | Implementing assistant | Document checks pass; commands work in a fresh clone | IMPLEMENTED; C217–C218, C221 |
+| T72 | R48 | Requirement selection kept in the address and across languages | U19,T60 | Implementing assistant | Handler check and browser pass | IMPLEMENTED; C219–C220 |
+
+## U20 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T73 | R49–R53 | U20 source, CU21, R49–R53, D41–D42 and cases C222–C241 before implementation | U20,T70 | Implementing assistant | sdd_check passes | IMPLEMENTED |
+| T74 | R49 | Record objects, Git-computed states, view model, error state, sdd_check revision checks | T73 | Implementing assistant | Node and Python negatives pass; payload consistent with Git | IMPLEMENTED; C222–C227 |
+| T75 | R50 | Hit areas, compact first screen, skip link, focus, reflow, motion, state preservation, bilingual validation | T73 | Implementing assistant | Browser audit after shows no primary control under 44 px and no overflow | IMPLEMENTED; C228–C232 |
+| T76 | R51 | Case classification, matrix generator and document, fail-closed demonstration | T73 | Implementing assistant | Generator passes on the records and fails on its negatives | IMPLEMENTED; C233–C236 |
+| T77 | R52 | README, INDEX, Spanish guide, scope line, visitor script | T74 | Implementing assistant | Document checks pass; routes walked | IMPLEMENTED; C237–C238 |
+| T78 | R53 | Payload and layout-shift measurement; clean-clone reproduction | T75 | Implementing assistant | Measurements recorded for the pushed revision | IMPLEMENTED; C239–C240 |
+| T79 | R49,R51,R53 | Findings of the independent review of 3f2c7ea: payload validation, dirty-build policy, classification floors and overrides, subprocess encoding, documentation precision | T74–T78 | Implementing assistant | Node, Python and browser negatives pass; suite identical under the three console configurations | IMPLEMENTED; C260–C268 |
+
+## U21 delivery
+
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T80 | R54–R58 | U21 source, CU22, R54–R58, D45–D49 and cases C270–C306 before implementation | U21,T79 | Implementing assistant | sdd_check passes | IMPLEMENTED |
+| T81 | R54 | Shared sensitive patterns, publication guard over staged blobs, private files and artifacts, fixed error envelope, interface guards, data inventory | T80 | Implementing assistant | Dummy fixtures rejected, sanitized tree passes, no credential in responses, stderr or exports | IMPLEMENTED; C270–C279 |
+| T82 | R55 | Read timeout, concurrency cap, nested-JSON guard, remote response negatives, endpoint matrix, CSP in the public build | T80 | Implementing assistant | Isolated server refuses and recovers; matrix covers every route | IMPLEMENTED; C280–C289 |
+| T83 | R56 | Actions pinned by SHA, security check (static rules, inventory, pins, secrets) in verify and CI, fail-closed gate, declared coverage | T80 | Implementing assistant | Negatives fail the check; evidence without the check is rejected; CI green on the final revision | IMPLEMENTED; C290–C297 |
+| T84 | R57 | Threat model, control catalog with states, untrusted-content and consent demonstrations | T81–T83 | Implementing assistant | Catalog consistent with the records; fake-transport negatives pass | IMPLEMENTED; C298–C301 |
+| T85 | R58 | Runbook, synthetic drill, pending owner evidence, artifact scan, sandbox script and report | T84 | Implementing assistant | Drill steps pass against fakes; sandbox controls demonstrated in the report | IMPLEMENTED; C302–C306 |
+| T86 | R54,R55,R58 | Findings of the independent review of 26fb88d: filesystem confinement and fail-closed probes of the sandbox, connection cap before the thread with deadlines, interface guards aligned with the shared formats, worktree guard over every versioned candidate, document claims corrected | T81–T85 | Implementing assistant | Negatives fail on the previous behavior and pass on the fix; validation rerun under the corrected runner; earlier runs marked superseded | IMPLEMENTED; C307–C312 |
+| T89 | R59 | Architecture diagrams and the engineering book (docs/book/): context, components, three sequences, method, decisions, validation, operation and limits; links from README, INDEX and the Spanish guide; cases for links, textual alternatives and the described SHA. Amended after the review of afd6e04: discrepancies classified and current guides reconciled with dated amendments (R59e), the Pages save guard gap recorded as pending, the Context7 copy corrected, render captures at the exact SHA (R59f); after the second review: every diagram re-laid for a 390 px viewport, vertical, short labels, sequences in fragments of at most three participants (R59g); after the third review: the browser component diagram redrawn with only real loads and global uses, ordered by invisible links (R59h) | T88 | Implementing assistant | Links resolve, every diagram has a textual equivalent, the SHA is named; every listed discrepancy carries a class; captures exist with SHA and viewport; sdd_check and verify pass under the isolated runner; Codex reviews the diagrams against the code | IMPLEMENTED; C322–C329 |
+| T88 | R58 | Third review of 8a079ea (V1): trusted stage outside the PID namespace owns the export, no host descriptor in the namespace, non-dumpable supervisor, nested namespace with locked flags and no_new_privs for the payload, promotion after every process ended with safe opens, limits and rechecks; dummy-payload negatives and a positive | T87 | Implementing assistant | Each dummy payload refused as recorded; the positive promoted intact; suites, browser checks and verify.py rerun under the new runner | IMPLEMENTED; C318–C321 |
+| T87 | R54,R55,R58 | Residuals of the second review (ebd38ed): synthetic /etc and no writable host path in the sandbox, memory probe by kill signal, probes inside the limits; deadline enforced inside every read; typed traversal of values in every guard with the real export form checked | T86 | Implementing assistant | Negatives fail on the previous behavior and pass on the fix; validation rerun under the corrected runner | IMPLEMENTED; C313–C317 |
+

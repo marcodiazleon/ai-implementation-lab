@@ -1,0 +1,1664 @@
+{
+ "rule": "Reviewed classification for scripts/requirement_matrix.py (R51, D42). kind: behavior executes code and checks results; structure inspects markup, text or files; document is the record validator; manual is a person or a recorded browser run. polarity: positive, negative or limit. verification per requirement: code (needs behavior positive and negative), interface (needs an automated case and a passing browser case with evidence), document (needs an automated positive), measurement (needs a recorded measurement).",
+ "requirements": {
+  "R01": {
+   "verification": "code",
+   "behavior": "Lookup of an unknown or foreign order returns the same unavailable result; an in-scope order returns a summary without creating a proposal",
+   "code": [
+    "src/lab/controller.py::def _order",
+    "src/lab/controller.py::def request"
+   ]
+  },
+  "R02": {
+   "verification": "code",
+   "behavior": "An eligible refund request creates or reuses one proposal; invalid fields, a disallowed tool or an ineligible order block without a proposal",
+   "code": [
+    "src/lab/controller.py::def _eligible",
+    "src/lab/controller.py::def request",
+    "data/policy.json"
+   ]
+  },
+  "R03": {
+   "verification": "code",
+   "behavior": "Execution before approval or after rejection is blocked; invalid decision transitions and roles are rejected",
+   "code": [
+    "src/lab/controller.py::def decide",
+    "src/lab/controller.py::def execute"
+   ]
+  },
+  "R04": {
+   "verification": "code",
+   "behavior": "A proposal whose order or policy changed since approval cannot execute (STALE_PROPOSAL)",
+   "code": [
+    "src/lab/controller.py::STALE_PROPOSAL",
+    "src/lab/models.py::class Proposal"
+   ]
+  },
+  "R05": {
+   "verification": "code",
+   "behavior": "A retried approved execution returns the same single simulated receipt; a second compensation of the same order is prohibited",
+   "code": [
+    "src/lab/controller.py::ALREADY_COMPENSATED",
+    "src/lab/controller.py::def execute"
+   ]
+  },
+  "R06": {
+   "verification": "code",
+   "behavior": "A simulated connector failure keeps the approval and creates no receipt; a later retry succeeds once",
+   "code": [
+    "src/lab/controller.py::fail_connector"
+   ]
+  },
+  "R07": {
+   "verification": "code",
+   "behavior": "Before and after hooks record outcomes; a failed before hook stops the effect; an edited audit chain is detected",
+   "code": [
+    "src/lab/hooks.py::class AuditTrail",
+    "src/lab/controller.py::def _before"
+   ]
+  },
+  "R08": {
+   "verification": "code",
+   "behavior": "Named routes on loopback; foreign Host or Origin, wrong content type and oversized bodies are refused with 403/415/413",
+   "code": [
+    "src/lab/server.py::def make_server"
+   ]
+  },
+  "R09": {
+   "verification": "code",
+   "behavior": "After initialization the MCP server exposes exactly two read tools; write tools and invalid arguments are refused",
+   "code": [
+    "src/lab/mcp_server.py::class Protocol"
+   ]
+  },
+  "R10": {
+   "verification": "code",
+   "behavior": "Synthetic fixtures validate; staged bytes with credential-like or real-currency patterns are blocked by the hook",
+   "code": [
+    "scripts/publication_check.py::def check",
+    "scripts/validate_data.py::def validate",
+    ".githooks/pre-commit"
+   ]
+  },
+  "R11": {
+   "verification": "document",
+   "behavior": "A reader finds purpose, startup steps, folder guide and limits with working links",
+   "code": [
+    "README.md",
+    "docs/START_HERE_ES.md"
+   ]
+  },
+  "R12": {
+   "verification": "code",
+   "behavior": "Source → use case → requirement → task → test → evidence links resolve; broken references are reported",
+   "code": [
+    "scripts/sdd_check.py::def validate"
+   ]
+  },
+  "R13": {
+   "verification": "interface",
+   "behavior": "Black canvas, white text, descriptive copy and factual AI-assistance disclosure in both languages",
+   "code": [
+    "web/style.css::--ink",
+    "web/index.html::attribution"
+   ]
+  },
+  "R14": {
+   "verification": "document",
+   "behavior": "Active specification, versions and the expansion backlog are recorded",
+   "code": [
+    "docs/project-status.json",
+    "specs/002-expansion/spec.md"
+   ]
+  },
+  "R15": {
+   "verification": "interface",
+   "behavior": "Hash routes and keyboard reach every destination; the demo needs no key",
+   "code": [
+    "web/studio.js::function route"
+   ]
+  },
+  "R16": {
+   "verification": "code",
+   "behavior": "Optional provider sessions require explicit consent, isolate state, sanitize errors and bound requests",
+   "code": [
+    "src/lab/cloud.py::class CloudSessions"
+   ]
+  },
+  "R17": {
+   "verification": "code",
+   "behavior": "Startup check reports the environment and missing files without credentials",
+   "code": [
+    "scripts/check_environment.py::def inspect"
+   ]
+  },
+  "R18": {
+   "verification": "code",
+   "behavior": "Four role contracts produce scoped deliverables in local or optional model mode",
+   "code": [
+    "agents/roles.json",
+    "src/lab/agents.py::def contracts"
+   ]
+  },
+  "R19": {
+   "verification": "code",
+   "behavior": "Input, permission and output hooks bound each run and keep evidence without secrets",
+   "code": [
+    "src/lab/agents.py::def validate_input",
+    "src/lab/agents.py::def validate_output"
+   ]
+  },
+  "R20": {
+   "verification": "code",
+   "behavior": "Fixed-host Context7 client: initialize, discover, two read tools, consent, expiry and sanitized errors",
+   "code": [
+    "src/lab/context7.py::def connect",
+    "src/lab/context7.py::def call"
+   ]
+  },
+  "R21": {
+   "verification": "interface",
+   "behavior": "Five sidebar destinations with a collapsible accessible menu; only ES/EN in the top bar",
+   "code": [
+    "web/studio.js::function sidebar",
+    "web/index.html::mainNav"
+   ]
+  },
+  "R22": {
+   "verification": "code",
+   "behavior": "Custom roles are created, edited and exported with bounded fields; traversal and secrets are rejected",
+   "code": [
+    "src/lab/agent_store.py::class AgentStore"
+   ]
+  },
+  "R23": {
+   "verification": "interface",
+   "behavior": "MCP guide produces valid HTTP/stdio configuration exports without executing anything",
+   "code": [
+    "web/studio.js::function transport"
+   ]
+  },
+  "R24": {
+   "verification": "code",
+   "behavior": "Provider-neutral connection with fixed destinations and correct protocols for OpenAI and Anthropic",
+   "code": [
+    "src/lab/cloud.py::class OpenAITransport",
+    "src/lab/cloud.py::class AnthropicTransport"
+   ]
+  },
+  "R25": {
+   "verification": "interface",
+   "behavior": "Compact bilingual Session with accessible message label and an invitation animation that respects reduced motion",
+   "code": [
+    "web/index.html::animatedGreeting",
+    "web/cloud.js::resetAnimation"
+   ]
+  },
+  "R26": {
+   "verification": "code",
+   "behavior": "Documented model catalog and validated effort sent through the correct API field; transactional model change",
+   "code": [
+    "src/lab/model_catalog.py::def catalog",
+    "src/lab/cloud.py::def configure"
+   ]
+  },
+  "R27": {
+   "verification": "code",
+   "behavior": "Evidence routes serve the committed run, the acceptance CSV and the requirement rows; the view explores them",
+   "code": [
+    "src/lab/server.py::/api/evidence",
+    "web/evidence.js::function renderCases"
+   ]
+  },
+  "R31": {
+   "verification": "interface",
+   "behavior": "Conversation-only Session with five destinations, provider and model controls, in-session dialog and truthful static behavior",
+   "code": [
+    "web/studio.js::views=['demo','agents','mcp','method','evidence']",
+    "web/cloud.js::function openConnection"
+   ]
+  },
+  "R34": {
+   "verification": "interface",
+   "behavior": "First screen shows who, contribution separated from AI-assisted code, demo/local/pending and the first action",
+   "code": [
+    "web/index.html::class=\"presentation\"",
+    "README.md"
+   ]
+  },
+  "R35": {
+   "verification": "code",
+   "behavior": "In-app tour steps with expected results; python run.py tour runs the deterministic case with receipt counts",
+   "code": [
+    "src/lab/cli.py::def tour",
+    "web/index.html::class=\"tour\""
+   ]
+  },
+  "R36": {
+   "verification": "code",
+   "behavior": "Badge rule with counts; five separate records; validator rejects version, guide, NO_APLICA and ID defects",
+   "code": [
+    "web/evidence-rules.js::function badge",
+    "scripts/sdd_check.py::def registry_errors",
+    "scripts/sdd_check.py::def version_errors"
+   ]
+  },
+  "R37": {
+   "verification": "document",
+   "behavior": "Three routes, index, historical register, canonical table, traceability example and rewrite warning",
+   "code": [
+    "docs/INDEX.md",
+    "docs/capabilities.md",
+    "scripts/check_environment.py::rewrites evidence/latest.json"
+   ]
+  },
+  "R38": {
+   "verification": "interface",
+   "behavior": "Five labeled destinations, no horizontal overflow, working skip link, one h1 per view, measured contrast",
+   "code": [
+    "web/style.css::.skip-link",
+    "web/studio.js::skip-link"
+   ]
+  },
+  "R39": {
+   "verification": "code",
+   "behavior": "One reusable CI; committed evidence reproduced before and after verification",
+   "code": [
+    ".github/workflows/verify.yml",
+    "scripts/check_evidence.py::def compare_statuses"
+   ]
+  },
+  "R40": {
+   "verification": "code",
+   "behavior": "Gate jobs with the required names pass only when every matrix member succeeded",
+   "code": [
+    "scripts/ci_gate.py::def gate",
+    ".github/workflows/verify.yml::gate-ubuntu"
+   ]
+  },
+  "R41": {
+   "verification": "code",
+   "behavior": "python run.py tour prints identical content in UTF-8 and cp1252 and exits 0",
+   "code": [
+    "src/lab/cli.py::reconfigure"
+   ]
+  },
+  "R42": {
+   "verification": "code",
+   "behavior": "Source and record manifests without cycles; case-level drift detected behind equal counts",
+   "code": [
+    "scripts/check_evidence.py::def record_hashes",
+    "scripts/check_evidence.py::def source_hashes"
+   ]
+  },
+  "R43": {
+   "verification": "code",
+   "behavior": "Repository links open the build revision or the commit that recorded a historical case; live main labeled",
+   "code": [
+    "scripts/revision.py::def revision_info",
+    "web/evidence.js::const fileUrl"
+   ]
+  },
+  "R44": {
+   "verification": "interface",
+   "behavior": "Footer and notices in both languages in source and build; current Spanish guide",
+   "code": [
+    "web/index.html::footerScope",
+    "scripts/build_pages.py::REPLACEMENTS"
+   ]
+  },
+  "R45": {
+   "verification": "interface",
+   "behavior": "Tour closes with the worked result equal to the CLI output; installation excluded from the three minutes",
+   "code": [
+    "web/index.html::tourResult",
+    "src/lab/cli.py::def tour"
+   ]
+  },
+  "R46": {
+   "verification": "code",
+   "behavior": "A missing, malformed or differing fingerprint digest is always rejected",
+   "code": [
+    "scripts/check_evidence.py::def _check_digest"
+   ]
+  },
+  "R47": {
+   "verification": "document",
+   "behavior": "Published and candidate routes told apart with fetch, checkout and SHA comparison",
+   "code": [
+    "README.md::Published or candidate",
+    "docs/START_HERE_ES.md::Revisar un candidato"
+   ]
+  },
+  "R48": {
+   "verification": "interface",
+   "behavior": "Choosing a requirement updates the address and survives a language change",
+   "code": [
+    "web/evidence.js::history.replaceState"
+   ]
+  },
+  "R49": {
+   "verification": "code",
+   "behavior": "Records name their revision; the build computes whether this checkout is reviewed, accepted, integrated and published; a bad payload shows an error with retry",
+   "code": [
+    "scripts/revision.py::def build_states",
+    "web/evidence-rules.js::function statusRows",
+    "scripts/sdd_check.py::def record_errors",
+    "web/evidence-rules.js::function validatePayload",
+    "scripts/revision.py::dirty_files"
+   ]
+  },
+  "R50": {
+   "verification": "interface",
+   "behavior": "Primary controls reach 44 px, compact first screen at 375, keyboard and dialog focus, reflow, reduced motion, state preserved, bilingual validation",
+   "code": [
+    "web/style.css::U20 (R50a)",
+    "web/i18n.js::function validityMessage"
+   ]
+  },
+  "R51": {
+   "verification": "code",
+   "behavior": "The matrix generator validates completeness and fails on gaps; an injected defect fails closed",
+   "code": [
+    "scripts/requirement_matrix.py::def validate",
+    "specs/001-support-demo/case-kinds.json",
+    "scripts/requirement_matrix.py::def floors"
+   ]
+  },
+  "R52": {
+   "verification": "document",
+   "behavior": "Documentation true on main and on a branch, troubleshooting, honest scope line, visitor script",
+   "code": [
+    "README.md",
+    "docs/visitor-test.md",
+    "web/index.html::scope-line"
+   ]
+  },
+  "R53": {
+   "verification": "measurement",
+   "behavior": "Payload and layout shift measured with browser performance entries; clean-clone reproduction",
+   "code": [
+    "scripts/browser/perf.js",
+    "scripts/browser/audit.js",
+    "tests/test_u20.py::def run_text"
+   ]
+  },
+  "R54": {
+   "verification": "code",
+   "behavior": "Named credential formats, private files, links and artifacts are rejected by one shared detector; responses, logs, storage and exports never carry a credential; sessions discard keys",
+   "code": [
+    "src/lab/sensitive.py::def find_secrets",
+    "scripts/publication_check.py::def check",
+    "src/lab/server.py::INTERNAL_ERROR",
+    "src/lab/cloud.py::def disconnect",
+    "web/sensitive-rules.js::findSecrets",
+    "scripts/publication_check.py::def candidates",
+    "src/lab/sensitive.py::def find_secrets_in",
+    "web/sensitive-rules.js::findSecretsIn"
+   ]
+  },
+  "R55": {
+   "verification": "code",
+   "behavior": "The local server bounds read time and concurrency, refuses malformed requests and remote responses with fixed codes and keeps serving; the public build carries the CSP meta",
+   "code": [
+    "src/lab/server.py::SERVER_BUSY",
+    "src/lab/server.py::REQUEST_TIMEOUT",
+    "src/lab/cloud.py::API_RESPONSE_TOO_LARGE",
+    "scripts/build_pages.py::Content-Security-Policy",
+    "src/lab/server.py::def process_request",
+    "src/lab/server.py::REQUEST_DEADLINE",
+    "src/lab/server.py::class DeadlineReader"
+   ]
+  },
+  "R56": {
+   "verification": "code",
+   "behavior": "Floating action tags, third-party imports, package manifests, dangerous constructs and foreign hosts fail the security check; evidence without the check is rejected",
+   "code": [
+    "scripts/security_check.py::def check",
+    "scripts/check_evidence.py::security_check",
+    "scripts/verify.py::security_check",
+    ".github/workflows/verify.yml::security_check.py"
+   ]
+  },
+  "R57": {
+   "verification": "code",
+   "behavior": "Injected instructions in model, MCP or operator content leave hosts, tools, hooks and destinations unchanged; the control catalog states follow the records",
+   "code": [
+    "specs/001-support-demo/security-controls.json",
+    "scripts/security_catalog.py::def states",
+    "src/lab/agents.py::def validate_output",
+    "src/lab/context7.py::TOOLS"
+   ]
+  },
+  "R58": {
+   "verification": "code",
+   "behavior": "The drill's technical steps are rejected by the guards; artifacts carry no sensitive data; the runbook and the sandbox procedure exist",
+   "code": [
+    "docs/security-runbook.md",
+    "scripts/sandbox/run_isolated.sh",
+    "scripts/publication_check.py::def inspect",
+    "scripts/sandbox/run_isolated.sh::pivot_root",
+    "scripts/sandbox/run_isolated.sh::synthetic /etc"
+   ]
+  },
+  "R59": {
+   "verification": "document",
+   "behavior": "The engineering book exists with its index, diagrams followed by textual equivalents, the described SHA and the reused decision IDs; the three entry documents link it",
+   "code": [
+    "docs/book/README.md",
+    "docs/book/02-arquitectura.md",
+    "docs/book/05-decisiones.md",
+    "tests/test_u21.py::class BookTests",
+    "docs/book/07-operacion-y-limites.md",
+    "web/index.html"
+   ]
+  },
+  "R28": {
+   "verification": "code",
+   "behavior": "Lab.reset clears proposals, receipts and events under the lock; POST /api/reset accepts only an empty body",
+   "code": [
+    "src/lab/controller.py::def reset",
+    "src/lab/server.py::/api/reset"
+   ]
+  },
+  "R29": {
+   "verification": "code",
+   "behavior": "Lab.explain evaluates every policy condition of a fictional request without creating a proposal, receipt or event; invalid input is rejected",
+   "code": [
+    "src/lab/controller.py::def explain",
+    "src/lab/server.py::/api/explain"
+   ]
+  }
+ },
+ "cases": {
+  "C001": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C002": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C003": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C004": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C005": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C006": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C007": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C008": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C009": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C010": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C011": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C012": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C013": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C014": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C015": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C016": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C017": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C018": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C019": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C020": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C021": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C022": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C023": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C024": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C025": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C026": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C027": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C028": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C029": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C030": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C031": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C032": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C033": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C034": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C035": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C036": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C037": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C038": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C039": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C040": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C041": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C042": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C043": {
+   "kind": "document",
+   "polarity": "positive"
+  },
+  "C044": {
+   "kind": "document",
+   "polarity": "positive"
+  },
+  "C045": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C046": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C047": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C048": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C049": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C050": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C051": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C052": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C053": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C054": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C055": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C056": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C057": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C058": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C059": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C060": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C061": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C062": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C063": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C064": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C065": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C066": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C067": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C068": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C069": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C070": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C071": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C072": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C073": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C074": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C075": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C076": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C077": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C078": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C079": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C080": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C081": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C082": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C083": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C084": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C085": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C086": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C087": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C088": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C089": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C090": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C091": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C092": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C093": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C094": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C095": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C096": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C097": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C098": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C099": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C100": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C101": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C102": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C103": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C104": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C105": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C106": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C107": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C108": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C109": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C110": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C111": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C112": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C113": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C114": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C115": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C116": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C117": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C118": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C119": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C120": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C148": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C149": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C150": {
+   "kind": "structure",
+   "polarity": "negative"
+  },
+  "C151": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C152": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C170": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C171": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C172": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C173": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C174": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C175": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C176": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C177": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C178": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C179": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C180": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C181": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C182": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C183": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C184": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C185": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C186": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C187": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C188": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C189": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C190": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C191": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C192": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C193": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C194": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C195": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C196": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C197": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C198": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C199": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C200": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C201": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C202": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C203": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C204": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C205": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C206": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C207": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C208": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C209": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C210": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C211": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C212": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C213": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C214": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C215": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C216": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C217": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C218": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C219": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C220": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C221": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C222": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C223": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C224": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C225": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C226": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C227": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C228": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C229": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C230": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C231": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C232": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C233": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C234": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C235": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C236": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C237": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C238": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C239": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C240": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C241": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C242": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C243": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C244": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C245": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C246": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C248": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C249": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C250": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C251": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C252": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C253": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C254": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C255": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C256": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C257": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C258": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C259": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C260": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C261": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C262": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C263": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C264": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C265": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C266": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C267": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C268": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C269": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C270": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C271": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C272": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C273": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C274": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C275": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C276": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C277": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C278": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C279": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C280": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C281": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C282": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C283": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C284": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C285": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C286": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C287": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C288": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C289": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C290": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C291": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C292": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C293": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C294": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C295": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C296": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C297": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C298": {
+   "kind": "document",
+   "polarity": "positive"
+  },
+  "C299": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C300": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C301": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C302": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C303": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C304": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C305": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C306": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C307": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C308": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C309": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C310": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C311": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C312": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C313": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C314": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C315": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C316": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C317": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C318": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C319": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C320": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C321": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C322": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C323": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C324": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C325": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C326": {
+   "kind": "structure",
+   "polarity": "negative"
+  },
+  "C327": {
+   "kind": "manual",
+   "polarity": "positive"
+  },
+  "C328": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C329": {
+   "kind": "structure",
+   "polarity": "negative"
+  },
+  "C121": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C122": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C123": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C124": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C125": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C126": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C127": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C128": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C129": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C130": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C131": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C132": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C141": {
+   "kind": "behavior",
+   "polarity": "positive"
+  }
+ },
+ "overrides": {}
+}

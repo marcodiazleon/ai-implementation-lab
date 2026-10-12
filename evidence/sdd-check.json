@@ -2,15 +2,20 @@
   "passed": true,
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
-  "source_id": "89ca948ece628f6696af47771b231ed0495ce30a924d011db0c2493edcdfcc2f",
-  "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "7ae8250b887932791291b51e5376202b97250037d196ee867abc0429469e3071",
-    "specs/001-support-demo/plan.md": "a26d981a79659748b97288b8235da74d4434ba35f74c9daa6bb91cbb2bdf89d8",
-    "specs/001-support-demo/spec.md": "e96f2694f9a5abc7609a81022d831d1888394f8ea0c7cf2de15a993d46a2d880",
-    "specs/001-support-demo/tasks.md": "f4ce4b5dc61dcaf61c6e8f4c4ba4d4cb2ccabfa03d910c59a1c236c33852e3c8",
-    "specs/002-expansion/acceptance.csv": "7621aec1356d99353dda88854ee2a9bfd7fe94b1a9321b60f12867d953129800",
+  "source_id": "6b64dcf435cbbe61213867a136368545605633d20b247d8ebe4c685f522bcdda",
+  "record_id": "c3152dce6fbe81dd6b25c9d3c64d9dbf69cb2fa1b3f160415d48c643c6638eb6",
+  "record_sha256": {
+    "docs/id-registry.json": "72a81536d3d94c6613169283c0d057e8f68b3a237446477634deedc12b5c99f5",
+    "docs/project-status.json": "44d2540fe32e9fde39dcdc5725df88ad9a6644a97e15532885d722d336a17ca4",
+    "specs/001-support-demo/acceptance.csv": "4b6d95aa2d2ccc2ea91fef800cb97eeaac3c2e6cefd8c5ebbd4bdfbbca1df265",
+    "specs/001-support-demo/case-kinds.json": "fbac91d5a4b61a214a1d9a7ae017ec486c8bee2d5e8b15640c7c0cac8615fa31",
+    "specs/001-support-demo/plan.md": "554824bdf38c1526e112bf02dd1b9a7e5bc4af0782ee3fa0a68f427590f28e46",
+    "specs/001-support-demo/security-controls.json": "37599ef5f6d52bdbd7abafd69998dbf428b7f77e2166d3312c49448f536aa517",
+    "specs/001-support-demo/spec.md": "fb1911792686bc44101613507690c4ea3d64e5f97b5172df67be19469f2980f8",
+    "specs/001-support-demo/tasks.md": "13da0357a15bb89d471d8b835d61acb81ed21c02980a630a12a29d192572d33f",
+    "specs/002-expansion/acceptance.csv": "b6e64ff7873d29ab916f103b01212b8fe4d5f5ffcf39771772eff61c6668b2ee",
     "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
-    "specs/002-expansion/spec.md": "3ff637d888d07ebd62da2dbe8aec6dfbe3616323ada82b18becabbc7e1473ec5",
-    "specs/002-expansion/tasks.md": "d9c6a5a1a5cfa329f8e67e068bf55fc1bb9aa67c14b1c4b0943fdc97ce688b30"
+    "specs/002-expansion/spec.md": "d213b5fd97c35e91f078025030708004ee08ebe6fe2eb576f43b17f86aa8943a",
+    "specs/002-expansion/tasks.md": "f058de31bd09e0624a27d4bec2f4ce31fa3a7c8c91b93fd3b610ef99be746308"
   }
 }

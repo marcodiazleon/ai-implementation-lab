@@ -1,0 +1,500 @@
+{
+ "schema": 1,
+ "rule": "R57b / D49. Each control names its trust boundary, the code behind it, its acceptance cases, a recorded state that scripts/security_catalog.py derives from the records (VERIFICADO: every case PASS with a positive and a negative or limit case; PARCIAL: some PASS; NO_PROBADO: none PASS; FUTURO: no case, never counted as passed), its limit and the item numbers of Codex's checklist as references only. The checklist itself is not in this repository and these states are an evaluation, not compliance. States derive from case polarities and statuses; they do not prove the checklist items a control references.",
+ "boundaries": [
+  "browser",
+  "local-server",
+  "runtime",
+  "git-github",
+  "pages",
+  "providers",
+  "mcp"
+ ],
+ "controls": [
+  {
+   "id": "SC-01",
+   "boundary": "runtime",
+   "control": "One shared detector for named credential formats, private files and personal paths; the publication guard inspects staged blobs, links and artifacts",
+   "code": [
+    "src/lab/sensitive.py::def find_secrets",
+    "scripts/publication_check.py::def check",
+    ".githooks/pre-commit",
+    "scripts/publication_check.py::def candidates"
+   ],
+   "cases": [
+    "C270",
+    "C271",
+    "C272",
+    "C273",
+    "C305",
+    "C311",
+    "C312"
+   ],
+   "state": "VERIFICADO",
+   "limit": "Named formats only, no entropy analysis; the local hook can be bypassed; the worktree scan covers every versioned candidate with Git and falls back to a narrower walk without it",
+   "checklist": [
+    "REQ052",
+    "REQ053",
+    "REQ054",
+    "REQ055",
+    "REQ059",
+    "REQ061",
+    "REQ063",
+    "REQ064",
+    "REQ065",
+    "REQ066"
+   ]
+  },
+  {
+   "id": "SC-02",
+   "boundary": "runtime",
+   "control": "Agent briefs, documentation, artifacts, model output and saved definitions reject credential material; exports are guarded in the interface and by the server",
+   "code": [
+    "src/lab/agents.py::def validate_input",
+    "src/lab/agents.py::def validate_output",
+    "src/lab/agent_store.py::def validate",
+    "web/studio.js::secretLike",
+    "web/sensitive-rules.js::findSecrets",
+    "src/lab/sensitive.py::def find_secrets_in"
+   ],
+   "cases": [
+    "C274",
+    "C276",
+    "C310",
+    "C316",
+    "C317"
+   ],
+   "state": "VERIFICADO",
+   "limit": "Same named formats in Python and JavaScript, applied to every string value of objects and arrays raw and serialized, checked against each other with Node and on the real export form; the server is the authority where one exists, the browser guard is the only one on the static build; the Pages in-tab agent save (web/public-demo.js saveAgent) checks two formats only, while the local store and the export guards use the shared patterns: a coverage gap recorded 2026-10-12 (U22, C326), pending a code decision",
+   "checklist": [
+    "REQ070",
+    "REQ071",
+    "REQ072",
+    "REQ073",
+    "REQ074"
+   ]
+  },
+  {
+   "id": "SC-03",
+   "boundary": "local-server",
+   "control": "Credentials and authorization headers never appear in responses, standard error or artifacts; session tokens only in the connect responses and the session fields; unexpected exceptions become 500 INTERNAL_ERROR without a message",
+   "code": [
+    "src/lab/server.py::INTERNAL_ERROR",
+    "src/lab/server.py::def handle_error",
+    "src/lab/cloud.py::API_FAILURE"
+   ],
+   "cases": [
+    "C275",
+    "C305"
+   ],
+   "state": "VERIFICADO",
+   "limit": "Process memory is not zeroed; another local process with the same user can read this one",
+   "checklist": [
+    "REQ084",
+    "REQ097",
+    "REQ110",
+    "REQ155"
+   ]
+  },
+  {
+   "id": "SC-04",
+   "boundary": "browser",
+   "control": "The key field is cleared before each request, no key reaches browser storage, and model, MCP and error text are rendered as text nodes",
+   "code": [
+    "web/cloud.js::el('apiKey').value=''",
+    "web/workbench.js::el(\"mcpKey\").value=\"\"",
+    "web/cloud.js::p.textContent=text"
+   ],
+   "cases": [
+    "C276",
+    "C278"
+   ],
+   "state": "VERIFICADO",
+   "limit": "A browser extension or the operating system clipboard are outside this boundary",
+   "checklist": [
+    "REQ070",
+    "REQ071",
+    "REQ155"
+   ]
+  },
+  {
+   "id": "SC-05",
+   "boundary": "runtime",
+   "control": "Cloud and MCP sessions discard key and history on disconnect, expiry (30 idle minutes) and server stop; role tasks never read chat history",
+   "code": [
+    "src/lab/cloud.py::def disconnect",
+    "src/lab/cloud.py::def _prune",
+    "src/lab/context7.py::def prune",
+    "src/lab/cloud.py::def task"
+   ],
+   "cases": [
+    "C277"
+   ],
+   "state": "PARCIAL",
+   "limit": "References are emptied; expired sessions are pruned when another operation is served, not at the exact minute; absolute erasure of memory and cancellation of a request already received by the provider are not provided",
+   "checklist": [
+    "REQ063",
+    "REQ064",
+    "REQ066",
+    "REQ110"
+   ]
+  },
+  {
+   "id": "SC-06",
+   "boundary": "local-server",
+   "control": "Connection cap before any thread or byte (503), inactivity timeout and total delivery deadline enforced inside every read (408) with recovery; body, type, nesting, route, method, Host and Origin checks",
+   "code": [
+    "src/lab/server.py::REQUEST_TIMEOUT",
+    "src/lab/server.py::SERVER_BUSY",
+    "src/lab/server.py::RecursionError",
+    "src/lab/server.py::def trusted",
+    "src/lab/server.py::def process_request",
+    "src/lab/server.py::REQUEST_DEADLINE",
+    "src/lab/server.py::class DeadlineReader"
+   ],
+   "cases": [
+    "C280",
+    "C281",
+    "C282",
+    "C283",
+    "C284",
+    "C308",
+    "C309",
+    "C314",
+    "C315"
+   ],
+   "state": "VERIFICADO",
+   "limit": "Process-level limits; no protection against a hostile local process or a network exposure, which the server does not support; Host and Origin are a same-origin boundary, not authentication",
+   "checklist": [
+    "REQ019",
+    "REQ020",
+    "REQ021",
+    "REQ022",
+    "REQ033",
+    "REQ034",
+    "REQ036",
+    "REQ038",
+    "REQ048",
+    "REQ090",
+    "REQ091",
+    "REQ092",
+    "REQ094",
+    "REQ096",
+    "REQ098",
+    "REQ099",
+    "REQ100",
+    "REQ101",
+    "REQ102",
+    "REQ103",
+    "REQ104"
+   ]
+  },
+  {
+   "id": "SC-07",
+   "boundary": "providers",
+   "control": "Sessions with TTL, request budget, capacity, busy flag and revocation; remote responses bounded in size, status and shape; fixed hosts, no redirects, no retries",
+   "code": [
+    "src/lab/cloud.py::MAX_REQUESTS",
+    "src/lab/cloud.py::API_RESPONSE_TOO_LARGE",
+    "src/lab/context7.py::MCP_RESPONSE_TOO_LARGE",
+    "src/lab/cloud.py::HOST"
+   ],
+   "cases": [
+    "C285",
+    "C286",
+    "C301"
+   ],
+   "state": "VERIFICADO",
+   "limit": "A request already received by the provider is not cancelled; provider retention follows its own policy",
+   "checklist": [
+    "REQ106",
+    "REQ107",
+    "REQ108",
+    "REQ110",
+    "REQ111",
+    "REQ112",
+    "REQ113",
+    "REQ114",
+    "REQ115",
+    "REQ116",
+    "REQ117",
+    "REQ118",
+    "REQ119",
+    "REQ125",
+    "REQ126",
+    "REQ133"
+   ]
+  },
+  {
+   "id": "SC-08",
+   "boundary": "pages",
+   "control": "Security headers on the local server and an equivalent Content-Security-Policy meta element in the public build; the endpoint matrix lists every route",
+   "code": [
+    "src/lab/server.py::CSP",
+    "scripts/build_pages.py::CSP",
+    "docs/threat-model.md"
+   ],
+   "cases": [
+    "C287",
+    "C288",
+    "C289"
+   ],
+   "state": "VERIFICADO",
+   "limit": "GitHub Pages adds no headers; frame-ancestors cannot be expressed in a meta element",
+   "checklist": [
+    "REQ090",
+    "REQ091",
+    "REQ092"
+   ]
+  },
+  {
+   "id": "SC-09",
+   "boundary": "git-github",
+   "control": "Every GitHub Action pinned to a verified commit SHA with a version comment; persist-credentials false; minimal permissions; required check names kept",
+   "code": [
+    ".github/workflows/verify.yml::pinned by commit",
+    ".github/workflows/pages.yml::pinned by commit",
+    "scripts/security_check.py::def workflow_rules"
+   ],
+   "cases": [
+    "C290",
+    "C291"
+   ],
+   "state": "VERIFICADO",
+   "limit": "Pins are updated by hand after resolving the upstream tag; the runner image itself is GitHub's",
+   "checklist": [
+    "REQ030",
+    "REQ031",
+    "REQ078",
+    "REQ079",
+    "REQ080",
+    "REQ081",
+    "REQ082",
+    "REQ083",
+    "REQ123",
+    "REQ124",
+    "REQ127"
+   ]
+  },
+  {
+   "id": "SC-10",
+   "boundary": "git-github",
+   "control": "Standard-library security gate (static rules, stdlib inventory, pins, secrets) inside verify and every CI job; evidence without a passing result is rejected",
+   "code": [
+    "scripts/security_check.py::def check",
+    "scripts/check_evidence.py::security_check",
+    "scripts/verify.py::security_check",
+    ".github/workflows/verify.yml::security_check.py"
+   ],
+   "cases": [
+    "C292",
+    "C293",
+    "C294",
+    "C295",
+    "C296"
+   ],
+   "state": "VERIFICADO",
+   "limit": "Named rules, not a general SAST or SCA; there is no third-party dependency to audit today",
+   "checklist": [
+    "REQ084",
+    "REQ085",
+    "REQ086",
+    "REQ087",
+    "REQ088",
+    "REQ089",
+    "REQ134",
+    "REQ138",
+    "REQ139",
+    "REQ140",
+    "REQ141",
+    "REQ142",
+    "REQ143",
+    "REQ147",
+    "REQ149",
+    "REQ150",
+    "REQ168"
+   ]
+  },
+  {
+   "id": "SC-11",
+   "boundary": "git-github",
+   "control": "External static analysis executed with an available tool and triaged, outside CI",
+   "code": [
+    "reports/U21_SECURITY_2026-10-12.md",
+    "docs/supply-chain.md"
+   ],
+   "cases": [
+    "C297"
+   ],
+   "state": "PARCIAL",
+   "limit": "ruff's bandit-derived rules ran locally once; CI execution needs a dependency decision by Marco",
+   "checklist": [
+    "REQ138",
+    "REQ139",
+    "REQ140"
+   ]
+  },
+  {
+   "id": "SC-12",
+   "boundary": "runtime",
+   "control": "Untrusted content from the operator, the model or MCP cannot widen tools, destinations or permissions and cannot start a process or read a file; consent precedes every provider call and bodies carry message, context and agent prompt only",
+   "code": [
+    "src/lab/agents.py::def run_agent",
+    "src/lab/context7.py::TOOLS",
+    "src/lab/cloud.py::CONSENT_REQUIRED",
+    "src/lab/agent_store.py::def resolve"
+   ],
+   "cases": [
+    "C300",
+    "C301"
+   ],
+   "state": "VERIFICADO",
+   "limit": "A model can still write misleading text; the operator reads it as data",
+   "checklist": [
+    "REQ013",
+    "REQ014",
+    "REQ052",
+    "REQ053",
+    "REQ054",
+    "REQ112",
+    "REQ118",
+    "REQ119"
+   ]
+  },
+  {
+   "id": "SC-13",
+   "boundary": "runtime",
+   "control": "Threat model, data inventory and control catalog kept with the records; states derived, never typed",
+   "code": [
+    "docs/threat-model.md",
+    "scripts/security_catalog.py::def states",
+    "specs/001-support-demo/security-controls.json"
+   ],
+   "cases": [
+    "C279",
+    "C298",
+    "C299"
+   ],
+   "state": "PARCIAL",
+   "limit": "Document and record checks; the model is the implementer's reading, reviewed by Codex, not an external audit",
+   "checklist": [
+    "REQ149",
+    "REQ150",
+    "REQ168",
+    "REQ169"
+   ]
+  },
+  {
+   "id": "SC-14",
+   "boundary": "git-github",
+   "control": "Runbook with detection, containment, revocation, recovery and follow-up; patch policy; reporting through the GitHub profile; severities; rollback by ordinary commits; synthetic drill executed against fakes",
+   "code": [
+    "docs/security-runbook.md",
+    "scripts/publication_check.py::def inspect",
+    "src/lab/cloud.py::def disconnect"
+   ],
+   "cases": [
+    "C302",
+    "C303"
+   ],
+   "state": "VERIFICADO",
+   "limit": "The drill is synthetic; the GitHub profile is the public contact, not evidence of an operative private channel",
+   "checklist": [
+    "REQ074",
+    "REQ085",
+    "REQ086",
+    "REQ144",
+    "REQ145",
+    "REQ146",
+    "REQ151",
+    "REQ152",
+    "REQ153",
+    "REQ154",
+    "REQ156",
+    "REQ159",
+    "REQ161",
+    "REQ162",
+    "REQ163",
+    "REQ164",
+    "REQ165",
+    "REQ166",
+    "REQ167",
+    "REQ170",
+    "REQ171",
+    "REQ173",
+    "REQ174"
+   ]
+  },
+  {
+   "id": "SC-15",
+   "boundary": "git-github",
+   "control": "Owner- and provider-dependent settings: two-factor authentication, branch protection, private vulnerability reporting, Pages and hosting settings",
+   "code": [
+    "docs/security-runbook.md"
+   ],
+   "cases": [
+    "C304"
+   ],
+   "state": "NO_PROBADO",
+   "limit": "Read-only evidence from the owner is required; the implementer enables nothing",
+   "checklist": [
+    "REQ025",
+    "REQ049",
+    "REQ051",
+    "REQ056",
+    "REQ057",
+    "REQ058",
+    "REQ062",
+    "REQ120",
+    "REQ121",
+    "REQ122",
+    "REQ135",
+    "REQ136",
+    "REQ137",
+    "REQ148",
+    "REQ167",
+    "REQ172"
+   ]
+  },
+  {
+   "id": "SC-16",
+   "boundary": "runtime",
+   "control": "Validation under an OS sandbox with an inspectable script: minimal root with the toolchain read-only, a synthetic /etc from an allowlist, no home, credentials, host temp, original target path or writable host path; isolated loopback; empty environment; mandatory process, memory, CPU, file-size and time limits with probes inside them; fail-closed probes; the export owner outside the payload's PID namespace, no host descriptor in the namespace, non-dumpable supervisor, nested namespace with locked flags and no_new_privs for the payload, promotion after every process ended with safe opens, limits and rechecks",
+   "code": [
+    "scripts/sandbox/run_isolated.sh",
+    "scripts/sandbox/promote.py",
+    "reports/U21_SECURITY_2026-10-12.md"
+   ],
+   "cases": [
+    "C306",
+    "C307",
+    "C313",
+    "C318",
+    "C319",
+    "C320",
+    "C321"
+   ],
+   "state": "VERIFICADO",
+   "limit": "Linux with cgroups and user namespaces; the kernel is the host's and the payload is root of its own nested namespace; runs under the earlier runners are reported and superseded, not verified",
+   "checklist": [
+    "REQ168"
+   ]
+  },
+  {
+   "id": "SC-17",
+   "boundary": "local-server",
+   "control": "Real authentication, user isolation, encryption at rest, durable audit storage, tamper-resistant signing",
+   "code": [
+    "SECURITY.md"
+   ],
+   "cases": [],
+   "state": "FUTURO",
+   "limit": "Outside the scope of a loopback sample with synthetic data (EXP-M04, EXP-M05, EXP-M08); never counted as passed",
+   "checklist": [
+    "REQ025",
+    "REQ049",
+    "REQ051"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,352 @@
+{
+ "session@375": {
+  "html": 39647,
+  "domContentLoaded": 89,
+  "load": 96,
+  "resources": 19,
+  "transferredBytes": 373098,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0032
+ },
+ "session@1360": {
+  "html": 39647,
+  "domContentLoaded": 95,
+  "load": 100,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0082
+ },
+ "method@375": {
+  "html": 39647,
+  "domContentLoaded": 90,
+  "load": 114,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0033
+ },
+ "method@1360": {
+  "html": 39647,
+  "domContentLoaded": 84,
+  "load": 111,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0
+ },
+ "evidence@375": {
+  "html": 39647,
+  "domContentLoaded": 110,
+  "load": 118,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0033
+ },
+ "evidence@1360": {
+  "html": 39647,
+  "domContentLoaded": 90,
+  "load": 97,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0
+ },
+ "agents@375": {
+  "html": 39647,
+  "domContentLoaded": 102,
+  "load": 117,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0032
+ },
+ "agents@1360": {
+  "html": 39647,
+  "domContentLoaded": 99,
+  "load": 111,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0025
+ },
+ "mcp@375": {
+  "html": 39647,
+  "domContentLoaded": 79,
+  "load": 96,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0029
+ },
+ "mcp@1360": {
+  "html": 39647,
+  "domContentLoaded": 88,
+  "load": 110,
+  "resources": 18,
+  "transferredBytes": 372763,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
+   },
+   {
+    "name": "style.css",
+    "bytes": 33408,
+    "decoded": 33408
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 22702,
+    "decoded": 22702
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0
+ }
+}

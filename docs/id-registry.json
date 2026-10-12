@@ -1,0 +1,169 @@
+{
+ "schema": 1,
+ "rule": "IDs published on main are immutable. Among open pull requests the earliest-created keeps its IDs; later ones are remapped on reconciliation. A reserved ID must not be defined here with any meaning. Aliases keep historical references resolvable; commits, PR bodies, dated reports and evidence files are not rewritten.",
+ "reserved": [
+  {
+   "holder": "PR #4 feat/reset-and-explain @ ea5fe51436270aa35006fb71e804de2c77d45b89, parts not carried here (what remains reserved has no meaning on main; see aliases)",
+   "ids": [
+    "U12",
+    "R30",
+    "T39",
+    "T41",
+    "T42",
+    "T43",
+    "T44",
+    "T45",
+    "T46",
+    "D24",
+    "D25",
+    "D26",
+    "D27",
+    "C133",
+    "C134",
+    "C135",
+    "C136",
+    "C137",
+    "C138",
+    "C139",
+    "C140",
+    "C142",
+    "C143",
+    "C144",
+    "C145",
+    "C146",
+    "C147"
+   ]
+  },
+  {
+   "holder": "PR #5 fix/session-first-public @ 0cfd1ee502fa90d56b8aec02a12dc33a8f939205, parts not carried here (U13 evaluation license, U14 product documents)",
+   "ids": [
+    "U14",
+    "U15",
+    "T50",
+    "T51",
+    "T52",
+    "D28",
+    "D30",
+    "C153",
+    "C154",
+    "C155"
+   ]
+  },
+  {
+   "holder": "PR #6 claude/laughing-rubin-6e32ve @ 70fbaa60521dfa9b1bc469890f228b8c2829eb00",
+   "ids": [
+    "U16",
+    "CU18",
+    "R32",
+    "R33",
+    "T53",
+    "T54",
+    "T55",
+    "T56",
+    "D31",
+    "C156",
+    "C157",
+    "C158",
+    "C159",
+    "C160",
+    "C161",
+    "C162",
+    "C163",
+    "C164",
+    "C165",
+    "C166",
+    "C167",
+    "C168",
+    "C169"
+   ]
+  }
+ ],
+ "aliases": [
+  {
+   "origin": "PR #5 @ 0cfd1ee",
+   "carried_here": true,
+   "map": {
+    "U12": "U13",
+    "R30": "R31",
+    "R30a-d": "R31a-d",
+    "T41": "T47",
+    "T42": "T48",
+    "T43": "T49",
+    "D24": "D29",
+    "C139": "C148",
+    "C140": "C149",
+    "C141": "C150",
+    "C142": "C151",
+    "C143": "C152"
+   }
+  },
+  {
+   "origin": "PR #5 @ 0cfd1ee",
+   "carried_here": false,
+   "map": {
+    "U13": "U14",
+    "U14": "U15",
+    "T44": "T50",
+    "T45": "T51",
+    "T46": "T52",
+    "D22": "D28",
+    "D25": "D30",
+    "C144": "C153",
+    "C145": "C154",
+    "C146": "C155"
+   }
+  },
+  {
+   "origin": "PR #6 @ 70fbaa6",
+   "carried_here": false,
+   "map": {
+    "U11": "U16",
+    "CU16": "CU18",
+    "R28": "R32",
+    "R29": "R33",
+    "T38": "T53",
+    "T39": "T54",
+    "T40": "T55",
+    "T41": "T56",
+    "D22": "retired (superseded by D32)",
+    "D23": "D31",
+    "C121-C134": "C156-C169"
+   }
+  },
+  {
+   "origin": "PR #4 @ ea5fe51",
+   "carried_here": true,
+   "map": {
+    "U11": "U11",
+    "CU16": "CU16",
+    "R28a": "R28a",
+    "R29": "R29",
+    "T38": "T38",
+    "T40": "T40",
+    "D22": "D22",
+    "D23": "D23",
+    "C121-C132": "C121-C132",
+    "C141": "C141"
+   }
+  },
+  {
+   "origin": "PR #4 @ ea5fe51",
+   "carried_here": false,
+   "map": {
+    "D24": "D33",
+    "D26": "D36",
+    "D27": "D32",
+    "R30": "R39",
+    "C139": "not carried (badge rule ported as D33)",
+    "C140": "not carried (badge rule ported as D33)",
+    "C142": "not carried (version check ported as D36)",
+    "C143": "not carried (CI ported as D32)",
+    "U12": "not carried (decisions ported as D33, D36, D32)",
+    "D25": "not carried (interface vocabulary)",
+    "T39": "not carried (refund-exercise interface removed by U13)",
+    "C133-C138": "not carried (browser port and interface)",
+    "C144-C147": "not carried (manual walkthroughs of the removed interface)"
+   }
+  }
+ ]
+}
