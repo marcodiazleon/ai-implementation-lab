@@ -1,11 +1,11 @@
 """Scoped role execution with enforced hooks; no shell or workspace access."""
 import hashlib
 import json
-import re
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from .cloud import CloudError
+from .sensitive import find_secrets
 
 ROLES = json.loads((Path(__file__).resolve().parents[2] / "agents/roles.json").read_text(encoding="utf-8"))
 MAX_CONTEXT = 16000
@@ -29,8 +29,8 @@ def validate_input(body):
     if not isinstance(brief,str) or not 20 <= len(brief.strip()) <= 3000:
         raise CloudError("AGENT_INVALID_BRIEF")
     brief=brief.strip()
-    # Prevent obvious credential material from being forwarded or downloaded.
-    if re.search(r"(?:sk-(?:proj-)?[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)", brief):
+    # R54a / D45: named credential formats are never forwarded or downloaded.
+    if find_secrets(brief):
         raise CloudError("AGENT_SENSITIVE_INPUT")
     artifacts = body.get("artifacts",[])
     docs = body.get("documentation","")
@@ -43,7 +43,7 @@ def validate_input(body):
             raise CloudError("AGENT_STALE_CONTEXT")
     if sum(len(row["text"]) for row in artifacts)+len(docs)>MAX_CONTEXT:
         raise CloudError("AGENT_CONTEXT_LIMIT")
-    if re.search(r"(?:sk-(?:proj-)?[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)", docs+"".join(row["text"] for row in artifacts)):
+    if find_secrets(docs+"".join(row["text"] for row in artifacts)):
         raise CloudError("AGENT_SENSITIVE_INPUT")
     return role,mode,language,brief,artifacts,docs
 
@@ -91,7 +91,7 @@ def validate_output(value):
             raise CloudError("AGENT_INVALID_OUTPUT",502)
     if not value["deliverables"] or len(json.dumps(value,ensure_ascii=False))>18000:
         raise CloudError("AGENT_INVALID_OUTPUT",502)
-    if re.search(r"sk-(?:proj-)?[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----", json.dumps(value)):
+    if find_secrets(json.dumps(value, ensure_ascii=False)):
         raise CloudError("AGENT_SENSITIVE_OUTPUT",502)
     return value
 

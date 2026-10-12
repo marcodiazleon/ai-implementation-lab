@@ -13,7 +13,10 @@ from src.lab.model_catalog import catalog
 
 DATA = ["data/orders.json", "data/policy.json", "data/scenarios.json", "agents/roles.json",
         "evidence/latest.json", "specs/001-support-demo/acceptance.csv"]
+# R55e: the same policy the local server sends, as a meta element (frame-ancestors cannot be set this way; Pages adds no headers).
+CSP = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'"
 REPLACEMENTS = [
+    ('<meta name="color-scheme" content="dark">', '<meta name="color-scheme" content="dark">\n  <meta http-equiv="Content-Security-Policy" content="' + CSP + '">'),
     ('<script src="i18n.js"', '<script src="public-demo.js"></script>\n  <script src="i18n.js"'),
     ('Guardados en este repositorio en esta computadora.', 'Se guardan solo en esta pestaña y se borran al recargar.'),
     ('data-en="Saved in this repository on this computer.', 'data-en="Kept only in this tab and cleared on reload.'),
