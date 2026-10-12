@@ -38,12 +38,13 @@ if [ -d /sys/fs/cgroup/pids ]; then
   echo "$PIDS" > "$CG/pids.max" && echo $$ > "$CG/cgroup.procs" || fail pids "cannot apply pids.max"
   [ -d /sys/fs/cgroup/memory ] && MCG="/sys/fs/cgroup/memory/lab-sandbox-$$" && mkdir "$MCG" 2>/dev/null \
     && echo "$MEM" > "$MCG/memory.limit_in_bytes" 2>/dev/null && echo $$ > "$MCG/cgroup.procs" 2>/dev/null && MEMNOTE="cgroup memory.limit_in_bytes=$MEM" || MEMNOTE="cgroup memory limit not available"
-  trap 'rmdir "$CG" 2>/dev/null; [ -n "${MCG:-}" ] && rmdir "$MCG" 2>/dev/null' EXIT
+  # On exit the shell leaves the cgroups (a cgroup cannot be removed while a process is inside it) and removes them.
+  trap 'echo $$ > /sys/fs/cgroup/pids/cgroup.procs 2>/dev/null; rmdir "$CG" 2>/dev/null; [ -n "${MCG:-}" ] && echo $$ > /sys/fs/cgroup/memory/cgroup.procs 2>/dev/null && rmdir "$MCG" 2>/dev/null' EXIT
 elif [ -f /sys/fs/cgroup/cgroup.controllers ]; then
   CG="/sys/fs/cgroup/lab-sandbox-$$"
   mkdir "$CG" 2>/dev/null && echo "$PIDS" > "$CG/pids.max" && echo $$ > "$CG/cgroup.procs" || fail pids "cgroup v2 pids.max not writable"
   echo "$MEM" > "$CG/memory.max" 2>/dev/null && MEMNOTE="cgroup memory.max=$MEM" || MEMNOTE="cgroup memory limit not available"
-  trap 'rmdir "$CG" 2>/dev/null' EXIT
+  trap 'echo $$ > /sys/fs/cgroup/cgroup.procs 2>/dev/null; rmdir "$CG" 2>/dev/null' EXIT
 else
   fail pids "no writable cgroup pids hierarchy"
 fi
