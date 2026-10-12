@@ -91,4 +91,5 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T76 | R51 | Case classification, matrix generator and document, fail-closed demonstration | T73 | Implementing assistant | Generator passes on the records and fails on its negatives | IMPLEMENTED; C233–C236 |
 | T77 | R52 | README, INDEX, Spanish guide, scope line, visitor script | T74 | Implementing assistant | Document checks pass; routes walked | IMPLEMENTED; C237–C238 |
 | T78 | R53 | Payload and layout-shift measurement; clean-clone reproduction | T75 | Implementing assistant | Measurements recorded for the pushed revision | IMPLEMENTED; C239–C240 |
+| T79 | R49,R51,R53 | Findings of the independent review of 3f2c7ea: payload validation, dirty-build policy, classification floors and overrides, subprocess encoding, documentation precision | T74–T78 | Implementing assistant | Node, Python and browser negatives pass; suite identical under the three console configurations | IMPLEMENTED; C260–C268 |
 

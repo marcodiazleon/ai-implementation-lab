@@ -63,6 +63,27 @@
    "records": true,
    "explorer": true
   },
+  "badShape": {
+   "status": "Sin evidencia cargada: no se pudieron leer los datos de esta revisión (Evidencia inválida: tests.run — debe ser un entero no negativo).",
+   "retry": {
+    "hidden": false,
+    "name": "Reintentar la carga de la evidencia"
+   },
+   "records": true,
+   "explorer": true,
+   "evResult": "",
+   "metricsHidden": true,
+   "live": "status"
+  },
+  "badShapeEn": {
+   "status": "No evidence loaded: this revision's data could not be read (Invalid evidence: tests.run — must be a non-negative integer).",
+   "retry": {
+    "hidden": false,
+    "name": "Retry loading the evidence"
+   },
+   "records": true,
+   "explorer": true
+  },
   "restored": {
    "status": "",
    "retry": {

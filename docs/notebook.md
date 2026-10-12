@@ -135,3 +135,9 @@ Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20
 - Not executed: C170, C176 (CI run with a deliberate defect; the offline demonstration exists), C177, a screen reader, a live API call, another PC. D35 and the PR #4–#6 reconciliation wait for Marco.
 - Not claimed: a 9/10 score, owner acceptance of this increment or merge readiness. Codex reviews the candidate.
 
+## 2026-10-12 · U20 review findings closed on PR #8 (working branch)
+- Source: Codex's independent review of 3f2c7ea (not all areas at 9, not ready): a valid JSON payload of invalid shape rendered PASS; a checkout with uncommitted changes inherited the acceptance and deployment states; an empty code list or a document/structure relabel made the matrix pass; a nested subprocess under a `-X utf8` parent raised UnicodeDecodeError; two imprecise notes in the docs. Recorded as R49e–f, R51d, R53c, T79, D43–D44 and C260–C268 before the change.
+- Fixes: `validatePayload` in web/evidence-rules.js runs before anything is rendered and the view re-describes the error in the current language; `build_states` treats modified tracked files and untracked served files as "not the recorded content" with the files named, keeping the commit's containment in main separate (D43); the matrix requires well-formed code references and derives floors from the test functions, their fixtures and helpers, with overrides that are printed and listed, never silent (D44); the tests read every child as UTF-8 with replacement and start Python children in UTF-8 mode; README and the Spanish guide corrected.
+- Checks: the nested fail-closed test passes under a cp1252 parent, under PYTHONUTF8=1 and under `python -X utf8`; browser: the invalid-shape payload shows the bilingual error with retry and no PASS (C261); audit, tour and performance repeated on the corrected sources.
+- Not claimed: a 9/10 in any area, owner acceptance of this increment or merge readiness.
+

@@ -5,7 +5,7 @@
  const el = (id) => document.getElementById(id);
  const REPO = "https://github.com/marcodiazleon/ai-implementation-lab";
  const t = (es, en) => (LabI18n.language === "en" ? en : es);
- let evidence = null, cases = [], requirements = [], status = null, failed = false;
+ let evidence = null, cases = [], requirements = [], status = null, failed = false, invalid = null;
 
  // Minimal RFC 4180 reader: quoted fields, doubled quotes, commas and newlines inside quotes.
  function parseCsv(text) {
@@ -74,9 +74,10 @@
  // R36b / R49c: five separate records; the rows and this build's states come from LabEvidenceRules.statusRows (D41).
  function renderStatus() {
   const block = el("statusRecords");
+  if (!status || !evidence) { block.hidden = true; return false; }
   const model = LabEvidenceRules.statusRows(status, evidence, LabI18n.language);
   block.hidden = !!model.error;
-  if (model.error) return;
+  if (model.error) { failed = model.error; return false; }
   el("statusList").replaceChildren(...model.rows.flatMap((row) => {
    const dt = document.createElement("dt"), dd = document.createElement("dd");
    dt.textContent = row.label; dd.textContent = row.value; dd.dataset.state = row.state; return [dt, dd];
@@ -112,14 +113,16 @@
   el("evidenceRetry").hidden = !failed;
   el("view-evidence").classList.toggle("loading", !ready && !failed);
   if (!ready) {
+   // A validation failure is re-described in the current language; a transport failure keeps its message.
+   const detail = invalid ? LabEvidenceRules.validatePayload(invalid.e, invalid.parsed, invalid.reqs, invalid.st, LabI18n.language) : failed;
    el("evidenceStatus").textContent = failed
-    ? t("Sin evidencia cargada: no se pudieron leer los datos de esta revisión (", "No evidence loaded: this revision's data could not be read (") + failed + ")."
+    ? t("Sin evidencia cargada: no se pudieron leer los datos de esta revisión (", "No evidence loaded: this revision's data could not be read (") + detail + ")."
     : t("Cargando evidencia…", "Loading evidence…");
    return;
   }
   el("evidenceStatus").textContent = "";
   pinLinks();
-  renderStatus();
+  if (renderStatus() === false) { render(); return; }
   const tests = evidence.tests || {};
   el("evGenerated").textContent = String(evidence.generated_utc || "—").slice(0, 16).replace("T", " ");
   el("evTests").textContent = [tests.run, tests.failures, tests.errors].join(" · ");
@@ -138,7 +141,7 @@
 
  async function load(event) {
   const retried = !!(event && event.type === "click");
-  failed = false; evidence = null; cases = []; requirements = []; status = null;
+  failed = false; invalid = null; evidence = null; cases = []; requirements = []; status = null;
   render();
   try {
    const read = async (path, kind) => {
@@ -148,8 +151,11 @@
    };
    const [e, csv, reqs, st] = await Promise.all([read("/api/evidence", "json"), read("/api/acceptance", "text"),
     read("/api/requirements", "json"), read("/api/status", "json")]);
-   if (!e || typeof e.tests !== "object" || !Array.isArray(reqs) || !st || typeof st !== "object") throw new Error(t("datos incompletos", "incomplete data"));
-   evidence = e; cases = parseCsv(csv); requirements = reqs; status = st;
+   // R49e: shape and result validation before anything is shown; a bad payload never renders PASS.
+   const parsed = parseCsv(csv);
+   const problem = LabEvidenceRules.validatePayload(e, parsed, reqs, st, LabI18n.language);
+   if (problem) { invalid = { e, parsed, reqs, st }; throw new Error(problem); }
+   evidence = e; cases = parsed; requirements = reqs; status = st;
   } catch (error) { failed = String(error && error.message || error); }
   render();
   // After a retry the control that had focus may be hidden: move focus to the outcome.

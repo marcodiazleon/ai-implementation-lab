@@ -69,16 +69,22 @@ const result = { state: {}, dialog: {}, forms: {}, evidenceError: {}, motion: {}
     await ctx.close();
   }
 
-  // C238: evidence payload blocked, then corrupt, then restored; retry recovers.
+  // C238 / C261: evidence payload blocked, corrupt JSON, valid JSON of invalid shape, then restored; retry recovers.
   {
     const [ctx, p] = await page({ viewport: { width: 1360, height: 900 } });
     let mode = "blocked";
-    await p.route("**/data/latest.json", (route) => mode === "blocked" ? route.abort() : mode === "corrupt" ? route.fulfill({ status: 200, contentType: "application/json", body: "{not json" }) : route.continue());
+    // Valid JSON with an invalid shape: the committed payload with an empty run summary and passed kept true (C261).
+    const badShape = JSON.stringify(Object.assign(await (await fetch(PUBLIC + "data/latest.json")).json(), { tests: {}, passed: true }));
+    await p.route("**/data/latest.json", (route) => mode === "blocked" ? route.abort() : mode === "corrupt" ? route.fulfill({ status: 200, contentType: "application/json", body: "{not json" })
+      : mode === "badshape" ? route.fulfill({ status: 200, contentType: "application/json", body: badShape }) : route.continue());
     await p.goto(PUBLIC + "#evidence"); await p.waitForTimeout(800);
     const snap = async () => ({ status: await p.textContent("#evidenceStatus"), retry: await p.$eval("#evidenceRetry", (b) => ({ hidden: b.hidden, name: b.textContent.trim() })), records: await p.$eval("#statusRecords", (e) => e.hidden), explorer: await p.$eval("#evidenceExplorer", (e) => e.hidden) });
     result.evidenceError.blocked = await snap();
     await p.selectOption("#language", "en"); await p.waitForTimeout(200); result.evidenceError.blockedEn = await snap(); await p.selectOption("#language", "es"); await p.waitForTimeout(200);
     mode = "corrupt"; await p.click("#evidenceRetry"); await p.waitForTimeout(600); result.evidenceError.corrupt = await snap();
+    mode = "badshape"; await p.click("#evidenceRetry"); await p.waitForTimeout(600);
+    result.evidenceError.badShape = Object.assign(await snap(), { evResult: await p.$eval("#evResult", (e) => e.textContent), metricsHidden: await p.$eval("#evidenceMetrics", (e) => e.hidden), live: await p.$eval("#evidenceStatus", (e) => e.getAttribute("role")) });
+    await p.selectOption("#language", "en"); await p.waitForTimeout(200); result.evidenceError.badShapeEn = await snap(); await p.selectOption("#language", "es"); await p.waitForTimeout(200);
     mode = "ok"; await p.click("#evidenceRetry"); await p.waitForTimeout(800); result.evidenceError.restored = await snap();
     result.evidenceError.focusAfterRetry = await p.evaluate(() => document.activeElement.id);
     await p.screenshot({ path: `${outDir}/evidence-restored.jpg`, type: "jpeg", quality: 60 });

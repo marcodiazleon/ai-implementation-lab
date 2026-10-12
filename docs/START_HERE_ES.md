@@ -36,7 +36,7 @@ python scripts/check_evidence.py
 python run.py serve
 ```
 
-Después abre http://127.0.0.1:8765. Si algo falla: Python 3.11 o superior, puerto 8765 libre (o `--port 8766`), y recuerda que `scripts/verify.py` reescribe la evidencia versionada.
+Después abre http://127.0.0.1:8765. Si algo falla: Python 3.11 o superior, puerto 8765 libre (o `--port 8766`), y recuerda que `scripts/verify.py` reescribe cuatro archivos generados (`evidence/latest.json`, `evidence/sdd-check.json`, `specs/001-support-demo/acceptance.csv` y `docs/requirements-matrix.md`); para descartar solo esos, `git checkout -- evidence/latest.json evidence/sdd-check.json specs/001-support-demo/acceptance.csv docs/requirements-matrix.md`, nunca un reset de todo el árbol. Una consola que no pueda codificar un carácter (página de códigos ASCII; cp1252 sí imprime las tildes) muestra `?` en su lugar; `python -X utf8 run.py tour` lo imprime todo.
 
 | Dónde | Qué funciona | Qué no |
 |---|---|---|

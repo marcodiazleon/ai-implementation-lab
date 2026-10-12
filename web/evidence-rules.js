@@ -18,6 +18,40 @@
   if (n.applicable && n.passed === n.applicable) return "PASS";
   return n.passed ? "PARCIAL" : "PENDIENTE";
  }
+ // R49e: the payload must have the shape and the internal consistency the view relies on, before anything is
+ // rendered. Returns null or a bilingual error naming the field; a PASS can never come out of a bad payload.
+ const isCount = (v) => Number.isInteger(v) && v >= 0;
+ function validatePayload(evidence, cases, requirements, status, lang) {
+  const t = (es, en) => (lang === "en" ? en : es);
+  const bad = (field, es, en) => t("Evidencia inválida: ", "Invalid evidence: ") + field + " — " + t(es, en);
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) return bad("latest.json", "no es un objeto", "is not an object");
+  const tests = evidence.tests;
+  if (!tests || typeof tests !== "object" || Array.isArray(tests)) return bad("tests", "falta el resumen de la ejecución", "the run summary is missing");
+  for (const key of ["run", "failures", "errors"]) {
+   if (!isCount(tests[key])) return bad("tests." + key, "debe ser un entero no negativo", "must be a non-negative integer");
+  }
+  if (tests.run === 0) return bad("tests.run", "ninguna prueba ejecutada", "no test was run");
+  if (typeof evidence.passed !== "boolean") return bad("passed", "debe ser verdadero o falso", "must be true or false");
+  if (evidence.passed && (tests.failures > 0 || tests.errors > 0)) return bad("passed", "verdadero con fallos o errores registrados", "true with recorded failures or errors");
+  if (!Array.isArray(evidence.test_results) || evidence.test_results.some((r) => !r || typeof r.test_id !== "string" || typeof r.status !== "string")) {
+   return bad("test_results", "debe ser una lista de pruebas con estado", "must be a list of tests with a status");
+  }
+  if (evidence.test_results.length !== tests.run) return bad("test_results", "su número no coincide con tests.run", "its length does not match tests.run");
+  if (evidence.passed && evidence.test_results.some((r) => r.status === "FAIL")) return bad("passed", "verdadero con una prueba FAIL", "true with a FAIL test");
+  if (!Array.isArray(requirements) || requirements.length === 0 || requirements.some((r) => !r || typeof r.id !== "string" || !/^R\d+$/.test(r.id) || typeof r.text !== "string")) {
+   return bad("requirements", "cada fila necesita id y texto", "each row needs an id and a text");
+  }
+  if (!Array.isArray(cases) || cases.length === 0) return bad("acceptance.csv", "sin filas", "has no rows");
+  for (const column of ["case_id", "requirement_id", "status", "test_id", "expected"]) {
+   if (cases.some((c) => typeof c[column] !== "string")) return bad("acceptance.csv", "falta la columna " + column, "column " + column + " is missing");
+  }
+  if (!status || typeof status !== "object" || Array.isArray(status)) return bad("status.json", "no es un objeto", "is not an object");
+  for (const key of ["acceptance", "integration", "deployment", "independent_review"]) {
+   if (!(key in status)) return bad("status." + key, "registro ausente", "record missing");
+  }
+  return null;
+ }
+
  // R49c / D41: the five project records as rows, with the state of THIS build computed by the server or the
  // static build (status.build_states). Pure: no DOM, so tests/test_u20.py runs it in Node with synthetic payloads.
  const short = (sha) => String(sha || "").slice(0, 7);
@@ -30,8 +64,8 @@
   const states = status.build_states || {}, reasons = states.reasons || {};
   const scope = (v) => (v && typeof v === "object" ? t(v.es, v.en) : v ? String(v) : "");
   const thisBuild = (key, yes, no) => {
-   if (states[key] === true) return yes;
-   if (states[key] === false) return no;
+   if (states[key] === true) return yes + (reasons[key] ? " (" + reasons[key] + ")" : "");
+   if (states[key] === false) return no + (reasons[key] ? " (" + reasons[key] + ")" : "");
    return t("esta revisión: sin determinar (", "this build: undetermined (") + (reasons[key] || t("sin Git", "no Git")) + ")";
   };
   const record = (key) => (status[key] && typeof status[key] === "object" ? status[key] : null);
@@ -64,5 +98,5 @@
      + thisBuild("deployment", t("mismo contenido que lo publicado", "same content as the published site"), t("esta revisión no está publicada", "this build is not published")) });
   return { error: null, rows };
  }
- (typeof window !== "undefined" ? window : globalThis).LabEvidenceRules = { tally, badge, statusRows };
+ (typeof window !== "undefined" ? window : globalThis).LabEvidenceRules = { tally, badge, statusRows, validatePayload };
 })();

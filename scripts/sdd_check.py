@@ -88,7 +88,7 @@ def record_errors(root, status):
     errors = []
     def git(*args):
         try:
-            return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=20).returncode == 0
+            return subprocess.run(["git", "-C", str(root), *args], capture_output=True, timeout=20).returncode == 0
         except (OSError, subprocess.SubprocessError):
             return None
     available = git("rev-parse", "HEAD")

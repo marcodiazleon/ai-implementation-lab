@@ -134,7 +134,8 @@ def main():
     print(json.dumps({"passed": evidence["passed"], "tests": result.testsRun, "scenarios": len(evaluation["cases"]), "sdd_errors": sdd_errors}))
     # R37b: say plainly that versioned files changed, so nobody commits a local run by accident.
     print("Note: this run rewrote evidence/latest.json, evidence/sdd-check.json, specs/001-support-demo/acceptance.csv and docs/requirements-matrix.md. "
-          "Review them with git diff; restore with git checkout -- evidence specs/001-support-demo/acceptance.csv.")
+          "Review them with git diff; to discard only those four: git checkout -- evidence/latest.json evidence/sdd-check.json "
+          "specs/001-support-demo/acceptance.csv docs/requirements-matrix.md.")
     return 0 if evidence["passed"] else 1
 
 if __name__ == "__main__":

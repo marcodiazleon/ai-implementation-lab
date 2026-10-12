@@ -343,7 +343,9 @@
    "code": [
     "scripts/revision.py::def build_states",
     "web/evidence-rules.js::function statusRows",
-    "scripts/sdd_check.py::def record_errors"
+    "scripts/sdd_check.py::def record_errors",
+    "web/evidence-rules.js::function validatePayload",
+    "scripts/revision.py::dirty_files"
    ]
   },
   "R50": {
@@ -359,7 +361,8 @@
    "behavior": "The matrix generator validates completeness and fails on gaps; an injected defect fails closed",
    "code": [
     "scripts/requirement_matrix.py::def validate",
-    "specs/001-support-demo/case-kinds.json"
+    "specs/001-support-demo/case-kinds.json",
+    "scripts/requirement_matrix.py::def floors"
    ]
   },
   "R52": {
@@ -376,7 +379,8 @@
    "behavior": "Payload and layout shift measured with browser performance entries; clean-clone reproduction",
    "code": [
     "scripts/browser/perf.js",
-    "scripts/browser/audit.js"
+    "scripts/browser/audit.js",
+    "tests/test_u20.py::def run_text"
    ]
   }
  },
@@ -938,7 +942,7 @@
    "polarity": "positive"
   },
   "C184": {
-   "kind": "structure",
+   "kind": "behavior",
    "polarity": "positive"
   },
   "C185": {
@@ -1030,7 +1034,7 @@
    "polarity": "negative"
   },
   "C207": {
-   "kind": "structure",
+   "kind": "behavior",
    "polarity": "positive"
   },
   "C208": {
@@ -1042,7 +1046,7 @@
    "polarity": "positive"
   },
   "C210": {
-   "kind": "structure",
+   "kind": "behavior",
    "polarity": "positive"
   },
   "C211": {
@@ -1054,7 +1058,7 @@
    "polarity": "positive"
   },
   "C213": {
-   "kind": "structure",
+   "kind": "behavior",
    "polarity": "positive"
   },
   "C214": {
@@ -1236,6 +1240,43 @@
   "C259": {
    "kind": "structure",
    "polarity": "positive"
+  },
+  "C260": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C261": {
+   "kind": "manual",
+   "polarity": "negative"
+  },
+  "C262": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C263": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C264": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C265": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C266": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C267": {
+   "kind": "behavior",
+   "polarity": "limit"
+  },
+  "C268": {
+   "kind": "structure",
+   "polarity": "positive"
   }
- }
+ },
+ "overrides": {}
 }

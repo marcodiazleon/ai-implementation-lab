@@ -1,20 +1,20 @@
 {
  "session@375": {
   "html": 39647,
-  "domContentLoaded": 124,
-  "load": 132,
+  "domContentLoaded": 89,
+  "load": 96,
   "resources": 19,
-  "transferredBytes": 342520,
+  "transferredBytes": 373098,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -32,24 +32,24 @@
     "decoded": 13822
    }
   ],
-  "layoutShift": 0.0029
+  "layoutShift": 0.0032
  },
  "session@1360": {
   "html": 39647,
-  "domContentLoaded": 101,
-  "load": 110,
+  "domContentLoaded": 95,
+  "load": 100,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -71,20 +71,20 @@
  },
  "method@375": {
   "html": 39647,
-  "domContentLoaded": 93,
-  "load": 118,
+  "domContentLoaded": 90,
+  "load": 114,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -102,24 +102,24 @@
     "decoded": 13822
    }
   ],
-  "layoutShift": 0.0029
+  "layoutShift": 0.0033
  },
  "method@1360": {
   "html": 39647,
-  "domContentLoaded": 82,
-  "load": 107,
+  "domContentLoaded": 84,
+  "load": 111,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -141,20 +141,20 @@
  },
  "evidence@375": {
   "html": 39647,
-  "domContentLoaded": 86,
-  "load": 93,
+  "domContentLoaded": 110,
+  "load": 118,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -172,24 +172,24 @@
     "decoded": 13822
    }
   ],
-  "layoutShift": 0.0029
+  "layoutShift": 0.0033
  },
  "evidence@1360": {
   "html": 39647,
-  "domContentLoaded": 115,
-  "load": 124,
+  "domContentLoaded": 90,
+  "load": 97,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -211,20 +211,20 @@
  },
  "agents@375": {
   "html": 39647,
-  "domContentLoaded": 90,
-  "load": 98,
+  "domContentLoaded": 102,
+  "load": 117,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -242,24 +242,24 @@
     "decoded": 13822
    }
   ],
-  "layoutShift": 0.0029
+  "layoutShift": 0.0032
  },
  "agents@1360": {
   "html": 39647,
-  "domContentLoaded": 95,
-  "load": 108,
+  "domContentLoaded": 99,
+  "load": 111,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -284,17 +284,17 @@
   "domContentLoaded": 79,
   "load": 96,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",
@@ -316,20 +316,20 @@
  },
  "mcp@1360": {
   "html": 39647,
-  "domContentLoaded": 97,
-  "load": 116,
+  "domContentLoaded": 88,
+  "load": 110,
   "resources": 18,
-  "transferredBytes": 342185,
+  "transferredBytes": 372763,
   "largest": [
    {
-    "name": "acceptance.csv",
-    "bytes": 86467,
-    "decoded": 86467
+    "name": "latest.json",
+    "bytes": 97258,
+    "decoded": 97258
    },
    {
-    "name": "latest.json",
-    "bytes": 81735,
-    "decoded": 81735
+    "name": "acceptance.csv",
+    "bytes": 96282,
+    "decoded": 96282
    },
    {
     "name": "style.css",

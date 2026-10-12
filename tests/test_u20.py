@@ -24,8 +24,21 @@ GIT_ENV = dict(os.environ, GIT_AUTHOR_NAME="lab", GIT_AUTHOR_EMAIL="lab@example.
                GIT_COMMITTER_NAME="lab", GIT_COMMITTER_EMAIL="lab@example.invalid")
 
 
+def run_text(command, **kwargs):
+    """R53c: subprocess output read as UTF-8 with replacement, children in UTF-8 mode, output never None.
+
+    The parent may run under a cp1252 console, under PYTHONUTF8=1 or under -X utf8 without variables;
+    the child is told to write UTF-8 either way, so the decoding does not depend on the console.
+    """
+    env = dict(kwargs.pop("env", None) or os.environ)
+    env.setdefault("PYTHONUTF8", "1"); env.setdefault("PYTHONIOENCODING", "utf-8")
+    result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", env=env, **kwargs)
+    result.stdout = result.stdout or ""; result.stderr = result.stderr or ""
+    return result
+
+
 def git(root, *args):
-    return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, env=GIT_ENV, check=True).stdout.strip()
+    return run_text(["git", "-C", str(root), *args], env=GIT_ENV, check=True).stdout.strip()
 
 
 def copy_repo(testcase):
@@ -93,6 +106,43 @@ class RecordTests(unittest.TestCase):
             self.assertFalse(none["git"])
             self.assertEqual(none["reasons"]["acceptance"], "Git unavailable")
 
+    def test_dirty_build_is_not_the_accepted_content(self):
+        root, accepted, merge, later = self.synthetic_repo()
+        git(root, "checkout", "-q", merge)
+        status = {"independent_review": {"revision": accepted}, "acceptance": {"revision": accepted},
+                  "integration": {"main": merge}, "deployment": {"revision": merge}}
+        clean = revision.build_states(status, root)
+        self.assertEqual((clean["acceptance"], clean["deployment"], clean["integration"], clean["dirty_files"]), (True, True, True, []))
+        (root / "file.txt").write_text("edited after acceptance\n", encoding="utf-8")
+        dirty = revision.build_states(status, root)
+        self.assertEqual((dirty["independent_review"], dirty["acceptance"], dirty["deployment"]), (False, False, False))
+        self.assertTrue(dirty["integration"])
+        self.assertIn("file.txt", dirty["reasons"]["acceptance"]); self.assertIn("uncommitted change", dirty["reasons"]["acceptance"])
+        self.assertIn("uncommitted changes", dirty["reasons"]["integration"])
+        self.assertEqual(git(root, "status", "--porcelain"), "M file.txt")  # unstaged (git() strips the leading column); nothing staged or committed
+        git(root, "checkout", "-q", "--", "file.txt")
+        (root / "web").mkdir(); (root / "web/extra.js").write_text("", encoding="utf-8")
+        untracked = revision.build_states(status, root)
+        self.assertFalse(untracked["acceptance"]); self.assertIn("web/extra.js", untracked["reasons"]["acceptance"])
+        (root / "notes.txt").write_text("", encoding="utf-8"); shutil.rmtree(root / "web")
+        self.assertTrue(revision.build_states(status, root)["acceptance"])  # an untracked file outside the served directories is not content
+        git(root, "checkout", "-q", later)
+        self.assertFalse(revision.build_states(status, root)["acceptance"])
+        # Two commits with the same tree are the same content (D43).
+        self.assertEqual(git(root, "rev-parse", accepted + "^{tree}"), git(root, "rev-parse", merge + "^{tree}"))
+        self.assertTrue(revision.build_states(status, root, merge)["deployment"])
+
+    @unittest.skipUnless(NODE, "node is required")
+    def test_status_rows_show_the_reason_of_a_false_state(self):
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        evidence = {"passed": True, "tests": {"run": 3}, "generated_utc": "2026-10-12T00:00:00", "input_revision": "a" * 40}
+        reason = "2 uncommitted change(s) in the checkout: web/style.css, src/lab/cli.py"
+        dirty = dict(status, build_states={"git": True, "reasons": {"acceptance": reason, "deployment": reason, "independent_review": reason, "integration": "the commit is contained in main; the checkout also has uncommitted changes"},
+                                           "independent_review": False, "acceptance": False, "integration": True, "deployment": False})
+        rows = json.loads(run_text([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], check=True, input=json.dumps([[dirty, evidence, "en"]])).stdout)[0]["rows"]
+        self.assertIn("this build is not accepted (" + reason + ")", rows[2]["value"])
+        self.assertIn("this build is contained in main (the commit is contained in main; the checkout also has uncommitted changes)", rows[3]["value"])
+
     @unittest.skipUnless(NODE, "node is required")
     def test_status_view_model_states_and_negatives(self):
         status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
@@ -103,7 +153,7 @@ class RecordTests(unittest.TestCase):
         absent = {k: v for k, v in status.items() if k not in ("acceptance", "deployment")}
         absent["build_states"] = {"git": True, "reasons": {"acceptance": "no revision recorded", "deployment": "no revision recorded"}, "integration": True, "independent_review": True}
         # encoding is explicit: on Windows the console codec is cp1252 and the Spanish strings would be mangled.
-        out = subprocess.run([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], capture_output=True, text=True, encoding="utf-8", check=True,
+        out = run_text([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], check=True,
                              input=json.dumps([[covered, evidence, "en"], [candidate, evidence, "es"], [unknown, evidence, "en"], [absent, evidence, "en"],
                                                [None, evidence, "en"], [status, {"tests": {}}, "es"], [status, "text", "en"]]))
         results = json.loads(out.stdout)
@@ -179,7 +229,7 @@ class InterfaceTests(unittest.TestCase):
     def test_validation_and_mcp_notices_are_bilingual(self):
         messages = {}
         for lang in ("es", "en"):
-            out = subprocess.run([NODE, "-e", NODE_I18N, str(ROOT / "web/i18n.js"), lang], capture_output=True, text=True, encoding="utf-8", check=True)
+            out = run_text([NODE, "-e", NODE_I18N, str(ROOT / "web/i18n.js"), lang], check=True)
             messages[lang] = json.loads(out.stdout)
         self.assertEqual(messages["es"], ["Completa este campo.", "Escribe al menos 20 caracteres.", "", "Revisa el formato de este campo."])
         self.assertEqual(messages["en"], ["Fill in this field.", "Enter at least 20 characters.", "", "Check the format of this field."])
@@ -250,8 +300,7 @@ class CodeTests(unittest.TestCase):
 
     def test_gate_passes_when_every_member_succeeded(self):
         for platform in ci_gate.MEMBERS:
-            run = subprocess.run([sys.executable, str(ROOT / "scripts/ci_gate.py"), platform, "ubuntu-latest=success", "windows-latest=success"],
-                                 capture_output=True, text=True)
+            run = run_text([sys.executable, str(ROOT / "scripts/ci_gate.py"), platform, "ubuntu-latest=success", "windows-latest=success"])
             self.assertEqual(run.returncode, 0, run.stdout)
             self.assertIn(f"PASS: verify ({platform})", run.stdout)
 
@@ -276,6 +325,24 @@ class CodeTests(unittest.TestCase):
             writer = csv.DictWriter(h, fieldnames=fields, lineterminator="\n"); writer.writeheader(); writer.writerows(rows)
         self.assertEqual(check_evidence.record_fingerprint(root), before)
         self.assertEqual(before, check_evidence.record_fingerprint(ROOT))
+
+    def test_subprocess_helper_is_encoding_safe(self):
+        # The child replaces what its own console cannot encode; the parent must read the rest without raising.
+        script = "import sys; sys.stdout.reconfigure(errors='replace'); sys.stdout.write('base \u00b7 acci\u00f3n \u2192 fin\\n')"
+        for console in ("cp1252", "utf-8", "ascii"):
+            for parent_flag in ([], ["-X", "utf8"]):
+                child_env = dict(os.environ, PYTHONIOENCODING=console)
+                child_env.pop("PYTHONUTF8", None)
+                run = run_text([sys.executable, *parent_flag, "-c", script], env=child_env)
+                self.assertEqual(run.returncode, 0, (console, parent_flag, run.stderr))
+                self.assertIsInstance(run.stdout, str)
+                self.assertIn("base", run.stdout); self.assertIn("fin", run.stdout)
+                if console == "utf-8":
+                    self.assertIn("acción \u2192", run.stdout)
+        # A child that is forced to cp1252 writes 0xb7 for the middle dot; reading it is replaced, not raised.
+        forced = run_text([sys.executable, "-c", "import sys; sys.stdout.reconfigure(encoding='cp1252'); sys.stdout.write('a \u00b7 b')"])
+        self.assertEqual(forced.returncode, 0); self.assertTrue(forced.stdout.startswith("a ")); self.assertTrue(forced.stdout.endswith(" b"))
+        self.assertEqual(run_text([sys.executable, "-c", "import sys; sys.exit(3)"]).stdout, "")
 
     def test_revision_info_without_git_is_explicit(self):
         root = copy_repo(self)
@@ -317,6 +384,54 @@ class MatrixTests(unittest.TestCase):
                       with_change(lambda k: k["requirements"]["R03"].__setitem__("code", ["src/lab/controller.py::def vanish"])))
         self.assertIn("Unclassified case: C018", with_change(lambda k: k["cases"].pop("C018")))
 
+    def test_matrix_rejects_missing_or_malformed_code(self):
+        root = copy_repo(self)
+        path = root / "specs/001-support-demo/case-kinds.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        for change in (lambda k: k["requirements"]["R03"].__setitem__("code", []),
+                       lambda k: k["requirements"]["R03"].__setitem__("code", ["src/lab/controller.py::", 7]),
+                       lambda k: k["requirements"]["R03"].pop("code")):
+            kinds = json.loads(json.dumps(original)); change(kinds); path.write_text(json.dumps(kinds), encoding="utf-8")
+            self.assertIn("Requirement R03 has no well-formed code reference list", requirement_matrix.validate(root))
+
+    def test_matrix_floors_block_downgrades_without_an_override(self):
+        root = copy_repo(self)
+        path = root / "specs/001-support-demo/case-kinds.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        def run(change):
+            kinds = json.loads(json.dumps(original)); change(kinds); path.write_text(json.dumps(kinds), encoding="utf-8")
+            return requirement_matrix.validate(root), kinds
+        def downgrade(k):
+            k["requirements"]["R03"]["verification"] = "document"
+            for case, entry in k["cases"].items():
+                if any(r["requirement_id"] == "R03" and r["case_id"] == case for r in requirement_matrix.load(root)[0]):
+                    entry["kind"] = "structure"
+        errors, _ = run(downgrade)
+        self.assertTrue(any(e.startswith("Requirement R03 has tests that run code") and "cannot be classified document" in e for e in errors), errors)
+        self.assertTrue(any(e.startswith("Case C018 is classified structure but its test uses code") for e in errors), errors)
+        override = {"reason": "test", "authority": "owner", "date": "2026-10-12"}
+        def with_override(k):
+            downgrade(k); k["overrides"] = {"R03": override, **{case: override for case, entry in k["cases"].items() if entry["kind"] == "structure"}}
+        errors, kinds = run(with_override)
+        self.assertEqual([e for e in errors if "R03" in e or "C018" in e], [])
+        self.assertIn("OVERRIDE R03: test — owner 2026-10-12", requirement_matrix.gaps(root))
+        self.assertIn("OVERRIDE R03", requirement_matrix.render(root))
+        errors, _ = run(lambda k: (downgrade(k), k.__setitem__("overrides", {"R03": {"reason": "no authority"}})))
+        self.assertTrue(any("cannot be classified document" in e for e in errors))
+
+    def test_classification_respects_the_floors(self):
+        cases, kinds, _ = requirement_matrix.load(ROOT)
+        case_runs_code, requirement_has_code_tests = requirement_matrix.floors(cases, ROOT)
+        self.assertGreater(len([c for c, names in case_runs_code.items() if names]), 100)
+        self.assertEqual(kinds.get("overrides"), {})
+        for case, names in case_runs_code.items():
+            if names:
+                self.assertNotEqual(kinds["cases"][case]["kind"], "structure", case)
+        for rid in requirement_has_code_tests:
+            self.assertIn(kinds["requirements"][rid]["verification"], {"code", "interface"}, rid)
+        self.assertIn("C018", case_runs_code); self.assertIn("R03", requirement_has_code_tests)
+        self.assertEqual(case_runs_code.get("test_u20.DocsTests.test_scope_line_is_not_stale", []), [])
+
     def test_injected_defect_fails_closed(self):
         if os.environ.get("LAB_SKIP_NESTED"):
             self.skipTest("nested fail-closed run")
@@ -327,9 +442,8 @@ class MatrixTests(unittest.TestCase):
         self.assertNotEqual(defect, source)
         controller.write_text(defect, encoding="utf-8")
         committed = json.loads((root / "evidence/latest.json").read_text(encoding="utf-8"))
-        run = subprocess.run([sys.executable, str(root / "scripts/verify.py")], cwd=root, capture_output=True, text=True, timeout=600,
-                             env=dict(os.environ, LAB_SKIP_NESTED="1"))
-        self.assertEqual(run.returncode, 1, run.stdout[-2000:])
+        run = run_text([sys.executable, str(root / "scripts/verify.py")], cwd=root, timeout=600, env=dict(os.environ, LAB_SKIP_NESTED="1"))
+        self.assertEqual(run.returncode, 1, (run.stdout or "(no stdout)")[-2000:] + (run.stderr or "")[-1000:])
         latest = json.loads((root / "evidence/latest.json").read_text(encoding="utf-8"))
         self.assertFalse(latest["passed"])
         self.assertEqual(latest["acceptance_cases"]["C018"]["status"], "FAIL")
@@ -340,6 +454,47 @@ class MatrixTests(unittest.TestCase):
         drift = check_evidence.compare_statuses(committed, latest)
         self.assertIn("Status drift: test_lab.WorkflowTests.test_execute_requires_approval PASS -> FAIL", drift)
         self.assertIn("Case drift: C018 status 'PASS' -> 'FAIL'", drift)
+
+
+NODE_VALIDATE = r"""
+const fs = require("fs"), vm = require("vm");
+const ctx = {}; ctx.window = ctx; vm.runInNewContext(fs.readFileSync(process.argv[1], "utf8"), ctx);
+const input = JSON.parse(fs.readFileSync(0, "utf8"));
+process.stdout.write(JSON.stringify(input.map(([e, c, r, s, lang]) => ctx.LabEvidenceRules.validatePayload(e, c, r, s, lang))));
+"""
+
+
+class PayloadTests(unittest.TestCase):
+    @unittest.skipUnless(NODE, "node is required")
+    def test_payload_validator_accepts_good_and_rejects_bad_shapes(self):
+        evidence = json.loads((ROOT / "evidence/latest.json").read_text(encoding="utf-8"))
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        with (ROOT / "specs/001-support-demo/acceptance.csv").open(encoding="utf-8", newline="") as h:
+            cases = list(csv.DictReader(h))
+        from scripts.sdd_check import requirement_rows
+        reqs = requirement_rows((ROOT / "specs/001-support-demo/spec.md").read_text(encoding="utf-8"))
+        def ev(**changes):
+            copy = json.loads(json.dumps(evidence)); copy.update(changes); return copy
+        bad = [
+            ("tests missing", ev(tests=None)), ("tests empty", ev(tests={})), ("run string", ev(tests=dict(evidence["tests"], run="140"))),
+            ("negative", ev(tests=dict(evidence["tests"], failures=-1))), ("passed string", ev(passed="true")),
+            ("passed with failures", ev(passed=True, tests=dict(evidence["tests"], failures=2))),
+            ("results not a list", ev(test_results={})), ("results shorter", ev(test_results=evidence["test_results"][:3])),
+            ("passed with FAIL row", ev(passed=True, test_results=[dict(r, status="FAIL") for r in evidence["test_results"]])),
+        ]
+        calls = [[evidence, cases, reqs, status, "en"]] + [[e, cases, reqs, status, "en"] for _, e in bad]
+        calls += [[evidence, cases, [{"text": "no id"}], status, "es"], [evidence, [{"case_id": "C1"}], reqs, status, "en"], [evidence, cases, reqs, [], "en"],
+                  [evidence, cases, reqs, {k: v for k, v in status.items() if k != "acceptance"}, "en"]]
+        out = json.loads(run_text([NODE, "-e", NODE_VALIDATE, str(ROOT / "web/evidence-rules.js")], check=True, input=json.dumps(calls)).stdout)
+        self.assertIsNone(out[0])
+        for (label, _), message in zip(bad, out[1:len(bad) + 1]):
+            self.assertTrue(message and message.startswith("Invalid evidence: "), label)
+        self.assertIn("tests —", out[1]); self.assertIn("tests.run", out[3]); self.assertIn("passed", out[5]); self.assertIn("test_results", out[7])
+        self.assertTrue(out[len(bad) + 1].startswith("Evidencia inválida: requirements"))
+        self.assertIn("acceptance.csv", out[len(bad) + 2]); self.assertIn("status.json", out[len(bad) + 3]); self.assertIn("status.acceptance", out[len(bad) + 4])
+        view = (ROOT / "web/evidence.js").read_text(encoding="utf-8")
+        self.assertIn("LabEvidenceRules.validatePayload(e, parsed, reqs, st, LabI18n.language)", view)
+        self.assertLess(view.index("validatePayload"), view.index("evidence = e; cases = parsed"))
 
 
 class DocsTests(unittest.TestCase):
@@ -373,6 +528,18 @@ class DocsTests(unittest.TestCase):
             self.assertNotIn("Pending: owner acceptance", english); self.assertNotIn("Pendiente: aceptación del dueño", spanish)
         self.assertIn("Evidence", english); self.assertIn("Evidencia", spanish)
         self.assertIn("new visitor", english); self.assertIn("visitante nuevo", spanish)
+
+    def test_console_note_and_restore_procedure_are_precise(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        trouble = readme[readme.index("## Troubleshooting"):readme.index("## Limits")]
+        self.assertIn("cp1252 does print Spanish accents", trouble); self.assertNotIn("replaces accents", trouble)
+        self.assertIn("git checkout -- evidence/latest.json evidence/sdd-check.json specs/001-support-demo/acceptance.csv docs/requirements-matrix.md", trouble)
+        self.assertIn("never reset the whole tree", trouble)
+        guide = (ROOT / "docs/START_HERE_ES.md").read_text(encoding="utf-8")
+        self.assertIn("docs/requirements-matrix.md", guide); self.assertIn("cp1252 sí imprime las tildes", guide)
+        from scripts.check_environment import inspect
+        self.assertIn("docs/requirements-matrix.md", inspect()["note"])
+        self.assertIn("docs/requirements-matrix.md", (ROOT / "scripts/verify.py").read_text(encoding="utf-8"))
 
     def test_relative_links_resolve_and_startup_commands_exist(self):
         def slug(text):
