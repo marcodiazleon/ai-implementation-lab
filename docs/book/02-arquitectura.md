@@ -41,22 +41,50 @@ Lo que **no** es una flecha: un rol o prompt de agente no concede permisos (cons
 
 ## 2.2 Diagrama de componentes
 
-Dos fragmentos, navegador y servidor, para leerlos en un teléfono; la tabla que sigue lleva archivos, líneas y límites.
+Tres fragmentos para leerlos en un teléfono: qué carga el navegador, qué módulo usa a cuál, y el servidor con sus datos; la tabla que sigue lleva archivos, líneas y límites. Cada flecha es una carga o un uso que existe en la fuente; el orden vertical se obtiene con enlaces invisibles, nunca con una flecha (R59h, C329).
 
-Navegador:
+Navegador, carga (`web/index.html:9-15,36`; `public-demo.js` solo lo inserta `scripts/build_pages.py:20` en el build de Pages):
 
 ```mermaid
 flowchart TB
-  IDX["index.html<br/>5 destinos"] --> ST["studio.js<br/>router, agentes, perfiles MCP"]
-  IDX --> CL["cloud.js<br/>conexión y conversación"]
-  ST --> WB["workbench.js<br/>Context7"]
-  CL --> EV["evidence.js<br/>evidencia y 5 registros"]
-  WB --> SR["sensitive-rules.js<br/>guarda, 11 patrones"]
-  EV --> I18["i18n.js<br/>ES/EN"]
-  PD["public-demo.js<br/>solo en Pages: fetch simulado"] -.-> IDX
+  IDX["index.html<br/>5 destinos"] --> SR["sensitive-rules.js<br/>guarda, 11 patrones"]
+  SR ~~~ I18["i18n.js<br/>ES/EN"]
+  IDX --> I18
+  I18 ~~~ CL["cloud.js<br/>conexión y conversación"]
+  IDX --> CL
+  CL ~~~ WB["workbench.js<br/>Context7"]
+  IDX --> WB
+  WB ~~~ ST["studio.js<br/>router, agentes, perfiles MCP"]
+  IDX --> ST
+  ST ~~~ ER["evidence-rules.js<br/>insignias y registros"]
+  IDX --> ER
+  ER ~~~ EV["evidence.js<br/>evidencia y 5 registros"]
+  IDX --> EV
+  EV ~~~ OR["orientation.js<br/>pasos de orientación"]
+  IDX --> OR
+  OR ~~~ PD["public-demo.js<br/>solo en Pages: fetch simulado"]
+  IDX -.-> PD
 ```
 
-**Equivalente en texto:** la tabla de componentes de abajo, filas de los cinco destinos a las guardas.
+**Equivalente en texto.** `index.html` carga, con `defer` y en este orden, `sensitive-rules.js`, `i18n.js`, `cloud.js`, `workbench.js`, `studio.js`, `evidence-rules.js` y `evidence.js` (`web/index.html:9-15`), y `orientation.js` al final del bloque de orientación (`index.html:36`). En el build de Pages, `scripts/build_pages.py:20` inserta `public-demo.js` antes de `i18n.js` (flecha discontinua: solo en la ruta pública). `app.js` se sirve pero no se carga (`tests/test_session_shell.py:31`). Ninguna de estas cargas es una dependencia entre módulos.
+
+Navegador, uso entre módulos (cada flecha es un global `window.Lab*` que un módulo define y otro lee):
+
+```mermaid
+flowchart TB
+  ST["studio.js"] -->|"LabSensitive"| SR["sensitive-rules.js"]
+  SR ~~~ CL["cloud.js"]
+  ST -->|"LabCloud"| CL
+  EV["evidence.js"] -->|"LabEvidenceRules"| ER["evidence-rules.js"]
+  CL ~~~ I18["i18n.js"]
+  ER ~~~ I18
+  ST -->|"LabI18n"| I18
+  CL -->|"LabI18n"| I18
+  EV -->|"LabI18n"| I18
+  WB["workbench.js"] -->|"LabI18n"| I18
+```
+
+**Equivalente en texto.** Siete usos, y ninguno más: `studio.js` lee `LabSensitive` (`web/studio.js:9`, definido en `sensitive-rules.js:39`) y `LabCloud` (`studio.js:11,28`, definido en `cloud.js:77`); `evidence.js` lee `LabEvidenceRules` (`evidence.js:38-39,78,117,156`, definido en `evidence-rules.js:109`); `cloud.js`, `workbench.js`, `studio.js` y `evidence.js` leen `LabI18n` (`cloud.js:3`, `workbench.js:3`, `studio.js:3`, `evidence.js:7`, definido en `i18n.js:236`). `orientation.js`, `sensitive-rules.js`, `i18n.js` y `evidence-rules.js` no leen ningún global de otro módulo; `public-demo.js` no define ni lee globales `Lab*`: sustituye `window.fetch` (`public-demo.js:149`). El detalle de responsabilidades está en la tabla de abajo.
 
 Servidor local y datos:
 

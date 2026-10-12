@@ -76,7 +76,7 @@
   }
  },
  "id_registry": "docs/id-registry.json",
- "next_task": "Codex's review of the corrected PR #10; owner evidence for C304 (MFA, branch protection, private vulnerability reporting); owner decisions D35, the dependency decision for ruff in CI, what remains of D19 after D29 and an operative private reporting channel; the Pages agent-save guard gap (C326); PR #4–#6 reconciliation; C170 visitor test and the human readings of the book",
+ "next_task": "Codex's fourth review of PR #10 after the arrow-fidelity correction (R59h, C329); owner evidence for C304 (MFA, branch protection, private vulnerability reporting); owner decisions D35, the dependency decision for ruff in CI, what remains of D19 after D29 and an operative private reporting channel; the Pages agent-save guard gap (C326); PR #4–#6 reconciliation; C170 visitor test and the human readings of the book",
  "evidence_fields": "Run baseline, worktree state and the source and record fingerprints are read from evidence/latest.json; they are not copied here (R42c)",
  "records_rule": "Each record names the revision it is about. The build and the local server compute from Git whether this checkout has the same content as the accepted and published revisions and whether it is contained in main (scripts/revision.py, D41). Nothing here is copied from evidence/latest.json."
 }

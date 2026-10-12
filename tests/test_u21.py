@@ -1024,6 +1024,50 @@ class BookTests(unittest.TestCase):
                             self.assertLessEqual(len(message), 64, f"{path.name}: message too long: {message}")
         self.assertGreaterEqual(seen, 10)
 
+    def test_browser_component_arrows_come_from_the_source(self):
+        """C329 (R59h): every arrow of the browser fragments is a script index.html loads or a global one module reads from
+        another; every such use among the loaded modules is drawn; ordering uses invisible links, never an arrow."""
+        text = (BOOK / "02-arquitectura.md").read_text(encoding="utf-8")
+        blocks = re.findall(r"```mermaid\n(.*?)```", text, flags=re.S)
+        load, use = blocks[1], blocks[2]
+        self.assertIn("index.html", load)
+        self.assertNotIn("index.html", use)
+        html = (ROOT / "web/index.html").read_text(encoding="utf-8")
+        loaded = re.findall(r'<script src="/([\w.-]+\.js)"', html)
+        self.assertEqual(len(loaded), 8)
+        injected = re.findall(r'<script src="([\w.-]+\.js)"', (ROOT / "scripts/build_pages.py").read_text(encoding="utf-8"))
+        self.assertIn("public-demo.js", injected)
+        globals_by_file = {}
+        for js in sorted((ROOT / "web").glob("*.js")):
+            for name in re.findall(r"\bwindow\.(Lab\w+)\s*=|\bglobalThis\)\.(Lab\w+)\s*=", js.read_text(encoding="utf-8")):
+                globals_by_file[next(x for x in name if x)] = js.name
+        self.assertEqual(sorted(globals_by_file), ["LabCloud", "LabEvidenceRules", "LabI18n", "LabSensitive"])
+        expected_use = set()
+        for js in loaded:
+            body = (ROOT / "web" / js).read_text(encoding="utf-8")
+            for name, owner in globals_by_file.items():
+                if owner != js and re.search(r"\b" + name + r"\b", body):
+                    expected_use.add((js, owner, name))
+
+        def nodes(block):
+            return {i: re.sub(r"<br/?>.*", "", label) for i, label in re.findall(r'(\w+)\["([^"]+)"\]', block)}
+
+        def arrows(block):
+            found = []
+            for line in block.splitlines():
+                m = re.match(r"\s*(\w+)(?:\[[^\]]*\])?\s*(-->|-\.->)(?:\|\"([^\"]*)\"\|)?\s*(\w+)", line)
+                if m:
+                    found.append((m.group(1), m.group(4), m.group(2), m.group(3)))
+            return found
+
+        ln, un = nodes(load), nodes(use)
+        drawn_load = {(ln[a], ln[b], kind) for a, b, kind, _ in arrows(load)}
+        self.assertEqual(drawn_load, {("index.html", js, "-->") for js in loaded} | {("index.html", "public-demo.js", "-.->")})
+        drawn_use = {(un[a], un[b], label) for a, b, kind, label in arrows(use)}
+        self.assertEqual(drawn_use, expected_use)
+        self.assertNotIn("app.js", ln.values())
+        self.assertNotIn("->", re.sub(r"-->|-\.->", "", load + use).replace("->>", ""))
+
 
 class DocsTests(unittest.TestCase):
     def test_data_inventory_covers_each_store(self):
