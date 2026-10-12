@@ -11,7 +11,7 @@ U21 · introduced in S01 1.1 · R56, D47–D48. What code this lab runs and buil
 | GitHub Actions | Seven actions, listed below | github.com/actions, official upstream | Full commit SHA with the version in a comment |
 | Runner images | `ubuntu-latest`, `windows-latest` | GitHub-hosted | GitHub's own rotation; not pinned (recorded as a limit) |
 
-Standard-library modules imported by `src`, `scripts`, `run.py` and `tests` (computed): `argparse`, `ast`, `concurrent`, `contextlib`, `copy`, `csv`, `dataclasses`, `datetime`, `hashlib`, `html`, `http`, `io`, `json`, `os`, `pathlib`, `platform`, `re`, `secrets`, `shutil`, `socket`, `subprocess`, `sys`, `tempfile`, `threading`, `time`, `unittest`, `urllib`, `uuid`. Inside `src/lab` the static rules forbid `subprocess`, `socket`, `urllib.request` and any network call other than `http.client.HTTPSConnection` to the three fixed hosts.
+Standard-library modules imported by `src`, `scripts`, `run.py` and `tests` (computed): `argparse`, `ast`, `concurrent`, `contextlib`, `copy`, `csv`, `dataclasses`, `datetime`, `hashlib`, `html`, `http`, `io`, `json`, `os`, `pathlib`, `platform`, `re`, `secrets`, `shutil`, `socket`, `stat`, `subprocess`, `sys`, `tempfile`, `threading`, `time`, `unittest`, `urllib`, `uuid`. Inside `src/lab` the static rules forbid `subprocess`, `socket`, `urllib.request` and any network call other than `http.client.HTTPSConnection` to the three fixed hosts.
 
 ## GitHub Actions pinned by commit · Acciones fijadas por commit
 

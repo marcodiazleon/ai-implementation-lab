@@ -1,5 +1,5 @@
 {
- "runner": "scripts/sandbox/run_isolated.sh with the minimal root and the synthetic /etc (D50, D54), exported through the allowlist, 2026-10-12",
+ "runner": "scripts/sandbox/run_isolated.sh with three stages: trusted stage outside the PID namespace, non-dumpable supervisor, payload in a nested namespace with locked flags; result promoted by scripts/sandbox/promote.py (D50, D54, D57), 2026-10-12",
  "secrets": {
   "keyFieldAfterSubmit": "",
   "connectionStatus": "Conexión comprobada. Puedes volver a Sesión.",

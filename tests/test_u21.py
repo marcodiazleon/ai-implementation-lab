@@ -794,34 +794,109 @@ class CatalogTests(unittest.TestCase):
         self.assertTrue(publication_check.inspect("note.md", (root / "note.md").read_bytes()))  # recovery check before republishing
 
 
+PROMOTE = ROOT / "scripts/sandbox/promote.py"
+
+
 class SandboxTests(unittest.TestCase):
     def test_runner_confines_the_filesystem_and_fails_closed(self):
         """C307 (R58e, D50): invariants of the runner script; the executed runs are recorded in the report."""
         script = (ROOT / "scripts/sandbox/run_isolated.sh").read_text(encoding="utf-8")
-        for required in ("pivot_root . .old", "umount -l /.old", 'mount -o remount,bind,ro "$R$d"', '[ ! -e "$TARGET" ] || fail root',
+        for required in ("pivot_root . .old", "umount -l /.old", 'mount -o remount,bind,ro,nosuid,nodev "$R$d"', '[ ! -e "$TARGET" ] || fail root',
                          '[ ! -e "$DUMMY" ] || fail root', '[ ! -e /home ] && [ ! -e /root ]', "touch /usr/.sandbox-write-probe", 'fail memory',
                          'memory.limit_in_bytes', '[0-9]*" "[1-9]*)', "fail pids \"probe did not prove a refusal", "prlimit --cpu=\"$CPU\" $ASOPT --fsize=\"$FSIZE\" --nofile=1024 \\\n  unshare",
                          "env -i $ENV_LIST", "getaddrinfo('example.com'", "--net --pid --fork --kill-child"):
             self.assertIn(required, script, required)
-        self.assertLess(script.index("fail memory"), script.index('cat > "$INNER"'))       # memory is mandatory before the payload
-        self.assertLess(script.index("pivot_root . .old"), script.index('env -i $ENV_LIST "$@" 9<&-'))
+        self.assertLess(script.index("fail memory"), script.index('STAGE2=$(cat'))       # memory is mandatory before the payload
+        self.assertLess(script.index("pivot_root . .old"), script.index('python3 -I -c "$STAGE3" "$@"'))
         self.assertNotIn("MEMNOTE", script)
         report = (ROOT / "reports/U21_SECURITY_2026-10-12.md").read_text(encoding="utf-8")
         self.assertIn("superseded", report); self.assertIn("pivot_root", report)
 
-
     def test_runner_etc_allowlist_export_and_probes(self):
-        """C313 (R58e, D54): synthetic /etc, no writable host path, export by descriptor after the payload, probes inside the limits."""
+        """C313 (R58e, D54): synthetic /etc, no writable host path, results out after the payload, probes inside the limits."""
         script = (ROOT / "scripts/sandbox/run_isolated.sh").read_text(encoding="utf-8")
-        for required in ('> "$R/etc/passwd"', '> "$R/etc/nsswitch.conf"', "/etc/ld.so.cache", 'mount --bind "$R/etc" "$R/etc" && mount -o remount,bind,ro "$R/etc"',
-                         "[ ! -e /export ]", "/etc/shadow /etc/gshadow /etc/ssh /etc/ssl/private /etc/sudoers", 'exec 9< "$EXPORT"', '"$@" 9<&-',
-                         'cp "/work/export/$name" "/proc/self/fd/9/$name"', '[ "$STATUS" -eq 137 ] || fail memory'):
+        for required in ('> "$R/etc/passwd"', '> "$R/etc/nsswitch.conf"', "/etc/ld.so.cache", 'mount --bind "$R/etc" "$R/etc" && mount -o remount,bind,ro,nosuid,nodev "$R/etc"',
+                         "[ ! -e /export ]", "/etc/shadow /etc/gshadow /etc/ssh /etc/ssl/private /etc/sudoers", '[ "$STATUS" -eq 137 ] || fail memory'):
             self.assertIn(required, script, required)
         self.assertNotIn('mount --bind "$EXPORT"', script); self.assertNotIn("for d in /usr /etc", script)
-        inner = script[script.index("cat > \"$INNER\""):]
-        self.assertIn("CONTROL pids OK", inner); self.assertIn("CONTROL memory OK", inner)    # probes run inside prlimit and timeout
-        self.assertLess(script.index("timeout -k 10"), script.index('sh "$INNER"'))
+        self.assertNotIn("exec 9<", script); self.assertNotIn("/proc/self/fd/9", script)      # no descriptor to a host path inside (D57)
+        stage2 = script[script.index("STAGE2=$(cat"):script.index("STAGE1=$(cat")]
+        self.assertIn("CONTROL pids OK", stage2); self.assertIn("CONTROL memory OK", stage2)    # probes run inside prlimit and timeout
+        self.assertLess(script.index("timeout -k 10"), script.index('sh -c "$STAGE1"'))
         self.assertLess(script.index("probe forked/refused=$PROBE"), script.index("pivot_root . .old"))
+
+    def test_runner_three_stages_and_promotion(self):
+        """C318 (R58f, D57): trusted stage outside the PID namespace, supervisor without host descriptors and not dumpable,
+        payload in a nested namespace with locked flags and no_new_privs, promotion after the cgroup is empty."""
+        script = (ROOT / "scripts/sandbox/run_isolated.sh").read_text(encoding="utf-8")
+        stage2 = script[script.index("STAGE2=$(cat"):script.index("STAGE1=$(cat")]
+        stage1 = script[script.index("STAGE1=$(cat"):script.index("timeout -k 10")]
+        self.assertIn('[ -z "$(ls -A "$EXPORT")" ]', script)                              # the destination must be empty (exclusive creation)
+        for required in ("prctl(4, 0, 0, 0, 0)", 'os.execv("/bin/sh", ["sh", "-c", sys.argv[1], "sh"]',
+                         "unshare --user --map-root-user --mount --net --pid --fork --kill-child", 'python3 -I "$PROMOTE" "$W/root/work/export" "$EXPORT" $EXPORT_NAMES',
+                         "processes still alive in the cgroup", "fail promotion"):
+            self.assertIn(required, stage1, required)
+        self.assertLess(stage1.index("processes still alive in the cgroup"), stage1.index('"$PROMOTE"'))
+        for required in ("CONTROL fds OK", "holds a descriptor to a path outside the root", "l.prctl(38, 1, 0, 0, 0)", "l.prctl(4, 1, 0, 0, 0)",
+                         'unshare --user --map-root-user --mount env -i $ENV_LIST python3 -I -c "$STAGE3" "$@"',
+                         '"remount:denied supervisor-fds:closed supervisor-mem:closed no_new_privs:1") ;;', "fail isolation", "ro,nosuid,nodev"):
+            self.assertIn(required, stage2, required)
+        self.assertLess(stage2.index("CONTROL isolation OK"), stage2.index('python3 -I -c "$STAGE3" "$@"'))
+        self.assertNotIn("$EXPORT", stage2)                                             # the host export path never enters stage 2
+        self.assertLess(script.index('unshare --user --map-root-user --mount \\\n  sh -c "$STAGE1"'), len(script))
+        promote = PROMOTE.read_text(encoding="utf-8")
+        for required in ("O_NOFOLLOW", "O_NONBLOCK", "O_EXCL", "st_nlink != 1", "S_ISREG", "FILE_MAX", "TOTAL_MAX", "source changed during the copy", "dir_fd=src", "dir_fd=dst"):
+            self.assertIn(required, promote, required)
+
+
+@unittest.skipUnless(os.name == "posix", "promotion runs on the Linux host of the runner")
+class PromoteTests(unittest.TestCase):
+    def promote(self, source, dest, names, env=None):
+        full = dict(os.environ); full.update(env or {})
+        return run_text([sys.executable, "-I", str(PROMOTE), str(source), str(dest), *names], env=full)
+
+    def dirs(self):
+        base = Path(tempfile.mkdtemp()); self.addCleanup(shutil.rmtree, base, True)
+        source, dest = base / "export", base / "host"; source.mkdir(); dest.mkdir()
+        return source, dest
+
+    def test_promotion_refuses_links_special_files_sizes_and_names(self):
+        """C319 (R58f, D57): each anomaly is refused by name and nothing is written, the valid files alongside included."""
+        cases = []
+        def case(name, prepare, expected):
+            source, dest = self.dirs(); (source / "good.json").write_text("fine", encoding="utf-8"); prepare(source, dest)
+            cases.append((name, source, dest, expected))
+        case("symlink", lambda s, d: os.symlink("/etc/hostname", s / "verify.log"), "verify.log: cannot open")
+        case("fifo", lambda s, d: os.mkfifo(s / "verify.log"), "verify.log: not a regular file")
+        case("hardlink", lambda s, d: ((s / "verify.log").write_text("twin"), os.link(s / "verify.log", s / "twin")), "verify.log: 2 links")
+        case("directory", lambda s, d: (s / "verify.log").mkdir(), "verify.log: not a regular file")
+        case("oversize", lambda s, d: (s / "verify.log").write_bytes(b"x" * 2049), "verify.log: 2049 bytes exceed the per-file limit 2048")
+        case("existing destination", lambda s, d: ((s / "verify.log").write_text("v"), (d / "verify.log").write_text("old")), "verify.log: cannot create the destination exclusively")
+        for name, source, dest, expected in cases:
+            result = self.promote(source, dest, ["good.json", "verify.log"], {"SBX_EXPORT_FILE_MAX": "2048"})
+            self.assertEqual(result.returncode, 3, name); self.assertIn("PROMOTION REFUSED: " + expected, result.stderr, name)
+            self.assertEqual(sorted(p.name for p in dest.iterdir() if p.name != "verify.log"), [], name)   # good.json never written
+        source, dest = self.dirs()
+        for n in ("a.json", "b.json"): (source / n).write_bytes(b"y" * 1500)
+        result = self.promote(source, dest, ["a.json", "b.json"], {"SBX_EXPORT_FILE_MAX": "2048", "SBX_EXPORT_TOTAL_MAX": "2000"})
+        self.assertEqual(result.returncode, 3); self.assertIn("b.json: cumulative size 3000 exceeds 2000", result.stderr); self.assertEqual(list(dest.iterdir()), [])
+        for bad in ("../escape.txt", "sub/file.json", ".hidden", "a/../b", "", "x" * 101):
+            source, dest = self.dirs(); (source / "good.json").write_text("fine", encoding="utf-8")
+            result = self.promote(source, dest, ["good.json", bad])
+            self.assertEqual(result.returncode, 3, bad); self.assertIn("PROMOTION REFUSED: name not allowed", result.stderr, bad); self.assertEqual(list(dest.iterdir()), [], bad)
+
+    def test_promotion_copies_regular_files_intact(self):
+        """C320 (R58f, D57): allowlisted regular files are copied byte for byte; missing names skipped; others untouched."""
+        source, dest = self.dirs()
+        payloads = {"latest.json": os.urandom(300000), "verify.log": b"one\ntwo\n", "acceptance.csv": b""}
+        for n, b in payloads.items(): (source / n).write_bytes(b)
+        (source / "not-listed.txt").write_text("stays", encoding="utf-8")
+        result = self.promote(source, dest, ["verify.log", "latest.json", "sdd-check.json", "acceptance.csv"])
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("PROMOTED 3 file(s), 300008 bytes: verify.log:8 latest.json:300000 acceptance.csv:0", result.stdout)
+        self.assertEqual(sorted(p.name for p in dest.iterdir()), ["acceptance.csv", "latest.json", "verify.log"])
+        for n, b in payloads.items():
+            self.assertEqual(hashlib.sha256((dest / n).read_bytes()).hexdigest(), hashlib.sha256(b).hexdigest(), n)
 
 
 class DocsTests(unittest.TestCase):
