@@ -1,4 +1,5 @@
 {
+ "runner": "scripts/sandbox/run_isolated.sh with the minimal root (D50), 2026-10-12",
  "secrets": {
   "keyFieldAfterSubmit": "",
   "connectionStatus": "Conexión comprobada. Puedes volver a Sesión.",
@@ -15,25 +16,13 @@
  "csp": {
   "public": {
    "metaCsp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'",
-   "viewsRendered": {
-    "session": true,
-    "agents": true,
-    "mcp": true,
-    "method": true,
-    "evidence": true
-   },
+   "viewsRendered": {"session": true, "agents": true, "mcp": true, "method": true, "evidence": true},
    "templateCards": 4,
    "violations": []
   },
   "local": {
    "metaCsp": null,
-   "viewsRendered": {
-    "session": true,
-    "agents": true,
-    "mcp": true,
-    "method": true,
-    "evidence": true
-   },
+   "viewsRendered": {"session": true, "agents": true, "mcp": true, "method": true, "evidence": true},
    "templateCards": 4,
    "violations": []
   }

@@ -24,9 +24,9 @@ The operator (the only person with authority, simulated as reviewer), a visitor 
 | Boundary | Crosses | Mitigation | Limit |
 |---|---|---|---|
 | `browser` | Operator ↔ page | Password fields without autocomplete, key cleared before the request, text nodes only, no browser storage of keys, CSP | Extensions and the clipboard are outside; the public page has no server at all |
-| `local-server` | Page ↔ Python process on 127.0.0.1 | Host and Origin same-origin check, fixed routes, body size and type, read timeout, concurrency cap, fixed error codes, security headers | Host and Origin are a same-origin boundary for browsers, not authentication: any local process can send requests; no TLS on loopback |
+| `local-server` | Page ↔ Python process on 127.0.0.1 | Host and Origin same-origin check, fixed routes, body size and type, connection cap applied before a thread exists, inactivity timeout and a total delivery deadline, fixed error codes, security headers | Host and Origin are a same-origin boundary for browsers, not authentication: any local process can send requests; no TLS on loopback |
 | `runtime` | Server ↔ controller, agents, store | Allowlisted intents and tools, approval before effect, shared secret detector, text-only agents, atomic writes to a fixed path | In-memory state; reviewer role simulated; a model can still write misleading text |
-| `git-github` | Working copy ↔ repository | Pre-commit guard over staged bytes, publication guard, security gate in verify and CI, pinned actions, least privilege | A local hook can be bypassed; named patterns only; branch protection and MFA are owner settings (NO_PROBADO until evidence) |
+| `git-github` | Working copy ↔ repository | Pre-commit guard over staged bytes, publication guard over every versioned candidate (hidden directories included), security gate in verify and CI, pinned actions, least privilege | A local hook can be bypassed; named patterns only; without Git the guard falls back to a narrower walk; branch protection and MFA are owner settings (NO_PROBADO until evidence) |
 | `pages` | Repository ↔ public site | Deploy only from main, Pages permissions only in the deploy job, CSP meta element, no server, no keys, no visitor data | GitHub Pages adds no security headers of its own; `frame-ancestors` cannot be expressed in a meta element |
 | `providers` | Server ↔ api.openai.com, api.anthropic.com | Fixed hosts over TLS, consent per connection, budgets, TTL, response size and shape limits, no retries, sanitized error codes | A request already received by the provider cannot be cancelled; provider retention follows its policy |
 | `mcp` | Server ↔ mcp.context7.com | Fixed URL, two read tools, consent per query, response size limit, text returned as data | Remote DELETE not implemented; the stdio MCP server exposes two synthetic reads only |
@@ -35,7 +35,7 @@ The operator (the only person with authority, simulated as reviewer), a visitor 
 
 | Store | Flow | Retention | Deletion |
 |---|---|---|---|
-| Provider key | Typed into the connection dialog → POST /api/cloud/connect → memory of the session → `Authorization` or `x-api-key` header to the fixed host | Until disconnect, 30 idle minutes or server stop | Disconnect or expiry empties the reference; absolute erasure of process memory is not provided |
+| Provider key | Typed into the connection dialog → POST /api/cloud/connect → memory of the session → `Authorization` or `x-api-key` header to the fixed host | Until disconnect, server stop, or expiry after 30 idle minutes (expired sessions are pruned when another operation is served, not at the exact minute) | Disconnect or expiry empties the reference; absolute erasure of process memory is not provided |
 | Context7 key | Typed into the MCP panel → POST /api/mcp/connect → memory → bearer header to mcp.context7.com | Same as above | Same as above |
 | Messages and prompts | Composer → POST /api/cloud/ask → provider request with message, recent context and the agent prompt only (no files, orders, environment or credentials) | Recent context in memory (up to 8 exchanges, 24,000 characters) | Clear conversation, disconnect, expiry or server stop |
 | Conversation history | Memory per session; never written to disk, never returned by /api/state | Same as the session | Same as the session |
@@ -48,7 +48,7 @@ Not provided: zeroing of memory, isolation from other processes of the same user
 
 ## Endpoint matrix · Matriz de endpoints
 
-Every route the local server defines. Authority "simulated" means the request stands for a role in the fictional case; nothing authenticates a person. Common refusals on every route: 403 HOST_OR_ORIGIN_BLOCKED, 503 SERVER_BUSY, 408 REQUEST_TIMEOUT, 500 INTERNAL_ERROR (no message), 501 for other methods. POST routes also refuse 415 JSON_REQUIRED, 413 INVALID_BODY_SIZE, 400 INVALID_JSON (non-object, invalid or deeply nested). Static assets (`/`, `/app.js`, `/cloud.js`, `/evidence.js`, `/evidence-rules.js`, `/i18n.js`, `/orientation.js`, `/studio.js`, `/style.css`, `/workbench.js`) are a fixed allowlist; anything else is 404.
+Every route the local server defines. Authority "simulated" means the request stands for a role in the fictional case; nothing authenticates a person. Session tokens (`session_id`) are returned by design by the connect routes and accepted in the session fields; they appear in no error response, state snapshot, standard error output or artifact. Common refusals on every route: 503 SERVER_BUSY written on the socket before any byte is read when the connection cap (8) is reached, 408 REQUEST_TIMEOUT after 10 seconds without bytes or when the request line, headers and body take longer than 30 seconds in total, 403 HOST_OR_ORIGIN_BLOCKED, 500 INTERNAL_ERROR (no message), 501 for other methods. The listen backlog of 16 is a queue of accepted connections, not a cap. POST routes also refuse 415 JSON_REQUIRED, 413 INVALID_BODY_SIZE, 400 INVALID_JSON (non-object, invalid or deeply nested). Static assets (`/`, `/app.js`, `/cloud.js`, `/evidence.js`, `/evidence-rules.js`, `/i18n.js`, `/orientation.js`, `/studio.js`, `/style.css`, `/workbench.js`) are a fixed allowlist; anything else is 404.
 
 | Route | Method | Fields | Limit | Authority | Errors |
 |---|---|---|---|---|---|
@@ -85,12 +85,12 @@ Generated states (`python scripts/security_catalog.py`); the checklist column ho
 
 | ID | Boundary | Control | Cases | State |
 |---|---|---|---|---|
-| SC-01 | runtime | Shared detector for named credential formats, private files and personal paths; guard over staged blobs, links and artifacts | C270–C273, C305 | VERIFICADO |
-| SC-02 | runtime | Agent briefs, documentation, artifacts, model output and saved definitions reject credential material; exports guarded | C274, C276 | VERIFICADO |
-| SC-03 | local-server | No credential, authorization header or session token in responses, standard error or artifacts; fixed 500 envelope | C275, C305 | VERIFICADO |
+| SC-01 | runtime | Shared detector for named credential formats, private files and personal paths; guard over staged blobs, links, artifacts and every versioned candidate | C270–C273, C305, C311, C312 | VERIFICADO |
+| SC-02 | runtime | Agent briefs, documentation, artifacts, model output and saved definitions reject credential material; exports guarded with the same formats in the browser | C274, C276, C310 | VERIFICADO |
+| SC-03 | local-server | No credential or authorization header in responses, standard error or artifacts; session tokens only where the protocol returns them; fixed 500 envelope | C275, C305 | VERIFICADO |
 | SC-04 | browser | Key field cleared before each request; no key in browser storage; text nodes only | C276, C278 | VERIFICADO |
 | SC-05 | runtime | Sessions discard key and history on disconnect, expiry and stop; role tasks never read chat history | C277 | PARCIAL |
-| SC-06 | local-server | Read timeout, concurrency cap, fixed codes and recovery; body, type, nesting, route, method, Host and Origin checks | C280–C284 | VERIFICADO |
+| SC-06 | local-server | Connection cap before any thread or byte (503), inactivity timeout and total delivery deadline (408) with recovery; body, type, nesting, route, method, Host and Origin checks | C280–C284, C308, C309 | VERIFICADO |
 | SC-07 | providers | TTL, budget, capacity, busy flag, revocation; remote responses bounded; fixed hosts, no redirects, no retries | C285, C286 | VERIFICADO |
 | SC-08 | pages | Security headers locally and the CSP meta element in the public build; endpoint matrix complete | C287–C289 | VERIFICADO |
 | SC-09 | git-github | Actions pinned by verified commit SHA; persist-credentials false; minimal permissions; required check names | C290, C291 | VERIFICADO |
@@ -100,10 +100,10 @@ Generated states (`python scripts/security_catalog.py`); the checklist column ho
 | SC-13 | runtime | Threat model, data inventory and catalog kept with the records | C279, C298, C299 | PARCIAL |
 | SC-14 | git-github | Runbook, patch policy, reporting channel, severities, rollback; synthetic drill executed | C302, C303 | VERIFICADO |
 | SC-15 | git-github | Owner and provider settings: MFA, branch protection, private vulnerability reporting, Pages | C304 | NO_PROBADO |
-| SC-16 | runtime | Sandboxed validation with an inspectable script | C306 | PARCIAL |
+| SC-16 | runtime | Sandboxed validation with an inspectable script: minimal root, fail-closed probes | C306, C307 | PARCIAL |
 | SC-17 | local-server | Real authentication, user isolation, encryption at rest, durable audit, signing | — | FUTURO |
 
-PARCIAL on SC-05, SC-13 and SC-16 means the listed cases passed but the control has only positive cases, or only one manual case; FUTURO never counts as passed.
+PARCIAL on SC-05, SC-13 and SC-16 means the listed cases passed but the control has only positive cases, or only one manual case; FUTURO never counts as passed. States derive from case polarities and statuses; they do not prove the checklist items a control references, which stay Codex's evaluation.
 
 ## Resumen en español
 

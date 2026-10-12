@@ -6,7 +6,7 @@ Owner of every decision below: Marco Díaz de León. Implementer: the assistant 
 
 ## Reporting · Reporte
 
-Private channel: contact Marco through his public GitHub profile (the only address this repository publishes) and ask for a private channel before sending any detail; do not open a public issue with sensitive content. GitHub's private vulnerability reporting is a repository setting that may or may not be enabled; its state is NO_PROBADO here until the owner records read-only evidence (C304). Never include a real key, a real customer or personal data in a report; a synthetic reproduction is enough.
+Contact: Marco's public GitHub profile is the only address this repository publishes; ask there for a private channel before sending any detail, and do not open a public issue with sensitive content. The profile is a public contact, not evidence of an operative private channel: until GitHub's private vulnerability reporting or another private route is confirmed by the owner, this step is a request for one. GitHub's private vulnerability reporting is a repository setting that may or may not be enabled; its state is NO_PROBADO here until the owner records read-only evidence (C304). Never include a real key, a real customer or personal data in a report; a synthetic reproduction is enough.
 
 ## Severity · Severidad
 
@@ -34,7 +34,7 @@ Private channel: contact Marco through his public GitHub profile (the only addre
 
 ## Containment · Contención
 
-- Credential exposure: disconnect the session (the key reference is emptied), stop the server (Ctrl+C clears process memory references), and treat the credential as compromised regardless.
+- Credential exposure: disconnect the session (the key reference is emptied), stop the server (Ctrl+C clears process memory references), and treat the credential as compromised regardless. An idle session is pruned when another operation is served after 30 minutes, not at the exact minute, so disconnecting or stopping is the action, never waiting.
 - A commit with sensitive content on a branch: do not push; remove the content with a new commit and run the staged guard; if it was pushed, go to Revocation and then remove it from the published revision with an ordinary commit (history stays, the secret is revoked).
 - A suspicious pull request or action change: do not merge; CI must stay red on it (the security check fails on floating tags and widened permissions).
 - A suspected exposure of the local server to a network: stop it; it is loopback-only by construction and has no authentication.
