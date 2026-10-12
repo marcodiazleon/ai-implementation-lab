@@ -5,16 +5,22 @@
 #
 #   scripts/sandbox/run_isolated.sh SCRATCH -- COMMAND [ARGS...]
 #
-# What the payload sees: a new root on a size-limited tmpfs where /usr, /bin, /sbin, /lib, /lib64, /etc, /opt/node22,
-# /opt/node-tools, /opt/pw-browsers and the global Node modules are bind-mounted read-only, /work/copy holds the copy (writable),
-# /work/home and /tmp are empty scratch, /proc is private and /dev holds null, zero, (u)random and a shm tmpfs.
-# The host's /home, /root, /tmp, /var, /run, the original target path and SCRATCH itself do not exist there; the
-# only host-visible writable path is /export, which is SCRATCH/export (for results such as regenerated evidence).
+# What the payload sees: a new root on a size-limited tmpfs where /usr, /bin, /sbin, /lib, /lib64, /opt/node22,
+# /opt/node-tools, /opt/pw-browsers and the global Node modules are bind-mounted read-only, /etc is synthetic (allowlist
+# below, D54), /work/copy holds the copy (writable), /work/home, /work/export and /tmp are empty scratch on the same
+# tmpfs, /proc is private and /dev holds null, zero, (u)random and a shm tmpfs. The host's /home, /root, /tmp, /var,
+# /run, the original target path and SCRATCH itself do not exist there and no host path is writable from inside: after
+# the payload exits, this script copies the files named in SBX_EXPORT (default: the regenerated evidence and logs)
+# from /work/export to SCRATCH/export through a directory descriptor opened before pivot_root and closed for the payload.
+# Synthetic /etc (each entry with its reason): passwd, group, hosts, nsswitch.conf written here (identity, name lookup);
+# ld.so.cache, ld.so.conf and ld.so.conf.d copied (the dynamic loader finds the multiarch libraries); localtime copied;
+# fonts and alternatives bind-mounted read-only (Chromium's fontconfig; the links point into the read-only toolchain).
 #
 # Controls (each printed as CONTROL <name> OK with its evidence, or the run aborts with exit 3 before the payload):
 #   pids        cgroup process limit (SBX_PIDS, default 192; browser runs need about 100); probe prints "forked refused"
 #               and refused must be above zero
-#   memory      cgroup memory limit (SBX_MEM bytes, default 4 GiB), mandatory; probe allocates above it and must be killed
+#   memory      cgroup memory limit (SBX_MEM bytes, default 4 GiB), mandatory; the probe allocates above it and must end
+#               with status 137 (killed by the cgroup); any other outcome, a MemoryError included, aborts
 #   namespaces  user, mount, network and PID namespaces with a private /proc; the payload dies with the namespace
 #   root        pivot_root to the minimal root: the original target path, an external dummy file written by this script
 #               into SCRATCH, /home and /root are not reachable; /usr is read-only; /work is writable
@@ -23,7 +29,8 @@
 #   env         environment emptied; allowlist: PATH, HOME, TMPDIR, LANG, PYTHONUTF8, PYTHONDONTWRITEBYTECODE and, for
 #               browser runs, PLAYWRIGHT_BROWSERS_PATH, PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD, NODE_PATH
 #   limits      prlimit CPU seconds (SBX_CPU, default 1800), file size (SBX_FSIZE, default 256 MiB), open files 1024
-#               and the wall clock (SBX_TIME, default 2400 s) wrap the whole namespace: copy, probes and payload.
+#               and the wall clock (SBX_TIME, default 2400 s) wrap the whole namespace: the pids and memory probes, the
+#               copy and the payload all run inside them.
 #               An address-space rlimit (SBX_AS bytes, default 0 = none) is optional because Chromium and Node reserve
 #               address space; memory is bounded by the cgroup in every case.
 # The command runs inside /work/copy. Its exit status is returned (3 = a control failed, 124 = wall clock exceeded).
@@ -38,7 +45,7 @@ mkdir -p "$SCRATCH" || exit 2
 SCRATCH="$(cd "$SCRATCH" && pwd)"
 DUMMY="$SCRATCH/outside-dummy.txt"
 echo "outside the sandbox: must not be reachable by the payload" > "$DUMMY"
-# The only host-visible writable path inside the root: SCRATCH/export, mounted at /export for results.
+# Results land here after the payload (copied by the script, never written by the payload).
 EXPORT="$SCRATCH/export"; mkdir -p "$EXPORT"
 
 fail() { echo "CONTROL $1 FAILED: $2" >&2; exit 3; }
@@ -59,6 +66,13 @@ elif [ -f /sys/fs/cgroup/cgroup.controllers ]; then
 else
   fail pids "no writable cgroup pids and memory hierarchy"
 fi
+INNER="$SCRATCH/inner.sh"
+cat > "$INNER" <<'INNER_EOF'
+set -u
+TARGET="$1"; TMPFS="$2"; DUMMY="$3"; EXPORT="$4"; PIDS="$5"; MEM="$6"; SBX_EXPORT="$7"; shift 7
+fail() { echo "CONTROL $1 FAILED: $2" >&2; exit 3; }
+mount -t proc proc /proc || fail namespaces "cannot mount /proc in the namespace"
+# --- probes, inside prlimit and timeout (the cgroups were applied by the parent) ---------------------------------
 PROBE=$(python3 -I -c "
 import os,signal,time
 ok=bad=0; children=[]
@@ -75,21 +89,16 @@ case "$PROBE" in
   *) fail pids "probe did not prove a refusal (output: '${PROBE:-empty}')";;
 esac
 echo "CONTROL pids OK: pids.max=$PIDS, probe forked/refused=$PROBE"
-# Evidence: an allocation above the limit must be killed by the cgroup (exit by SIGKILL, status 137), never succeed.
+# The allocation above the limit must be killed by the cgroup: status 137 (128 + SIGKILL) and nothing else.
 python3 -I -c "
 b=bytearray($MEM+268435456)
 for i in range(0,len(b),4096): b[i]=1
 print('allocated')" >/dev/null 2>&1
 STATUS=$?
-[ "$STATUS" -ne 0 ] || fail memory "allocation above the limit succeeded"
-echo "CONTROL memory OK: limit=$MEM bytes; probe above the limit ended with status $STATUS"
-
-INNER="$SCRATCH/inner.sh"
-cat > "$INNER" <<'INNER_EOF'
-set -u
-TARGET="$1"; TMPFS="$2"; DUMMY="$3"; EXPORT="$4"; shift 4
-fail() { echo "CONTROL $1 FAILED: $2" >&2; exit 3; }
-mount -t proc proc /proc || fail namespaces "cannot mount /proc in the namespace"
+[ "$STATUS" -eq 137 ] || fail memory "allocation above the limit ended with status $STATUS, not 137 (killed by the cgroup)"
+echo "CONTROL memory OK: limit=$MEM bytes; probe above the limit killed by the cgroup (status 137)"
+# Descriptor to the host export directory, used only by this script after the payload (closed for the payload).
+exec 9< "$EXPORT" || fail root "cannot open the export directory"
 # Short mount point: Chromium creates UNIX sockets under TMPDIR and their paths are limited to 108 bytes.
 W=""; for candidate in /srv /media /mnt; do [ -d "$candidate" ] && W="$candidate" && break; done
 [ -n "$W" ] || fail scratch "no short mount point (/srv, /media or /mnt) exists"
@@ -98,10 +107,24 @@ if dd if=/dev/zero of="$W/.probe" bs=1M count=100000 2>/dev/null; then rm -f "$W
 rm -f "$W/.probe"
 echo "CONTROL scratch OK: tmpfs size=$TMPFS, sticky, mounted at $W"
 R="$W/root"
-mkdir -p "$R/usr" "$R/etc" "$R/opt/node22" "$R/opt/node-tools" "$R/opt/pw-browsers" "$R/usr/local/lib/node_modules_global" "$R/proc" "$R/dev/shm" "$R/tmp" "$R/work/copy" "$R/work/home" "$R/export" "$R/.old"
-mount --bind "$EXPORT" "$R/export" || fail root "cannot provide /export"
+mkdir -p "$R/usr" "$R/etc" "$R/opt/node22" "$R/opt/node-tools" "$R/opt/pw-browsers" "$R/usr/local/lib/node_modules_global" "$R/proc" "$R/dev/shm" "$R/tmp" "$R/work/copy" "$R/work/home" "$R/work/export" "$R/.old"
 chmod 1777 "$R/tmp"
-for d in /usr /etc /opt/node22 /opt/node-tools /opt/pw-browsers /usr/local/lib/node_modules_global; do
+# Synthetic /etc (D54): nothing of the host /etc is bound as a whole.
+printf 'root:x:0:0:sandbox:/work/home:/bin/sh\nnobody:x:65534:65534:nobody:/:/usr/sbin/nologin\n' > "$R/etc/passwd"
+printf 'root:x:0:\nnogroup:x:65534:\n' > "$R/etc/group"
+printf '127.0.0.1 localhost\n::1 localhost\n' > "$R/etc/hosts"
+printf 'passwd: files\ngroup: files\nhosts: files\n' > "$R/etc/nsswitch.conf"
+for f in /etc/ld.so.cache /etc/ld.so.conf /etc/localtime; do [ -e "$f" ] && cp -L "$f" "$R$f"; done
+[ -d /etc/ld.so.conf.d ] && cp -r /etc/ld.so.conf.d "$R/etc/ld.so.conf.d"
+for d in /etc/fonts /etc/alternatives; do [ -d "$d" ] && mkdir -p "$R$d"; done
+# The synthetic /etc becomes a read-only mount of itself (root in the namespace ignores file modes), then the two
+# read-only binds from the host are placed inside it.
+mount --bind "$R/etc" "$R/etc" && mount -o remount,bind,ro "$R/etc" || fail root "cannot make the synthetic /etc read-only"
+for d in /etc/fonts /etc/alternatives; do
+  [ -d "$d" ] || continue
+  mount --bind "$d" "$R$d" && mount -o remount,bind,ro "$R$d" || fail root "read-only bind of $d failed"
+done
+for d in /usr /opt/node22 /opt/node-tools /opt/pw-browsers /usr/local/lib/node_modules_global; do
   [ -d "$d" ] || continue
   mount --bind "$d" "$R$d" && mount -o remount,bind,ro "$R$d" || fail root "read-only bind of $d failed"
 done
@@ -115,11 +138,12 @@ cd "$R" && pivot_root . .old && cd / && umount -l /.old && rmdir /.old || fail r
 # Evidence after the switch: host paths gone, toolchain read-only, scratch writable.
 [ ! -e "$TARGET" ] || fail root "original target path $TARGET is reachable"
 [ ! -e "$DUMMY" ] || fail root "external dummy file is reachable"
-[ ! -e /home ] && [ ! -e /root ] && [ ! -e /var ] && [ ! -e /run ] || fail root "/home, /root, /var or /run is reachable"
+[ ! -e /home ] && [ ! -e /root ] && [ ! -e /var ] && [ ! -e /run ] && [ ! -e /export ] || fail root "/home, /root, /var, /run or /export is reachable"
+for f in /etc/shadow /etc/gshadow /etc/ssh /etc/ssl/private /etc/sudoers; do [ ! -e "$f" ] || fail root "$f is reachable"; done
 if touch /usr/.sandbox-write-probe 2>/dev/null; then fail root "toolchain is writable"; fi
-if touch /etc/.sandbox-write-probe 2>/dev/null; then fail root "/etc is writable"; fi
+if python3 -I -c "open('/etc/hosts','a')" 2>/dev/null; then fail root "/etc is writable"; fi
 touch /work/.sandbox-write-probe && rm -f /work/.sandbox-write-probe || fail root "scratch is not writable"
-echo "CONTROL root OK: pivot_root done; $TARGET, the external dummy, /home, /root, /var and /run absent; /usr and /etc read-only; /work and /export writable"
+echo "CONTROL root OK: pivot_root done; $TARGET, the external dummy, /home, /root, /var, /run, /etc/shadow, /etc/ssh and /etc/ssl/private absent; /usr and the synthetic /etc read-only; /work writable; no host path writable"
 python3 -I - <<'PY' || fail network "loopback could not be raised"
 import socket, fcntl, struct
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -139,13 +163,18 @@ case "$COUNT" in [0-9]*) ;; *) fail env "cannot count the environment";; esac
 [ "$COUNT" -le 10 ] || fail env "environment has $COUNT variables"
 echo "CONTROL env OK: $COUNT variables ($ENV_LIST)"
 echo "CONTROL namespaces OK: user, mount, net, pid with a private /proc (pid $$ in the namespace); command: $*"
-exec env -i $ENV_LIST "$@"
+env -i $ENV_LIST "$@" 9<&-
+STATUS=$?
+# Parent side of the namespace, after the payload: copy only the allowlisted names out of /work/export.
+for name in $SBX_EXPORT; do [ -f "/work/export/$name" ] && cp "/work/export/$name" "/proc/self/fd/9/$name"; done
+echo "EXPORTED: $(ls /work/export 2>/dev/null | tr '\n' ' ')(allowlist: $SBX_EXPORT)"
+exit $STATUS
 INNER_EOF
 if [ "$AS" = "0" ]; then ASOPT=""; else ASOPT="--as=$AS"; fi
 echo "CONTROL limits OK: prlimit --cpu=$CPU ${ASOPT:-"(address space: cgroup memory applies)"} --fsize=$FSIZE --nofile=1024 and timeout ${TIME}s wrap copy, probes and payload"
 timeout -k 10 "$TIME" prlimit --cpu="$CPU" $ASOPT --fsize="$FSIZE" --nofile=1024 \
   unshare --user --map-root-user --mount --net --pid --fork --kill-child \
-  sh "$INNER" "$TARGET" "$TMPFS" "$DUMMY" "$EXPORT" "$@"
+  sh "$INNER" "$TARGET" "$TMPFS" "$DUMMY" "$EXPORT" "$PIDS" "$MEM" "${SBX_EXPORT:-verify.log latest.json sdd-check.json acceptance.csv requirements-matrix.md security-browser.json}" "$@"
 STATUS=$?
 rm -f "$DUMMY"
 echo "SANDBOX EXIT $STATUS (3 = a control failed, 124 = wall clock exceeded)"

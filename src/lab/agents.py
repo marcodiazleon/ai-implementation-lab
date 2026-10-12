@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from .cloud import CloudError
-from .sensitive import find_secrets
+from .sensitive import find_secrets, find_secrets_in
 
 ROLES = json.loads((Path(__file__).resolve().parents[2] / "agents/roles.json").read_text(encoding="utf-8"))
 MAX_CONTEXT = 16000
@@ -43,7 +43,7 @@ def validate_input(body):
             raise CloudError("AGENT_STALE_CONTEXT")
     if sum(len(row["text"]) for row in artifacts)+len(docs)>MAX_CONTEXT:
         raise CloudError("AGENT_CONTEXT_LIMIT")
-    if find_secrets(docs+"".join(row["text"] for row in artifacts)):
+    if find_secrets_in([docs, artifacts]):
         raise CloudError("AGENT_SENSITIVE_INPUT")
     return role,mode,language,brief,artifacts,docs
 
@@ -91,7 +91,7 @@ def validate_output(value):
             raise CloudError("AGENT_INVALID_OUTPUT",502)
     if not value["deliverables"] or len(json.dumps(value,ensure_ascii=False))>18000:
         raise CloudError("AGENT_INVALID_OUTPUT",502)
-    if find_secrets(json.dumps(value, ensure_ascii=False)):
+    if find_secrets_in(value):
         raise CloudError("AGENT_SENSITIVE_OUTPUT",502)
     return value
 

@@ -39,27 +39,56 @@ ASSETS = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/j
 
 
 class DeadlineReader:
-    """R55a / D51: a wrapper over the handler's input stream that shortens the socket timeout as the deadline nears."""
+    """R55a / D51 / D55: reads on the raw socket; every receive waits at most min(inactivity, time remaining).
 
-    def __init__(self, stream, connection, deadline, inactivity):
-        self.stream, self.connection, self.deadline, self.inactivity = stream, connection, deadline, inactivity
+    The request line, the headers and the body all come through here, so neither silence nor a continuous trickle
+    (within one line or within the body) can hold a handler past the deadline."""
 
-    def _arm(self):
+    def __init__(self, connection, deadline, inactivity, chunk=65536):
+        self.connection, self.deadline, self.inactivity, self.chunk = connection, deadline, inactivity, chunk
+        self.buffer = b""
+        self.closed = False
+
+    def _recv(self):
         remaining = self.deadline - time.monotonic()
         if remaining <= 0:
             raise TimeoutError("request deadline")
         self.connection.settimeout(min(self.inactivity, remaining))
+        data = self.connection.recv(self.chunk)
+        if not data:
+            self.closed = True
+        return data
 
-    def readline(self, *args):
-        self._arm()
-        return self.stream.readline(*args)
+    def readline(self, limit=-1):
+        while True:
+            index = self.buffer.find(b"\n")
+            if index >= 0 and (limit < 0 or index < limit):
+                line, self.buffer = self.buffer[:index + 1], self.buffer[index + 1:]
+                return line
+            if limit >= 0 and len(self.buffer) >= limit:
+                line, self.buffer = self.buffer[:limit], self.buffer[limit:]
+                return line
+            if self.closed or not self._recv_into():
+                line, self.buffer = self.buffer, b""
+                return line
 
-    def read(self, *args):
-        self._arm()
-        return self.stream.read(*args)
+    def read(self, size=-1):
+        while (size < 0 or len(self.buffer) < size) and not self.closed:
+            if not self._recv_into():
+                break
+        if size < 0:
+            data, self.buffer = self.buffer, b""
+        else:
+            data, self.buffer = self.buffer[:size], self.buffer[size:]
+        return data
 
-    def __getattr__(self, name):
-        return getattr(self.stream, name)
+    def _recv_into(self):
+        data = self._recv()
+        self.buffer += data
+        return bool(data)
+
+    def close(self):
+        self.buffer = b""
 
 
 class LabServer(ThreadingHTTPServer):
@@ -109,7 +138,7 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None, max_active=MA
 
         def setup(self):
             super().setup()
-            self.rfile = DeadlineReader(self.rfile, self.connection, time.monotonic() + deadline, read_timeout)
+            self.rfile = DeadlineReader(self.connection, time.monotonic() + deadline, read_timeout)
             self.command, self.requestline, self.request_version = "", "", self.default_request_version
 
         def log_message(self, *_):

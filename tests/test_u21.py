@@ -4,6 +4,7 @@ threat model and control catalog (R57), operation and the synthetic drill (R58).
 Every credential-like string is assembled at runtime from a prefix and a filler, so that this file never
 contains one; none of them works anywhere. Transports are fakes; nothing leaves the process."""
 import csv
+import hashlib
 import http.client
 import io
 import json
@@ -45,7 +46,10 @@ DUMMIES = {  # label -> non-functional sample assembled at runtime (R54a)
     "bearer token": "Authorization: Bearer " + "t" * 24,
     "credential assignment": "api_key = " + "k1" * 10 + "\n",
     "local personal path": "C:\\Users\\" + "someone\\repo",
+    "credential assignment (quoted, no digits)": 'password="' + "abcdefghijklmnopqrstuvwx" + '"',
+    "credential assignment (single quotes)": "token = '" + "abcdefghijklmnopqrstuvwx" + "'",
 }
+LABEL = lambda name: name.split(" (")[0]   # the dummy name without its variant suffix
 DOC = lambda name: (ROOT / "docs" / name).read_text(encoding="utf-8")
 WEB = lambda name: (ROOT / "web" / name).read_text(encoding="utf-8")
 
@@ -88,9 +92,10 @@ def call(server, path, body=None, headers=None, method=None, raw=None):
 
 class SecretTests(unittest.TestCase):
     def test_named_credential_formats_are_detected(self):
-        for label, sample in DUMMIES.items():
-            self.assertIn(label, find_secrets("before " + sample + " after"), label)
-            self.assertTrue(any(label in f for f in publication_check.inspect("note.txt", sample.encode())), label)
+        for name, sample in DUMMIES.items():
+            label = LABEL(name)
+            self.assertIn(label, find_secrets("before " + sample + " after"), name)
+            self.assertTrue(any(label in f for f in publication_check.inspect("note.txt", sample.encode())), name)
         self.assertEqual(find_secrets("/home/" + "someone/project/file.py"), ["local personal path"])
         self.assertNotIn("OpenAI key", find_secrets(DUMMIES["Anthropic key"]))
 
@@ -226,9 +231,10 @@ process.stdout.write(JSON.stringify(out));
         run = run_text([NODE, "-e", script, str(ROOT / "web/sensitive-rules.js")], input=json.dumps(samples))
         self.assertEqual(run.returncode, 0, run.stderr)
         out = json.loads(run.stdout)
-        for label in DUMMIES:
-            self.assertIn(label, out["raw"][label], label); self.assertIn(label, out["serialized"][label], label)
-            self.assertIn(label, find_secrets("before " + DUMMIES[label] + " after"))
+        for name in DUMMIES:
+            label = LABEL(name)
+            self.assertIn(label, out["raw"][name], name); self.assertIn(label, out["serialized"][name], name)
+            self.assertIn(label, find_secrets("before " + DUMMIES[name] + " after"))
         for text, labels in out["sanitized"].items():
             self.assertEqual(labels, [], text)
         studio = WEB("studio.js")
@@ -236,6 +242,34 @@ process.stdout.write(JSON.stringify(out));
         self.assertLess(studio.index("if(secretLike(p)"), studio.index("if(p.type==='http'){"))
         self.assertIn("if(secretLike(row)){", studio)
         self.assertIn('<script src="/sensitive-rules.js" defer></script>', WEB("index.html"))
+
+    def test_typed_walk_catches_quoted_assignments_in_nested_values(self):
+        """C316 (R54g, D56): quoted assignments without digits inside nested values, raw; sanitized nested values pass."""
+        from src.lab.sensitive import find_secrets_in
+        quoted = DUMMIES["credential assignment (quoted, no digits)"]; single = DUMMIES["credential assignment (single quotes)"]
+        placements = [{"prompt": "Use " + quoted + " always"}, {"deliverables": ["ok", "step: " + single]}, {"a": [{"b": {"c": quoted}}]},
+                      {quoted: "value in the key"}, ["Use \\" + quoted.replace('"', '\\"') + " escaped"]]
+        for value in placements:
+            self.assertIn("credential assignment", find_secrets_in(value), value)
+        for clean in ({"prompt": "token=session.session_id;generation++"}, {"a": [{"b": "password: use a long passphrase"}]}, ["api_key: your key here"], {"n": 3, "ok": None}):
+            self.assertEqual(find_secrets_in(clean), [], clean)
+        store = AgentStore(Path(tempfile.mkdtemp()) / "agents.json")
+        with self.assertRaisesRegex(CloudError, "AGENT_SENSITIVE_INPUT"):
+            store.save({"id": "", "name": "Agent", "role": "Reviewer of plans", "prompt": "Review the plan. " + quoted + " and report.", "work_mode": "review"})
+        with self.assertRaisesRegex(CloudError, "AGENT_SENSITIVE_OUTPUT"):
+            validate_output({"summary": "s", "deliverables": ["use " + single], "open_questions": [], "checks": [], "sources": []})
+        with self.assertRaisesRegex(CloudError, "AGENT_SENSITIVE_INPUT"):
+            validate_input({"agent": "manager", "mode": "local", "brief": BRIEF, "artifacts": [{"agent": "manager", "brief_hash": hashlib.sha256(BRIEF.encode()).hexdigest(), "text": "note " + quoted}]})
+        if not NODE:
+            self.skipTest("node is not available")
+        script = r"""
+const r = require(process.argv[1]); const input = JSON.parse(require("fs").readFileSync(0, "utf8"));
+process.stdout.write(JSON.stringify({ hits: input.placements.map((v) => r.findSecretsIn(v)), clean: input.clean.map((v) => r.findSecretsIn(v)) }));
+"""
+        run = run_text([NODE, "-e", script, str(ROOT / "web/sensitive-rules.js")], input=json.dumps({"placements": placements, "clean": [{"prompt": "token=session.session_id;generation++"}, {"a": [{"b": "password: use a long passphrase"}]}]}))
+        self.assertEqual(run.returncode, 0, run.stderr); out = json.loads(run.stdout)
+        self.assertTrue(all("credential assignment" in hit for hit in out["hits"]), out); self.assertEqual(out["clean"], [[], []])
+        self.assertIn("LabSensitive.findSecretsIn(value)", WEB("studio.js"))
 
     def test_worktree_guard_covers_versioned_hidden_files(self):
         """C311 (R54b, D53): a tracked hidden file with a named format fails the gate without the hook."""
@@ -389,6 +423,62 @@ class HttpTests(unittest.TestCase):
         self.assertIn(b"REQUEST_TIMEOUT", data); self.assertLess(elapsed, 8)
         data, _ = self.trickle(server, f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\nContent-Type: application/json\r\nContent-Length: 400\r\n\r\n".encode(), b'{"a": "b",')
         self.assertIn(b"REQUEST_TIMEOUT", data)
+        status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
+        self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
+
+    def timed_trickle(self, server, head, chunk, gap=0.2, rounds=40):
+        """Send head then chunk every gap seconds, continuously; return (data, seconds until the first answer, rounds sent)."""
+        sock = socket.create_connection(("127.0.0.1", server.server_port), timeout=10)
+        started = time.monotonic(); data = b""; answered = None; sent = 0
+        sock.sendall(head)
+        for _ in range(rounds):
+            time.sleep(gap)
+            sock.settimeout(0.01)
+            try:
+                piece = sock.recv(4096)
+                if piece:
+                    data += piece; answered = answered or time.monotonic() - started
+                else:
+                    break
+            except TimeoutError:
+                pass
+            except ConnectionError:
+                break
+            if data:
+                break
+            try:
+                sock.sendall(chunk); sent += 1
+            except OSError:
+                break
+        sock.settimeout(5)
+        try:
+            while True:
+                piece = sock.recv(4096)
+                if not piece:
+                    break
+                data += piece; answered = answered or time.monotonic() - started
+        except (ConnectionError, TimeoutError):
+            pass
+        sock.close()
+        return data, answered or (time.monotonic() - started), sent
+
+    def test_single_line_trickle_closes_at_the_deadline(self):
+        """C314 (R55a, D55): one request line without a newline, bytes every 0.2 s, ends in 408 at the deadline."""
+        server = serve(self, read_timeout=1, deadline=2)
+        data, answered, sent = self.timed_trickle(server, b"POST /api/request HTTP/1.1", b"x")
+        self.assertIn(b"REQUEST_TIMEOUT", data); self.assertGreaterEqual(answered, 1.9); self.assertLess(answered, 3.5)
+        self.assertLess(sent, 40)                                       # the client was still sending when the server closed
+        status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
+        self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
+
+    def test_body_trickle_closes_at_the_deadline_and_releases_the_slot(self):
+        """C315 (R55a, D55): complete headers, then body bytes every 0.2 s past the deadline; 408, slot released."""
+        server = serve(self, read_timeout=1, deadline=2, max_active=2)
+        head = f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\nContent-Type: application/json\r\nContent-Length: 4000\r\n\r\n".encode()
+        data, answered, sent = self.timed_trickle(server, head, b'{"a": "b", ')
+        self.assertIn(b"REQUEST_TIMEOUT", data); self.assertGreaterEqual(answered, 1.9); self.assertLess(answered, 3.5); self.assertLess(sent, 40)
+        time.sleep(0.3)
+        self.assertEqual(server.slots._value, 2)                         # both slots free again
         status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
         self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
 
@@ -699,10 +789,24 @@ class SandboxTests(unittest.TestCase):
                          "env -i $ENV_LIST", "getaddrinfo('example.com'", "--net --pid --fork --kill-child"):
             self.assertIn(required, script, required)
         self.assertLess(script.index("fail memory"), script.index('cat > "$INNER"'))       # memory is mandatory before the payload
-        self.assertLess(script.index("pivot_root . .old"), script.index('exec env -i $ENV_LIST "$@"'))
+        self.assertLess(script.index("pivot_root . .old"), script.index('env -i $ENV_LIST "$@" 9<&-'))
         self.assertNotIn("MEMNOTE", script)
         report = (ROOT / "reports/U21_SECURITY_2026-10-12.md").read_text(encoding="utf-8")
         self.assertIn("superseded", report); self.assertIn("pivot_root", report)
+
+
+    def test_runner_etc_allowlist_export_and_probes(self):
+        """C313 (R58e, D54): synthetic /etc, no writable host path, export by descriptor after the payload, probes inside the limits."""
+        script = (ROOT / "scripts/sandbox/run_isolated.sh").read_text(encoding="utf-8")
+        for required in ('> "$R/etc/passwd"', '> "$R/etc/nsswitch.conf"', "/etc/ld.so.cache", 'mount --bind "$R/etc" "$R/etc" && mount -o remount,bind,ro "$R/etc"',
+                         "[ ! -e /export ]", "/etc/shadow /etc/gshadow /etc/ssh /etc/ssl/private /etc/sudoers", 'exec 9< "$EXPORT"', '"$@" 9<&-',
+                         'cp "/work/export/$name" "/proc/self/fd/9/$name"', '[ "$STATUS" -eq 137 ] || fail memory'):
+            self.assertIn(required, script, required)
+        self.assertNotIn('mount --bind "$EXPORT"', script); self.assertNotIn("for d in /usr /etc", script)
+        inner = script[script.index("cat > \"$INNER\""):]
+        self.assertIn("CONTROL pids OK", inner); self.assertIn("CONTROL memory OK", inner)    # probes run inside prlimit and timeout
+        self.assertLess(script.index("timeout -k 10"), script.index('sh "$INNER"'))
+        self.assertLess(script.index("probe forked/refused=$PROBE"), script.index("pivot_root . .old"))
 
 
 class DocsTests(unittest.TestCase):

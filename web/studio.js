@@ -6,7 +6,7 @@
  const notice=(id,es,en)=>{notices[id]=[es,en];el(id).textContent=t(es,en);};
  const modeNames={plan:['Planificar','Plan'],research:['Investigar','Research'],implementation:['Implementar','Implement'],review:['Revisar','Review']};
  // R54g / D52: the named formats of web/sensitive-rules.js (the same as src/lab/sensitive.py), on raw text and JSON.
- const secretLike=value=>LabSensitive.findSecrets(typeof value==='string'?value:JSON.stringify(value)).length>0;
+ const secretLike=value=>LabSensitive.findSecretsIn(value).length>0;
  const download=(value,name)=>{const url=URL.createObjectURL(new Blob([value],{type:'application/octet-stream'}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);};
  function route(focus=false){const hash=location.hash.slice(1).split('/')[0],view=['chat','session'].includes(hash)?'demo':views.includes(hash)?hash:'demo';document.body.classList.toggle('session-view',view==='demo');document.querySelectorAll('[data-panel]').forEach(n=>n.hidden=n.dataset.panel!==view);document.querySelectorAll('[data-view]').forEach(n=>{if(n.dataset.view===view)n.setAttribute('aria-current','page');else n.removeAttribute('aria-current');});if(hash==='connection')window.LabCloud?.openConnection();if(focus){const heading=el('view-'+view).querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus();}}}
  // R38a: the skip link always lands in the message box, even when it has to open Session first.

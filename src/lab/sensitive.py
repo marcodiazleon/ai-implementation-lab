@@ -19,7 +19,7 @@ PATTERNS = [
     ("private key block", re.compile(r"-----BEGIN " + r"(?:RSA |EC |DSA |OPENSSH |PGP |ENCRYPTED )?PRIVATE KEY(?: BLOCK)?-----")),
     ("bearer token", re.compile(r"(?i)\bbearer" + r"\s+[A-Za-z0-9._~+/=-]{20,}")),
     # A quoted value of 16+ characters, or an unquoted one that carries a digit (so `token=session.session_id` in code is not one).
-    ("credential assignment", re.compile(r"(?i)\b(?:api[_-]?key|secret|passw" + r"ord|token)\b\s*[=:]\s*(?:['\"][A-Za-z0-9._~+/-]{16,}['\"]|(?=[A-Za-z0-9._~+/-]*\d)[A-Za-z0-9._~+/-]{16,})")),
+    ("credential assignment", re.compile(r"(?i)\b(?:api[_-]?key|secret|passw" + r"ord|token)\b\s*[=:]\s*(?:\\?['\"][A-Za-z0-9._~+/-]{16,}\\?['\"]|(?=[A-Za-z0-9._~+/-]*\d)[A-Za-z0-9._~+/-]{16,})")),
     ("local personal path", re.compile(r"(?i)[A-Za-z]:\\{1,2}Users\\{1,2}" + r"[^\\\s\"']+|(?<![\w/.])/(?:Users|home)/" + r"[A-Za-z0-9._-]+/")),
 ]
 
@@ -31,6 +31,29 @@ CREDENTIAL_NAMES = {".netrc", ".pypirc", ".npmrc", "credentials", "id_rsa", "id_
 def find_secrets(text):
     """Labels of every named format found in the text, in pattern order, each once."""
     return [label for label, pattern in PATTERNS if pattern.search(text)]
+
+
+def find_secrets_in(value):
+    """R54g / D56: labels found in any string value of nested dicts and lists, raw, plus in the serialized whole.
+
+    Serialization alone misses a quoted assignment (the escaped quote breaks the pattern), so every string is checked
+    as it is. Nothing is evaluated; keys are strings too and are walked."""
+    import json
+    found = []
+    stack = [value]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, str):
+            found += [label for label in find_secrets(item) if label not in found]
+        elif isinstance(item, dict):
+            stack.extend(item.keys()); stack.extend(item.values())
+        elif isinstance(item, (list, tuple)):
+            stack.extend(item)
+    try:
+        serialized = json.dumps(value, ensure_ascii=False, default=str)
+    except (TypeError, ValueError):
+        serialized = str(value)
+    return found + [label for label in find_secrets(serialized) if label not in found]
 
 
 def credential_file(name):

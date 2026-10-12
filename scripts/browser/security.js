@@ -51,6 +51,26 @@ const DUMMY = "sk-" + "proj-" + "u".repeat(40); // non-functional, assembled at 
     out.csp[name] = { metaCsp: meta, viewsRendered: views, templateCards: agentCard, violations };
     await c.close();
   }
+  // C317 (R54g, D56): the real export form, on the static build (no backend) and on the local server.
+  const QUOTED = 'password="' + "abcdefghijklmnopqrstuvwx" + '"';
+  out.exportGuard = {};
+  for (const [name, base] of [["public", pub], ["local", local]]) {
+    const c = await browser.newContext({ viewport: { width: 1280, height: 900 }, acceptDownloads: true });
+    const p = await c.newPage();
+    let downloads = 0; p.on("download", () => { downloads += 1; });
+    await p.goto(base + "/#agents"); await p.waitForTimeout(500);
+    await p.fill("#builderName", "Leaky agent"); await p.fill("#builderRole", "Role with a credential");
+    await p.fill("#builderPrompt", "Review the plan. Use " + QUOTED + " on every call and report.");
+    await p.click("#exportAgent"); await p.waitForTimeout(500);
+    const statusAfterExport = await p.$eval("#builderStatus", (e) => e.textContent);
+    let statusAfterSave = null;
+    if (name === "local") { await p.click("#saveAgent"); await p.waitForTimeout(800); statusAfterSave = await p.$eval("#builderStatus", (e) => e.textContent); }
+    const withCredential = downloads;
+    await p.fill("#builderPrompt", "Review the plan and report what still needs verification, without credentials.");
+    await p.click("#exportAgent"); await p.waitForTimeout(800);
+    out.exportGuard[name] = { downloadsWithCredential: withCredential, statusAfterExport, statusAfterSave, downloadsAfterSanitizing: downloads - withCredential };
+    await c.close();
+  }
   await browser.close();
   console.log(JSON.stringify(out, null, 1));
 })();
