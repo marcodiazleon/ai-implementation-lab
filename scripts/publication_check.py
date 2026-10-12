@@ -1,10 +1,11 @@
-"""Publication guard over the worktree or the staged index; named patterns, not a comprehensive scanner (R10, R54b, D45).
+"""Publication guard over the worktree or the staged index; named patterns, not a comprehensive scanner (R10, R54b, D45, D53).
 
-Worktree mode walks every file except Git internals, caches, virtual environments and hidden tool directories
-(any directory whose name starts with a dot other than .github, .githooks and .agents); .local and .runtime are
-also skipped there because they never are publication candidates. Staged mode inspects every staged blob,
-including those directories, and rejects staged symlinks. Both modes read the bytes they inspect, so a file that
-was edited after staging is judged by its staged content.
+Worktree mode with Git available scans every versioned candidate: tracked files plus untracked files that are not
+ignored, hidden directories included; only untracked ignored files (caches, build output, .local) are excluded.
+Without Git it falls back to a walk that skips Git internals, caches, virtual environments and hidden tool
+directories (any directory whose name starts with a dot other than .github, .githooks and .agents); that fallback is
+narrower and is documented as such. Staged mode inspects every staged blob and rejects staged symlinks. Both modes
+read the bytes they inspect, so a file that was edited after staging is judged by its staged content.
 """
 import argparse
 import subprocess
@@ -19,7 +20,21 @@ EXCLUDED = {".git", "__pycache__", ".venv", ".runtime", ".local", "node_modules"
 HIDDEN_ALLOWED = {".github", ".githooks", ".agents"}
 
 
-def files(root=ROOT):
+def candidates(root=ROOT):
+    """Versioned candidates from Git: tracked and untracked-not-ignored paths, or None when Git cannot answer (D53)."""
+    try:
+        tracked = subprocess.run(["git", "-C", str(root), "ls-files", "-z"], capture_output=True, timeout=60)
+        others = subprocess.run(["git", "-C", str(root), "ls-files", "-z", "--others", "--exclude-standard"], capture_output=True, timeout=60)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if tracked.returncode or others.returncode:
+        return None
+    names = {x.decode("utf-8") for x in tracked.stdout.split(b"\0") + others.stdout.split(b"\0") if x}
+    return sorted(root / name for name in names if (root / name).is_file() or (root / name).is_symlink())
+
+
+def walk(root=ROOT):
+    """Fallback without Git: every file except Git internals, caches and hidden tool directories."""
     out = []
     for p in root.rglob("*"):
         if not p.is_file():
@@ -31,6 +46,11 @@ def files(root=ROOT):
             continue
         out.append(p)
     return sorted(out)
+
+
+def files(root=ROOT):
+    found = candidates(root)
+    return walk(root) if found is None else found
 
 
 def inspect(name, data):

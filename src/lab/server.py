@@ -1,13 +1,15 @@
 """Loopback-only viewer. Never use this development server on a public host.
 
-R55a / D46: each handler has a socket read timeout, the number of handlers working at once is bounded by a
-semaphore that refuses instead of queueing, and every unexpected exception becomes a fixed error code with no
+R55a / D46 / D51: the number of connections handled at once is bounded before a thread exists or a byte is
+read (the excess gets 503 on the socket), each handler has a socket inactivity timeout and a total deadline to
+deliver the request line, headers and body, and every unexpected exception becomes a fixed error code with no
 message (R54c). Host and Origin checks are a same-origin boundary for browsers, not authentication against
 other processes on the same computer.
 """
 import json
 import sys
 import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 from .controller import Lab, ROOT, load_data
@@ -20,8 +22,11 @@ from .model_catalog import catalog
 from scripts.sdd_check import requirement_rows
 from scripts.revision import status_payload
 
-MAX_ACTIVE = 8          # handlers working at once; the ninth gets 503 SERVER_BUSY
+MAX_ACTIVE = 8          # connections handled at once; the ninth gets 503 SERVER_BUSY before any thread or byte
 READ_TIMEOUT = 10       # seconds without bytes from the client before 408 REQUEST_TIMEOUT
+REQUEST_DEADLINE = 30   # seconds from accept to the end of the body, whatever the pace of the bytes
+BUSY = (b"HTTP/1.0 503 Service Unavailable\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 24\r\n"
+        b"Cache-Control: no-store\r\nConnection: close\r\n\r\n{\"error\": \"SERVER_BUSY\"}")
 CSP = ("default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; "
        "object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'")
 BODY_LIMITS = {"/api/agents/run": 100000, "/api/custom-agents/save": 20000}
@@ -29,23 +34,71 @@ ASSETS = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/j
           "/workbench.js": ("workbench.js", "application/javascript"), "/studio.js": ("studio.js", "application/javascript"),
           "/evidence.js": ("evidence.js", "application/javascript"), "/evidence-rules.js": ("evidence-rules.js", "application/javascript"),
           "/orientation.js": ("orientation.js", "application/javascript"), "/style.css": ("style.css", "text/css"),
-          "/cloud.js": ("cloud.js", "application/javascript"), "/i18n.js": ("i18n.js", "application/javascript")}
+          "/cloud.js": ("cloud.js", "application/javascript"), "/i18n.js": ("i18n.js", "application/javascript"),
+          "/sensitive-rules.js": ("sensitive-rules.js", "application/javascript")}
+
+
+class DeadlineReader:
+    """R55a / D51: a wrapper over the handler's input stream that shortens the socket timeout as the deadline nears."""
+
+    def __init__(self, stream, connection, deadline, inactivity):
+        self.stream, self.connection, self.deadline, self.inactivity = stream, connection, deadline, inactivity
+
+    def _arm(self):
+        remaining = self.deadline - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError("request deadline")
+        self.connection.settimeout(min(self.inactivity, remaining))
+
+    def readline(self, *args):
+        self._arm()
+        return self.stream.readline(*args)
+
+    def read(self, *args):
+        self._arm()
+        return self.stream.read(*args)
+
+    def __getattr__(self, name):
+        return getattr(self.stream, name)
 
 
 class LabServer(ThreadingHTTPServer):
     daemon_threads = True
-    request_queue_size = 16
+    request_queue_size = 16   # listen backlog: a queue of accepted-but-unserved connections, not a cap
 
     def __init__(self, address, handler, max_active=MAX_ACTIVE):
         super().__init__(address, handler)
         self.slots = threading.BoundedSemaphore(max_active)
+        self.refused = 0
+
+    def process_request(self, request, client_address):
+        # R55a / D51: the cap is applied here, before a thread is created and before any byte is read.
+        if not self.slots.acquire(blocking=False):
+            self.refused += 1
+            try:
+                request.sendall(BUSY)
+            except OSError:
+                pass
+            self.shutdown_request(request)
+            return
+        try:
+            super().process_request(request, client_address)
+        except Exception:
+            self.slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self.slots.release()
 
     def handle_error(self, request, client_address):
         # R54c: nothing from the exception (a provider message could carry the key) reaches standard error.
         print("Request handling failed; details withheld (R54c)", file=sys.stderr, flush=True)
 
 
-def make_server(port=8765, cloud=None, mcp=None, agent_store=None, max_active=MAX_ACTIVE, read_timeout=READ_TIMEOUT):
+def make_server(port=8765, cloud=None, mcp=None, agent_store=None, max_active=MAX_ACTIVE, read_timeout=READ_TIMEOUT, deadline=REQUEST_DEADLINE):
     lab = Lab()
     cloud = cloud or CloudSessions()
     mcp = mcp or Context7Sessions()
@@ -53,6 +106,11 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None, max_active=MA
 
     class Handler(BaseHTTPRequestHandler):
         timeout = read_timeout
+
+        def setup(self):
+            super().setup()
+            self.rfile = DeadlineReader(self.rfile, self.connection, time.monotonic() + deadline, read_timeout)
+            self.command, self.requestline, self.request_version = "", "", self.default_request_version
 
         def log_message(self, *_):
             pass
@@ -75,9 +133,6 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None, max_active=MA
             return self.headers.get("Host") in hosts and (origin is None or origin in {"http://" + h for h in hosts})
 
         def guarded(self, action):
-            if not self.server.slots.acquire(blocking=False):
-                self.close_connection = True
-                return self.respond(503, {"error": "SERVER_BUSY"})
             try:
                 action()
             except TimeoutError:
@@ -86,8 +141,32 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None, max_active=MA
             except Exception:  # noqa: BLE001 - R54c: fixed envelope, no message
                 self.close_connection = True
                 self.respond(500, {"error": "INTERNAL_ERROR"})
-            finally:
-                self.server.slots.release()
+
+        def handle_one_request(self):
+            # Same steps as BaseHTTPRequestHandler.handle_one_request, but an inactivity timeout or the deadline
+            # while reading the request line or the headers answers 408 instead of closing silently (R55a, D51).
+            try:
+                self.raw_requestline = self.rfile.readline(65537)
+                if len(self.raw_requestline) > 65536:
+                    self.send_error(414)
+                    return
+                if not self.raw_requestline:
+                    self.close_connection = True
+                    return
+                if not self.parse_request():
+                    return
+                method = getattr(self, "do_" + self.command, None)
+                if method is None:
+                    self.send_error(501, "Unsupported method (%r)" % self.command)
+                    return
+                method()
+                self.wfile.flush()
+            except TimeoutError:
+                self.close_connection = True
+                try:
+                    self.respond(408, {"error": "REQUEST_TIMEOUT"})
+                except OSError:
+                    pass
 
         def do_GET(self):
             self.guarded(self.get)

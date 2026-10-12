@@ -28,7 +28,7 @@ from src.lab.context7 import Context7Sessions, Context7Transport, TOOLS
 from src.lab.sensitive import find_secrets, credential_file
 from src.lab.server import make_server
 from tests.test_context7 import FakeMcp
-from tests.test_u20 import run_text, git, copy_repo
+from tests.test_u20 import run_text, git, copy_repo, NODE
 
 KEY = "test-key-for-offline-tests-only"
 CONNECT = {"api_key": KEY, "model": "test-model", "max_output_tokens": 512, "consent": True}
@@ -211,6 +211,61 @@ class SecretTests(unittest.TestCase):
         token = mcp.connect({"api_key": "k" * 12, "consent": True})["session_id"]; row = mcp.sessions[token]
         now[0] += 1800; mcp.prune(); self.assertEqual((row["key"], token in mcp.sessions), ("", False))
 
+    def test_interface_rules_match_the_python_detector(self):
+        """C310 (R54g, D52): the JavaScript rules see every Python dummy, raw and serialized, and pass the sanitized samples."""
+        if not NODE:
+            self.skipTest("node is not available")
+        samples = {"dummies": DUMMIES, "sanitized": ["sk-", "ghp_", "Bearer token", "api_key: your key here", "token=session.session_id;generation++", "C:\\Users\\", "/home/"]}
+        script = r"""
+const r = require(process.argv[1]); const input = JSON.parse(require("fs").readFileSync(0, "utf8"));
+const out = { raw: {}, serialized: {}, sanitized: {} };
+for (const [label, text] of Object.entries(input.dummies)) { out.raw[label] = r.findSecrets("before " + text + " after"); out.serialized[label] = r.findSecrets(JSON.stringify({ prompt: "x " + text })); }
+for (const text of input.sanitized) out.sanitized[text] = r.findSecrets(text);
+process.stdout.write(JSON.stringify(out));
+"""
+        run = run_text([NODE, "-e", script, str(ROOT / "web/sensitive-rules.js")], input=json.dumps(samples))
+        self.assertEqual(run.returncode, 0, run.stderr)
+        out = json.loads(run.stdout)
+        for label in DUMMIES:
+            self.assertIn(label, out["raw"][label], label); self.assertIn(label, out["serialized"][label], label)
+            self.assertIn(label, find_secrets("before " + DUMMIES[label] + " after"))
+        for text, labels in out["sanitized"].items():
+            self.assertEqual(labels, [], text)
+        studio = WEB("studio.js")
+        self.assertIn("LabSensitive.findSecrets", studio)
+        self.assertLess(studio.index("if(secretLike(p)"), studio.index("if(p.type==='http'){"))
+        self.assertIn("if(secretLike(row)){", studio)
+        self.assertIn('<script src="/sensitive-rules.js" defer></script>', WEB("index.html"))
+
+    def test_worktree_guard_covers_versioned_hidden_files(self):
+        """C311 (R54b, D53): a tracked hidden file with a named format fails the gate without the hook."""
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup); root = Path(temp.name)
+        git(root, "init", "-q")
+        (root / ".private").mkdir(); (root / ".private/note.txt").write_text("key " + DUMMIES["GitHub token"], encoding="utf-8")
+        (root / "README.md").write_text("sanitized\n", encoding="utf-8"); (root / ".gitignore").write_text(".cache/\n", encoding="utf-8")
+        (root / ".cache").mkdir(); (root / ".cache/data.json").write_text(DUMMIES["OpenAI key"], encoding="utf-8")
+        git(root, "add", "README.md", ".gitignore", ".private/note.txt"); run_text(["git", "-C", str(root), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "-q", "-m", "tracked hidden"], check=True)
+        found = publication_check.check(root)
+        self.assertEqual(found, ["GitHub token detected in .private/note.txt"])
+        self.assertFalse(security_check.check(root)["passed"])
+        (root / ".private/note.txt").write_text("sanitized\n", encoding="utf-8")
+        self.assertEqual(publication_check.check(root), [])
+        (root / ".untracked-hidden").mkdir(); (root / ".untracked-hidden/x.txt").write_text(DUMMIES["Slack token"], encoding="utf-8")
+        self.assertEqual(publication_check.check(root), ["Slack token detected in .untracked-hidden/x.txt"])
+        os.symlink(root / "README.md", root / "link"); git(root, "add", "link")
+        self.assertIn("Staged symlink: link", publication_check.check(root, staged=True))
+
+    def test_worktree_guard_modes_and_documented_fallback(self):
+        """C312 (R54b): Git mode on this repository, the fallback without Git, and the documentation of the difference."""
+        self.assertIsNotNone(publication_check.candidates(ROOT)); self.assertEqual(publication_check.check(ROOT), [])
+        root = copy_repo(self)
+        self.assertIsNone(publication_check.candidates(root))
+        self.assertEqual(publication_check.files(root), publication_check.walk(root))
+        (root / ".tool-cache").mkdir(); (root / ".tool-cache/x.json").write_text(DUMMIES["AWS access key id"], encoding="utf-8")
+        self.assertEqual(publication_check.check(root), [])   # fallback: hidden tool directory skipped, as documented
+        doc = DOC("supply-chain.md").lower()
+        self.assertIn("without git", doc); self.assertIn("narrower", doc)
+
     def test_artifacts_carry_no_sensitive_data(self):
         site = build(Path(tempfile.mkdtemp()) / "_site"); self.addCleanup(shutil.rmtree, site, True)
         checked = 0
@@ -264,6 +319,75 @@ class HttpTests(unittest.TestCase):
         # Slow body: the first bytes arrive, then nothing for longer than the timeout; the client reads only afterwards
         # (a second write after the server closed would be reset on Windows before the response is read).
         data, _ = self.partial(server, None, 40, chunks=[b'{"order_'], gap=1.5)
+        self.assertIn(b"REQUEST_TIMEOUT", data)
+        status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
+        self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
+
+    def test_connection_cap_applies_before_any_thread_or_byte(self):
+        """C308 (R55a, D51): idle connections count; the excess gets 503 on the socket; threads stay bounded; recovery."""
+        server = serve(self, max_active=2, read_timeout=2, deadline=4)
+        before = threading.active_count()
+        idle = [socket.create_connection(("127.0.0.1", server.server_port), timeout=5) for _ in range(2)]
+        time.sleep(0.3)
+        extra = socket.create_connection(("127.0.0.1", server.server_port), timeout=5)
+        data = b""
+        while not data.endswith(b"}"):
+            piece = extra.recv(4096)
+            if not piece:
+                break
+            data += piece
+        self.assertTrue(data.startswith(b"HTTP/1.0 503")); self.assertIn(b"SERVER_BUSY", data); extra.close()
+        self.assertLessEqual(threading.active_count() - before, 2)
+        self.assertEqual(server.refused, 1)
+        for sock in idle:
+            sock.close()
+        time.sleep(0.3)
+        status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
+        self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
+        self.assertLessEqual(threading.active_count() - before, 1)
+
+    def test_trickle_and_partial_headers_hit_the_deadline(self):
+        """C309 (R55a, D51): bytes faster than the inactivity timeout but slower than the deadline end in 408."""
+        server = serve(self, read_timeout=1, deadline=2)
+        sock = socket.create_connection(("127.0.0.1", server.server_port), timeout=10)
+        started = time.monotonic()
+        sock.sendall(f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\n".encode())
+        data = b""
+        try:
+            for _ in range(10):                                   # partial headers, then a trickle of header bytes
+                time.sleep(0.5); sock.sendall(b"X-Trickle: a\r\n")
+        except OSError:
+            pass
+        sock.settimeout(5)
+        try:
+            while True:
+                piece = sock.recv(4096)
+                if not piece:
+                    break
+                data += piece
+        except (ConnectionError, TimeoutError):
+            pass
+        sock.close()
+        elapsed = time.monotonic() - started
+        self.assertIn(b"REQUEST_TIMEOUT", data); self.assertLess(elapsed, 8)
+        sock = socket.create_connection(("127.0.0.1", server.server_port), timeout=10)
+        sock.sendall(f"POST /api/request HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\nContent-Type: application/json\r\nContent-Length: 400\r\n\r\n".encode())
+        data = b""
+        try:
+            for _ in range(10):                                   # body trickle below the inactivity timeout
+                time.sleep(0.5); sock.sendall(b'{"a": "b",')
+        except OSError:
+            pass
+        sock.settimeout(5)
+        try:
+            while True:
+                piece = sock.recv(4096)
+                if not piece:
+                    break
+                data += piece
+        except (ConnectionError, TimeoutError):
+            pass
+        sock.close()
         self.assertIn(b"REQUEST_TIMEOUT", data)
         status, _, raw = call(server, "/api/request", {"order_id": "DEMO-101", "intent": "lookup"})
         self.assertEqual((status, json.loads(raw)["status"]), (200, "READ_ONLY"))
@@ -563,6 +687,22 @@ class CatalogTests(unittest.TestCase):
         cloud.disconnect({"session_id": token})                                       # revocation of the local session
         self.assertEqual((row["key"], token in cloud.sessions), ("", False))
         self.assertTrue(publication_check.inspect("note.md", (root / "note.md").read_bytes()))  # recovery check before republishing
+
+
+class SandboxTests(unittest.TestCase):
+    def test_runner_confines_the_filesystem_and_fails_closed(self):
+        """C307 (R58e, D50): invariants of the runner script; the executed runs are recorded in the report."""
+        script = (ROOT / "scripts/sandbox/run_isolated.sh").read_text(encoding="utf-8")
+        for required in ("pivot_root . .old", "umount -l /.old", 'mount -o remount,bind,ro "$R$d"', '[ ! -e "$TARGET" ] || fail root',
+                         '[ ! -e "$DUMMY" ] || fail root', '[ ! -e /home ] && [ ! -e /root ]', "touch /usr/.sandbox-write-probe", 'fail memory',
+                         'memory.limit_in_bytes', '[0-9]*" "[1-9]*)', "fail pids \"probe did not prove a refusal", "prlimit --cpu=\"$CPU\" $ASOPT --fsize=\"$FSIZE\" --nofile=1024 \\\n  unshare",
+                         "env -i $ENV_LIST", "getaddrinfo('example.com'", "--net --pid --fork --kill-child"):
+            self.assertIn(required, script, required)
+        self.assertLess(script.index("fail memory"), script.index('cat > "$INNER"'))       # memory is mandatory before the payload
+        self.assertLess(script.index("pivot_root . .old"), script.index('exec env -i $ENV_LIST "$@"'))
+        self.assertNotIn("MEMNOTE", script)
+        report = (ROOT / "reports/U21_SECURITY_2026-10-12.md").read_text(encoding="utf-8")
+        self.assertIn("superseded", report); self.assertIn("pivot_root", report)
 
 
 class DocsTests(unittest.TestCase):

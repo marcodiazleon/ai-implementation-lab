@@ -1,54 +1,64 @@
 #!/bin/sh
-# R58e / D49: run a command over a disposable copy of this repository under OS isolation, and refuse to run
-# unless every control below was demonstrated first. Linux only; needs unshare(1), prlimit(1), timeout(1) and a
-# writable cgroup v1 pids (or cgroup v2) hierarchy. Nothing is installed or downloaded.
+# R58e / D50: run a command over a disposable copy of this repository inside a minimal root, and refuse to run
+# unless every control below was demonstrated first. Linux only; needs unshare(1), pivot_root(8), prlimit(1),
+# timeout(1), a writable cgroup v1 (pids and memory) or v2 hierarchy, and user namespaces. Nothing is installed.
 #
 #   scripts/sandbox/run_isolated.sh SCRATCH -- COMMAND [ARGS...]
 #
-# Controls (each printed as CONTROL <name> OK with its evidence, or the run aborts):
-#   pids        cgroup process limit (SBX_PIDS, default 192; browser runs need about 100)
-#   namespaces  user, mount, network and PID namespaces; the command is killed with the namespace
-#   network     no route outside the namespace; loopback is the only interface and is brought up by ioctl
-#   target_ro   the repository is bind-mounted read-only; writes go to a copy on a size-limited tmpfs
-#   scratch     tmpfs of SBX_TMPFS (default 1024m), mounted over /srv, /media or /mnt inside the namespace, holds the
-#               copy, HOME, TMPDIR and caches; nothing else is writable (SCRATCH on the host only holds the inner script)
-#   env         environment emptied; allowlist: PATH, HOME, TMPDIR, LANG, PYTHONUTF8, PYTHONDONTWRITEBYTECODE,
-#               PLAYWRIGHT_BROWSERS_PATH, PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD, NODE_PATH (browser runs only)
-#   limits      prlimit CPU seconds (SBX_CPU, default 1800), address space (SBX_AS bytes, default 6 GiB; 0 disables
-#               it for runs that start Chromium or Node, which reserve address space; the cgroup memory limit
-#               SBX_MEM, default 4 GiB, applies in every case),
-#               file size (SBX_FSIZE, default 256 MiB), open files 1024, wall clock SBX_TIME (default 2400 s)
-# The command runs inside the copy with python3 -I available on PATH. Its exit status is returned.
+# What the payload sees: a new root on a size-limited tmpfs where /usr, /bin, /sbin, /lib, /lib64, /etc, /opt/node22,
+# /opt/node-tools, /opt/pw-browsers and the global Node modules are bind-mounted read-only, /work/copy holds the copy (writable),
+# /work/home and /tmp are empty scratch, /proc is private and /dev holds null, zero, (u)random and a shm tmpfs.
+# The host's /home, /root, /tmp, /var, /run, the original target path and SCRATCH itself do not exist there; the
+# only host-visible writable path is /export, which is SCRATCH/export (for results such as regenerated evidence).
+#
+# Controls (each printed as CONTROL <name> OK with its evidence, or the run aborts with exit 3 before the payload):
+#   pids        cgroup process limit (SBX_PIDS, default 192; browser runs need about 100); probe prints "forked refused"
+#               and refused must be above zero
+#   memory      cgroup memory limit (SBX_MEM bytes, default 4 GiB), mandatory; probe allocates above it and must be killed
+#   namespaces  user, mount, network and PID namespaces with a private /proc; the payload dies with the namespace
+#   root        pivot_root to the minimal root: the original target path, an external dummy file written by this script
+#               into SCRATCH, /home and /root are not reachable; /usr is read-only; /work is writable
+#   network     no route outside the namespace; loopback is the only interface and is raised by ioctl
+#   scratch     tmpfs of SBX_TMPFS (default 1024m), sticky; an oversized write is cut
+#   env         environment emptied; allowlist: PATH, HOME, TMPDIR, LANG, PYTHONUTF8, PYTHONDONTWRITEBYTECODE and, for
+#               browser runs, PLAYWRIGHT_BROWSERS_PATH, PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD, NODE_PATH
+#   limits      prlimit CPU seconds (SBX_CPU, default 1800), file size (SBX_FSIZE, default 256 MiB), open files 1024
+#               and the wall clock (SBX_TIME, default 2400 s) wrap the whole namespace: copy, probes and payload.
+#               An address-space rlimit (SBX_AS bytes, default 0 = none) is optional because Chromium and Node reserve
+#               address space; memory is bounded by the cgroup in every case.
+# The command runs inside /work/copy. Its exit status is returned (3 = a control failed, 124 = wall clock exceeded).
 set -u
 SCRATCH="${1:?scratch directory}"; shift
 [ "${1:-}" = "--" ] && shift
 [ $# -ge 1 ] || { echo "usage: $0 SCRATCH -- COMMAND [ARGS...]" >&2; exit 2; }
 TARGET="$(cd "$(dirname "$0")/../.." && pwd)"
-PIDS="${SBX_PIDS:-192}"; TMPFS="${SBX_TMPFS:-1024m}"; CPU="${SBX_CPU:-1800}"; AS="${SBX_AS:-6442450944}"
+PIDS="${SBX_PIDS:-192}"; TMPFS="${SBX_TMPFS:-1024m}"; CPU="${SBX_CPU:-1800}"; AS="${SBX_AS:-0}"
 FSIZE="${SBX_FSIZE:-268435456}"; TIME="${SBX_TIME:-2400}"; MEM="${SBX_MEM:-4294967296}"
 mkdir -p "$SCRATCH" || exit 2
 SCRATCH="$(cd "$SCRATCH" && pwd)"
+DUMMY="$SCRATCH/outside-dummy.txt"
+echo "outside the sandbox: must not be reachable by the payload" > "$DUMMY"
+# The only host-visible writable path inside the root: SCRATCH/export, mounted at /export for results.
+EXPORT="$SCRATCH/export"; mkdir -p "$EXPORT"
 
 fail() { echo "CONTROL $1 FAILED: $2" >&2; exit 3; }
+leave() { echo $$ > "$1/cgroup.procs" 2>/dev/null; }
 
-# --- pids: cgroup process limit applied to this shell and everything below it ---------------------------------
-if [ -d /sys/fs/cgroup/pids ]; then
-  CG="/sys/fs/cgroup/pids/lab-sandbox-$$"
+# --- pids and memory: cgroup limits applied to this shell and everything below it; both mandatory ------------------
+if [ -d /sys/fs/cgroup/pids ] && [ -d /sys/fs/cgroup/memory ]; then
+  CG="/sys/fs/cgroup/pids/lab-sandbox-$$"; MCG="/sys/fs/cgroup/memory/lab-sandbox-$$"
   mkdir "$CG" 2>/dev/null || fail pids "cannot create $CG"
   echo "$PIDS" > "$CG/pids.max" && echo $$ > "$CG/cgroup.procs" || fail pids "cannot apply pids.max"
-  [ -d /sys/fs/cgroup/memory ] && MCG="/sys/fs/cgroup/memory/lab-sandbox-$$" && mkdir "$MCG" 2>/dev/null \
-    && echo "$MEM" > "$MCG/memory.limit_in_bytes" 2>/dev/null && echo $$ > "$MCG/cgroup.procs" 2>/dev/null && MEMNOTE="cgroup memory.limit_in_bytes=$MEM" || MEMNOTE="cgroup memory limit not available"
-  # On exit the shell leaves the cgroups (a cgroup cannot be removed while a process is inside it) and removes them.
-  trap 'echo $$ > /sys/fs/cgroup/pids/cgroup.procs 2>/dev/null; rmdir "$CG" 2>/dev/null; [ -n "${MCG:-}" ] && echo $$ > /sys/fs/cgroup/memory/cgroup.procs 2>/dev/null && rmdir "$MCG" 2>/dev/null' EXIT
+  mkdir "$MCG" 2>/dev/null || fail memory "cannot create $MCG"
+  echo "$MEM" > "$MCG/memory.limit_in_bytes" && echo $$ > "$MCG/cgroup.procs" || fail memory "cannot apply memory.limit_in_bytes"
+  trap 'leave /sys/fs/cgroup/pids; rmdir "$CG" 2>/dev/null; leave /sys/fs/cgroup/memory; rmdir "$MCG" 2>/dev/null' EXIT
 elif [ -f /sys/fs/cgroup/cgroup.controllers ]; then
   CG="/sys/fs/cgroup/lab-sandbox-$$"
-  mkdir "$CG" 2>/dev/null && echo "$PIDS" > "$CG/pids.max" && echo $$ > "$CG/cgroup.procs" || fail pids "cgroup v2 pids.max not writable"
-  echo "$MEM" > "$CG/memory.max" 2>/dev/null && MEMNOTE="cgroup memory.max=$MEM" || MEMNOTE="cgroup memory limit not available"
-  trap 'echo $$ > /sys/fs/cgroup/cgroup.procs 2>/dev/null; rmdir "$CG" 2>/dev/null' EXIT
+  mkdir "$CG" 2>/dev/null && echo "$PIDS" > "$CG/pids.max" && echo "$MEM" > "$CG/memory.max" && echo $$ > "$CG/cgroup.procs" || fail pids "cgroup v2 pids.max or memory.max not writable"
+  trap 'leave /sys/fs/cgroup; rmdir "$CG" 2>/dev/null' EXIT
 else
-  fail pids "no writable cgroup pids hierarchy"
+  fail pids "no writable cgroup pids and memory hierarchy"
 fi
-# Evidence: forks beyond the limit must fail.
 PROBE=$(python3 -I -c "
 import os,signal,time
 ok=bad=0; children=[]
@@ -59,33 +69,57 @@ for i in range($PIDS+40):
         children.append(pid); ok+=1
     except BlockingIOError: bad+=1
 for pid in children: os.kill(pid,signal.SIGKILL); os.waitpid(pid,0)
-print(ok,bad)")
-set -- "$@"
-case "$PROBE" in *" 0") fail pids "fork limit not enforced ($PROBE)";; esac
-echo "CONTROL pids OK: pids.max=$PIDS, probe forked/refused=$PROBE; $MEMNOTE"
+print(ok,bad)" 2>/dev/null)
+case "$PROBE" in
+  [0-9]*" "[1-9]*) ;;
+  *) fail pids "probe did not prove a refusal (output: '${PROBE:-empty}')";;
+esac
+echo "CONTROL pids OK: pids.max=$PIDS, probe forked/refused=$PROBE"
+# Evidence: an allocation above the limit must be killed by the cgroup (exit by SIGKILL, status 137), never succeed.
+python3 -I -c "
+b=bytearray($MEM+268435456)
+for i in range(0,len(b),4096): b[i]=1
+print('allocated')" >/dev/null 2>&1
+STATUS=$?
+[ "$STATUS" -ne 0 ] || fail memory "allocation above the limit succeeded"
+echo "CONTROL memory OK: limit=$MEM bytes; probe above the limit ended with status $STATUS"
 
 INNER="$SCRATCH/inner.sh"
 cat > "$INNER" <<'INNER_EOF'
 set -u
-SCRATCH="$1"; TARGET="$2"; TMPFS="$3"; CPU="$4"; AS="$5"; FSIZE="$6"; shift 6
+TARGET="$1"; TMPFS="$2"; DUMMY="$3"; EXPORT="$4"; shift 4
 fail() { echo "CONTROL $1 FAILED: $2" >&2; exit 3; }
-# The scratch tmpfs is mounted over a short existing path inside the private mount namespace (the host directory is
-# only shadowed there, never written): Chromium creates UNIX sockets under TMPDIR and their paths are limited to 108 bytes.
-RO="$SCRATCH/target"; W=""
-for candidate in /srv /media /mnt; do [ -d "$candidate" ] && W="$candidate" && break; done
-[ -n "$W" ] || fail scratch "no short mount point (/srv, /media or /mnt) exists"
-mkdir -p "$RO"
-# A fresh /proc for the PID namespace (private mount namespace, so the host is untouched); Chromium reads /proc/<pid>.
 mount -t proc proc /proc || fail namespaces "cannot mount /proc in the namespace"
-mount --bind "$TARGET" "$RO" && mount -o remount,bind,ro "$RO" || fail target_ro "bind mount failed"
-if touch "$RO/.sandbox-write-probe" 2>/dev/null; then rm -f "$RO/.sandbox-write-probe"; fail target_ro "target is writable"; fi
-echo "CONTROL target_ro OK: $TARGET bind-mounted read-only at $RO"
-# mode=1777: Chromium refuses a temporary directory that is not sticky and world-writable (it traps on start).
+# Short mount point: Chromium creates UNIX sockets under TMPDIR and their paths are limited to 108 bytes.
+W=""; for candidate in /srv /media /mnt; do [ -d "$candidate" ] && W="$candidate" && break; done
+[ -n "$W" ] || fail scratch "no short mount point (/srv, /media or /mnt) exists"
 mount -t tmpfs -o "size=$TMPFS,mode=1777" tmpfs "$W" || fail scratch "tmpfs mount failed"
-# Evidence: a write larger than the tmpfs must be cut.
 if dd if=/dev/zero of="$W/.probe" bs=1M count=100000 2>/dev/null; then rm -f "$W/.probe"; fail scratch "tmpfs size not enforced"; fi
 rm -f "$W/.probe"
-echo "CONTROL scratch OK: tmpfs size=$TMPFS at $W (oversized write refused)"
+echo "CONTROL scratch OK: tmpfs size=$TMPFS, sticky, mounted at $W"
+R="$W/root"
+mkdir -p "$R/usr" "$R/etc" "$R/opt/node22" "$R/opt/node-tools" "$R/opt/pw-browsers" "$R/usr/local/lib/node_modules_global" "$R/proc" "$R/dev/shm" "$R/tmp" "$R/work/copy" "$R/work/home" "$R/export" "$R/.old"
+mount --bind "$EXPORT" "$R/export" || fail root "cannot provide /export"
+chmod 1777 "$R/tmp"
+for d in /usr /etc /opt/node22 /opt/node-tools /opt/pw-browsers /usr/local/lib/node_modules_global; do
+  [ -d "$d" ] || continue
+  mount --bind "$d" "$R$d" && mount -o remount,bind,ro "$R$d" || fail root "read-only bind of $d failed"
+done
+for l in bin sbin lib lib64; do [ -L "/$l" ] && ln -s "usr/$l" "$R/$l"; done
+for n in null zero random urandom; do touch "$R/dev/$n" && mount --bind "/dev/$n" "$R/dev/$n" || fail root "cannot provide /dev/$n"; done
+ln -s /proc/self/fd "$R/dev/fd"; ln -s /proc/self/fd/0 "$R/dev/stdin"; ln -s /proc/self/fd/1 "$R/dev/stdout"; ln -s /proc/self/fd/2 "$R/dev/stderr"
+mount -t tmpfs -o size=256m,mode=1777 tmpfs "$R/dev/shm" || fail root "cannot mount /dev/shm"
+cp -a "$TARGET/." "$R/work/copy/" || fail scratch "copy failed"
+mount --rbind "$R" "$R" && mount -t proc proc "$R/proc" || fail root "cannot prepare the new root"
+cd "$R" && pivot_root . .old && cd / && umount -l /.old && rmdir /.old || fail root "pivot_root failed"
+# Evidence after the switch: host paths gone, toolchain read-only, scratch writable.
+[ ! -e "$TARGET" ] || fail root "original target path $TARGET is reachable"
+[ ! -e "$DUMMY" ] || fail root "external dummy file is reachable"
+[ ! -e /home ] && [ ! -e /root ] && [ ! -e /var ] && [ ! -e /run ] || fail root "/home, /root, /var or /run is reachable"
+if touch /usr/.sandbox-write-probe 2>/dev/null; then fail root "toolchain is writable"; fi
+if touch /etc/.sandbox-write-probe 2>/dev/null; then fail root "/etc is writable"; fi
+touch /work/.sandbox-write-probe && rm -f /work/.sandbox-write-probe || fail root "scratch is not writable"
+echo "CONTROL root OK: pivot_root done; $TARGET, the external dummy, /home, /root, /var and /run absent; /usr and /etc read-only; /work and /export writable"
 python3 -I - <<'PY' || fail network "loopback could not be raised"
 import socket, fcntl, struct
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -97,21 +131,22 @@ PY
 if python3 -I -c "import socket; socket.create_connection(('1.1.1.1', 443), timeout=3)" 2>/dev/null; then fail network "external connection succeeded"; fi
 if python3 -I -c "import socket; socket.getaddrinfo('example.com', 443)" 2>/dev/null; then fail network "name resolution succeeded"; fi
 echo "CONTROL network OK: loopback up inside the namespace; external connect and DNS fail"
-mkdir -p "$W/home" "$W/tmp" "$W/copy" && chmod 1777 "$W/tmp"
-cp -a "$RO/." "$W/copy/" || fail scratch "copy failed"
-cd "$W/copy" || fail scratch "cannot enter the copy"
-ENV_LIST="PATH=/usr/local/bin:/usr/bin:/bin HOME=$W/home TMPDIR=$W/tmp LANG=C.UTF-8 PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1"
+cd /work/copy || fail scratch "cannot enter the copy"
+ENV_LIST="PATH=/usr/local/bin:/usr/bin:/bin:/opt/node22/bin HOME=/work/home TMPDIR=/tmp LANG=C.UTF-8 PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1"
 for v in PLAYWRIGHT_BROWSERS_PATH PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD NODE_PATH; do eval "val=\${$v:-}"; [ -n "$val" ] && ENV_LIST="$ENV_LIST $v=$val"; done
 COUNT=$(env -i $ENV_LIST python3 -I -c "import os; print(len(os.environ))")
+case "$COUNT" in [0-9]*) ;; *) fail env "cannot count the environment";; esac
 [ "$COUNT" -le 10 ] || fail env "environment has $COUNT variables"
 echo "CONTROL env OK: $COUNT variables ($ENV_LIST)"
-if [ "$AS" = "0" ]; then ASOPT=""; else ASOPT="--as=$AS"; fi
-echo "CONTROL limits OK: prlimit --cpu=$CPU ${ASOPT:-"(address space unlimited: cgroup memory applies)"} --fsize=$FSIZE --nofile=1024; wall clock by timeout(1)"
-echo "CONTROL namespaces OK: user, mount, net, pid (pid $$ in the namespace); command: $*"
-exec env -i $ENV_LIST prlimit --cpu="$CPU" $ASOPT --fsize="$FSIZE" --nofile=1024 "$@"
+echo "CONTROL namespaces OK: user, mount, net, pid with a private /proc (pid $$ in the namespace); command: $*"
+exec env -i $ENV_LIST "$@"
 INNER_EOF
-timeout -k 10 "$TIME" unshare --user --map-root-user --mount --net --pid --fork --kill-child \
-  sh "$INNER" "$SCRATCH" "$TARGET" "$TMPFS" "$CPU" "$AS" "$FSIZE" "$@"
+if [ "$AS" = "0" ]; then ASOPT=""; else ASOPT="--as=$AS"; fi
+echo "CONTROL limits OK: prlimit --cpu=$CPU ${ASOPT:-"(address space: cgroup memory applies)"} --fsize=$FSIZE --nofile=1024 and timeout ${TIME}s wrap copy, probes and payload"
+timeout -k 10 "$TIME" prlimit --cpu="$CPU" $ASOPT --fsize="$FSIZE" --nofile=1024 \
+  unshare --user --map-root-user --mount --net --pid --fork --kill-child \
+  sh "$INNER" "$TARGET" "$TMPFS" "$DUMMY" "$EXPORT" "$@"
 STATUS=$?
+rm -f "$DUMMY"
 echo "SANDBOX EXIT $STATUS (3 = a control failed, 124 = wall clock exceeded)"
 exit $STATUS
