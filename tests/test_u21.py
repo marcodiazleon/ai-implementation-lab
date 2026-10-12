@@ -533,7 +533,16 @@ class HttpTests(unittest.TestCase):
         server = serve(self, cloud=CloudSessions(Blocking()), max_active=2)
         tokens = [json.loads(call(server, "/api/cloud/connect", CONNECT)[2])["session_id"] for _ in range(2)]
         results = []
-        workers = [threading.Thread(target=lambda t=t: results.append(call(server, "/api/cloud/ask", {"session_id": t, "message": "x", "agent_id": ""})[0])) for t in tokens]
+        def ask_until_accepted(t):
+            # The keep-alive connection of the previous request releases its slot after the client's EOF, which can
+            # be an instant after call() returned; a refusal here is the cap working, so retry until accepted.
+            status = 503
+            for _ in range(100):
+                status = call(server, "/api/cloud/ask", {"session_id": t, "message": "x", "agent_id": ""})[0]
+                if status != 503: break
+                time.sleep(0.05)
+            results.append(status)
+        workers = [threading.Thread(target=ask_until_accepted, args=(t,)) for t in tokens]
         for w in workers: w.start()
         self.assertTrue(entered.acquire(timeout=5) and entered.acquire(timeout=5))
         status, _, raw = call(server, "/api/state")
