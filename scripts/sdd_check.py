@@ -80,6 +80,32 @@ def version_errors(root, status):
                     errors.append("Outdated S01 version in " + path.relative_to(root).as_posix() + ": " + match.group(1))
     return errors
 
+REVISION = re.compile(r"^[0-9a-f]{40}$")
+
+def record_errors(root, status):
+    """R49d / D41: each record names a real revision; with Git, that revision must be in this history."""
+    import subprocess
+    errors = []
+    def git(*args):
+        try:
+            return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=20).returncode == 0
+        except (OSError, subprocess.SubprocessError):
+            return None
+    available = git("rev-parse", "HEAD")
+    for key, fields in (("independent_review", ("revision",)), ("acceptance", ("revision",)),
+                        ("integration", ("main", "merged")), ("deployment", ("revision",))):
+        record = status.get(key)
+        if not isinstance(record, dict):
+            errors.append("Missing record object: " + key)
+            continue
+        for field in fields:
+            value = record.get(field)
+            if not isinstance(value, str) or not REVISION.match(value):
+                errors.append(f"Record {key}.{field} is not a 40-character revision")
+            elif available and not git("merge-base", "--is-ancestor", value, "HEAD"):
+                errors.append(f"Record {key}.{field} {value[:7]} is not in the history of this checkout")
+    return errors
+
 def validate(root=ROOT):
     errors = []
     for name in REQUIRED:
@@ -95,6 +121,7 @@ def validate(root=ROOT):
     core = root / "specs/001-support-demo"
     errors.extend(registry_errors(root, spec, requirements))
     errors.extend(version_errors(root, status))
+    errors.extend(record_errors(root, status))
     with (core / "acceptance.csv").open(encoding="utf-8", newline="") as handle:
         cases = list(csv.DictReader(handle))
     seen, covered, mapped = set(), set(), set()

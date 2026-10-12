@@ -71,28 +71,15 @@
   }));
  }
 
- // R36b: five separate records. Raw codes stay visible next to their reading.
- const READ = { OWNER_ACCEPTANCE_NOT_RECORDED: ["No registrada", "Not recorded"], NOT_INTEGRATED: ["No integrada en main", "Not integrated into main"],
-  NOT_DEPLOYED: ["No publicada", "Not published"], LIMITED: ["Limitada", "Limited"], NOT_PERFORMED: ["No realizada", "Not performed"] };
- const read = (code) => (READ[code] ? t(READ[code][0], READ[code][1]) + " (" + code + ")" : String(code ?? "—"));
+ // R36b / R49c: five separate records; the rows and this build's states come from LabEvidenceRules.statusRows (D41).
  function renderStatus() {
   const block = el("statusRecords");
-  block.hidden = !(status && evidence);
-  if (block.hidden) return;
-  const tests = evidence.tests || {}, review = status.independent_review || {};
-  const rows = [
-   [t("Verificación automática", "Automated verification"), (evidence.passed === true ? "PASS" : "FAIL") + " · " + tests.run + t(" pruebas", " tests")
-    + " · scripts/verify.py · " + String(evidence.generated_utc || "").slice(0, 10)],
-   [t("Revisión independiente", "Independent review"), typeof review === "string" ? read(review)
-    : [read(review.status), review.by, review.date, typeof review.scope === "object" ? t(review.scope.es, review.scope.en) : review.scope].filter(Boolean).join(" · ")],
-   [t("Aceptación del dueño", "Owner acceptance"), read(status.acceptance)],
-   [t("Integración", "Integration"), status.integration ? read(status.integration.state) + " · main " + String(status.integration.main || "").slice(0, 7) : "—"],
-   [t("Despliegue", "Deployment"), status.deployment ? t("Pages publica ", "Pages serves ") + status.deployment.pages_source.replace(/([0-9a-f]{7})[0-9a-f]{33}/, "$1")
-    + " · " + t("esta revisión: ", "this revision: ") + read(status.deployment.this_branch) : "—"],
-  ];
-  el("statusList").replaceChildren(...rows.flatMap(([k, v]) => {
+  const model = LabEvidenceRules.statusRows(status, evidence, LabI18n.language);
+  block.hidden = !!model.error;
+  if (model.error) return;
+  el("statusList").replaceChildren(...model.rows.flatMap((row) => {
    const dt = document.createElement("dt"), dd = document.createElement("dd");
-   dt.textContent = k; dd.textContent = v; return [dt, dd];
+   dt.textContent = row.label; dd.textContent = row.value; dd.dataset.state = row.state; return [dt, dd];
   }));
   // R42c: baseline and fingerprints come from evidence/latest.json, compared with this checkout.
   const same = status.source_fingerprint && status.source_fingerprint === evidence.source_id
@@ -121,10 +108,13 @@
  function render() {
   const ready = !!evidence && requirements.length > 0;
   el("evidenceMetrics").hidden = el("evidenceExplorer").hidden = !ready;
+  // R49c: a missing or corrupt payload is said plainly, with a retry control; nothing is rendered from guesses.
+  el("evidenceRetry").hidden = !failed;
+  el("view-evidence").classList.toggle("loading", !ready && !failed);
   if (!ready) {
    el("evidenceStatus").textContent = failed
-    ? t("Sin evidencia cargada: no se pudieron leer los datos.", "No evidence loaded: the data could not be read.")
-    : t("Sin evidencia cargada.", "No evidence loaded.");
+    ? t("Sin evidencia cargada: no se pudieron leer los datos de esta revisión (", "No evidence loaded: this revision's data could not be read (") + failed + ")."
+    : t("Cargando evidencia…", "Loading evidence…");
    return;
   }
   el("evidenceStatus").textContent = "";
@@ -146,19 +136,27 @@
   renderCases();
  }
 
- async function load() {
+ async function load(event) {
+  const retried = !!(event && event.type === "click");
+  failed = false; evidence = null; cases = []; requirements = []; status = null;
+  render();
   try {
    const read = async (path, kind) => {
     const response = await fetch(path);
-    if (!response.ok) throw new Error(path);
-    return response[kind]();
+    if (!response.ok) throw new Error(path + " " + response.status);
+    try { return await response[kind](); } catch { throw new Error(path + " " + t("ilegible", "unreadable")); }
    };
    const [e, csv, reqs, st] = await Promise.all([read("/api/evidence", "json"), read("/api/acceptance", "text"),
     read("/api/requirements", "json"), read("/api/status", "json")]);
+   if (!e || typeof e.tests !== "object" || !Array.isArray(reqs) || !st || typeof st !== "object") throw new Error(t("datos incompletos", "incomplete data"));
    evidence = e; cases = parseCsv(csv); requirements = reqs; status = st;
-  } catch { failed = true; }
+  } catch (error) { failed = String(error && error.message || error); }
   render();
+  // After a retry the control that had focus may be hidden: move focus to the outcome.
+  if (retried) (failed ? el("evidenceRetry") : el("evidence-title")).focus();
  }
+
+ el("evidenceRetry").addEventListener("click", load);
 
  // R48a: the chosen requirement becomes the address, so a language change keeps it instead of the tour link.
  el("reqPicker").addEventListener("change", () => {

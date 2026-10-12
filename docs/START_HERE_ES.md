@@ -20,25 +20,23 @@ El [mapa del método](sdd-adoption.md) explica cómo se aplica cada área del li
 
 ## Un recorrido concreto
 
-Abre la [demo pública](https://marcodiazleon.github.io/ai-implementation-lab/). La entrada es **Sesión**, una conversación: arriba está quién soy, qué aporto y qué está pendiente. La URL pública sirve la revisión de main indicada en [project-status.json](project-status.json) (`deployment`); mientras esa entrada diga `NOT_DEPLOYED` para esta rama, esta versión de la guía todavía no está publicada allí.
+Abre la [demo pública](https://marcodiazleon.github.io/ai-implementation-lab/). La entrada es **Sesión**, una conversación: arriba está quién soy, qué aporto y qué está pendiente. La URL pública sirve la revisión de main indicada en [project-status.json](project-status.json) (`deployment`); la vista Evidencia de cualquier versión dice si tiene el mismo contenido que la publicada y que la aceptada por el dueño.
 
 En **Cómo está construido**, el recorrido de 3 minutos sigue **R03**: una devolución necesita una decisión previa. Los casos **CU04 y CU05** describen el flujo; la tarea **T02** corresponde a sus transiciones; **C013 y C018** comprueban que ejecutar antes de aprobar se bloquea. Cada control del recorrido abre su requisito en **Evidencia**, con sus casos, pruebas y estado. El recorrido termina con el resultado de `python run.py tour`: seis pasos con 0, 0, 0, 0, 1 y 1 recibos simulados.
 
 Si tienes una copia del repositorio y Python 3.11 o superior, ejecuta `python run.py tour` (añade `--lang en` para inglés). Clonar e instalar no forma parte de los tres minutos. Comandos completos en el [README](../README.md).
 
-**Revisar este candidato.** Mientras project-status registre `NOT_DEPLOYED`, ni la URL pública ni un clon por defecto (main) contienen esta entrega. Trae la rama del PR #7 y comprueba el commit antes de revisar:
+**Revisar un candidato.** Un clon por defecto queda en main. Para revisar una rama aún no publicada, trae la rama, compara el commit con el SHA informado en su pull request y arranca el laboratorio:
 
 ```sh
-git clone https://github.com/marcodiazleon/ai-implementation-lab.git
-cd ai-implementation-lab
-git fetch origin claude/laughing-rubin-6e32ve-entry
+git fetch origin <rama>
 git checkout --detach FETCH_HEAD
-git rev-parse HEAD
+git rev-parse HEAD        # debe coincidir con el SHA informado; si no: git checkout --detach <SHA informado>
 python scripts/check_evidence.py
 python run.py serve
 ```
 
-`git rev-parse HEAD` debe coincidir con el SHA informado en la última entrega del PR #7; si la rama avanzó, usa `git checkout --detach <SHA informado>`. Después abre http://127.0.0.1:8765.
+Después abre http://127.0.0.1:8765. Si algo falla: Python 3.11 o superior, puerto 8765 libre (o `--port 8766`), y recuerda que `scripts/verify.py` reescribe la evidencia versionada.
 
 | Dónde | Qué funciona | Qué no |
 |---|---|---|

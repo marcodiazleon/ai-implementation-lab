@@ -64,7 +64,7 @@ def make_server(port=8765, cloud=None, mcp=None, agent_store=None):
                 return self.respond(200, status_payload())
             if path == "/api/requirements":
                 return self.respond(200, requirement_rows((ROOT / "specs/001-support-demo/spec.md").read_text(encoding="utf-8")))
-            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"), "/workbench.js": ("workbench.js", "application/javascript"), "/studio.js": ("studio.js", "application/javascript"), "/evidence.js": ("evidence.js", "application/javascript"), "/evidence-rules.js": ("evidence-rules.js", "application/javascript"),
+            assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "application/javascript"), "/workbench.js": ("workbench.js", "application/javascript"), "/studio.js": ("studio.js", "application/javascript"), "/evidence.js": ("evidence.js", "application/javascript"), "/evidence-rules.js": ("evidence-rules.js", "application/javascript"), "/orientation.js": ("orientation.js", "application/javascript"),
                       "/style.css": ("style.css", "text/css"), "/cloud.js": ("cloud.js", "application/javascript"), "/i18n.js": ("i18n.js", "application/javascript")}
             if path in assets:
                 filename, mime = assets[path]

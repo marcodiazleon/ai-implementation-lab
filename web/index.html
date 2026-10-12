@@ -27,13 +27,14 @@
   <h1 id="introName" tabindex="-1">Marco Díaz de León</h1>
   <p class="presentation-lead" data-en="I turn an AI idea into a bounded first version: I define the problem and the scope, set the acceptance criteria, coordinate the build and verify the result.">Convierto una idea de IA en una primera versión acotada: defino el problema y el alcance, fijo los criterios de aceptación, coordino la construcción y verifico el resultado.</p>
   <p class="attribution" data-en="The code in this lab was written with AI assistance. The problem definition, scope, acceptance criteria and verification are my work.">El código de este laboratorio se escribió con asistencia de IA. La definición del problema, el alcance, los criterios de aceptación y la verificación son trabajo mío.</p>
+  <details class="orientation-wrap" open><summary data-en="What you will find here">Qué encontrarás aquí</summary>
   <ol class="orientation">
    <li><b data-en="Three-minute tour">Recorrido de 3 minutos</b><span data-en="You will see a fictional case, the controls it requires and where each one is tested.">Verás un caso ficticio, los controles que exige y dónde se prueba cada uno.</span></li>
    <li><b data-en="Evidence">Evidencia</b><span data-en="You pick a requirement and see whether its checks are complete, partial or pending.">Eliges un requisito y ves si sus pruebas están completas, parciales o pendientes.</span></li>
    <li><b data-en="Session">Sesión</b><span data-en="Below: explore models and agents here; the local lab converses with your own provider key.">Abajo: aquí exploras modelos y agentes; el laboratorio local conversa con la clave de tu proveedor.</span></li>
-  </ol>
+  </ol></details><script src="/orientation.js"></script>
   <p class="presentation-actions"><a class="primary-link" href="#method" data-en="Start the three-minute tour">Empezar el recorrido de 3 minutos</a><a href="#evidence" data-en="Go to the evidence">Ir a la evidencia</a></p>
-  <p class="scope-line" data-en="Public demo: no account, key or model. Local lab: conversation with your own API key. Pending: owner acceptance and a test with a new visitor.">Demo pública: sin cuenta, clave ni modelo. Laboratorio local: conversación con tu propia clave API. Pendiente: aceptación del dueño y una prueba con un visitante nuevo.</p>
+  <p class="scope-line" data-en="Public demo: no account, key or model. Local lab: conversation with your own API key. Pending: a test with a new visitor. What was verified, accepted and published for each revision is in Evidence.">Demo pública: sin cuenta, clave ni modelo. Laboratorio local: conversación con tu propia clave API. Pendiente: una prueba con un visitante nuevo. Qué se verificó, aceptó y publicó de cada revisión está en Evidencia.</p>
  </section>
  <div class="session-welcome"><div class="welcome-mark" aria-hidden="true">✳</div><h2 id="chat-title" tabindex="-1"><span class="sr-only" data-en="Tell me what you want to solve">Cuéntame qué quieres resolver</span><span id="animatedGreeting" aria-hidden="true">Cuéntame qué quieres resolver</span><span class="typing-cursor" aria-hidden="true"></span></h2><p data-en="Your idea. Your tools. Let's get started.">Tu idea. Tus herramientas. Empecemos.</p></div>
  <div id="messages" class="messages" role="log" aria-label="Conversación" aria-live="polite"></div>
@@ -131,6 +132,7 @@
   <p class="eyebrow" data-en="WHAT WAS TESTED">LO QUE SE PROBÓ</p><h1 id="evidence-title" tabindex="-1" data-en="Evidence for this version">Evidencia de esta versión</h1>
   <p class="lead" data-en="Summary of the last recorded scripts/verify.py run and the acceptance cases behind each requirement.">Resumen de la última ejecución registrada de scripts/verify.py y de los casos de aceptación de cada requisito.</p>
   <p id="evidenceStatus" class="muted" role="status"></p>
+  <p><button id="evidenceRetry" type="button" hidden data-en="Retry loading the evidence">Reintentar la carga de la evidencia</button></p>
   <section id="evidenceMetrics" class="metrics evidence-metrics" aria-label="Resumen de la ejecución" data-label-en="Run summary" hidden>
     <div><span data-en="Generated (UTC)">Generado (UTC)</span><b id="evGenerated"></b></div>
     <div><span data-en="Tests (run · failures · errors)">Tests (ejecutados · fallos · errores)</span><b id="evTests"></b></div>

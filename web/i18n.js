@@ -221,7 +221,19 @@
   try{localStorage.setItem(storageKey,language);}catch{}
   render();window.dispatchEvent(new Event("languagechange"));
  }
- window.LabI18n={t:translate,bind,get language(){return language;}};
+ // R50e: native validation messages follow the page language instead of the browser's.
+ const validity=[["valueMissing","Completa este campo."],["tooShort","Escribe al menos {min} caracteres."],["tooLong","Usa como máximo {max} caracteres."],
+  ["typeMismatch","Revisa el formato de este campo."],["patternMismatch","Revisa el formato de este campo."],["rangeUnderflow","Elige un valor mayor."],["rangeOverflow","Elige un valor menor."]];
+ Object.assign(english,{"Completa este campo.":"Fill in this field.","Escribe al menos {min} caracteres.":"Enter at least {min} characters.","Usa como máximo {max} caracteres.":"Use at most {max} characters.",
+  "Revisa el formato de este campo.":"Check the format of this field.","Elige un valor mayor.":"Choose a larger value.","Elige un valor menor.":"Choose a smaller value."});
+ function validityMessage(field){
+  const state=field.validity;if(!state)return "";
+  const hit=validity.find(([key])=>state[key]);
+  return hit?translate(hit[1],{min:field.minLength,max:field.maxLength}):"";
+ }
+ document.addEventListener("invalid",event=>{const field=event.target;if(!field||!field.validity)return;field.setCustomValidity("");field.setCustomValidity(validityMessage(field));},true);
+ document.addEventListener("input",event=>{const field=event.target;if(field&&field.setCustomValidity)field.setCustomValidity("");},true);
+ window.LabI18n={t:translate,bind,validityMessage,get language(){return language;}};
  document.getElementById("language").addEventListener("change",event=>setLanguage(event.target.value));
  render();
 })();

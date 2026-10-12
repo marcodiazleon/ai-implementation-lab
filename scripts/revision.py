@@ -52,10 +52,52 @@ def revision_info(root=ROOT):
             pins[case] = added[-1]
     return {"revision": revision, "revision_dirty": dirty, "pins": pins, "pins_complete": len(pins) == len(cases)}
 
+RECORD_REVISIONS = (("independent_review", "revision"), ("acceptance", "revision"), ("deployment", "revision"))
+
+def build_states(status, root=ROOT, head=None):
+    """R49b / D41: what the records say about THIS checkout, computed from Git and never copied.
+
+    review, acceptance and deployment compare content (tree) with the recorded revision; integration asks
+    whether HEAD is contained in the recorded main. True, False, or None with a reason when Git cannot answer.
+    """
+    head = head or _git(root, "rev-parse", "HEAD")
+    states = {"git": head is not None, "reasons": {}}
+    if head is None:
+        for key, _ in RECORD_REVISIONS:
+            states[key] = None
+            states["reasons"][key] = "Git unavailable"
+        states["integration"] = None
+        states["reasons"]["integration"] = "Git unavailable"
+        return states
+    head_tree = _git(root, "rev-parse", head + "^{tree}")
+    for key, field in RECORD_REVISIONS:
+        revision = (status.get(key) or {}).get(field) if isinstance(status.get(key), dict) else None
+        if not revision:
+            states[key] = None
+            states["reasons"][key] = "no revision recorded"
+            continue
+        tree = _git(root, "rev-parse", "--verify", "--quiet", str(revision) + "^{tree}")
+        if tree is None:
+            states[key] = None
+            states["reasons"][key] = "recorded revision is not in this checkout's history"
+        else:
+            states[key] = tree == head_tree
+    main = (status.get("integration") or {}).get("main") if isinstance(status.get("integration"), dict) else None
+    if not main:
+        states["integration"] = None
+        states["reasons"]["integration"] = "no main revision recorded"
+    elif _git(root, "cat-file", "-e", str(main) + "^{commit}") is None:
+        states["integration"] = None
+        states["reasons"]["integration"] = "recorded main revision is not in this checkout's history"
+    else:
+        states["integration"] = _git(root, "merge-base", "--is-ancestor", head, str(main)) is not None
+    return states
+
 def status_payload(root=ROOT):
     """docs/project-status.json plus what this checkout is: fingerprints (R42), revision and pins (R43)."""
     import json
     from scripts.check_evidence import record_fingerprint, source_fingerprint
     status = json.loads((root / "docs/project-status.json").read_text(encoding="utf-8"))
+    info = revision_info(root)
     return dict(status, source_fingerprint=source_fingerprint(root), record_fingerprint=record_fingerprint(root),
-                **revision_info(root))
+                build_states=build_states(status, root, info["revision"]), **info)

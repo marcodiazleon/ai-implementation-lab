@@ -9,8 +9,6 @@ from pathlib import Path
 from scripts.build_pages import ROOT
 from scripts import check_evidence
 
-COMMANDS = ("git fetch origin claude/laughing-rubin-6e32ve-entry", "git checkout --detach FETCH_HEAD", "git rev-parse HEAD",
-            "python scripts/check_evidence.py")
 
 
 class DigestTests(unittest.TestCase):
@@ -49,41 +47,28 @@ class DigestTests(unittest.TestCase):
 
 
 class CandidateRouteTests(unittest.TestCase):
-    def deployed_here(self):
-        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
-        return status["deployment"]["this_branch"] != "NOT_DEPLOYED"
-
     def test_readme_separates_published_and_candidate_review(self):
-        if self.deployed_here():
-            self.skipTest("This branch is recorded as deployed")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        warning = readme[readme.index("**Not published yet.**"):readme.index("## Three routes")]
-        self.assertIn("default clone", warning)
-        self.assertIn("(#review-this-candidate)", warning)
-        section = readme[readme.index("## Review this candidate"):readme.index("## Run locally")]
-        for command in COMMANDS:
+        section = readme[readme.index("## Published or candidate"):readme.index("## Run locally")]
+        self.assertIn("project-status.json", section)
+        for command in ("git fetch origin", "git checkout --detach FETCH_HEAD", "git rev-parse HEAD", "python scripts/check_evidence.py"):
             self.assertIn(command, section)
         self.assertLess(section.index("git checkout --detach FETCH_HEAD"), section.index("python run.py serve"))
-        self.assertIn("SHA reported in the latest PR #7 delivery", section)
-        self.assertIn("git checkout --detach <reported SHA>", section)
+        self.assertIn("reported SHA", section)
         self.assertIsNone(re.search(r"\b[0-9a-f]{40}\b", section))
         spanish = readme[readme.index("Primera acción:"):]
-        self.assertIn("Review this candidate", spanish[:600])
+        self.assertIn("Published or candidate", spanish[:700])
 
     def test_index_and_spanish_guide_carry_the_candidate_route(self):
-        if self.deployed_here():
-            self.skipTest("This branch is recorded as deployed")
         index = (ROOT / "docs/INDEX.md").read_text(encoding="utf-8")
-        routes_end = index.index("| Technical review |")
-        note = index[routes_end:index.index("## Technical review")]
-        for text in ("**Published or candidate.**", "`NOT_DEPLOYED`", "claude/laughing-rubin-6e32ve-entry",
-                     "../README.md#review-this-candidate", "git rev-parse HEAD"):
+        note = index[index.index("| Technical review |"):index.index("## Technical review")]
+        for text in ("**Published or candidate.**", "project-status.json", "../README.md#published-or-candidate", "git rev-parse HEAD"):
             self.assertIn(text, note)
         guide = (ROOT / "docs/START_HERE_ES.md").read_text(encoding="utf-8")
-        section = guide[guide.index("**Revisar este candidato.**"):guide.index("**Histórico.**")]
-        for command in COMMANDS:
+        section = guide[guide.index("**Revisar un candidato.**"):guide.index("**Histórico.**")]
+        for command in ("git fetch origin", "git checkout --detach FETCH_HEAD", "git rev-parse HEAD", "python scripts/check_evidence.py"):
             self.assertIn(command, section)
-        self.assertIn("SHA informado en la última entrega del PR #7", section)
+        self.assertIn("SHA informado", section)
         self.assertIsNone(re.search(r"\b[0-9a-f]{40}\b", section))
 
 

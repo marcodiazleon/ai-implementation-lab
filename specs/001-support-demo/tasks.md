@@ -82,3 +82,13 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T71 | R47 | Candidate review route in README, INDEX and Spanish guide | U19,T68 | Implementing assistant | Document checks pass; commands work in a fresh clone | IMPLEMENTED; C217–C218, C221 |
 | T72 | R48 | Requirement selection kept in the address and across languages | U19,T60 | Implementing assistant | Handler check and browser pass | IMPLEMENTED; C219–C220 |
 
+## U20 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T73 | R49–R53 | U20 source, CU21, R49–R53, D41–D42 and cases C222–C241 before implementation | U20,T70 | Implementing assistant | sdd_check passes | IMPLEMENTED |
+| T74 | R49 | Record objects, Git-computed states, view model, error state, sdd_check revision checks | T73 | Implementing assistant | Node and Python negatives pass; payload consistent with Git | IMPLEMENTED; C222–C227 |
+| T75 | R50 | Hit areas, compact first screen, skip link, focus, reflow, motion, state preservation, bilingual validation | T73 | Implementing assistant | Browser audit after shows no primary control under 44 px and no overflow | IMPLEMENTED; C228–C232 |
+| T76 | R51 | Case classification, matrix generator and document, fail-closed demonstration | T73 | Implementing assistant | Generator passes on the records and fails on its negatives | IMPLEMENTED; C233–C236 |
+| T77 | R52 | README, INDEX, Spanish guide, scope line, visitor script | T74 | Implementing assistant | Document checks pass; routes walked | IMPLEMENTED; C237–C238 |
+| T78 | R53 | Payload and layout-shift measurement; clean-clone reproduction | T75 | Implementing assistant | Measurements recorded for the pushed revision | IMPLEMENTED; C239–C240 |
+

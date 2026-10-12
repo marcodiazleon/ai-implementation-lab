@@ -17,6 +17,7 @@ from scripts.validate_data import validate
 from scripts.publication_check import check, files
 from scripts.sdd_check import validate as validate_sdd
 from scripts.check_evidence import source_hashes, record_hashes, case_map
+from scripts import requirement_matrix
 from src.lab.cli import evaluate
 
 class CaseResult(unittest.TextTestResult):
@@ -95,6 +96,11 @@ def main():
         writer = csv.DictWriter(h, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(cases)
+    # R51a / D42: the requirement matrix is validated against the rewritten records and its document regenerated,
+    # so the committed document always describes the committed acceptance.csv.
+    matrix_errors = requirement_matrix.validate()
+    if not matrix_errors:
+        (ROOT / "docs/requirements-matrix.md").write_text(requirement_matrix.render(), encoding="utf-8", newline="\n")
     # R42a / D38: records are fingerprinted after acceptance.csv is rewritten, so the commit carries both.
     records = record_hashes()
     record_id = hashlib.sha256(json.dumps(records, sort_keys=True).encode()).hexdigest()
@@ -116,17 +122,18 @@ def main():
         "fixture_validation": {"passed": not fixture_errors, "errors": fixture_errors},
         "publication_guard": {"passed": not publication_errors, "errors": publication_errors, "scope": "Limited patterns"},
         "sdd_check": {"passed": not sdd_errors, "errors": sdd_errors},
+        "requirement_matrix": {"passed": not matrix_errors, "errors": matrix_errors, "scope": "Completeness per requirement; not semantic review or owner acceptance"},
         "scenario_evaluation": evaluation, "source_sha256": source,
         "record_id": record_id, "record_sha256": records, "acceptance_cases": case_map(path),
         "acceptance_states": {s: sum(c["status"] == s for c in cases) for s in ("PASS", "FAIL", "NO_PROBADO", "BLOQUEADO", "NO_APLICA")},
         "limitations": ["Manual acceptance retains its original evidence/version", "No LLM evaluation",
                        "No live MCP client integration", "No authenticated reviewer",
                        "No durable transaction recovery", "No external business integration"]}
-    evidence["passed"] = result.wasSuccessful() and not fixture_errors and not publication_errors and not sdd_errors and evaluation["passed"]
+    evidence["passed"] = result.wasSuccessful() and not fixture_errors and not publication_errors and not sdd_errors and not matrix_errors and evaluation["passed"]
     (ROOT / "evidence/latest.json").write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"passed": evidence["passed"], "tests": result.testsRun, "scenarios": len(evaluation["cases"]), "sdd_errors": sdd_errors}))
     # R37b: say plainly that versioned files changed, so nobody commits a local run by accident.
-    print("Note: this run rewrote evidence/latest.json, evidence/sdd-check.json and specs/001-support-demo/acceptance.csv. "
+    print("Note: this run rewrote evidence/latest.json, evidence/sdd-check.json, specs/001-support-demo/acceptance.csv and docs/requirements-matrix.md. "
           "Review them with git diff; restore with git checkout -- evidence specs/001-support-demo/acceptance.csv.")
     return 0 if evidence["passed"] else 1
 

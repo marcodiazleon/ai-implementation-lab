@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "AI Implementation Lab",
-  "updated": "2026-10-11",
+  "updated": "2026-10-12",
   "active_spec": "specs/001-support-demo/spec.md",
   "active_spec_version": "1.1",
   "expansion_spec": "specs/002-expansion/spec.md",
@@ -9,35 +9,48 @@
   "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
   "owner": "Marco Diaz de Leon",
   "maintenance_owner": "Marco Diaz de Leon",
-  "development_executor": "Implementing assistant (Claude Code) on branch claude/laughing-rubin-6e32ve-entry; authorized by Marco via Codex 2026-10-11",
+  "development_executor": "Implementing assistant (Claude Code) on branch claude/laughing-rubin-6e32ve-nine; authorized by Marco via Codex 2026-10-12 (U20)",
   "runtime_model": "OPTIONAL_OPENAI_OR_ANTHROPIC_OPERATOR_SELECTED",
-  "acceptance": "OWNER_ACCEPTANCE_NOT_RECORDED",
+  "acceptance": {
+    "status": "OWNER_ACCEPTED",
+    "by": "Marco Diaz de Leon",
+    "date": "2026-10-11",
+    "revision": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
+    "record": "Merge commit 166ea91030c5ccff1d4accba34228bf48582c0c4 message: Marco accepted delivery fb7ecf6 and authorized merge and Pages publication",
+    "scope": {
+      "es": "Entrega U17–U19 tal como se presentó en el PR #7 (presentación, recorrido, estado de evidencia, CI y correcciones de las revisiones). No cubre cambios posteriores a esa revisión.",
+      "en": "U17–U19 delivery as presented in PR #7 (presentation, tour, evidence status, CI and review corrections). It does not cover changes after that revision."
+    }
+  },
   "independent_review": {
-    "status": "LIMITED",
+    "status": "COMPLETED",
     "by": "Codex",
     "date": "2026-10-11",
+    "revision": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
     "scope": {
-      "es": "Segunda revisión de PR #7 en f0f088b (7,5/10, no lista para merge) que originó U18; la revisión del SHA candidato de U18 está pendiente",
-      "en": "Second review of PR #7 at f0f088b (7.5/10, not ready to merge) that produced U18; review of the U18 candidate SHA is pending"
+      "es": "Tercera revisión independiente de PR #7 en fb7ecf6: 140 pruebas, 7 escenarios, SDD y reproducción de estados, registros y casos en Windows 3.13 y Node 24; 10 checks del SHA en verde",
+      "en": "Third independent review of PR #7 at fb7ecf6: 140 tests, 7 scenarios, SDD and reproduction of states, records and cases on Windows 3.13 and Node 24; 10 checks green on that SHA"
     },
     "not": {
-      "es": "No es aceptación del dueño ni decisión de publicación",
-      "en": "Not owner acceptance and not a release decision"
+      "es": "No es aceptación del dueño; revisiones posteriores se registran con su propia revisión",
+      "en": "Not owner acceptance; later reviews are recorded with their own revision"
     }
   },
   "evidence": "evidence/latest.json",
-  "latest_delivery": "U17 presentation, tour and evidence status (R34-R39, T57-T63) with U18 corrections after the second independent review (R40-R45, T64-T69), on a working branch",
-  "current_task": "T64-T69 IMPLEMENTED; second independent review and owner decisions pending",
+  "latest_delivery": "U17–U19 accepted and published at 166ea91; U20 (R49–R53, T73–T78) in progress on a working branch, not accepted",
+  "current_task": "T73–T78 IMPLEMENTED on the working branch; independent review and owner decision pending for this increment",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED",
   "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
   "json_browser_download": "VERIFIED_FILE_AND_HASH",
   "public_demo": "https://marcodiazleon.github.io/ai-implementation-lab/",
-  "public_demo_verified": "Historical browser run 2026-10-04; U13 not deployed",
+  "public_demo_verified": "Codex 2026-10-12 on main 166ea91 (see deployment.verified)",
   "integration": {
-    "main": "81dfced59cc85231e25732137859923b39a2beed",
-    "this_branch": "claude/laughing-rubin-6e32ve-entry",
-    "state": "NOT_INTEGRATED",
+    "state": "INTEGRATED",
+    "main": "166ea91030c5ccff1d4accba34228bf48582c0c4",
+    "merged": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
+    "pull_request": 7,
+    "date": "2026-10-12",
     "open_prs": [
       "#4 feat/reset-and-explain",
       "#5 fix/session-first-public",
@@ -45,11 +58,22 @@
     ]
   },
   "deployment": {
-    "pages_source": "main @ 81dfced59cc85231e25732137859923b39a2beed",
-    "run": "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/37248803646",
-    "this_branch": "NOT_DEPLOYED"
+    "state": "DEPLOYED",
+    "revision": "166ea91030c5ccff1d4accba34228bf48582c0c4",
+    "run": "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/38190865149",
+    "date": "2026-10-12",
+    "url": "https://marcodiazleon.github.io/ai-implementation-lab/",
+    "verified": {
+      "by": "Codex",
+      "date": "2026-10-12",
+      "scope": {
+        "es": "URL pública: presentación, recorrido, R03, evidencia con R11 PARCIAL 1 de 2, ES/EN/ES, enlaces fijados a 166ea91 y borrador conservado",
+        "en": "Published URL: presentation, tour, R03, evidence with R11 PARCIAL 1 of 2, ES/EN/ES, links pinned to 166ea91 and draft preserved"
+      }
+    }
   },
   "id_registry": "docs/id-registry.json",
-  "next_task": "Second independent review of the U18 candidate SHA by Codex; owner decisions D35, PR #4-#6 reconciliation and C170 test with a new visitor",
-  "evidence_fields": "Run baseline, worktree state and the source and record fingerprints are read from evidence/latest.json; they are not copied here (R42c)"
+  "next_task": "Independent review of the U20 candidate by Codex; owner decisions D35, PR #4–#6 reconciliation; C170 visitor test with docs/visitor-test.md",
+  "evidence_fields": "Run baseline, worktree state and the source and record fingerprints are read from evidence/latest.json; they are not copied here (R42c)",
+  "records_rule": "Each record names the revision it is about. The build and the local server compute from Git whether this checkout has the same content as the accepted and published revisions and whether it is contained in main (scripts/revision.py, D41). Nothing here is copied from evidence/latest.json."
 }

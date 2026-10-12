@@ -1,6 +1,6 @@
 # S01 — AI conversation workspace and historical engineering sample
 
-Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review; U19 closes the findings of the review of U18.
+Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review; U19 closes the findings of the review of U18; U20 raises every area to the owner's 9/10 target after acceptance of fb7ecf6.
 Owner: Marco Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
@@ -20,6 +20,7 @@ A recruiter or prospective client needs to inspect how Marco defines an integrat
 | U17 | Marco's request relayed by Codex, 2026-10-11: improve the repository as a presentation for clients and recruiters (first minute, three-minute tour, coherent evidence and status, documentation by depth, navigation, mobile and languages), keeping U13 Session and its five destinations; implementation and verification on a working branch only, no merge or deployment |
 | U18 | Second independent review of PR #7 at f0f088b by Codex, authorized by Marco, 2026-10-11 (7.5/10, not ready to merge): required check names, CLI encoding, Spanish guide, evidence scope, revision links, footer language and tour close; same branch, no merge, deployment or permission change |
 | U19 | Second independent review verdict on PR #7 at 5c4292d by Codex, authorized by Marco, 2026-10-11 (8/10 as a presentation, not ready to merge): a corrupt fingerprint digest passed with correct per-file maps, the candidate had no review route, and changing language reset the selected requirement; same branch and limits |
+| U20 | Marco's request relayed by Codex, 2026-10-12, after owner acceptance of fb7ecf6 and merge 166ea91: reach 9/10 in every area (technical, tests, SDD, docs, first minute, visual, tour, accessibility and responsive, honesty, professional value) on a new branch from main with a new draft pull request; same limits as U17–U19; the acceptance of fb7ecf6 is not extended to this increment |
 | D01 | Engineering exercise design: fictional shop, delivered order, 14-day window, maximum 100 DEMO units; not a merchant-approved policy |
 | D02–D07 | Reversible technical choices in docs/decisions.md; no runtime LLM, real refund or paid connector |
 
@@ -258,3 +259,33 @@ Source: U19 (Codex verdict on 5c4292d, authorized by Marco, 2026-10-11). Constra
 | R46 | Fingerprint digests checked unconditionally, besides the per-file maps | U19 | CU20 | Negatives with correct maps and a corrupt, invalid or missing digest for each fingerprint; intact positive |
 | R47 | Published route and candidate route told apart, with fetch, checkout and SHA comparison | U19 | CU19/CU20 | README, INDEX and Spanish guide checks; commands followed in a fresh clone |
 | R48 | Selected requirement kept in the address and across language changes | U19 | CU20 | Handler check; browser R03, R11, EN, ES |
+
+## U20 — Nine in every area after the accepted delivery
+Source: U20 (Marco via Codex, 2026-10-12). Constraints: U13, U17, U18 and U19 stay in force; black identity and typography kept; no new providers, dependencies, permissions, paid inference or private data; PRs #4–#6 untouched; no merge or deployment by the implementer. Use cases CU19 and CU20 apply.
+
+### CU21 — Read what is true about this build
+A visitor or reviewer opens Session or Evidence and learns which revision they are looking at, whether its content was verified, reviewed, accepted by the owner, integrated and published, and what is pending, without a statement that another revision's status applies to this one.
+
+- R49a: docs/project-status.json shall record, as separate objects with a 40-character revision each, the independent review, the owner acceptance (bounded to the accepted revision and scope), the integration (main revision and merged revision) and the deployment (published revision, run and URL); no object shall copy a fingerprint or the run baseline.
+- R49b: The status payload of the build and the local server shall state, computed from Git, whether this build has the same content as the accepted revision, whether it is contained in the recorded main revision, and whether it has the same content as the published revision; when Git cannot answer, the payload shall say so instead of guessing.
+- R49c: The Evidence view shall present the five records with those computed states, naming the accepted or published revision when this build differs; a missing record shall read as not recorded; a corrupt or missing payload shall produce a visible error with a retry control that has an accessible name.
+- R49d: sdd_check shall reject a recorded revision that is not 40 lowercase hexadecimal characters or, when Git is available, that is not in the history of the checkout; a missing record object shall be rejected.
+- R50a: Every primary control (navigation links, menu toggle, brand link, language selector, session selectors, send button, connection and agent buttons, form checkboxes through their label, disclosure summaries) shall have a hit area of at least 44 by 44 CSS pixels at 320, 375, 390, 768 and 1360 pixels in both languages, without overlap or page-level horizontal scroll; links inside prose are exempt.
+- R50b: At 375 pixels the presentation block shall end within one viewport of 760 pixels, keeping name, contribution, AI attribution, the tour action and the scope line; the secondary orientation list may collapse behind a disclosure.
+- R50c: Keyboard: the skip link shall move focus to the message box; every focusable control shall show a visible focus indicator; Escape shall close the connection dialog and return focus to its opener; the page shall reflow without horizontal scroll at 320 pixels (equivalent to 400 % zoom at 1280); reduced motion shall remove the typing animation and transitions.
+- R50d: Language, navigation and dialog use shall preserve the message draft, the selected provider and model, and the selected requirement.
+- R50e: Native form validation messages in the connection and agent forms shall follow the page language; every notice of the MCP guide shall exist in both languages.
+- R51a: A requirement matrix generated from acceptance.csv and a reviewed classification shall list, for every active requirement, the observable behavior, the code location, at least one positive case, at least one negative or limit case and the exact evidence of this revision; the generator shall fail when a requirement in the public or local offline scope lacks a behavior-level positive or a negative case, when a classified case does not exist, or when a cited code symbol is absent.
+- R51b: Cases that only inspect text or markup shall be marked as structural in the classification and shall not count as the behavior-level positive of a requirement.
+- R51c: An offline fail-closed demonstration shall inject a domain defect into a temporary copy, run scripts/verify.py there and show exit 1, the failed case recorded, check_evidence rejecting the run and the status drift reported.
+- R52a: README, docs/INDEX.md and docs/START_HERE_ES.md shall describe the published route and the candidate route in terms that stay true on main and on a branch, reference project-status for the published revision instead of quoting it, and include a minimal troubleshooting list (Python version, busy port, rewritten evidence, console encoding).
+- R52b: Session's scope line shall not name as pending something recorded as done, and shall point to Evidence for the state of each revision.
+- R52c: A bilingual script for a visitor test (30 seconds and 3 minutes, questions, answer record and defect log) shall exist; C170 stays pending until a real visitor runs it.
+- R53a: Payload size per view and layout shift of the public build shall be measured with the browser's performance entries and recorded without a synthetic score.
+- R53b: Reproduction from a clean clone of the candidate revision shall pass check_evidence before and after verify.
+
+| R49 | Separate verification, review, acceptance, integration and deployment records, with states computed against this build | U20 | CU21 | Git computations on synthetic repositories, view-model negatives in Node, sdd_check negatives, build payload check |
+| R50 | Touch targets, compact first screen, keyboard, reflow, reduced motion, state preservation and bilingual form errors | U20 | CU19 | Browser audit at five widths in both languages, keyboard and dialog checks, i18n structure checks |
+| R51 | Semantic requirement matrix with positives, negatives, code and evidence; structural cases marked; offline fail-closed demonstration | U20 | CU20 | Matrix generator positives and negatives; injected-defect run |
+| R52 | Documentation true on main and on a branch, troubleshooting, honest scope line, visitor script | U20 | CU19/CU21 | Document checks, browser reading, route walk |
+| R53 | Measured payload and layout shift; clean-clone reproduction | U20 | CU20 | Browser performance entries, fresh clone run |

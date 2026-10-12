@@ -59,7 +59,7 @@ class PresentationTests(unittest.TestCase):
         for text in ("ESTRATEGIA E IMPLEMENTACIÓN DE IA", "defino el problema y el alcance, fijo los criterios de aceptación",
                      "El código de este laboratorio se escribió con asistencia de IA.",
                      'href="#method" data-en="Start the three-minute tour"',
-                     "Demo pública: sin cuenta, clave ni modelo. Laboratorio local:", "Pendiente: aceptación del dueño"):
+                     "Demo pública: sin cuenta, clave ni modelo. Laboratorio local:", "Pendiente: una prueba con un visitante nuevo"):
             self.assertIn(text, session)
         # One h1 per view: the greeting is now a level-2 heading.
         self.assertEqual(session.count("<h1"), 1)
@@ -190,10 +190,10 @@ class StatusTests(unittest.TestCase):
         body = json.loads(raw)
         self.assertEqual(status, 200)
         self.assertEqual(body["source_fingerprint"], check_evidence.source_fingerprint())
-        self.assertEqual(body["independent_review"]["status"], "LIMITED")
-        self.assertEqual(body["acceptance"], "OWNER_ACCEPTANCE_NOT_RECORDED")
+        self.assertIn(body["independent_review"]["status"], {"LIMITED", "COMPLETED"})
+        self.assertRegex(body["acceptance"]["revision"], r"^[0-9a-f]{40}$")
         self.assertEqual(set(body["independent_review"]["scope"]), {"es", "en"})
-        self.assertTrue({"integration", "deployment"} <= set(body))
+        self.assertTrue({"integration", "deployment", "build_states"} <= set(body))
         self.assertEqual(self.get("/api/status", host="evil.example")[0], 403)
         self.assertEqual(self.get("/evidence-rules.js")[0], 200)
 

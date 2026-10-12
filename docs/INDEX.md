@@ -10,7 +10,7 @@ Current revision: the S01 version selected in [project-status.json](project-stat
 | 3 minutes | In the demo, open How it is built and follow the tour; optionally run `python run.py tour` locally | A fictional case, its controls and where each one is tested |
 | Technical review | This index: specification, architecture, decisions, tests and evidence | The full chain from need to evidence and the state of every record |
 
-> **Published or candidate.** The public demo serves main at the revision recorded under `deployment` in [project-status.json](project-status.json). While that record says `NOT_DEPLOYED` for this branch, the presentation and the tour above exist only on the candidate branch `claude/laughing-rubin-6e32ve-entry`: follow [Review this candidate](../README.md#review-this-candidate) (fetch the branch, check it out and compare `git rev-parse HEAD` with the SHA reported in pull request #7), then open http://127.0.0.1:8765.
+> **Published or candidate.** The public demo serves main at the revision recorded under `deployment` in [project-status.json](project-status.json). Every build's Evidence view says whether it has the same content as the published and the accepted revisions. To review a branch that is not published yet, follow [Published or candidate](../README.md#published-or-candidate) in the README (fetch the branch, check it out, compare `git rev-parse HEAD` with the SHA reported in its pull request) and open http://127.0.0.1:8765.
 
 ## Technical review · Revisión técnica
 
@@ -28,6 +28,8 @@ Current revision: the S01 version selected in [project-status.json](project-stat
 | Working method and Marco's role | [engineering-guide.md](engineering-guide.md) · [sdd-adoption.md](sdd-adoption.md) |
 | Operation, startup and handoff | [operations.md](operations.md) |
 | Capabilities and limits (canonical table) | [capabilities.md](capabilities.md) |
+| Requirement matrix: behavior, code, positives, negatives and evidence per requirement (generated) | [requirements-matrix.md](requirements-matrix.md) |
+| Visitor test script (C170, C177) | [visitor-test.md](visitor-test.md) |
 | Security boundaries | [SECURITY.md](../SECURITY.md) |
 | Spanish guide | [START_HERE_ES.md](START_HERE_ES.md) |
 
@@ -67,5 +69,6 @@ Kept as written. Each one describes the version named here, not the current appl
 | [U17_BROWSER_CHECK_2026-10-11.md](../reports/U17_BROWSER_CHECK_2026-10-11.md) | 2026-10-11 | written for S01 1.1, source fingerprint 890277c7c704 |
 | [U18_BROWSER_CHECK_2026-10-11.md](../reports/U18_BROWSER_CHECK_2026-10-11.md) | 2026-10-11 | written for S01 1.1, revision f15562d, source fingerprint 17c2039d8d0b |
 | [U19_CHECK_2026-10-11.md](../reports/U19_CHECK_2026-10-11.md) | 2026-10-11 | written for S01 1.1, revision e4981e5, source fingerprint 34cf9d0558d5 |
+| [U20_CHECK_2026-10-12.md](../reports/U20_CHECK_2026-10-12.md) | 2026-10-12 | written for S01 1.1, U20 candidate on a working branch (source fingerprint inside the report); before/after screenshots in reports/u20/ |
 | [investigacion.md](investigacion.md), [INVESTIGACION_EXPANSION_2026-10-03.md](INVESTIGACION_EXPANSION_2026-10-03.md), [INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md](INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md), [PLAN_PRODUCTO_Y_DISENO.md](PLAN_PRODUCTO_Y_DISENO.md) | 2026-10-03 | Research and plans; proposals, not implemented features |
 | [notebook.md](notebook.md) | Running log | Dated entries; each describes its own moment |
