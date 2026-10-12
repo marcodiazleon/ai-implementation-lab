@@ -1,0 +1,584 @@
+"""U20 checks: records computed against this build (R49), interface structure and bilingual validation (R50),
+the semantic requirement matrix and the fail-closed demonstration (R51), documentation (R52) and the
+behavior-level cases the matrix asked for (R17, R39–R43)."""
+import csv
+import http.client
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import threading
+import unittest
+from pathlib import Path
+from scripts.build_pages import ROOT, build
+from scripts import check_evidence, ci_gate, requirement_matrix, revision
+from scripts.sdd_check import validate as validate_sdd
+from src.lab.server import make_server
+
+HTML = (ROOT / "web/index.html").read_text(encoding="utf-8")
+NODE = shutil.which("node")
+GIT_ENV = dict(os.environ, GIT_AUTHOR_NAME="lab", GIT_AUTHOR_EMAIL="lab@example.invalid",
+               GIT_COMMITTER_NAME="lab", GIT_COMMITTER_EMAIL="lab@example.invalid")
+
+
+def run_text(command, **kwargs):
+    """R53c: subprocess output read as UTF-8 with replacement, children in UTF-8 mode, output never None.
+
+    The parent may run under a cp1252 console, under PYTHONUTF8=1 or under -X utf8 without variables;
+    the child is told to write UTF-8 either way, so the decoding does not depend on the console.
+    """
+    env = dict(kwargs.pop("env", None) or os.environ)
+    env.setdefault("PYTHONUTF8", "1"); env.setdefault("PYTHONIOENCODING", "utf-8")
+    result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", env=env, **kwargs)
+    result.stdout = result.stdout or ""; result.stderr = result.stderr or ""
+    return result
+
+
+def git(root, *args):
+    return run_text(["git", "-C", str(root), *args], env=GIT_ENV, check=True).stdout.strip()
+
+
+def copy_repo(testcase):
+    temp = tempfile.TemporaryDirectory(); testcase.addCleanup(temp.cleanup)
+    root = Path(temp.name) / "repo"
+    shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns(".git", "__pycache__", "_site", ".local", "*.jpg", "node_modules"))
+    return root
+
+
+NODE_ROWS = r"""
+const fs = require("fs"), vm = require("vm");
+const ctx = {}; ctx.window = ctx; vm.runInNewContext(fs.readFileSync(process.argv[1], "utf8"), ctx);
+const input = JSON.parse(fs.readFileSync(0, "utf8"));
+process.stdout.write(JSON.stringify(input.map(([status, evidence, lang]) => ctx.LabEvidenceRules.statusRows(status, evidence, lang))));
+"""
+
+NODE_I18N = r"""
+// Minimal document so web/i18n.js can load without a browser; only validityMessage is exercised.
+const fs = require("fs"), vm = require("vm");
+const lang = process.argv[2];
+const noop = () => {};
+const element = { addEventListener: noop, setAttribute: noop, getAttribute: () => null, value: "", textContent: "" };
+const document = { body: {}, documentElement: {}, createTreeWalker: () => ({ nextNode: () => false }), querySelectorAll: () => [],
+  getElementById: () => element, addEventListener: noop };
+const ctx = { document, localStorage: { getItem: () => lang, setItem: noop }, console, NodeFilter: { SHOW_TEXT: 4 } };
+ctx.window = ctx; ctx.Event = class {}; ctx.dispatchEvent = noop; ctx.addEventListener = noop;
+vm.runInNewContext(fs.readFileSync(process.argv[1], "utf8"), ctx);
+const cases = [{ validity: { valueMissing: true } }, { validity: { tooShort: true }, minLength: 20 }, { validity: { valid: true } }, { validity: { typeMismatch: true } }];
+process.stdout.write(JSON.stringify(cases.map((f) => ctx.LabI18n.validityMessage(f))));
+"""
+
+
+class RecordTests(unittest.TestCase):
+    def synthetic_repo(self):
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        git(root, "init", "-q", "-b", "main")
+        (root / "file.txt").write_text("base\n", encoding="utf-8")
+        git(root, "add", "file.txt"); git(root, "commit", "-q", "-m", "base")
+        (root / "file.txt").write_text("accepted\n", encoding="utf-8")
+        git(root, "commit", "-q", "-am", "accepted"); accepted = git(root, "rev-parse", "HEAD")
+        git(root, "commit", "-q", "--allow-empty", "-m", "merge with the same content"); merge = git(root, "rev-parse", "HEAD")
+        (root / "file.txt").write_text("later\n", encoding="utf-8")
+        git(root, "commit", "-q", "-am", "later"); later = git(root, "rev-parse", "HEAD")
+        return root, accepted, merge, later
+
+    def test_git_states_on_a_synthetic_repository(self):
+        root, accepted, merge, later = self.synthetic_repo()
+        status = {"independent_review": {"revision": accepted}, "acceptance": {"revision": accepted},
+                  "integration": {"main": merge}, "deployment": {"revision": merge}}
+        at_merge = revision.build_states(status, root, merge)
+        self.assertEqual({k: at_merge[k] for k in ("independent_review", "acceptance", "integration", "deployment")},
+                         {"independent_review": True, "acceptance": True, "integration": True, "deployment": True})
+        at_later = revision.build_states(status, root, later)
+        self.assertEqual({k: at_later[k] for k in ("acceptance", "integration", "deployment")},
+                         {"acceptance": False, "integration": False, "deployment": False})
+        unknown = revision.build_states(dict(status, acceptance={"revision": "0" * 40}), root, merge)
+        self.assertIsNone(unknown["acceptance"])
+        self.assertIn("not in this checkout's history", unknown["reasons"]["acceptance"])
+        missing = revision.build_states({"acceptance": {}, "integration": {}}, root, merge)
+        self.assertEqual((missing["acceptance"], missing["deployment"], missing["integration"]), (None, None, None))
+        self.assertEqual(missing["reasons"]["integration"], "no main revision recorded")
+        with tempfile.TemporaryDirectory() as empty:
+            none = revision.build_states(status, Path(empty))
+            self.assertFalse(none["git"])
+            self.assertEqual(none["reasons"]["acceptance"], "Git unavailable")
+
+    def test_dirty_build_is_not_the_accepted_content(self):
+        root, accepted, merge, later = self.synthetic_repo()
+        git(root, "checkout", "-q", merge)
+        status = {"independent_review": {"revision": accepted}, "acceptance": {"revision": accepted},
+                  "integration": {"main": merge}, "deployment": {"revision": merge}}
+        clean = revision.build_states(status, root)
+        self.assertEqual((clean["acceptance"], clean["deployment"], clean["integration"], clean["dirty_files"]), (True, True, True, []))
+        (root / "file.txt").write_text("edited after acceptance\n", encoding="utf-8")
+        dirty = revision.build_states(status, root)
+        self.assertEqual((dirty["independent_review"], dirty["acceptance"], dirty["deployment"]), (False, False, False))
+        self.assertTrue(dirty["integration"])
+        self.assertIn("file.txt", dirty["reasons"]["acceptance"]); self.assertIn("uncommitted change", dirty["reasons"]["acceptance"])
+        self.assertIn("uncommitted changes", dirty["reasons"]["integration"])
+        self.assertEqual(git(root, "status", "--porcelain"), "M file.txt")  # unstaged (git() strips the leading column); nothing staged or committed
+        git(root, "checkout", "-q", "--", "file.txt")
+        (root / "web").mkdir(); (root / "web/extra.js").write_text("", encoding="utf-8")
+        untracked = revision.build_states(status, root)
+        self.assertFalse(untracked["acceptance"]); self.assertIn("web/extra.js", untracked["reasons"]["acceptance"])
+        (root / "notes.txt").write_text("", encoding="utf-8"); shutil.rmtree(root / "web")
+        self.assertTrue(revision.build_states(status, root)["acceptance"])  # an untracked file outside the served directories is not content
+        git(root, "checkout", "-q", later)
+        self.assertFalse(revision.build_states(status, root)["acceptance"])
+        # Two commits with the same tree are the same content (D43).
+        self.assertEqual(git(root, "rev-parse", accepted + "^{tree}"), git(root, "rev-parse", merge + "^{tree}"))
+        self.assertTrue(revision.build_states(status, root, merge)["deployment"])
+
+    @unittest.skipUnless(NODE, "node is required")
+    def test_status_rows_show_the_reason_of_a_false_state(self):
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        evidence = {"passed": True, "tests": {"run": 3}, "generated_utc": "2026-10-12T00:00:00", "input_revision": "a" * 40}
+        reason = "2 uncommitted change(s) in the checkout: web/style.css, src/lab/cli.py"
+        dirty = dict(status, build_states={"git": True, "reasons": {"acceptance": reason, "deployment": reason, "independent_review": reason, "integration": "the commit is contained in main; the checkout also has uncommitted changes"},
+                                           "independent_review": False, "acceptance": False, "integration": True, "deployment": False})
+        rows = json.loads(run_text([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], check=True, input=json.dumps([[dirty, evidence, "en"]])).stdout)[0]["rows"]
+        self.assertIn("this build is not accepted (" + reason + ")", rows[2]["value"])
+        self.assertIn("this build is contained in main (the commit is contained in main; the checkout also has uncommitted changes)", rows[3]["value"])
+
+    @unittest.skipUnless(NODE, "node is required")
+    def test_status_view_model_states_and_negatives(self):
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        evidence = {"passed": True, "tests": {"run": 3}, "generated_utc": "2026-10-12T00:00:00", "input_revision": "a" * 40}
+        covered = dict(status, build_states={"git": True, "reasons": {}, "independent_review": True, "acceptance": True, "integration": True, "deployment": True})
+        candidate = dict(status, build_states={"git": True, "reasons": {}, "independent_review": False, "acceptance": False, "integration": False, "deployment": False})
+        unknown = dict(status, build_states={"git": False, "reasons": {"acceptance": "Git unavailable", "integration": "Git unavailable", "deployment": "Git unavailable", "independent_review": "Git unavailable"}})
+        absent = {k: v for k, v in status.items() if k not in ("acceptance", "deployment")}
+        absent["build_states"] = {"git": True, "reasons": {"acceptance": "no revision recorded", "deployment": "no revision recorded"}, "integration": True, "independent_review": True}
+        # encoding is explicit: on Windows the console codec is cp1252 and the Spanish strings would be mangled.
+        out = run_text([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], check=True,
+                             input=json.dumps([[covered, evidence, "en"], [candidate, evidence, "es"], [unknown, evidence, "en"], [absent, evidence, "en"],
+                                               [None, evidence, "en"], [status, {"tests": {}}, "es"], [status, "text", "en"]]))
+        results = json.loads(out.stdout)
+        rows = results[0]["rows"]
+        self.assertEqual([r["key"] for r in rows], ["verification", "review", "acceptance", "integration", "deployment"])
+        self.assertEqual([r["state"] for r in rows], ["PASS", "COVERED", "COVERED", "CONTAINED", "COVERED"])
+        self.assertIn("covers this build", rows[2]["value"]); self.assertIn("revision fb7ecf6", rows[2]["value"])
+        cand = results[1]["rows"]
+        self.assertEqual([r["state"] for r in cand][1:], ["OTHER_REVISION", "OTHER_REVISION", "NOT_CONTAINED", "OTHER_REVISION"])
+        self.assertIn("esta revisión no está aceptada", cand[2]["value"]); self.assertIn("Pages publica 166ea91", cand[4]["value"])
+        self.assertIn("esta revisión no está publicada", cand[4]["value"])
+        self.assertTrue(all(r["state"] == "UNKNOWN" for r in results[2]["rows"][1:]))
+        self.assertIn("undetermined (Git unavailable)", results[2]["rows"][2]["value"])
+        absent_rows = results[3]["rows"]
+        self.assertEqual((absent_rows[2]["state"], absent_rows[2]["value"]), ("NOT_RECORDED", "Not recorded"))
+        self.assertEqual(absent_rows[4]["state"], "NOT_RECORDED")
+        for bad in results[4:]:
+            self.assertTrue(bad["error"]); self.assertEqual(bad["rows"], [])
+
+    def test_sdd_check_rejects_bad_or_missing_record_revisions(self):
+        root = copy_repo(self)
+        status_path = root / "docs/project-status.json"
+        original = json.loads(status_path.read_text(encoding="utf-8"))
+        short = json.loads(json.dumps(original)); short["acceptance"]["revision"] = "fb7ecf6"
+        status_path.write_text(json.dumps(short), encoding="utf-8")
+        self.assertIn("Record acceptance.revision is not a 40-character revision", validate_sdd(root))
+        missing = {k: v for k, v in original.items() if k != "deployment"}
+        status_path.write_text(json.dumps(missing), encoding="utf-8")
+        self.assertIn("Missing record object: deployment", validate_sdd(root))
+        status_path.write_text(json.dumps(original), encoding="utf-8")
+        self.assertEqual([e for e in validate_sdd(root) if e.startswith("Record") or e.startswith("Missing record")], [])
+        # With a Git history that does not contain the recorded revisions, every record is rejected.
+        git(root, "init", "-q", "-b", "main"); git(root, "add", "-A"); git(root, "commit", "-q", "-m", "copy")
+        errors = [e for e in validate_sdd(root) if "is not in the history of this checkout" in e]
+        self.assertEqual(len(errors), 5, errors)
+
+    def test_build_and_server_payload_agree_with_git(self):
+        head = git(ROOT, "rev-parse", "HEAD"); head_tree = git(ROOT, "rev-parse", head + "^{tree}")
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        expected = {}
+        for key in ("independent_review", "acceptance", "deployment"):
+            expected[key] = git(ROOT, "rev-parse", status[key]["revision"] + "^{tree}") == head_tree
+        expected["integration"] = subprocess.run(["git", "-C", str(ROOT), "merge-base", "--is-ancestor", head, status["integration"]["main"]], capture_output=True).returncode == 0
+        for key in ("independent_review", "acceptance", "deployment"):
+            self.assertRegex(status[key]["revision"], r"^[0-9a-f]{40}$")
+        self.assertRegex(status["integration"]["main"], r"^[0-9a-f]{40}$")
+        server = make_server(0); thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
+        try:
+            c = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=5); c.request("GET", "/api/status"); body = json.loads(c.getresponse().read()); c.close()
+        finally:
+            server.shutdown(); server.server_close(); thread.join()
+        with tempfile.TemporaryDirectory() as tmp:
+            built = json.loads((build(Path(tmp) / "site") / "data/status.json").read_text(encoding="utf-8"))
+        for payload in (body, built):
+            self.assertEqual(payload["revision"], head)
+            self.assertEqual({k: payload["build_states"][k] for k in expected}, expected)
+            self.assertTrue(payload["build_states"]["git"])
+
+    def test_evidence_markup_has_error_state_and_no_hand_written_states(self):
+        self.assertIn('<button id="evidenceRetry" type="button" hidden data-en="Retry loading the evidence">', HTML)
+        view = (ROOT / "web/evidence.js").read_text(encoding="utf-8")
+        self.assertIn("LabEvidenceRules.statusRows(status, evidence, LabI18n.language)", view)
+        for literal in ("NOT_DEPLOYED", "NOT_INTEGRATED", "OWNER_ACCEPTANCE_NOT_RECORDED", "this_branch", "pages_source"):
+            self.assertNotIn(literal, view)
+        self.assertIn('el("evidenceRetry").addEventListener("click", load)', view)
+        status = (ROOT / "docs/project-status.json").read_text(encoding="utf-8")
+        for stale in ("NOT_DEPLOYED", "NOT_INTEGRATED", "OWNER_ACCEPTANCE_NOT_RECORDED", "evidence_scope"):
+            self.assertNotIn(stale, status)
+
+
+class InterfaceTests(unittest.TestCase):
+    @unittest.skipUnless(NODE, "node is required")
+    def test_validation_and_mcp_notices_are_bilingual(self):
+        messages = {}
+        for lang in ("es", "en"):
+            out = run_text([NODE, "-e", NODE_I18N, str(ROOT / "web/i18n.js"), lang], check=True)
+            messages[lang] = json.loads(out.stdout)
+        self.assertEqual(messages["es"], ["Completa este campo.", "Escribe al menos 20 caracteres.", "", "Revisa el formato de este campo."])
+        self.assertEqual(messages["en"], ["Fill in this field.", "Enter at least 20 characters.", "", "Check the format of this field."])
+        i18n = (ROOT / "web/i18n.js").read_text(encoding="utf-8")
+        workbench = (ROOT / "web/workbench.js").read_text(encoding="utf-8")
+        notices = re.findall(r'(?:bind\("mcpStatus",|[A-Z_]+:)"([^"]+)"', workbench)
+        self.assertGreater(len(notices), 4)
+        for notice in notices:
+            self.assertIn(json.dumps(notice, ensure_ascii=False) + ":", i18n, notice)
+
+    def test_identity_tokens_and_attribution(self):
+        css = (ROOT / "web/style.css").read_text(encoding="utf-8")
+        tokens = dict(re.findall(r"--(ink|paper|muted|line):\s*([^;]+);", css))
+        self.assertEqual(set(tokens), {"ink", "paper", "muted", "line"})
+        self.assertRegex(css, r"--bg:\s*#0[0-9a-f]{5};")
+        self.assertRegex(css, r"--ink:\s*#f[0-9a-f]{5};")
+        self.assertIn('class="attribution" data-en="The code in this lab was written with AI assistance.', HTML)
+        self.assertIn("se escribió con asistencia de IA", HTML)
+
+    def test_routes_and_legacy_hashes(self):
+        nav = HTML[HTML.index('<nav id="mainNav"'):HTML.index("</nav>")]
+        self.assertEqual(re.findall(r'href="#(\w+)" data-view="(\w+)"', nav),
+                         [("session", "demo"), ("agents", "agents"), ("mcp", "mcp"), ("method", "method"), ("evidence", "evidence")])
+        studio = (ROOT / "web/studio.js").read_text(encoding="utf-8")
+        self.assertIn("['chat','session'].includes(hash)?'demo'", studio)
+        self.assertIn("if(hash==='connection')window.LabCloud?.openConnection()", studio)
+
+    def test_menu_landmarks_and_language_options(self):
+        self.assertIn('<button id="toggleSidebar" aria-controls="mainNav" aria-expanded="true" aria-label="Contraer menú">', HTML)
+        self.assertIn('<nav id="mainNav" aria-label="Secciones">', HTML)
+        picker = HTML[HTML.index('<select id="language"'):]
+        picker = picker[:picker.index("</select>")]
+        self.assertEqual(re.findall(r'value="(\w+)"', picker), ["es", "en"])
+
+    def test_mcp_guide_fields_and_export_shape(self):
+        form = HTML[HTML.index('<form id="mcpGuideForm"'):HTML.index("</form>", HTML.index('<form id="mcpGuideForm"'))]
+        for field in ("mcpProfileName", "mcpTransport", "mcpUrl", "mcpCommand"):
+            self.assertIn('id="' + field + '"', form)
+        self.assertIn("pattern=", form)
+        studio = (ROOT / "web/studio.js").read_text(encoding="utf-8")
+        self.assertIn("mcpServers", studio)
+        self.assertNotIn("child_process", studio)
+
+    def test_composer_label_and_motion_rules(self):
+        self.assertIn('<label for="question" class="sr-only" data-en="Message">Mensaje</label>', HTML)
+        self.assertIn('<span id="animatedGreeting" aria-hidden="true">', HTML)
+        css = (ROOT / "web/style.css").read_text(encoding="utf-8")
+        self.assertIn("@media(prefers-reduced-motion:reduce){.typing-cursor{animation:none;display:none}", css)
+        self.assertIn(".session .composer:has(textarea:focus-visible){outline:2px solid", css)
+        self.assertIn('<script src="/orientation.js"></script>', HTML)
+
+
+class CodeTests(unittest.TestCase):
+    def test_environment_check_reports_a_complete_repository(self):
+        from scripts.check_environment import inspect
+        report = inspect(ROOT, port=0)
+        self.assertEqual(report["missing"], [])
+        self.assertRegex(report["python"], r"^\d+\.\d+")
+        self.assertEqual(report["api_credentials"], "NOT_READ")
+        self.assertNotIn("sk-", json.dumps(report))
+
+    def test_matching_evidence_and_identical_runs_pass(self):
+        # Sources and records of this checkout are the ones the committed evidence describes. Whether that run
+        # passed is a separate claim (C194); checking it here would make the first run after a change circular.
+        self.assertEqual([e for e in check_evidence.check_committed(ROOT) if "not a passing run" not in e], [])
+        latest = json.loads((ROOT / "evidence/latest.json").read_text(encoding="utf-8"))
+        self.assertEqual(check_evidence.compare_statuses(latest, latest), [])
+
+    def test_gate_passes_when_every_member_succeeded(self):
+        for platform in ci_gate.MEMBERS:
+            run = run_text([sys.executable, str(ROOT / "scripts/ci_gate.py"), platform, "ubuntu-latest=success", "windows-latest=success"])
+            self.assertEqual(run.returncode, 0, run.stdout)
+            self.assertIn(f"PASS: verify ({platform})", run.stdout)
+
+    def test_tour_on_an_ascii_stream_replaces_instead_of_raising(self):
+        env = dict(os.environ, PYTHONIOENCODING="ascii", PYTHONUTF8="0")
+        run = subprocess.run([sys.executable, str(ROOT / "run.py"), "tour", "--lang", "es"], cwd=ROOT, env=env, capture_output=True, timeout=60)
+        self.assertEqual(run.returncode, 0, run.stderr.decode("ascii", "replace"))
+        self.assertNotIn(b"Traceback", run.stderr)
+        text = run.stdout.decode("ascii")
+        self.assertIn("devoluci?n", text)
+        self.assertEqual(text.count("\n   -> "), 6)
+
+    def test_record_fingerprint_ignores_the_run_environment(self):
+        root = copy_repo(self)
+        before = check_evidence.record_fingerprint(root)
+        path = root / "specs/001-support-demo/acceptance.csv"
+        with path.open(encoding="utf-8", newline="") as h:
+            reader = csv.DictReader(h); fields = reader.fieldnames; rows = list(reader)
+        for row in rows:
+            row["environment"] = "Windows / Python 3.13.9"
+        with path.open("w", encoding="utf-8", newline="") as h:
+            writer = csv.DictWriter(h, fieldnames=fields, lineterminator="\n"); writer.writeheader(); writer.writerows(rows)
+        self.assertEqual(check_evidence.record_fingerprint(root), before)
+        self.assertEqual(before, check_evidence.record_fingerprint(ROOT))
+
+    def test_subprocess_helper_is_encoding_safe(self):
+        # The child replaces what its own console cannot encode; the parent must read the rest without raising.
+        script = "import sys; sys.stdout.reconfigure(errors='replace'); sys.stdout.write('base \u00b7 acci\u00f3n \u2192 fin\\n')"
+        for console in ("cp1252", "utf-8", "ascii"):
+            for parent_flag in ([], ["-X", "utf8"]):
+                child_env = dict(os.environ, PYTHONIOENCODING=console)
+                child_env.pop("PYTHONUTF8", None)
+                run = run_text([sys.executable, *parent_flag, "-c", script], env=child_env)
+                self.assertEqual(run.returncode, 0, (console, parent_flag, run.stderr))
+                self.assertIsInstance(run.stdout, str)
+                self.assertIn("base", run.stdout); self.assertIn("fin", run.stdout)
+                if console == "utf-8":
+                    self.assertIn("acción \u2192", run.stdout)
+        # A child that is forced to cp1252 writes 0xb7 for the middle dot; reading it is replaced, not raised.
+        forced = run_text([sys.executable, "-c", "import sys; sys.stdout.reconfigure(encoding='cp1252'); sys.stdout.write('a \u00b7 b')"])
+        self.assertEqual(forced.returncode, 0); self.assertTrue(forced.stdout.startswith("a ")); self.assertTrue(forced.stdout.endswith(" b"))
+        self.assertEqual(run_text([sys.executable, "-c", "import sys; sys.exit(3)"]).stdout, "")
+
+    def test_revision_info_without_git_is_explicit(self):
+        root = copy_repo(self)
+        info = revision.revision_info(root)
+        self.assertEqual(info, {"revision": None, "revision_dirty": None, "pins": {}, "pins_complete": False})
+        payload = revision.status_payload(root)
+        self.assertIsNone(payload["revision"])
+        self.assertFalse(payload["build_states"]["git"])
+
+
+class MatrixTests(unittest.TestCase):
+    def test_matrix_passes_on_the_records(self):
+        self.assertEqual(requirement_matrix.validate(ROOT), [])
+        document = requirement_matrix.render(ROOT)
+        cases, kinds, requirements = requirement_matrix.load(ROOT)
+        for req in requirements:
+            self.assertIn("## " + req["id"] + " —", document)
+        self.assertIn("| C018 | behavior | negative |", document)
+        self.assertEqual(len(kinds["cases"]), len(cases))
+        committed = (ROOT / "docs/requirements-matrix.md").read_text(encoding="utf-8")
+        self.assertEqual(committed.strip(), document.strip(), "docs/requirements-matrix.md is stale: run python scripts/requirement_matrix.py --write")
+
+    def test_matrix_rejects_gaps(self):
+        root = copy_repo(self)
+        path = root / "specs/001-support-demo/case-kinds.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        def with_change(change):
+            kinds = json.loads(json.dumps(original)); change(kinds)
+            path.write_text(json.dumps(kinds), encoding="utf-8")
+            return requirement_matrix.validate(root)
+        def no_negative(k):
+            for case, entry in k["cases"].items():
+                if entry["polarity"] != "positive" and any(r["requirement_id"] == "R03" for r in requirement_matrix.load(root)[0] if r["case_id"] == case):
+                    entry["polarity"] = "positive"
+        self.assertIn("Requirement R03 (code) has no behavior-level negative or limit case", with_change(no_negative))
+        self.assertIn("Classified case does not exist: C999", with_change(lambda k: k["cases"].__setitem__("C999", {"kind": "behavior", "polarity": "positive"})))
+        self.assertIn("Requirement R35 (code) has no behavior-level positive case", with_change(lambda k: k["cases"]["C186"].__setitem__("kind", "structure")))
+        self.assertIn("Requirement R03 cites code that does not exist: src/lab/controller.py::def vanish",
+                      with_change(lambda k: k["requirements"]["R03"].__setitem__("code", ["src/lab/controller.py::def vanish"])))
+        self.assertIn("Unclassified case: C018", with_change(lambda k: k["cases"].pop("C018")))
+
+    def test_matrix_rejects_missing_or_malformed_code(self):
+        root = copy_repo(self)
+        path = root / "specs/001-support-demo/case-kinds.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        for change in (lambda k: k["requirements"]["R03"].__setitem__("code", []),
+                       lambda k: k["requirements"]["R03"].__setitem__("code", ["src/lab/controller.py::", 7]),
+                       lambda k: k["requirements"]["R03"].pop("code")):
+            kinds = json.loads(json.dumps(original)); change(kinds); path.write_text(json.dumps(kinds), encoding="utf-8")
+            self.assertIn("Requirement R03 has no well-formed code reference list", requirement_matrix.validate(root))
+
+    def test_matrix_floors_block_downgrades_without_an_override(self):
+        root = copy_repo(self)
+        path = root / "specs/001-support-demo/case-kinds.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        def run(change):
+            kinds = json.loads(json.dumps(original)); change(kinds); path.write_text(json.dumps(kinds), encoding="utf-8")
+            return requirement_matrix.validate(root), kinds
+        def downgrade(k):
+            k["requirements"]["R03"]["verification"] = "document"
+            for case, entry in k["cases"].items():
+                if any(r["requirement_id"] == "R03" and r["case_id"] == case for r in requirement_matrix.load(root)[0]):
+                    entry["kind"] = "structure"
+        errors, _ = run(downgrade)
+        self.assertTrue(any(e.startswith("Requirement R03 has tests that run code") and "cannot be classified document" in e for e in errors), errors)
+        self.assertTrue(any(e.startswith("Case C018 is classified structure but its test uses code") for e in errors), errors)
+        override = {"reason": "test", "authority": "owner", "date": "2026-10-12"}
+        def with_override(k):
+            downgrade(k); k["overrides"] = {"R03": override, **{case: override for case, entry in k["cases"].items() if entry["kind"] == "structure"}}
+        errors, kinds = run(with_override)
+        self.assertEqual([e for e in errors if "R03" in e or "C018" in e], [])
+        self.assertIn("OVERRIDE R03: test — owner 2026-10-12", requirement_matrix.gaps(root))
+        self.assertIn("OVERRIDE R03", requirement_matrix.render(root))
+        errors, _ = run(lambda k: (downgrade(k), k.__setitem__("overrides", {"R03": {"reason": "no authority"}})))
+        self.assertTrue(any("cannot be classified document" in e for e in errors))
+
+    def test_classification_respects_the_floors(self):
+        cases, kinds, _ = requirement_matrix.load(ROOT)
+        case_runs_code, requirement_has_code_tests = requirement_matrix.floors(cases, ROOT)
+        self.assertGreater(len([c for c, names in case_runs_code.items() if names]), 100)
+        self.assertEqual(kinds.get("overrides"), {})
+        for case, names in case_runs_code.items():
+            if names:
+                self.assertNotEqual(kinds["cases"][case]["kind"], "structure", case)
+        for rid in requirement_has_code_tests:
+            self.assertIn(kinds["requirements"][rid]["verification"], {"code", "interface"}, rid)
+        self.assertIn("C018", case_runs_code); self.assertIn("R03", requirement_has_code_tests)
+        self.assertEqual(case_runs_code.get("test_u20.DocsTests.test_scope_line_is_not_stale", []), [])
+
+    def test_injected_defect_fails_closed(self):
+        if os.environ.get("LAB_SKIP_NESTED"):
+            self.skipTest("nested fail-closed run")
+        root = copy_repo(self)
+        controller = root / "src/lab/controller.py"
+        source = controller.read_text(encoding="utf-8")
+        defect = source.replace('                if proposal.status != "APPROVED":\n                    raise RuleError("APPROVAL_REQUIRED")\n', "")
+        self.assertNotEqual(defect, source)
+        controller.write_text(defect, encoding="utf-8")
+        committed = json.loads((root / "evidence/latest.json").read_text(encoding="utf-8"))
+        run = run_text([sys.executable, str(root / "scripts/verify.py")], cwd=root, timeout=600, env=dict(os.environ, LAB_SKIP_NESTED="1"))
+        self.assertEqual(run.returncode, 1, (run.stdout or "(no stdout)")[-2000:] + (run.stderr or "")[-1000:])
+        latest = json.loads((root / "evidence/latest.json").read_text(encoding="utf-8"))
+        self.assertFalse(latest["passed"])
+        self.assertEqual(latest["acceptance_cases"]["C018"]["status"], "FAIL")
+        with (root / "specs/001-support-demo/acceptance.csv").open(encoding="utf-8", newline="") as h:
+            recorded = {r["case_id"]: r["status"] for r in csv.DictReader(h)}
+        self.assertEqual(recorded["C018"], "FAIL")
+        self.assertIn("Committed evidence is not a passing run", check_evidence.check_committed(root))
+        drift = check_evidence.compare_statuses(committed, latest)
+        self.assertIn("Status drift: test_lab.WorkflowTests.test_execute_requires_approval PASS -> FAIL", drift)
+        self.assertIn("Case drift: C018 status 'PASS' -> 'FAIL'", drift)
+
+
+NODE_VALIDATE = r"""
+const fs = require("fs"), vm = require("vm");
+const ctx = {}; ctx.window = ctx; vm.runInNewContext(fs.readFileSync(process.argv[1], "utf8"), ctx);
+const input = JSON.parse(fs.readFileSync(0, "utf8"));
+process.stdout.write(JSON.stringify(input.map(([e, c, r, s, lang]) => ctx.LabEvidenceRules.validatePayload(e, c, r, s, lang))));
+"""
+
+
+class PayloadTests(unittest.TestCase):
+    @unittest.skipUnless(NODE, "node is required")
+    def test_payload_validator_accepts_good_and_rejects_bad_shapes(self):
+        evidence = json.loads((ROOT / "evidence/latest.json").read_text(encoding="utf-8"))
+        # The base is normalized to an all-PASS run, so the negatives below mean the same whatever the last local run recorded.
+        evidence["test_results"] = [dict(r, status="PASS") for r in evidence["test_results"]]
+        evidence["tests"] = dict(evidence["tests"], run=len(evidence["test_results"]), failures=0, errors=0, skipped=0); evidence["passed"] = True
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        with (ROOT / "specs/001-support-demo/acceptance.csv").open(encoding="utf-8", newline="") as h:
+            cases = list(csv.DictReader(h))
+        from scripts.sdd_check import requirement_rows
+        reqs = requirement_rows((ROOT / "specs/001-support-demo/spec.md").read_text(encoding="utf-8"))
+        def ev(**changes):
+            copy = json.loads(json.dumps(evidence)); copy.update(changes); return copy
+        bad = [
+            ("tests missing", ev(tests=None)), ("tests empty", ev(tests={})), ("run string", ev(tests=dict(evidence["tests"], run="140"))),
+            ("negative", ev(tests=dict(evidence["tests"], failures=-1))), ("passed string", ev(passed="true")),
+            ("passed with failures", ev(passed=True, tests=dict(evidence["tests"], failures=2))),
+            ("results not a list", ev(test_results={})), ("results shorter", ev(test_results=evidence["test_results"][:3])),
+            ("passed with FAIL row", ev(passed=True, test_results=[dict(r, status="FAIL") for r in evidence["test_results"]])),
+            ("status outside the enumeration", ev(test_results=[dict(evidence["test_results"][0], status="UNKNOWN_INVALID")] + evidence["test_results"][1:])),
+            ("status typo FAILURE", ev(test_results=[dict(evidence["test_results"][0], status="FAILURE")] + evidence["test_results"][1:])),
+            ("empty status", ev(test_results=[dict(evidence["test_results"][0], status="")] + evidence["test_results"][1:])),
+            ("empty test id", ev(test_results=[dict(evidence["test_results"][0], test_id=" ")] + evidence["test_results"][1:])),
+            ("repeated test id", ev(test_results=[dict(evidence["test_results"][1], status="PASS")] + evidence["test_results"][1:])),
+            ("FAIL row with zero failures", ev(passed=False, test_results=[dict(evidence["test_results"][0], status="FAIL")] + evidence["test_results"][1:])),
+            ("skipped count without NO_PROBADO rows", ev(tests=dict(evidence["tests"], skipped=evidence["tests"].get("skipped", 0) + 1))),
+        ]
+        valid_statuses = ev(passed=False, tests=dict(evidence["tests"], failures=1, errors=0, skipped=1),
+                            test_results=[dict(evidence["test_results"][0], status="FAIL"), dict(evidence["test_results"][1], status="NO_PROBADO")] + evidence["test_results"][2:])
+        calls = [[evidence, cases, reqs, status, "en"], [valid_statuses, cases, reqs, status, "es"]] + [[e, cases, reqs, status, "en"] for _, e in bad]
+        calls += [[evidence, cases, [{"text": "no id"}], status, "es"], [evidence, [{"case_id": "C1"}], reqs, status, "en"], [evidence, cases, reqs, [], "en"],
+                  [evidence, cases, reqs, {k: v for k, v in status.items() if k != "acceptance"}, "en"]]
+        out = json.loads(run_text([NODE, "-e", NODE_VALIDATE, str(ROOT / "web/evidence-rules.js")], check=True, input=json.dumps(calls)).stdout)
+        self.assertIsNone(out[0]); self.assertIsNone(out[1])
+        results = out[2:len(bad) + 2]
+        for (label, _), message in zip(bad, results):
+            self.assertTrue(message and message.startswith("Invalid evidence: "), label)
+        self.assertIn("tests —", results[0]); self.assertIn("tests.run", results[2]); self.assertIn("passed", results[4]); self.assertIn("test_results", results[6])
+        self.assertIn("status outside PASS, FAIL or NO_PROBADO: UNKNOWN_INVALID", results[9]); self.assertIn(evidence["test_results"][0]["test_id"], results[9])
+        self.assertIn("FAILURE", results[10]); self.assertIn("status outside", results[11])
+        self.assertIn("an id and a status", results[12]); self.assertIn("repeated test ids", results[13])
+        self.assertIn("FAIL rows do not match", results[14]); self.assertIn("NO_PROBADO rows", results[15])
+        tail = out[len(bad) + 2:]
+        self.assertTrue(tail[0].startswith("Evidencia inválida: requirements"))
+        self.assertIn("acceptance.csv", tail[1]); self.assertIn("status.json", tail[2]); self.assertIn("status.acceptance", tail[3])
+        view = (ROOT / "web/evidence.js").read_text(encoding="utf-8")
+        self.assertIn("LabEvidenceRules.validatePayload(e, parsed, reqs, st, LabI18n.language)", view)
+        self.assertLess(view.index("validatePayload"), view.index("evidence = e; cases = parsed"))
+
+
+class DocsTests(unittest.TestCase):
+    DOCS = ("README.md", "docs/INDEX.md", "docs/START_HERE_ES.md")
+
+    def test_routes_stay_true_on_main_and_branch(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for stale in ("Not published yet", "While `NOT_DEPLOYED`", "NOT_DEPLOYED"):
+            self.assertNotIn(stale, readme)
+        section = readme[readme.index("## Published or candidate"):readme.index("## Run locally")]
+        for text in ("project-status.json", "git rev-parse HEAD", "git fetch origin", "git checkout --detach", "Evidence"):
+            self.assertIn(text, section)
+        self.assertIsNone(re.search(r"\b[0-9a-f]{40}\b", section))
+        trouble = readme[readme.index("## Troubleshooting"):readme.index("## Limits")]
+        for item in ("Python 3.11", "port", "verify.py", "cp1252"):
+            self.assertIn(item, trouble)
+        index = (ROOT / "docs/INDEX.md").read_text(encoding="utf-8")
+        self.assertNotIn("NOT_DEPLOYED", index); self.assertIn("project-status.json", index[:index.index("## Technical review")])
+        guide = (ROOT / "docs/START_HERE_ES.md").read_text(encoding="utf-8")
+        self.assertNotIn("NOT_DEPLOYED", guide); self.assertIn("git rev-parse HEAD", guide)
+        visitor = (ROOT / "docs/visitor-test.md").read_text(encoding="utf-8")
+        for heading in ("## 30 seconds (C170)", "## 3 minutes (C177 route)", "## Answer record"):
+            self.assertIn(heading, visitor)
+        self.assertIn("Sin nombre ni datos personales", visitor)
+
+    def test_scope_line_is_not_stale(self):
+        line = re.search(r'<p class="scope-line" data-en="([^"]+)">([^<]+)</p>', HTML)
+        english, spanish = line.group(1), line.group(2)
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        if status["acceptance"].get("status") == "OWNER_ACCEPTED":
+            self.assertNotIn("Pending: owner acceptance", english); self.assertNotIn("Pendiente: aceptación del dueño", spanish)
+        self.assertIn("Evidence", english); self.assertIn("Evidencia", spanish)
+        self.assertIn("new visitor", english); self.assertIn("visitante nuevo", spanish)
+
+    def test_console_note_and_restore_procedure_are_precise(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        trouble = readme[readme.index("## Troubleshooting"):readme.index("## Limits")]
+        self.assertIn("cp1252 does print Spanish accents", trouble); self.assertNotIn("replaces accents", trouble)
+        self.assertIn("git checkout -- evidence/latest.json evidence/sdd-check.json specs/001-support-demo/acceptance.csv docs/requirements-matrix.md", trouble)
+        self.assertIn("never reset the whole tree", trouble)
+        guide = (ROOT / "docs/START_HERE_ES.md").read_text(encoding="utf-8")
+        self.assertIn("docs/requirements-matrix.md", guide); self.assertIn("cp1252 sí imprime las tildes", guide)
+        from scripts.check_environment import inspect
+        self.assertIn("docs/requirements-matrix.md", inspect()["note"])
+        self.assertIn("docs/requirements-matrix.md", (ROOT / "scripts/verify.py").read_text(encoding="utf-8"))
+
+    def test_relative_links_resolve_and_startup_commands_exist(self):
+        def slug(text):
+            return re.sub(r"[^\w\- ]", "", text.lower().replace("·", "")).strip().replace(" ", "-")
+        for name in self.DOCS:
+            path = ROOT / name; text = path.read_text(encoding="utf-8")
+            headings = {slug(h) for h in re.findall(r"^#+ (.+)$", text, flags=re.M)}
+            for target in re.findall(r"\]\(([^)\s]+)\)", text):
+                if target.startswith(("http://", "https://", "mailto:")):
+                    continue
+                file_part, _, anchor = target.partition("#")
+                resolved = (path.parent / file_part).resolve() if file_part else path
+                self.assertTrue(resolved.exists(), f"{name}: {target}")
+                if anchor and resolved.suffix == ".md":
+                    target_text = resolved.read_text(encoding="utf-8")
+                    target_headings = {slug(h) for h in re.findall(r"^#+ (.+)$", target_text, flags=re.M)}
+                    self.assertIn(anchor, target_headings, f"{name}: {target}")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for command in ("python scripts/check_environment.py", "python run.py tour", "python run.py serve"):
+            self.assertIn(command, readme)
+
+
+if __name__ == "__main__":
+    unittest.main()

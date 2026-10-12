@@ -16,29 +16,27 @@ Este repositorio muestra mi trabajo de definición, selección de herramientas y
 | 6. Comprobar el resultado | Condición, acción, resultado esperado y observado por caso | [Matriz de aceptación](../specs/001-support-demo/acceptance.csv) |
 | 7. Entregar y continuar | Evidencia, estado de cada registro, límites, siguiente tarea y mantenimiento | [Evidencia de esta revisión](../evidence/latest.json), [estado del proyecto](project-status.json), [operación](operations.md) y [bitácora](notebook.md). La [revisión del método del 2026-10-03](../reports/SDD_REVIEW.md) es histórica |
 
-El [mapa del método](sdd-adoption.md) explica cómo se aplica cada área del libro de ingeniería a este proyecto. El [estado actual](project-status.json) identifica la especificación activa.
+El [libro de ingeniería](book/README.md) recorre toda la aplicación en una sola ruta: contexto, componentes, secuencias, método, decisiones, validación y límites, con el SHA exacto que describe. El [mapa del método](sdd-adoption.md) explica cómo se aplica cada área del libro de ingeniería a este proyecto. El [estado actual](project-status.json) identifica la especificación activa.
 
 ## Un recorrido concreto
 
-Abre la [demo pública](https://marcodiazleon.github.io/ai-implementation-lab/). La entrada es **Sesión**, una conversación: arriba está quién soy, qué aporto y qué está pendiente. La URL pública sirve la revisión de main indicada en [project-status.json](project-status.json) (`deployment`); mientras esa entrada diga `NOT_DEPLOYED` para esta rama, esta versión de la guía todavía no está publicada allí.
+Abre la [demo pública](https://marcodiazleon.github.io/ai-implementation-lab/). La entrada es **Sesión**, una conversación: arriba está quién soy, qué aporto y qué está pendiente. La URL pública sirve la revisión de main indicada en [project-status.json](project-status.json) (`deployment`); la vista Evidencia de cualquier versión dice si tiene el mismo contenido que la publicada y que la aceptada por el dueño.
 
 En **Cómo está construido**, el recorrido de 3 minutos sigue **R03**: una devolución necesita una decisión previa. Los casos **CU04 y CU05** describen el flujo; la tarea **T02** corresponde a sus transiciones; **C013 y C018** comprueban que ejecutar antes de aprobar se bloquea. Cada control del recorrido abre su requisito en **Evidencia**, con sus casos, pruebas y estado. El recorrido termina con el resultado de `python run.py tour`: seis pasos con 0, 0, 0, 0, 1 y 1 recibos simulados.
 
 Si tienes una copia del repositorio y Python 3.11 o superior, ejecuta `python run.py tour` (añade `--lang en` para inglés). Clonar e instalar no forma parte de los tres minutos. Comandos completos en el [README](../README.md).
 
-**Revisar este candidato.** Mientras project-status registre `NOT_DEPLOYED`, ni la URL pública ni un clon por defecto (main) contienen esta entrega. Trae la rama del PR #7 y comprueba el commit antes de revisar:
+**Revisar un candidato.** Un clon por defecto queda en main. Para revisar una rama aún no publicada, trae la rama, compara el commit con el SHA informado en su pull request y arranca el laboratorio:
 
 ```sh
-git clone https://github.com/marcodiazleon/ai-implementation-lab.git
-cd ai-implementation-lab
-git fetch origin claude/laughing-rubin-6e32ve-entry
+git fetch origin <rama>
 git checkout --detach FETCH_HEAD
-git rev-parse HEAD
+git rev-parse HEAD        # debe coincidir con el SHA informado; si no: git checkout --detach <SHA informado>
 python scripts/check_evidence.py
 python run.py serve
 ```
 
-`git rev-parse HEAD` debe coincidir con el SHA informado en la última entrega del PR #7; si la rama avanzó, usa `git checkout --detach <SHA informado>`. Después abre http://127.0.0.1:8765.
+Después abre http://127.0.0.1:8765. Si algo falla: Python 3.11 o superior, puerto 8765 libre (o `--port 8766`), y recuerda que `scripts/verify.py` reescribe cuatro archivos generados (`evidence/latest.json`, `evidence/sdd-check.json`, `specs/001-support-demo/acceptance.csv` y `docs/requirements-matrix.md`); para descartar solo esos, `git checkout -- evidence/latest.json evidence/sdd-check.json specs/001-support-demo/acceptance.csv docs/requirements-matrix.md`, nunca un reset de todo el árbol. Una consola que no pueda codificar un carácter (página de códigos ASCII; cp1252 sí imprime las tildes) muestra `?` en su lugar; `python -X utf8 run.py tour` lo imprime todo.
 
 | Dónde | Qué funciona | Qué no |
 |---|---|---|
@@ -61,7 +59,7 @@ Todos los datos son ficticios. El recibo es local y simulado. El estado se pierd
 - **evidence/** contiene los resultados de ejecución y sus versiones; **reports/** explica su alcance.
 - **docs/** conserva decisiones, herramientas, operación y continuidad.
 
-**MVC** organiza datos, coordinación y pantalla. **MCP** expone herramientas mediante un protocolo: aquí son dos consultas de datos ficticios. Una **skill** define un procedimiento; su archivo por sí solo no demuestra que un ejecutor lo haya cargado.
+**MVC** organiza datos, coordinación y pantalla. **MCP** expone herramientas mediante un protocolo: aquí son dos consultas de datos ficticios por stdio (`python run.py mcp`) y, en el laboratorio local, una conexión de solo lectura a Context7 con dos herramientas de documentación, con consentimiento en cada llamada (U07; enmienda 2026-10-12). Una **skill** define un procedimiento; su archivo por sí solo no demuestra que un ejecutor lo haya cargado.
 
 ## Qué sigue
 

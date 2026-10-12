@@ -10,12 +10,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-def _git(root, *args):
+def _git(root, *args, raw=False):
     try:
-        result = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=20)
+        result = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=20)
     except (OSError, subprocess.SubprocessError):
         return None
-    return result.stdout.strip() if result.returncode == 0 else None
+    if result.returncode != 0:
+        return None
+    return result.stdout if raw else result.stdout.strip()
 
 ACCEPTANCE = "specs/001-support-demo/acceptance.csv"
 
@@ -52,10 +54,80 @@ def revision_info(root=ROOT):
             pins[case] = added[-1]
     return {"revision": revision, "revision_dirty": dirty, "pins": pins, "pins_complete": len(pins) == len(cases)}
 
+RECORD_REVISIONS = (("independent_review", "revision"), ("acceptance", "revision"), ("deployment", "revision"))
+# Directories whose files the build or the local server serve; an untracked file here changes the served content.
+SERVED = ("web/", "src/", "data/", "agents/", "evidence/", "specs/", "docs/")
+
+def dirty_files(root=ROOT):
+    """R49f / D43: tracked files modified in the checkout, plus untracked files under the served directories.
+
+    Returns None without Git. Nothing is staged or written to compute this.
+    """
+    output = _git(root, "status", "--porcelain", "--untracked-files=all", raw=True)
+    if output is None:
+        return None
+    files = []
+    for line in output.splitlines():
+        if len(line) < 4:
+            continue
+        code, path = line[:2], line[3:]
+        if code == "??" and not path.startswith(SERVED):
+            continue
+        files.append(path)
+    return sorted(files)
+
+def build_states(status, root=ROOT, head=None):
+    """R49b / D41: what the records say about THIS checkout, computed from Git and never copied.
+
+    review, acceptance and deployment compare content (tree) with the recorded revision; integration asks
+    whether HEAD is contained in the recorded main. True, False, or None with a reason when Git cannot answer.
+    """
+    head = head or _git(root, "rev-parse", "HEAD")
+    states = {"git": head is not None, "reasons": {}}
+    if head is None:
+        for key, _ in RECORD_REVISIONS:
+            states[key] = None
+            states["reasons"][key] = "Git unavailable"
+        states["integration"] = None
+        states["reasons"]["integration"] = "Git unavailable"
+        return states
+    head_tree = _git(root, "rev-parse", head + "^{tree}")
+    dirty = dirty_files(root) or []
+    states["dirty_files"] = dirty
+    for key, field in RECORD_REVISIONS:
+        revision = (status.get(key) or {}).get(field) if isinstance(status.get(key), dict) else None
+        if not revision:
+            states[key] = None
+            states["reasons"][key] = "no revision recorded"
+            continue
+        tree = _git(root, "rev-parse", "--verify", "--quiet", str(revision) + "^{tree}")
+        if tree is None:
+            states[key] = None
+            states["reasons"][key] = "recorded revision is not in this checkout's history"
+        elif dirty:
+            # The served files are not the committed tree, so they cannot be the recorded content (D43).
+            states[key] = False
+            states["reasons"][key] = f"{len(dirty)} uncommitted change(s) in the checkout: " + ", ".join(dirty[:4]) + (" …" if len(dirty) > 4 else "")
+        else:
+            states[key] = tree == head_tree
+    main = (status.get("integration") or {}).get("main") if isinstance(status.get("integration"), dict) else None
+    if not main:
+        states["integration"] = None
+        states["reasons"]["integration"] = "no main revision recorded"
+    elif _git(root, "cat-file", "-e", str(main) + "^{commit}") is None:
+        states["integration"] = None
+        states["reasons"]["integration"] = "recorded main revision is not in this checkout's history"
+    else:
+        states["integration"] = _git(root, "merge-base", "--is-ancestor", head, str(main)) is not None
+        if dirty:
+            states["reasons"]["integration"] = "the commit is contained in main; the checkout also has uncommitted changes"
+    return states
+
 def status_payload(root=ROOT):
     """docs/project-status.json plus what this checkout is: fingerprints (R42), revision and pins (R43)."""
     import json
     from scripts.check_evidence import record_fingerprint, source_fingerprint
     status = json.loads((root / "docs/project-status.json").read_text(encoding="utf-8"))
+    info = revision_info(root)
     return dict(status, source_fingerprint=source_fingerprint(root), record_fingerprint=record_fingerprint(root),
-                **revision_info(root))
+                build_states=build_states(status, root, info["revision"]), **info)

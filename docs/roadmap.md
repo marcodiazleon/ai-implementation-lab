@@ -21,4 +21,6 @@ The initial historical process deviation is retained. Technical evidence and own
 These are milestones, not promised dates or scheduled jobs. The task table is the source for owner, dependency, status and done criterion.
 
 ## Interactive product direction — U04
+Scope note 2026-10-12: this roadmap is dated 2026-10-03 and its "immediate next task" is historical; the current next task is the `next_task` field of [project-status.json](project-status.json).
+
 See the [two plans](PLAN_PRODUCTO_Y_DISENO.md) and [research](INVESTIGACION_PRODUCTO_INTERACTIVO_2026-10-03.md): editable request analysis, explained conditions, A/B comparison and a bounded commercial workflow. These refine existing backlog items; their implementation has not been started by the visual redesign. Immediate next task remains the M02 selection-state correction.

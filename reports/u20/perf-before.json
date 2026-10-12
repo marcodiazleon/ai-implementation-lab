@@ -1,0 +1,352 @@
+{
+ "session@375": {
+  "html": 39236,
+  "domContentLoaded": 120,
+  "load": 128,
+  "resources": 18,
+  "transferredBytes": 317195,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0336
+ },
+ "session@1360": {
+  "html": 39236,
+  "domContentLoaded": 86,
+  "load": 92,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0082
+ },
+ "method@375": {
+  "html": 39236,
+  "domContentLoaded": 74,
+  "load": 99,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0338
+ },
+ "method@1360": {
+  "html": 39236,
+  "domContentLoaded": 84,
+  "load": 108,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0
+ },
+ "evidence@375": {
+  "html": 39236,
+  "domContentLoaded": 87,
+  "load": 95,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.5912
+ },
+ "evidence@1360": {
+  "html": 39236,
+  "domContentLoaded": 76,
+  "load": 86,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0629
+ },
+ "agents@375": {
+  "html": 39236,
+  "domContentLoaded": 50,
+  "load": 74,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.4609
+ },
+ "agents@1360": {
+  "html": 39236,
+  "domContentLoaded": 88,
+  "load": 99,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.1223
+ },
+ "mcp@375": {
+  "html": 39236,
+  "domContentLoaded": 90,
+  "load": 108,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0.0338
+ },
+ "mcp@1360": {
+  "html": 39236,
+  "domContentLoaded": 86,
+  "load": 104,
+  "resources": 17,
+  "transferredBytes": 316860,
+  "largest": [
+   {
+    "name": "latest.json",
+    "bytes": 81735,
+    "decoded": 81735
+   },
+   {
+    "name": "acceptance.csv",
+    "bytes": 73687,
+    "decoded": 73687
+   },
+   {
+    "name": "style.css",
+    "bytes": 30207,
+    "decoded": 30207
+   },
+   {
+    "name": "i18n.js",
+    "bytes": 21321,
+    "decoded": 21321
+   },
+   {
+    "name": "cloud.js",
+    "bytes": 13822,
+    "decoded": 13822
+   }
+  ],
+  "layoutShift": 0
+ }
+}

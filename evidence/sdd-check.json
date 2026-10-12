@@ -2,18 +2,20 @@
   "passed": true,
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
-  "source_id": "34cf9d0558d565a4cd48d7c35c5069a1e2413884c346966239e05cca9b8d2bc5",
-  "record_id": "82b5cc39dae4e9f3567d93c4a960f3d7c6d35cdb7f4e5b4eab1e13f78b7a05bf",
+  "source_id": "6b64dcf435cbbe61213867a136368545605633d20b247d8ebe4c685f522bcdda",
+  "record_id": "c3152dce6fbe81dd6b25c9d3c64d9dbf69cb2fa1b3f160415d48c643c6638eb6",
   "record_sha256": {
     "docs/id-registry.json": "72a81536d3d94c6613169283c0d057e8f68b3a237446477634deedc12b5c99f5",
-    "docs/project-status.json": "bd7de61b0ec5bc0551a42bc0aa53fc43b131a7daf3433d2b183fe6956a829753",
-    "specs/001-support-demo/acceptance.csv": "6d5dacc32a609bf9983356d154d750e70e6a7bf07e960e1cd022028d2dfda765",
-    "specs/001-support-demo/plan.md": "2024779dbc7bdb9ca61d971380ca9fb8b115cb77138d9807908e2aac6cefc10a",
-    "specs/001-support-demo/spec.md": "4379a4ed615ad25959d6e71159e8866ae90c336880fb6475aadccea0f8d996de",
-    "specs/001-support-demo/tasks.md": "9281f1108637161490d644c28e8d55110739b05185e813b1322334949d22a14a",
+    "docs/project-status.json": "44d2540fe32e9fde39dcdc5725df88ad9a6644a97e15532885d722d336a17ca4",
+    "specs/001-support-demo/acceptance.csv": "4b6d95aa2d2ccc2ea91fef800cb97eeaac3c2e6cefd8c5ebbd4bdfbbca1df265",
+    "specs/001-support-demo/case-kinds.json": "fbac91d5a4b61a214a1d9a7ae017ec486c8bee2d5e8b15640c7c0cac8615fa31",
+    "specs/001-support-demo/plan.md": "554824bdf38c1526e112bf02dd1b9a7e5bc4af0782ee3fa0a68f427590f28e46",
+    "specs/001-support-demo/security-controls.json": "37599ef5f6d52bdbd7abafd69998dbf428b7f77e2166d3312c49448f536aa517",
+    "specs/001-support-demo/spec.md": "fb1911792686bc44101613507690c4ea3d64e5f97b5172df67be19469f2980f8",
+    "specs/001-support-demo/tasks.md": "13da0357a15bb89d471d8b835d61acb81ed21c02980a630a12a29d192572d33f",
     "specs/002-expansion/acceptance.csv": "b6e64ff7873d29ab916f103b01212b8fe4d5f5ffcf39771772eff61c6668b2ee",
     "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
-    "specs/002-expansion/spec.md": "e12daff7181fcb0be9075a04d2d234e9ce04730db3de3d66a38883301d54385e",
+    "specs/002-expansion/spec.md": "d213b5fd97c35e91f078025030708004ee08ebe6fe2eb576f43b17f86aa8943a",
     "specs/002-expansion/tasks.md": "f058de31bd09e0624a27d4bec2f4ce31fa3a7c8c91b93fd3b610ef99be746308"
   }
 }

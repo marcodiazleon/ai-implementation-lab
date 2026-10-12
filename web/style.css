@@ -233,3 +233,35 @@ body.sidebar-collapsed .sidebar{padding-left:4px;padding-right:4px}body.sidebar-
 body.sidebar-collapsed .sidebar nav a[aria-current=page] .nav-label{color:var(--ink)}
 /* U17 R38b: three secondary grays raised from 3.54, 4.22 and 4.47 to 5.48:1 on the page background (measured). */
 .tour-result{margin-top:16px}.tour-result h3{margin:0 0 6px;font-size:16px}.tour-result .table-wrap{max-height:none}.tour-result td,.tour-result th{font-size:13px}
+/* U20 (R50a): hit areas of at least 44 px for the primary controls; identity, density and colors unchanged. */
+.topbar select{min-height:44px;padding:8px 10px}
+.sidebar-head button{min-width:44px;min-height:44px;padding:5px 10px}
+.sidebar .brand{min-height:44px;min-width:44px;align-items:center;padding:6px 0;margin:-6px 0}
+.sidebar nav a{min-height:44px;box-sizing:border-box}
+.control-chip{padding:0}.control-chip>span{position:absolute;top:7px;left:8px;pointer-events:none}
+.session .control-chip select{box-sizing:border-box;height:44px;min-height:44px;padding:16px 18px 0 8px}
+.session .send-message{width:44px;height:44px;min-height:44px;border-radius:12px}
+@media(max-width:800px){.session .send-message{right:10px;top:10px}}
+.session-actions button{min-height:44px;padding:8px 10px}
+summary{box-sizing:border-box;min-height:44px;padding:11px 0;line-height:1.4}.composer-info summary{font-size:11px}
+.buttons a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid #777780;border-radius:4px;text-decoration:none}
+.template-card button{min-height:44px}
+.check{min-height:44px;align-items:center;cursor:pointer}.check input{width:22px;height:22px;margin:11px 0}
+#view-mcp .panel>a[target]{display:inline-flex;align-items:center;min-height:44px}
+/* R50c: the message box shows its focus on the composer frame. */
+.session .composer:has(textarea:focus-visible){outline:2px solid #e6e6ee;outline-offset:3px}
+/* R50b: compact first screen at phone widths; the orientation list is a disclosure (collapsed by studio.js on narrow screens). */
+.orientation-wrap{margin:0 0 10px}.orientation-wrap>summary{font-size:13px;color:var(--muted);font-weight:500}.orientation-wrap[open]>summary{margin-bottom:8px}
+@media(max-width:700px){.presentation{padding:16px 14px}.presentation h1{font-size:24px;margin:6px 0 8px}.presentation-lead{font-size:15px;line-height:1.5}.attribution{font-size:12px;margin-bottom:8px}.presentation-actions{margin-bottom:8px}.scope-line{font-size:12px}.orientation{margin-bottom:6px}}
+/* R53a: no layout shift before scripts run. On narrow screens the rail is collapsed by default (studio.js adds
+   sidebar-open when the visitor expands it); async content keeps its space while loading. */
+@media(max-width:800px){
+ body:not(.sidebar-open){--sidebar:64px}
+ body:not(.sidebar-open) .sidebar{padding:18px 4px;box-shadow:none}
+ body:not(.sidebar-open) .brand-text,body:not(.sidebar-open) .sidebar-note{display:none}
+ body:not(.sidebar-open) .sidebar nav a{flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;padding:8px 2px}
+ body:not(.sidebar-open) .sidebar nav a .nav-label{display:block;font-size:9px;line-height:1.2;color:var(--muted);white-space:normal;max-width:56px;overflow-wrap:normal;word-break:normal;hyphens:none}
+ body:not(.sidebar-open) .sidebar nav a[aria-current=page] .nav-label{color:var(--ink)}
+}
+#view-evidence.loading{min-height:100vh}#view-evidence.loading .badge-legend,#view-evidence.loading>.muted:last-of-type{visibility:hidden}
+.agent-grid:empty{min-height:195px}@media(max-width:1150px){.agent-grid:empty{min-height:370px}}@media(max-width:600px){.agent-grid:empty{min-height:750px}}

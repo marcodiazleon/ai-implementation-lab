@@ -1,0 +1,130 @@
+{
+ "state": {
+  "draft": "Borrador U20",
+  "provider": "anthropic",
+  "model": "claude-opus-5-5",
+  "chosen": "claude-opus-5-5",
+  "hashAfterEvidence": "#session",
+  "pickerAfterReturn": "R11"
+ },
+ "dialog": {
+  "focusInside": true,
+  "firstFocus": "dialog-close",
+  "tabStaysInside": [
+   "providerGuide:true",
+   "SUMMARY:true",
+   "BODY:false",
+   "connectionDialog:true",
+   "BUTTON:true",
+   "providerGuide:true"
+  ],
+  "afterEscape": {
+   "open": false,
+   "focus": "openConnection"
+  }
+ },
+ "forms": {
+  "es": {
+   "key": "Escribe al menos 20 caracteres.",
+   "model": "",
+   "agent": "Completa este campo."
+  },
+  "en": {
+   "key": "Enter at least 20 characters.",
+   "model": "",
+   "agent": "Fill in this field."
+  }
+ },
+ "evidenceError": {
+  "blocked": {
+   "status": "Sin evidencia cargada: no se pudieron leer los datos de esta revisión (Failed to fetch).",
+   "retry": {
+    "hidden": false,
+    "name": "Reintentar la carga de la evidencia"
+   },
+   "records": true,
+   "explorer": true
+  },
+  "blockedEn": {
+   "status": "No evidence loaded: this revision's data could not be read (Failed to fetch).",
+   "retry": {
+    "hidden": false,
+    "name": "Retry loading the evidence"
+   },
+   "records": true,
+   "explorer": true
+  },
+  "corrupt": {
+   "status": "Sin evidencia cargada: no se pudieron leer los datos de esta revisión (/api/evidence ilegible).",
+   "retry": {
+    "hidden": false,
+    "name": "Reintentar la carga de la evidencia"
+   },
+   "records": true,
+   "explorer": true
+  },
+  "badShape": {
+   "status": "Sin evidencia cargada: no se pudieron leer los datos de esta revisión (Evidencia inválida: tests.run — debe ser un entero no negativo).",
+   "retry": {
+    "hidden": false,
+    "name": "Reintentar la carga de la evidencia"
+   },
+   "records": true,
+   "explorer": true,
+   "evResult": "",
+   "metricsHidden": true,
+   "live": "status"
+  },
+  "badShapeEn": {
+   "status": "No evidence loaded: this revision's data could not be read (Invalid evidence: tests.run — must be a non-negative integer).",
+   "retry": {
+    "hidden": false,
+    "name": "Retry loading the evidence"
+   },
+   "records": true,
+   "explorer": true
+  },
+  "badStatus": {
+   "status": "Sin evidencia cargada: no se pudieron leer los datos de esta revisión (Evidencia inválida: test_results[test_agents.AgentTests.test_all_roles_produce_hashed_bilingual_templates].status — estado fuera de PASS, FAIL o NO_PROBADO: UNKNOWN_INVALID).",
+   "retry": {
+    "hidden": false,
+    "name": "Reintentar la carga de la evidencia"
+   },
+   "records": true,
+   "explorer": true,
+   "evResult": "",
+   "metricsHidden": true
+  },
+  "badStatusEn": {
+   "status": "No evidence loaded: this revision's data could not be read (Invalid evidence: test_results[test_agents.AgentTests.test_all_roles_produce_hashed_bilingual_templates].status — status outside PASS, FAIL or NO_PROBADO: UNKNOWN_INVALID).",
+   "retry": {
+    "hidden": false,
+    "name": "Retry loading the evidence"
+   },
+   "records": true,
+   "explorer": true
+  },
+  "restored": {
+   "status": "",
+   "retry": {
+    "hidden": true,
+    "name": "Reintentar la carga de la evidencia"
+   },
+   "records": false,
+   "explorer": false
+  },
+  "focusAfterRetry": "evidence-title"
+ },
+ "motion": {
+  "cursorDisplay": "none",
+  "sidebarTransition": "0s"
+ },
+ "reflow": {
+  "#session": 0,
+  "#agents": 0,
+  "#mcp": 0,
+  "#method": 0,
+  "#evidence/R11": 0
+ },
+ "errors": []
+}

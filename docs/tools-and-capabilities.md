@@ -5,7 +5,7 @@ Reviewed 2026-10-03. This register describes this repository and the current wor
 ## Selection by use case
 | Capability | Purpose / CU | Version or source | State and evidence | Data, access, cost and removal |
 |---|---|---|---|---|
-| Python standard library | Domain, HTTP, CLI and verification; CU01–CU07 | Intended 3.11+; local check 3.12.14 | LOCAL_EXECUTION, evidence/latest.json | Synthetic local files and loopback; no product model billing; stop process to disable |
+| Python standard library | Domain, HTTP, CLI and verification; CU01–CU07 | Intended 3.11+; local check 3.12.14 (2026-10-03); CI runs 3.11 and 3.13 (D32, 2026-10-11) | LOCAL_EXECUTION, evidence/latest.json | Synthetic local files and loopback; no product model billing; stop process to disable |
 | Git | Track/review/publish sample; CU07 | Local 2.55.0.windows.5 | LOCAL_EXECUTION and publication records | Only explicitly staged sample files uploaded; credentials handled outside repo; remove remote configuration to stop publishing |
 | Browser | Operator view and UI review; CU01/CU03–CU06 | Current in-app browser; exact engine version not recorded | Observed walkthrough; reports/VALIDATION.md | Loopback synthetic pages; no personal browser data needed; close tab/server |
 | HTTP adapter | GUI-to-controller interface | Repository source/version hashes | Positive/negative integration tests | 127.0.0.1 only, no real authentication; stop server |
@@ -14,6 +14,9 @@ Reviewed 2026-10-03. This register describes this repository and the current wor
 | Implementation-review skill | Trace changed requirements to evidence; CU07 | Repository SKILL.md | Manually read and applied in this update; not an independent reviewer | Read spec/code/evidence; no extra permissions |
 | Application hooks | Record before/after; CU03–CU06 | src/lab/hooks.py | Positive path, tamper detection and pre-hook failure tests | In-memory synchronous events; no model call; no independent timeout; post-effect failure is a documented limitation |
 | Git pre-commit hook | Inspect staged bytes; CU07 | .githooks/pre-commit | Blocked/accepted commits tested in temporary repo; local core.hooksPath configured | Local staged files; Python process has no hook-specific timeout; bypassable; unset repo-local core.hooksPath to disable |
+| Security check | Named static rules, stdlib inventory, action pins, secret scan; CU22 | scripts/security_check.py (standard library) | Positives and negatives in tests/test_u21.py; result embedded in evidence/latest.json and required by check_evidence; runs in every CI job | Local files only; no network; a failure fails verify and both CI gates; not a general SAST, SCA or secret scanner (D48) |
+| Sandbox runner | Isolated validation of this increment; CU22 | scripts/sandbox/run_isolated.sh with scripts/sandbox/promote.py (Linux: cgroups, user/mount/net/pid namespaces, pivot_root to a minimal root, a nested namespace with locked flags for the payload, prlimit, timeout; the export owner runs outside the payload's PID namespace and promotes results with safe opens and limits) | Controls demonstrated and recorded in reports/U21_SECURITY_2026-10-12.md; runs under the earlier runner are superseded | Toolchain read-only, copy and scratch writable, no home, credentials, host temp or original target path reachable; no external network; mandatory process, memory, CPU, file-size and time limits; nothing installed |
+| ruff 0.16.8 (bandit-derived S rules) | One local static analysis pass; CU22 | Present in the implementing environment; not a repository dependency | Findings triaged in reports/U21_SECURITY_2026-10-12.md (C297) | Not executed in CI; adding it needs Marco's dependency decision |
 | SDD validator | Check references, mapping and backlog; CU07 | scripts/sdd_check.py | evidence/sdd-check.json | Local documents only; no external connection |
 | Development assistant | Requirements, implementation and review work | Current configured session; product does not inherit its model | Manual project-rule reads and tool outputs; model identifier/usage not independently measured | File/shell/browser permissions governed by executor; CWD alone grants no access; account cost not quantified |
 | Notion connector | Read owner's engineering method for adoption | Current index and relevant chapters, read 2026-10-03 | Source consultation recorded in adoption map | Read-only; private source text and IDs excluded from this repository |
@@ -30,6 +33,9 @@ Manual skill use is a supported fallback. It is not claimed as native discovery.
 | Verify SDD | python scripts/sdd_check.py | Mapping and link findings |
 | Verify code and evidence | python scripts/verify.py | Individual tests, environment, acceptance updates and source hashes |
 | Inspect publication | python scripts/publication_check.py --staged | Limited staged-pattern findings |
+| Security rules, inventory, pins and secrets | python scripts/security_check.py | PASS, or each failing rule with file and line; allowances printed |
+| Control catalog states | python scripts/security_catalog.py | PASS and one derived state per control |
+| Isolated validation | scripts/sandbox/run_isolated.sh SCRATCH -- python scripts/verify.py | Eleven CONTROL lines (limits, scratch, pids, memory, root, network, fds, env, isolation, namespaces, promotion), then the command's output and PROMOTED |
 | Run interface | python run.py serve --port 8765 | Loopback URL; Ctrl+C stops |
 | Run MCP | python run.py mcp | JSON-RPC on stdin/stdout; not a chat console |
 | Review a change | Follow .agents/skills/implementation-review/SKILL.md manually if not discovered | Requirement, observation, evidence and unresolved limits |

@@ -19,12 +19,12 @@ This exercise uses a fictional shop. It covers order lookup, refund review and a
 | Layer | Purpose | Example in this repository |
 |---|---|---|
 | 00 — Programming foundations | Understand boundaries and contracts | Typed domain object; small controller; explicit request fields |
-| 01 — AI | Decide where reasoning adds value | Model integration is deferred; deterministic baseline makes comparisons possible |
+| 01 — AI | Decide where reasoning adds value | The refund case stays deterministic (no model decides it); the local lab adds an optional conversation with OpenAI or Anthropic using the operator's key and consent (U05, U08; amended 2026-10-12, earlier wording: "Model integration is deferred") |
 | 02 — Execution harness | Control how actions happen | CLI, loopback server, lifecycle hooks, test runner |
 | 03 — Skills and tools | Reuse bounded procedures and interfaces | Data-quality skill and read-only MCP tools |
 | 04 — Specification-driven delivery | Connect intent to checks | Requirement IDs, acceptance CSV and evidence |
-| 05 — Coordination | Separate responsibilities | Planner, reviewer and connector are conceptual roles, not claimed independent agents |
-| Across all layers — Judgment | Evaluate value, cost and risk | No real refund, no live model, no invented business results |
+| 05 — Coordination | Separate responsibilities | The four text-only role agents of U07 propose and never execute; the refund reviewer and connector remain simulated roles, not claimed independent agents (amended 2026-10-12) |
+| Across all layers — Judgment | Evaluate value, cost and risk | No real refund, no model call paid or executed by the developer (the live provider call is recorded NOT_EXECUTED), no invented business results (amended 2026-10-12) |
 
 ## How I organize the work
 - **README** explains the example and how to run it.

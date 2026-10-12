@@ -133,7 +133,7 @@ class ManifestTests(unittest.TestCase):
             self.assertEqual(check_evidence.check_committed(root)[1:], ["Committed evidence describes other records: " + rel])
         root = self.copy()
         status = root / "docs/project-status.json"
-        status.write_text(status.read_text(encoding="utf-8").replace('"NOT_INTEGRATED"', '"INTEGRATED"'), encoding="utf-8")
+        status.write_text(status.read_text(encoding="utf-8").replace('"state": "INTEGRATED"', '"state": "INTEGRATED_BY_HAND"'), encoding="utf-8")
         self.assertEqual(check_evidence.check_committed(root)[1:], ["Committed evidence describes other records: docs/project-status.json"])
         root = self.copy()
         registry = root / "docs/id-registry.json"
@@ -168,7 +168,10 @@ class ManifestTests(unittest.TestCase):
             self.assertNotIn(record_id[:12] or "no-record-id", (ROOT / rel).read_text(encoding="utf-8"), rel)
         status = (ROOT / "docs/project-status.json").read_text(encoding="utf-8")
         self.assertNotIn("evidence_scope", status)
-        self.assertIsNone(re.search(r"\b[0-9a-f]{12,}\b", status.replace("81dfced59cc85231e25732137859923b39a2beed", "")))
+        # Records name 40-character revisions (D41); fingerprints and baselines are never copied here.
+        self.assertIsNone(re.search(r"\b[0-9a-f]{64}\b", status))
+        self.assertIsNone(re.search(r"\b[0-9a-f]{12}\b", status))
+
         doc = (ROOT / "scripts/check_evidence.py").read_text(encoding="utf-8")
         self.assertNotIn("everything that can change a test result", doc)
 
@@ -205,17 +208,14 @@ class LinkTests(unittest.TestCase):
         self.assertIn("status?.pins?.[caseId]", view)
 
     def test_readme_warns_next_to_first_action_while_not_deployed(self):
-        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        # R43b as amended by R52a: the statement next to the first action is true on main and on a branch.
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         first = readme.index("**First action:")
-        if status["deployment"]["this_branch"] == "NOT_DEPLOYED":
-            warning = readme.index("**Not published yet.**")
-            self.assertLess(first, warning)
-            self.assertLess(warning - first, 400)
-            self.assertIn("`NOT_DEPLOYED`", readme[warning:warning + 400])
-            spanish = readme.index("Primera acción:")
-            self.assertIn("NOT_DEPLOYED", readme[spanish:spanish + 400])
+        section = readme[readme.index("## Published or candidate"):]
+        self.assertLess(first, readme.index("## Published or candidate"))
+        self.assertIn("project-status.json", section[:600])
         self.assertNotIn("GitHub Pages publishes main, so a branch shows there only after it is merged", readme)
+        self.assertNotIn("Not published yet", readme)
 
 
 class LanguageTests(unittest.TestCase):
@@ -239,7 +239,7 @@ class LanguageTests(unittest.TestCase):
     def test_spanish_guide_describes_the_current_entry(self):
         guide = (ROOT / "docs/START_HERE_ES.md").read_text(encoding="utf-8")
         for current in ("**Sesión**", "Cómo está construido", "python run.py tour", "Demo pública", "Versión local", "Pendiente",
-                        "NOT_DEPLOYED", "project-status.json"):
+                        "project-status.json", "git rev-parse HEAD"):
             self.assertIn(current, guide)
         self.assertNotIn("siete casos", guide)
         self.assertNotIn("Revisión actual", guide)
