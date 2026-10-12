@@ -3,7 +3,7 @@
 Updated 2026-10-03. [Canonical 20-item backlog](../specs/002-expansion/tasks.md) · [Requirements](../specs/002-expansion/spec.md) · [Research](INVESTIGACION_EXPANSION_2026-10-03.md).
 
 ## Current delivery
-S01 0.2 maintains the local example and completes project-specific engineering documents: seven use cases, requirement sources, tasks, tool registry, per-case acceptance, method map and continuity.
+The S01 version selected in [project-status.json](project-status.json) maintains the local example and completes project-specific engineering documents: seven use cases, requirement sources, tasks, tool registry, per-case acceptance, method map and continuity.
 The initial historical process deviation is retained. Technical evidence and owner acceptance remain separate.
 
 ## Next milestones

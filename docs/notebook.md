@@ -95,3 +95,33 @@ Delivered compact Session, decorative typewriter invitation, composer-bottom sel
 - NOT executed: the load-failure message (R27c failure branch) in a browser; check on the published GitHub Pages URL (needs merge); a run by another person; independent review.
 - State: E-A08 PARTIAL (decision links not in the view); E-M07 PARTIAL (no versioned CI).
 - Next: E-M02.
+
+## 2026-10-05 · U12 Direct Session correction
+Marco authorized Codex to modify the repository directly. Base main: 81dfced59cc85231e25732137859923b39a2beed. The unrelated feat/reset-and-explain branch is preserved.
+R30 / T41-T43 restore the existing chat, remove the visible refund exercise/log, embed API configuration in a dialog and keep five navigation destinations. The public build now ships the reference model catalog and exposes the conversation UI, but disables credentials and labels inference as local-backend functionality.
+Regression tests are added; prior latest.json remains historical. Terminal execution is unavailable in the authoring session. No live inference, hosted backend, new arbitrary MCP execution, merge or deployment is claimed.
+Next: run CI, inspect changed UI in a browser, then owner opens the PR under D20.
+
+## 2026-10-11 · U17 presentation, tour and evidence status (working branch)
+- Source: U17, Marco via Codex 2026-10-11; implementation and verification on `claude/laughing-rubin-6e32ve-entry` only, no merge or deployment. U13 (Session as conversation, five destinations, no visible refund exercise) stays in force.
+- Base: main 81dfced plus PR #5's Session commit 00d827b cherry-picked with `-x`. Its IDs collided with PR #4 and are remapped here (U12→U13, R30→R31, T41–T43→T47–T49, D24→D29, C139–C143→C148–C152); the entry "2026-10-05 · U12 Direct Session correction" above keeps its original wording. docs/id-registry.json lists the IDs still held by PRs #4, #5 and #6 (D34).
+- Delivered: Session presentation (R34), three-minute tour and `python run.py tour` (R35), badge rule with BLOQUEADO and the five separate records in Evidence (R36, D33), sdd_check registry/version/NO_APLICA checks, README by depth, docs/INDEX.md and the canonical table (R37), labeled rail, working skip link and raised secondary grays (R38), one reusable CI with scripts/check_evidence.py (R39, D32). Spec 1.1 (D36).
+- Checks by the implementing assistant: verify.py 123 tests and 7 scenarios; sdd_check clean; check_evidence passes, and a second verification run reproduced every status; browser pass recorded in reports/U17_BROWSER_CHECK_2026-10-11.md.
+- Not executed: test with a new visitor (C170), injected-defect CI run (C176), route review by another person (C177), screen reader, published URL. D35 (visible route for the refund case) waits for Marco.
+- Not claimed: an 8/10 score, owner acceptance or release readiness. Codex reviews the final SHA independently.
+
+## 2026-10-11 · U18 corrections after the second independent review (working branch)
+- Source: U18, Codex's second review of PR #7 at f0f088b (7.5/10, not ready to merge), authorized by Marco. R40–R45, T64–T69, D37–D39 and C200–C214 recorded before the code change. Same branch; no merge, deployment, protection or permission change.
+- Delivered: gate jobs with the required names `verify (ubuntu-latest)` and `verify (windows-latest)` over the full matrix (R40); `run.py tour` safe in cp1252 (R41); source and record manifests with case-level drift, and project-status without a fingerprint copy (R42); links pinned to the build revision or to the commit that recorded a historical case, plus the README publication warning (R43); bilingual footer, Spanish guide and entry docs updated (R44); worked result of the tour checked against the CLI (R45).
+- Checks by the implementing assistant: 135 tests and 7 scenarios; negatives for gate failure/skip/cancel/missing, role, workflow, expected result, case-test mapping, status, registry ID and swapped statuses with equal counts; cp1252 failure reproduced on f0f088b (UnicodeEncodeError, exit 1) and passing after the fix; CI green on f15562d with the required names (runs 38183623455, 38183626007); browser and link pass in reports/U18_BROWSER_CHECK_2026-10-11.md.
+- Not executed: C170, C176, C177, screen reader, live API, another PC, published URL. D35 and the PR #4–#6 reconciliation wait for Marco.
+- Not claimed: an 8/10 score, owner acceptance or merge readiness.
+
+## 2026-10-11 · U19 findings of the review of U18 (working branch)
+- Source: U19, Codex verdict on 5c4292d (8/10 as a presentation, not ready to merge: two P2 and one P3), authorized by Marco. R46–R48, T70–T72, D40 and C215–C221 recorded before the change. Same branch and limits.
+- P2-01 reproduced on 5c4292d: with correct per-file maps, `source_id` or `record_id` set to 64 zeros passed check_committed. Fixed: a missing, malformed or differing digest is always an error (R46). The new tests fail on the 5c4292d checker and pass on the fix.
+- P2-02: README, INDEX and the Spanish guide separate the published URL from the candidate and give fetch, detached checkout and rev-parse commands (R47). Followed in a fresh clone: default clone at 81dfced, candidate at e4981e5.
+- P3: the requirement picker writes `#evidence/<ID>` (R48). Reproduced on the 5c4292d build (R11 reverted to R03 after English); fixed on e4981e5.
+- Checks: 140 tests and 7 scenarios; check_evidence before and after a second verify; CI green on e4981e5 with the required names (runs 38185148340, 38185150770); reports/U19_CHECK_2026-10-11.md.
+- Not executed or claimed: C170, C176, C177, screen reader, live API, another PC, published URL, owner acceptance, merge readiness. D35 and the PR #4–#6 reconciliation wait for Marco.
+

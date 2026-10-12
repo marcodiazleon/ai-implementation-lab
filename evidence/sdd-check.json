@@ -2,13 +2,16 @@
   "passed": true,
   "errors": [],
   "scope": "Structural checks; not semantic review or owner acceptance",
-  "source_id": "a00ae07ad76b133f567d1941bc66765d32a5603883593ddc1a9c32abe944cce4",
-  "spec_sha256": {
-    "specs/001-support-demo/acceptance.csv": "f63ddaf5f2ce1ab416cc6566e6edff2e90bc6de7f226cb40c07589ce14c6fdb4",
-    "specs/001-support-demo/plan.md": "4a020e64696854863372b1f794e536b8a99ec5cde1a8048dbb04e3fd331b7664",
-    "specs/001-support-demo/spec.md": "77b65cb0c8136742c401f6252f630e5216060342253f42122fcb87296dc0051e",
-    "specs/001-support-demo/tasks.md": "baa667195e37f01ed7e0ce2504dd786d9bdd6e88938e78d2c0709709d3c4062f",
-    "specs/002-expansion/acceptance.csv": "bdf7b14190fde0c79ea68f4ff27d678af6f98f68ae6b070df4d8c1efa5789bbb",
+  "source_id": "34cf9d0558d565a4cd48d7c35c5069a1e2413884c346966239e05cca9b8d2bc5",
+  "record_id": "82b5cc39dae4e9f3567d93c4a960f3d7c6d35cdb7f4e5b4eab1e13f78b7a05bf",
+  "record_sha256": {
+    "docs/id-registry.json": "72a81536d3d94c6613169283c0d057e8f68b3a237446477634deedc12b5c99f5",
+    "docs/project-status.json": "bd7de61b0ec5bc0551a42bc0aa53fc43b131a7daf3433d2b183fe6956a829753",
+    "specs/001-support-demo/acceptance.csv": "6d5dacc32a609bf9983356d154d750e70e6a7bf07e960e1cd022028d2dfda765",
+    "specs/001-support-demo/plan.md": "2024779dbc7bdb9ca61d971380ca9fb8b115cb77138d9807908e2aac6cefc10a",
+    "specs/001-support-demo/spec.md": "4379a4ed615ad25959d6e71159e8866ae90c336880fb6475aadccea0f8d996de",
+    "specs/001-support-demo/tasks.md": "9281f1108637161490d644c28e8d55110739b05185e813b1322334949d22a14a",
+    "specs/002-expansion/acceptance.csv": "b6e64ff7873d29ab916f103b01212b8fe4d5f5ffcf39771772eff61c6668b2ee",
     "specs/002-expansion/plan.md": "2630454067eff6fb530195d08669a292c2834ba3dafdfd3caf874ec8d2ecda90",
     "specs/002-expansion/spec.md": "e12daff7181fcb0be9075a04d2d234e9ce04730db3de3d66a38883301d54385e",
     "specs/002-expansion/tasks.md": "f058de31bd09e0624a27d4bec2f4ce31fa3a7c8c91b93fd3b610ef99be746308"

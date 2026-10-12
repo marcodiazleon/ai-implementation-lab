@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = ["README.md", "AGENTS.md", "docs/constitution.md", "docs/decisions.md",
  "docs/notebook.md", "docs/investigacion.md", "docs/sdd-adoption.md", "docs/project-status.json",
- "docs/tools-and-capabilities.md", "docs/operations.md",
+ "docs/tools-and-capabilities.md", "docs/operations.md", "docs/id-registry.json",
  "specs/001-support-demo/spec.md", "specs/001-support-demo/plan.md",
  "specs/001-support-demo/tasks.md", "specs/001-support-demo/acceptance.csv",
  "specs/002-expansion/spec.md", "specs/002-expansion/plan.md",
@@ -35,6 +35,51 @@ def test_ids(root):
                     ids.add(p.stem + "." + cls.name + "." + method.name)
     return ids
 
+DEFINITIONS = {"specs/001-support-demo/spec.md": [r"^\| ((?:U|R)\d+) \|", r"^### (CU\d+)"],
+               "specs/001-support-demo/tasks.md": [r"^\| (T\d+) \|"],
+               "docs/decisions.md": [r"^\| (D\d+) \|", r"^## (D\d+) "]}
+# D36: current guides link to project-status or state provenance; history keeps its numbers.
+VERSION_EXEMPT = {"notebook.md", "decisions.md"}
+VERSION_CITE = re.compile(r"S01 (\d+\.\d+)")
+
+def registry_errors(root, spec, requirements):
+    """D34: reserved IDs of other open pull requests, duplicates and the requirement range."""
+    errors = []
+    registry = json.loads((root / "docs/id-registry.json").read_text(encoding="utf-8"))
+    reserved = {i for block in registry["reserved"] for i in block["ids"]}
+    defined = []
+    for name, patterns in DEFINITIONS.items():
+        text = (root / name).read_text(encoding="utf-8")
+        found = [m for pattern in patterns for m in re.findall(pattern, text, re.M)]
+        defined += found
+        for ident in sorted({x for x in found if found.count(x) > 1}):
+            errors.append("Duplicated ID in " + name + ": " + ident)
+    with (root / "specs/001-support-demo/acceptance.csv").open(encoding="utf-8", newline="") as handle:
+        defined += [row["case_id"] for row in csv.DictReader(handle)]
+    for ident in sorted(set(defined) & reserved):
+        errors.append("ID reserved by another open pull request: " + ident)
+    held = {i for i in reserved if re.fullmatch(r"R\d+", i)}
+    numbers = sorted(int(r[1:]) for r in requirements | held)
+    if not requirements or numbers != list(range(1, numbers[-1] + 1)) or len(numbers) != len(requirements) + len(held):
+        errors.append("Unexpected core requirement set")
+    return errors
+
+def version_errors(root, status):
+    errors, active = [], status.get("active_spec_version")
+    for name in ("spec.md", "plan.md", "tasks.md"):
+        found = re.search(r"^Version:? (\d+\.\d+)\.", (root / "specs/001-support-demo" / name).read_text(encoding="utf-8"), re.M)
+        if not found or found.group(1) != active:
+            errors.append("Version mismatch: " + name + " " + (found.group(1) if found else "none") + " != " + str(active))
+    for path in [root / "README.md"] + sorted((root / "docs").glob("*.md")):
+        if path.name in VERSION_EXEMPT:
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            for match in VERSION_CITE.finditer(line):
+                before = line[:match.start()].lower()
+                if match.group(1) != active and not before.endswith(("introduced in ", "introducido en ", "written for ", "escrito para ")):
+                    errors.append("Outdated S01 version in " + path.relative_to(root).as_posix() + ": " + match.group(1))
+    return errors
+
 def validate(root=ROOT):
     errors = []
     for name in REQUIRED:
@@ -47,9 +92,9 @@ def validate(root=ROOT):
         errors.append("Active specification or backlog state changed without matching validator contract")
     spec = (root / status["active_spec"]).read_text(encoding="utf-8")
     requirements = set(REQUIREMENT_ROW.findall(spec))
-    if requirements != {"R" + str(i).zfill(2) for i in range(1, 28)}:
-        errors.append("Unexpected core requirement set")
     core = root / "specs/001-support-demo"
+    errors.extend(registry_errors(root, spec, requirements))
+    errors.extend(version_errors(root, status))
     with (core / "acceptance.csv").open(encoding="utf-8", newline="") as handle:
         cases = list(csv.DictReader(handle))
     seen, covered, mapped = set(), set(), set()
@@ -76,6 +121,9 @@ def validate(root=ROOT):
             errors.append("Invalid status: " + ident)
         if case.get("status") == "PASS" and not case.get("evidence"):
             errors.append("PASS without evidence: " + ident)
+        # D33: NO_APLICA is excluded from badges, so it must say why.
+        if case.get("status") == "NO_APLICA" and case.get("observed", "").strip() in {"", "No result from this run", "Not executed for this revision"}:
+            errors.append("NO_APLICA without reason: " + ident)
     if requirements - covered:
         errors.append("Requirements without cases: " + ",".join(sorted(requirements - covered)))
     if known - mapped:

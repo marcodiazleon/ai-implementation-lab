@@ -1,10 +1,10 @@
 # Conecta tu IA: OpenAI y Claude
 
-U09 · S01 0.8 · R16,R21,R22,R24–R26. La demostración de devoluciones sigue siendo determinista. La nueva conversación es una función independiente y opcional.
+U09 · introduced in S01 0.8 · R16,R21,R22,R24–R26. La demostración de devoluciones sigue siendo determinista. La nueva conversación es una función independiente y opcional.
 
 ## Uso
 1. Ejecuta INICIAR_LAB.cmd desde la carpeta copiada, con Python 3.11 o posterior.
-2. Abre http://127.0.0.1:8765 y entra en Conecta tu IA.
+2. Abre http://127.0.0.1:8765 y, en Sesión, pulsa Configurar conexión. Desde U13 la conexión es un diálogo dentro de Sesión; la página Conecta tu IA ya no existe.
 3. Elige OpenAI o Claude/Anthropic. Introduce una clave propia y un modelo habilitado en tu proyecto. El programa no selecciona otro modelo.
 4. Elige el límite de salida, confirma el destino y el posible coste, y pulsa Comprobar y conectar.
 5. En Sesión, selecciona un agente o el asistente general; cada envío solicita una respuesta real. Vaciar conversación elimina el contexto local, pero conserva el contador de intentos.

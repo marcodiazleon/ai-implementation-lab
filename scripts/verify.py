@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 from scripts.validate_data import validate
 from scripts.publication_check import check, files
 from scripts.sdd_check import validate as validate_sdd
+from scripts.check_evidence import source_hashes, record_hashes, case_map
 from src.lab.cli import evaluate
 
 class CaseResult(unittest.TextTestResult):
@@ -69,11 +70,8 @@ def main():
     print(stream.getvalue())
     fixture_errors, publication_errors, sdd_errors = validate(), check(), validate_sdd()
     evaluation = evaluate()
-    source = {}
-    for p in files():
-        rel = p.relative_to(ROOT).as_posix()
-        if rel.split("/")[0] in {"src", "tests", "scripts", "data", "web"} or rel == "run.py":
-            source[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+    # One definition of the source fingerprint, shared with scripts/check_evidence.py (R39b, R42a).
+    source = source_hashes()
     source_id = hashlib.sha256(json.dumps(source, sort_keys=True).encode()).hexdigest()
     by_test = {r["test_id"]: r for r in result.cases}
     path = ROOT / "specs/001-support-demo/acceptance.csv"
@@ -97,24 +95,29 @@ def main():
         writer = csv.DictWriter(h, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(cases)
-    spec_hashes = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
-                   for p in (ROOT / "specs").rglob("*") if p.is_file()}
+    # R42a / D38: records are fingerprinted after acceptance.csv is rewritten, so the commit carries both.
+    records = record_hashes()
+    record_id = hashlib.sha256(json.dumps(records, sort_keys=True).encode()).hexdigest()
     sdd_record = {"passed": not sdd_errors, "errors": sdd_errors,
                   "scope": "Structural checks; not semantic review or owner acceptance",
-                  "source_id": source_id, "spec_sha256": spec_hashes}
+                  "source_id": source_id, "record_id": record_id, "record_sha256": records}
     (ROOT / "evidence/sdd-check.json").write_text(json.dumps(sdd_record, indent=2) + "\n", encoding="utf-8")
     evidence = {
         "schema": 2, "generated_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "Local synthetic demonstration; not product acceptance or security certification",
         "input_revision": input_revision, "input_worktree_dirty": input_dirty,
         "source_id": source_id, "environment": environment,
+        "manifests": "source_sha256: src, tests, scripts, data, web, agents, .github, run.py; record_sha256: specs "
+                     "(acceptance.csv without its environment column), docs/project-status.json, docs/id-registry.json. "
+                     "evidence/ is in neither (scripts/check_evidence.py)",
         "tests": {"run": result.testsRun, "failures": len(result.failures), "errors": len(result.errors),
                   "skipped": len(result.skipped), "passed": result.wasSuccessful()},
         "test_results": result.cases,
         "fixture_validation": {"passed": not fixture_errors, "errors": fixture_errors},
         "publication_guard": {"passed": not publication_errors, "errors": publication_errors, "scope": "Limited patterns"},
         "sdd_check": {"passed": not sdd_errors, "errors": sdd_errors},
-        "scenario_evaluation": evaluation, "source_sha256": source, "spec_sha256": spec_hashes,
+        "scenario_evaluation": evaluation, "source_sha256": source,
+        "record_id": record_id, "record_sha256": records, "acceptance_cases": case_map(path),
         "acceptance_states": {s: sum(c["status"] == s for c in cases) for s in ("PASS", "FAIL", "NO_PROBADO", "BLOQUEADO", "NO_APLICA")},
         "limitations": ["Manual acceptance retains its original evidence/version", "No LLM evaluation",
                        "No live MCP client integration", "No authenticated reviewer",
@@ -122,6 +125,9 @@ def main():
     evidence["passed"] = result.wasSuccessful() and not fixture_errors and not publication_errors and not sdd_errors and evaluation["passed"]
     (ROOT / "evidence/latest.json").write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"passed": evidence["passed"], "tests": result.testsRun, "scenarios": len(evaluation["cases"]), "sdd_errors": sdd_errors}))
+    # R37b: say plainly that versioned files changed, so nobody commits a local run by accident.
+    print("Note: this run rewrote evidence/latest.json, evidence/sdd-check.json and specs/001-support-demo/acceptance.csv. "
+          "Review them with git diff; restore with git checkout -- evidence specs/001-support-demo/acceptance.csv.")
     return 0 if evidence["passed"] else 1
 
 if __name__ == "__main__":

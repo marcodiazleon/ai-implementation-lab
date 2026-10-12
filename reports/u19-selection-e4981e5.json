@@ -1,0 +1,73 @@
+{
+ "out": {
+  "390": [
+   {
+    "label": "tour link R03",
+    "hash": "#evidence/R03",
+    "picker": "R03",
+    "badge": "PASS",
+    "lang": "es"
+   },
+   {
+    "label": "choose R11",
+    "hash": "#evidence/R11",
+    "picker": "R11",
+    "badge": "PARCIAL",
+    "lang": "es"
+   },
+   {
+    "label": "EN",
+    "hash": "#evidence/R11",
+    "picker": "R11",
+    "badge": "PARCIAL",
+    "lang": "en"
+   },
+   {
+    "label": "ES",
+    "hash": "#evidence/R11",
+    "picker": "R11",
+    "badge": "PARCIAL",
+    "lang": "es"
+   },
+   {
+    "label": "back to Session",
+    "draft": "Borrador U19"
+   }
+  ],
+  "1360": [
+   {
+    "label": "tour link R03",
+    "hash": "#evidence/R03",
+    "picker": "R03",
+    "badge": "PASS",
+    "lang": "es"
+   },
+   {
+    "label": "choose R11",
+    "hash": "#evidence/R11",
+    "picker": "R11",
+    "badge": "PARCIAL",
+    "lang": "es"
+   },
+   {
+    "label": "EN",
+    "hash": "#evidence/R11",
+    "picker": "R11",
+    "badge": "PARCIAL",
+    "lang": "en"
+   },
+   {
+    "label": "ES",
+    "hash": "#evidence/R11",
+    "picker": "R11",
+    "badge": "PARCIAL",
+    "lang": "es"
+   },
+   {
+    "label": "back to Session",
+    "draft": "Borrador U19"
+   }
+  ]
+ },
+ "errors": []
+}

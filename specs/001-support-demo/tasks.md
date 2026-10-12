@@ -1,6 +1,6 @@
 # S01 tasks
 
-Version 0.9. Current spec: spec.md 0.9. Existing behavior is retained; this update completes method records and reproducible evidence.
+Version 1.1. Current spec: spec.md 1.1. Existing behavior is retained; this update completes method records and reproducible evidence.
 Source: U01–U05 in the spec. One implementing assistant writes shared artifacts; Marco owns business decisions and final acceptance.
 
 | ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
@@ -46,3 +46,39 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 | T35 | R27,R12 | U10 source, R27 EARS, task and case records; read-only evidence/acceptance/requirements data routes and public data files | U10,T15 | Implementing assistant | Spec, routes and build data exist; sdd_check passes with R27 | IMPLEMENTED; see U10 notebook entry |
 | T36 | R27,R15 | Bilingual Evidence view: run metrics, requirement picker, case table and PENDIENTE badge | T35,T28 | Implementing assistant | Local and public build show metrics and R02 cases in a browser | IMPLEMENTED; see U10 notebook entry |
 | T37 | R27 | Tests and acceptance cases for data routes, public build files and ID parity | T35 | Implementing assistant | C114–C120 mapped and passing in evidence/latest.json | IMPLEMENTED; see U10 notebook entry |
+
+## U13 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T47 | R31,R21,R25 | Conversation-only Session and five destinations | U13,T28,T32 | Codex, directly authorized by Marco | Chat controls remain; exercise/log absent; dialog preserves draft | IMPLEMENTED; verification pending |
+| T48 | R31,R16,R26 | Public model catalog and explicit local-only connection boundary | T47,T22,T33 | Codex | Same reference catalog; static credential submission blocked | IMPLEMENTED; verification pending |
+| T49 | R31,R12,R14 | Regression checks, evidence classification and README | T47,T48 | Codex | Checks recorded by revision; historical results not reused as redesign acceptance | IMPLEMENTED; CI/browser pending |
+
+## U17 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T57 | R34,R36,R39 | U17 source, R34–R39, CU19–CU20, ID registry, remap of carried PR #5 IDs, decisions D32–D36 and cases before implementation | U17,T47 | Implementing assistant | sdd_check passes with the registry | IMPLEMENTED |
+| T58 | R34,R38 | Session presentation block and README rewrite with a screenshot of this revision's public build | T57 | Implementing assistant | Presentation checks pass; README within 700 words | IMPLEMENTED; C183–C185, C171 |
+| T59 | R35 | Tour section in How it is built and `run.py tour` | T57 | Implementing assistant | Tour CLI and HTML checks pass | IMPLEMENTED; C186–C188, C172 |
+| T60 | R36 | Badge semantics, status route and view, validator negatives | T57 | Implementing assistant | Node badge and sdd_check negatives pass | IMPLEMENTED; C178–C182, C189–C192, C173 |
+| T61 | R39 | Single reusable CI and evidence reproducibility check | T60 | Implementing assistant | Workflow and drift checks pass; CI green on candidate SHA | IMPLEMENTED; C193–C195; CI green on 2be5cee (C175, run 38181150428) |
+| T62 | R37 | INDEX, historical register, canonical table, traceability example, verify warning, guide versions | T58–T61 | Implementing assistant | Document checks pass | IMPLEMENTED; C198–C199 |
+| T63 | R38,R34,R35,R36 | Browser pass at 375/390/1360 in ES/EN, contrast measurements, screenshots | T58–T62 | Implementing assistant | Measurements recorded; no page overflow | IMPLEMENTED; C174, C196–C197; reports/U17_BROWSER_CHECK_2026-10-11.md |
+
+## U18 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T64 | R40,R41,R42,R43,R44,R45 | U18 source, R40–R45, decisions D37–D39 and cases C200–C214 before implementation | U18,T57 | Implementing assistant | sdd_check passes | IMPLEMENTED |
+| T65 | R40 | Gate jobs with the required names and scripts/ci_gate.py | T64 | Implementing assistant | Gate negatives pass; CI shows both required names on the candidate SHA | IMPLEMENTED; C200–C202 |
+| T66 | R41,R45 | ASCII tour output, encoding tolerance, worked result in the tour | T64 | Implementing assistant | Subprocess encoding test and worked-result parity pass | IMPLEMENTED; C203, C213 |
+| T67 | R42 | Source and record manifests, case-level drift, project-status without fingerprint copy | T64 | Implementing assistant | Manifest negatives pass; check_evidence passes before and after verify | IMPLEMENTED; C204–C207 |
+| T68 | R43 | Revision, pins and resolved links in the build, server and view; README warning | T64,T67 | Implementing assistant | Link inventory and README checks pass; links resolve on the pushed SHA | IMPLEMENTED; C208–C209, C214 |
+| T69 | R44 | Bilingual footer and notices; current Spanish guide; browser pass ES-EN-ES | T64 | Implementing assistant | Markup and guide checks pass; browser pass recorded | IMPLEMENTED; C210–C212 |
+
+## U19 delivery
+| ID | Requirement | Deliverable | Dependencies | Responsible | Done when | State |
+|---|---|---|---|---|---|---|
+| T70 | R46 | Unconditional digest check with negatives and positive | U19,T67 | Implementing assistant | Corrupt, invalid and missing digests rejected; intact passes | IMPLEMENTED; C215–C216 |
+| T71 | R47 | Candidate review route in README, INDEX and Spanish guide | U19,T68 | Implementing assistant | Document checks pass; commands work in a fresh clone | IMPLEMENTED; C217–C218, C221 |
+| T72 | R48 | Requirement selection kept in the address and across languages | U19,T60 | Implementing assistant | Handler check and browser pass | IMPLEMENTED; C219–C220 |
+

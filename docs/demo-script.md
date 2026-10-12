@@ -1,4 +1,6 @@
-# Ten-minute walkthrough
+# Ten-minute walkthrough (historical)
+
+> Historical, 2026-10-03. This walkthrough describes the visible refund exercise that U13 removed from the interface. The current route is the three-minute tour in How it is built and `python run.py tour`; see [INDEX.md](INDEX.md).
 
 ## Prepare
 Run `python scripts/verify.py`, then `python run.py serve`. Open the loopback URL printed by the server. Do not enter real data.
