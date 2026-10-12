@@ -64,10 +64,10 @@ class SddTests(unittest.TestCase):
         self.assertEqual(validate(self.root), [])
 
     def test_id_reserved_by_another_pull_request_is_rejected(self):
-        # R28 belongs to PR #4 (docs/id-registry.json); defining it here must fail.
-        self.edit("specs/001-support-demo/spec.md", "| R34 |", "| R28 |")
+        # R30 stays reserved for PR #4 (docs/id-registry.json); defining it here must fail.
+        self.edit("specs/001-support-demo/spec.md", "| R34 |", "| R30 |")
         errors = validate(self.root)
-        self.assertIn("ID reserved by another open pull request: R28", errors)
+        self.assertIn("ID reserved by another open pull request: R30", errors)
         self.assertIn("Unexpected core requirement set", errors)
 
     def test_duplicated_task_and_decision_ids_are_rejected(self):
