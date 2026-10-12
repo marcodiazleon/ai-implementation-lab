@@ -1530,6 +1530,22 @@
   "C317": {
    "kind": "manual",
    "polarity": "negative"
+  },
+  "C318": {
+   "kind": "structure",
+   "polarity": "positive"
+  },
+  "C319": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C320": {
+   "kind": "behavior",
+   "polarity": "positive"
+  },
+  "C321": {
+   "kind": "manual",
+   "polarity": "negative"
   }
  },
  "overrides": {}

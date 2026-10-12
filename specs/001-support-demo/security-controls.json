@@ -459,18 +459,23 @@
   {
    "id": "SC-16",
    "boundary": "runtime",
-   "control": "Validation under an OS sandbox with an inspectable script: minimal root with the toolchain read-only, a synthetic /etc from an allowlist, no home, credentials, host temp, original target path or writable host path; isolated loopback; empty environment; mandatory process, memory, CPU, file-size and time limits with probes inside them; fail-closed probes",
+   "control": "Validation under an OS sandbox with an inspectable script: minimal root with the toolchain read-only, a synthetic /etc from an allowlist, no home, credentials, host temp, original target path or writable host path; isolated loopback; empty environment; mandatory process, memory, CPU, file-size and time limits with probes inside them; fail-closed probes; the export owner outside the payload's PID namespace, no host descriptor in the namespace, non-dumpable supervisor, nested namespace with locked flags and no_new_privs for the payload, promotion after every process ended with safe opens, limits and rechecks",
    "code": [
     "scripts/sandbox/run_isolated.sh",
+    "scripts/sandbox/promote.py",
     "reports/U21_SECURITY_2026-10-12.md"
    ],
    "cases": [
     "C306",
     "C307",
-    "C313"
+    "C313",
+    "C318",
+    "C319",
+    "C320",
+    "C321"
    ],
    "state": "PARCIAL",
-   "limit": "Linux with cgroups and user namespaces; runs under the earlier runner are reported and superseded, not verified",
+   "limit": "Linux with cgroups and user namespaces; the kernel is the host's and the payload is root of its own nested namespace; runs under the earlier runners are reported and superseded, not verified",
    "checklist": [
     "REQ168"
    ]
