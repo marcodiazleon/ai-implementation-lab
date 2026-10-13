@@ -1,6 +1,6 @@
 # Project constitution
 
-Version 0.2, 2026-10-03. Owner: Marco Díaz de León.
+Version 0.2, 2026-10-03. Owner: Marco A Díaz de León.
 Purpose: a public example of implementation work for clients and recruiters. Current runtime scope: local synthetic after-sales demonstration plus separate opt-in OpenAI text Q&A (amended U08, 2026-10-03: Anthropic too; U13, 2026-10-05: the conversation is the primary experience and the refund case runs by CLI).
 
 ## Authority and data

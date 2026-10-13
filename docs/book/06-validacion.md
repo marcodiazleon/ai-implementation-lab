@@ -4,7 +4,7 @@
 
 ## 6.1 Cinco registros que nadie infiere de otro
 
-La vista Evidencia muestra cinco filas y la constitución exige que ninguna se deduzca de otra (regla 4; README: "none is implied by another"). A la fecha de este libro, con las palabras exactas de [project-status.json](../project-status.json) y de `evidence/latest.json`:
+La vista Evidencia muestra cinco filas y la constitución exige que ninguna se deduzca de otra (regla 4; README: "none is implied by another"). La tabla siguiente conserva el corte histórico de `a16a4e6` al redactar el libro; no es el estado actual de main. Actualización 2026-10-13: U20–U23 ya se integraron y la publicación de aplicación/nombre confirmada es `8675cac`; [project-status.json](../project-status.json) conserva ambos cortes. The table below is the historical `a16a4e6` snapshot, not current main; the confirmed runtime/name release is `8675cac`.
 
 | Registro | Qué significa | Quién lo produce | Estado de la revisión descrita | Fuente |
 |---|---|---|---|---|

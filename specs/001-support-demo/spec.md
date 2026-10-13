@@ -1,7 +1,7 @@
 # S01 — AI conversation workspace and historical engineering sample
 
-Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review; U19 closes the findings of the review of U18; U21 adds the security increment (R54–R58) and U22 the engineering book (R59), both on stacked branches under review; U20 raises every area to the owner's 9/10 target after acceptance of fb7ecf6.
-Owner: Marco Díaz de León. Engineering: implementing assistant.
+Version: 1.1. Status: current specification; U13 supersedes the visible after-sales exercise; U17 adds the presentation, tour and evidence-status increment; U18 corrects it after the second independent review; U19 closes the findings of the review of U18; U21 adds the security increment (R54–R58) and U22 the engineering book (R59), both integrated in main through PRs #8–#10; U23 publishes the visible name through PR #12; U20 raises every area to the owner's 9/10 target after acceptance of fb7ecf6.
+Owner: Marco A Díaz de León. Engineering: implementing assistant.
 This version reconciles the existing example with the engineering method. It does not retrospectively approve the original implementation order.
 
 ## Need and sources
@@ -365,3 +365,6 @@ Source: U23 (Marco via Codex, 2026-10-12). It amends R34 only in the form of the
 
 - R34 (amended by U23): the visible name in web/index.html shall read "Marco A Díaz de León" in the title, the h1 and, in capitals, "MARCO A DÍAZ DE LEÓN" in the sidebar and the footer; the previous form shall not remain in that file.
 - Scope limit: only web/index.html changes. README, the guides and the other records keep the form they have until the owner asks for them; a mismatch between them and the page is known and recorded in the notebook, not hidden.
+
+## Record maintenance — 2026-10-13
+Owner asks to review Claude’s closure response, prepare and close the repository work, preserving Spanish and English. R14/R49/R52 and CU07/CU21 govern this bounded reconciliation. U20–U23 are integrated; historical source instructions remain historical. Main/runtime release 8675cac and successful Pages run are recorded; PR #4/#5/#6/#11 are closed by explicit owner choice with branches retained. No human/security/live cases are promoted.

@@ -1,82 +1,127 @@
 {
- "schema": 1,
- "project": "AI Implementation Lab",
- "updated": "2026-10-12",
- "active_spec": "specs/001-support-demo/spec.md",
- "active_spec_version": "1.1",
- "expansion_spec": "specs/002-expansion/spec.md",
- "expansion_state": "BACKLOG",
- "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
- "owner": "Marco Diaz de Leon",
- "maintenance_owner": "Marco Diaz de Leon",
- "development_executor": "Implementing assistant (Claude Code) on branch claude/laughing-rubin-6e32ve-book, stacked on claude/laughing-rubin-6e32ve-sec (PR #9, a16a4e6) and claude/laughing-rubin-6e32ve-nine (PR #8, 86051b5); authorized by Marco via Codex 2026-10-12 (U21, U22)",
- "runtime_model": "OPTIONAL_OPENAI_OR_ANTHROPIC_OPERATOR_SELECTED",
- "acceptance": {
-  "status": "OWNER_ACCEPTED",
-  "by": "Marco Diaz de Leon",
-  "date": "2026-10-11",
-  "revision": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
-  "record": "Merge commit 166ea91030c5ccff1d4accba34228bf48582c0c4 message: Marco accepted delivery fb7ecf6 and authorized merge and Pages publication",
-  "scope": {
-   "es": "Entrega U17–U19 tal como se presentó en el PR #7 (presentación, recorrido, estado de evidencia, CI y correcciones de las revisiones). No cubre cambios posteriores a esa revisión.",
-   "en": "U17–U19 delivery as presented in PR #7 (presentation, tour, evidence status, CI and review corrections). It does not cover changes after that revision."
-  }
- },
- "independent_review": {
-  "status": "COMPLETED",
-  "by": "Codex",
-  "date": "2026-10-11",
-  "revision": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
-  "scope": {
-   "es": "Tercera revisión independiente de PR #7 en fb7ecf6: 140 pruebas, 7 escenarios, SDD y reproducción de estados, registros y casos en Windows 3.13 y Node 24; 10 checks del SHA en verde",
-   "en": "Third independent review of PR #7 at fb7ecf6: 140 tests, 7 scenarios, SDD and reproduction of states, records and cases on Windows 3.13 and Node 24; 10 checks green on that SHA"
+  "schema": 1,
+  "project": "AI Implementation Lab",
+  "updated": "2026-10-13",
+  "active_spec": "specs/001-support-demo/spec.md",
+  "active_spec_version": "1.1",
+  "expansion_spec": "specs/002-expansion/spec.md",
+  "expansion_state": "BACKLOG",
+  "method": "Engineering method base 1.0 + portable 1.1 + adoption 2026-10-03",
+  "owner": "Marco A Díaz de León",
+  "maintenance_owner": "Marco A Díaz de León",
+  "development_executor": "Codex: bounded record reconciliation and ES/EN verification authorized by Marco 2026-10-13; U20-U23 already integrated in main",
+  "runtime_model": "OPTIONAL_OPENAI_OR_ANTHROPIC_OPERATOR_SELECTED",
+  "acceptance": {
+    "status": "OWNER_ACCEPTED",
+    "by": "Marco Diaz de Leon",
+    "date": "2026-10-11",
+    "revision": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
+    "record": "Merge commit 166ea91030c5ccff1d4accba34228bf48582c0c4 message: Marco accepted delivery fb7ecf6 and authorized merge and Pages publication",
+    "scope": {
+      "es": "Entrega U17–U19 tal como se presentó en el PR #7 (presentación, recorrido, estado de evidencia, CI y correcciones de las revisiones). No cubre cambios posteriores a esa revisión.",
+      "en": "U17–U19 delivery as presented in PR #7 (presentation, tour, evidence status, CI and review corrections). It does not cover changes after that revision."
+    }
   },
-  "not": {
-   "es": "No es aceptación del dueño; revisiones posteriores se registran con su propia revisión",
-   "en": "Not owner acceptance; later reviews are recorded with their own revision"
+  "independent_review": {
+    "status": "COMPLETED",
+    "by": "Codex",
+    "date": "2026-10-11",
+    "revision": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
+    "scope": {
+      "es": "Tercera revisión independiente de PR #7 en fb7ecf6: 140 pruebas, 7 escenarios, SDD y reproducción de estados, registros y casos en Windows 3.13 y Node 24; 10 checks del SHA en verde",
+      "en": "Third independent review of PR #7 at fb7ecf6: 140 tests, 7 scenarios, SDD and reproduction of states, records and cases on Windows 3.13 and Node 24; 10 checks green on that SHA"
+    },
+    "not": {
+      "es": "No es aceptación del dueño; revisiones posteriores se registran con su propia revisión",
+      "en": "Not owner acceptance; later reviews are recorded with their own revision"
+    }
+  },
+  "evidence": "evidence/latest.json",
+  "latest_delivery": "U20-U23 integrated through PRs #8-#10 and #12; runtime/name release 8675cac published and verified. Presentation closure accepted at 8.5/10, not production certification.",
+  "current_task": "R14/R49/R52 records reconciled; five-view ES/EN release checked; PR #4/#5/#6/#11 closed by owner instruction, branches retained",
+  "live_api": "NOT_EXECUTED",
+  "other_pc_runtime": "NOT_EXECUTED",
+  "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
+  "json_browser_download": "VERIFIED_FILE_AND_HASH",
+  "public_demo": "https://marcodiazleon.github.io/ai-implementation-lab/",
+  "public_demo_verified": "Codex 2026-10-13: public 8675cac, five destinations and ES/EN; prior full desktop/390px verification 2026-10-12",
+  "integration": {
+    "state": "INTEGRATED",
+    "main": "8675cac1b2d45fb1eb32ff8f155e6d75445835b8",
+    "merged": "6c05f9161f74d0f697777dcfe9fec1f35b8d40fa",
+    "pull_request": 12,
+    "date": "2026-10-12",
+    "open_prs": [],
+    "scope": {
+      "es": "U20-U22 integrados mediante PR #10 → #9 → #8 → main; U23 integrado mediante PR #12. PR #4/#5/#6/#11 cerrados el 13/10 por Marco; ramas conservadas; el rescate #11 no se integró.",
+      "en": "U20-U22 integrated through PR #10 → #9 → #8 → main; U23 through PR #12. PR #4/#5/#6/#11 closed on October 13 at Marco’s direction; branches retained; rescue #11 was not merged."
+    }
+  },
+  "deployment": {
+    "state": "DEPLOYED",
+    "revision": "8675cac1b2d45fb1eb32ff8f155e6d75445835b8",
+    "run": "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/38304362904",
+    "date": "2026-10-12",
+    "url": "https://marcodiazleon.github.io/ai-implementation-lab/",
+    "verified": {
+      "by": "Codex",
+      "date": "2026-10-13",
+      "scope": {
+        "es": "Publicación 8675cac confirmada por GitHub Pages SUCCESS; cinco vistas en español e inglés y nombre Marco A Díaz de León. Revisión de escritorio y 390 px registrada el 12/10. Este registro no anticipa la publicación del nuevo cierre documental.",
+        "en": "Release 8675cac confirmed by GitHub Pages SUCCESS; five views in Spanish and English and the name Marco A Díaz de León. Desktop and 390px review recorded October 12. This record does not anticipate publication of the new documentary closeout."
+      }
+    }
+  },
+  "id_registry": "docs/id-registry.json",
+  "next_task": "No active implementation. Parked: D35 / remaining D19, private reporting route, ruff dependency decision, C304 owner environment evidence, C326 Pages-save guard decision, C170 real visitor and C327 render captures. Any new capability needs its own scope; four closed branches remain recoverable.",
+  "evidence_fields": "Run baseline, worktree state and the source and record fingerprints are read from evidence/latest.json; they are not copied here (R42c)",
+  "records_rule": "Each record names the revision it is about. The build and the local server compute from Git whether this checkout has the same content as the accepted and published revisions and whether it is contained in main (scripts/revision.py, D41). Nothing here is copied from evidence/latest.json.",
+  "integration_history": [
+    {
+      "state": "INTEGRATED",
+      "main": "166ea91030c5ccff1d4accba34228bf48582c0c4",
+      "merged": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
+      "pull_request": 7,
+      "date": "2026-10-12",
+      "open_prs": [
+        "#4 feat/reset-and-explain",
+        "#5 fix/session-first-public",
+        "#6 claude/laughing-rubin-6e32ve",
+        "#8 claude/laughing-rubin-6e32ve-nine (U20 draft)",
+        "#9 claude/laughing-rubin-6e32ve-sec (U21 draft, stacked on #8)",
+        "#10 claude/laughing-rubin-6e32ve-book (U22 draft, stacked on #9)"
+      ]
+    }
+  ],
+  "deployment_history": [
+    {
+      "state": "DEPLOYED",
+      "revision": "166ea91030c5ccff1d4accba34228bf48582c0c4",
+      "run": "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/38190865149",
+      "date": "2026-10-12",
+      "url": "https://marcodiazleon.github.io/ai-implementation-lab/",
+      "verified": {
+        "by": "Codex",
+        "date": "2026-10-12",
+        "scope": {
+          "es": "URL pública: presentación, recorrido, R03, evidencia con R11 PARCIAL 1 de 2, ES/EN/ES, enlaces fijados a 166ea91 y borrador conservado",
+          "en": "Published URL: presentation, tour, R03, evidence with R11 PARCIAL 1 of 2, ES/EN/ES, links pinned to 166ea91 and draft preserved"
+        }
+      }
+    }
+  ],
+  "presentation_closure": {
+    "date": "2026-10-12",
+    "status": "OWNER_ACCEPTED_BOUNDED_PRESENTATION",
+    "score": "8.5/10",
+    "revision": "8675cac1b2d45fb1eb32ff8f155e6d75445835b8",
+    "scope": {
+      "es": "Cierre presentable como laboratorio con datos ficticios. No extiende la aceptación histórica de fb7ecf6 a pruebas humanas, seguridad certificada o producción.",
+      "en": "Presentable closure as a fictional-data laboratory. Does not extend the historical acceptance of fb7ecf6 to human tests, certified security or production."
+    }
+  },
+  "closeout_scope": {
+    "es": "Mantenimiento de registros R14/R49/R52 autorizado el 13/10; sin nuevas funciones, inferencia, dependencias ni cambios de permisos. Revisión y aceptación históricas conservan sus revisiones.",
+    "en": "R14/R49/R52 record maintenance authorized October 13; no new features, inference, dependencies or permission changes. Historical review and acceptance keep their original revisions."
   }
- },
- "evidence": "evidence/latest.json",
- "latest_delivery": "U17–U19 accepted and published at 166ea91; U20 (R49–R53, T73–T79) delivered for review on PR #8 at 86051b5; U21 security increment (R54–R58, T80–T88) delivered on PR #9 at a16a4e6 (8.5/10 provisional, not accepted); U22 engineering book (R59, T89) on PR #10, not accepted",
- "current_task": "T80–T89 IMPLEMENTED on stacked branches (U21 security on PR #9 at a16a4e6, U22 engineering book on PR #10); independent review by Codex and owner decision pending for U20, U21 and U22",
- "live_api": "NOT_EXECUTED",
- "other_pc_runtime": "NOT_EXECUTED",
- "live_context7": "VERIFIED_NO_KEY_TWO_READ_TOOLS",
- "json_browser_download": "VERIFIED_FILE_AND_HASH",
- "public_demo": "https://marcodiazleon.github.io/ai-implementation-lab/",
- "public_demo_verified": "Codex 2026-10-12 on main 166ea91 (see deployment.verified)",
- "integration": {
-  "state": "INTEGRATED",
-  "main": "166ea91030c5ccff1d4accba34228bf48582c0c4",
-  "merged": "fb7ecf62f0b76b708ddee30b8e850d44c88959e4",
-  "pull_request": 7,
-  "date": "2026-10-12",
-  "open_prs": [
-   "#4 feat/reset-and-explain",
-   "#5 fix/session-first-public",
-   "#6 claude/laughing-rubin-6e32ve",
-   "#8 claude/laughing-rubin-6e32ve-nine (U20 draft)",
-   "#9 claude/laughing-rubin-6e32ve-sec (U21 draft, stacked on #8)",
-   "#10 claude/laughing-rubin-6e32ve-book (U22 draft, stacked on #9)"
-  ]
- },
- "deployment": {
-  "state": "DEPLOYED",
-  "revision": "166ea91030c5ccff1d4accba34228bf48582c0c4",
-  "run": "https://github.com/marcodiazleon/ai-implementation-lab/actions/runs/38190865149",
-  "date": "2026-10-12",
-  "url": "https://marcodiazleon.github.io/ai-implementation-lab/",
-  "verified": {
-   "by": "Codex",
-   "date": "2026-10-12",
-   "scope": {
-    "es": "URL pública: presentación, recorrido, R03, evidencia con R11 PARCIAL 1 de 2, ES/EN/ES, enlaces fijados a 166ea91 y borrador conservado",
-    "en": "Published URL: presentation, tour, R03, evidence with R11 PARCIAL 1 of 2, ES/EN/ES, links pinned to 166ea91 and draft preserved"
-   }
-  }
- },
- "id_registry": "docs/id-registry.json",
- "next_task": "Codex's fourth review of PR #10 after the arrow-fidelity correction (R59h, C329); owner evidence for C304 (MFA, branch protection, private vulnerability reporting); owner decisions D35, the dependency decision for ruff in CI, what remains of D19 after D29 and an operative private reporting channel; the Pages agent-save guard gap (C326); PR #4–#6 reconciliation; C170 visitor test and the human readings of the book",
- "evidence_fields": "Run baseline, worktree state and the source and record fingerprints are read from evidence/latest.json; they are not copied here (R42c)",
- "records_rule": "Each record names the revision it is about. The build and the local server compute from Git whether this checkout has the same content as the accepted and published revisions and whether it is contained in main (scripts/revision.py, D41). Nothing here is copied from evidence/latest.json."
 }

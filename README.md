@@ -1,6 +1,6 @@
 # AI Implementation Lab
 
-**Marco Díaz de León · AI implementation strategy**
+**Marco A Díaz de León · AI implementation strategy**
 
 I turn an AI idea into a bounded first version: I define the problem and the scope, set the acceptance criteria, coordinate the build and verify the result. This repository is a small working lab that shows that method on a fictional case.
 
@@ -34,7 +34,7 @@ Screenshot from the public build of the revision that added it, served locally.
 | Refund case | Described in the tour; not run in the interface by the owner's decision (U13) | `python run.py tour` and the test suite |
 | Evidence | Committed run, cases and project records | The same, plus `python scripts/verify.py` |
 
-Pending: a new-visitor test, a recorded live provider call, an owner decision on a visible refund route, and the reconciliation of pull requests #4 to #6 ([capabilities.md](docs/capabilities.md)). What was verified, reviewed, accepted, integrated and published, revision by revision: the Evidence view and [project-status.json](docs/project-status.json).
+Pending: a new-visitor test, a recorded live provider call, an owner decision on a visible refund route, and the remaining owner/environment decisions ([capabilities.md](docs/capabilities.md)). What was verified, reviewed, accepted, integrated and published, revision by revision: the Evidence view and [project-status.json](docs/project-status.json).
 
 ## Published or candidate
 
