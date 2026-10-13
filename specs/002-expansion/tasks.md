@@ -29,3 +29,5 @@ Next recommended task: E-M02. Pending decisions D14 (model/data/budget), D15 (pi
 Update this table and its acceptance row when results change. PARTIAL must name the missing part in spec.md; COMPLETE requires linked evidence.
 
 U06 / S01-T24 completed the Spanish/English portion of EXP-M02, with browser evidence in reports/LANGUAGE_REVIEW_2026-10-03.md. Explicit session reset and remaining M02 criteria are still pending; the whole expansion item is not marked complete.
+
+2026-10-13: presentation closed as a bounded ES/EN demonstration; no expansion item is completed by the documentary closure. Retained branches preserve unfinished reset/explain work. New feature work requires an explicit next scope.

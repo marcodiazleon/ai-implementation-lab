@@ -1,6 +1,6 @@
 # Empieza aquí
 
-Soy Marco Díaz de León. Ayudo a definir qué necesita un negocio, qué sistemas hay que conectar y cómo organizar su implementación.
+Soy Marco A Díaz de León. Ayudo a definir qué necesita un negocio, qué sistemas hay que conectar y cómo organizar su implementación.
 
 Este repositorio muestra mi trabajo de definición, selección de herramientas y coordinación de una integración. El ejemplo funciona con pedidos ficticios y el código se desarrolló con asistencia de IA.
 

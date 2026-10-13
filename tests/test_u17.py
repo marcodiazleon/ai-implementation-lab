@@ -84,7 +84,7 @@ class PresentationTests(unittest.TestCase):
 
     def test_readme_order_length_and_screenshot(self):
         text = (ROOT / "README.md").read_text(encoding="utf-8")
-        for first, second in (("Marco Díaz de León", "The code was written with AI assistance"),
+        for first, second in (("Marco A Díaz de León", "The code was written with AI assistance"),
                               ("The code was written with AI assistance", "First action"), ("First action", "## Three routes")):
             self.assertLess(text.index(first), text.index(second))
         body = re.sub(r"```.*?```", "", text, flags=re.S)

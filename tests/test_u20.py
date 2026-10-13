@@ -163,7 +163,7 @@ class RecordTests(unittest.TestCase):
         self.assertIn("covers this build", rows[2]["value"]); self.assertIn("revision fb7ecf6", rows[2]["value"])
         cand = results[1]["rows"]
         self.assertEqual([r["state"] for r in cand][1:], ["OTHER_REVISION", "OTHER_REVISION", "NOT_CONTAINED", "OTHER_REVISION"])
-        self.assertIn("esta revisión no está aceptada", cand[2]["value"]); self.assertIn("Pages publica 166ea91", cand[4]["value"])
+        self.assertIn("esta revisión no está aceptada", cand[2]["value"]); self.assertIn("Pages publica " + status["deployment"]["revision"][:7], cand[4]["value"])
         self.assertIn("esta revisión no está publicada", cand[4]["value"])
         self.assertTrue(all(r["state"] == "UNKNOWN" for r in results[2]["rows"][1:]))
         self.assertIn("undetermined (Git unavailable)", results[2]["rows"][2]["value"])
@@ -195,7 +195,7 @@ class RecordTests(unittest.TestCase):
         status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
         expected = {}
         for key in ("independent_review", "acceptance", "deployment"):
-            expected[key] = git(ROOT, "rev-parse", status[key]["revision"] + "^{tree}") == head_tree
+            expected[key] = not revision.dirty_files(ROOT) and git(ROOT, "rev-parse", status[key]["revision"] + "^{tree}") == head_tree
         expected["integration"] = subprocess.run(["git", "-C", str(ROOT), "merge-base", "--is-ancestor", head, status["integration"]["main"]], capture_output=True).returncode == 0
         for key in ("independent_review", "acceptance", "deployment"):
             self.assertRegex(status[key]["revision"], r"^[0-9a-f]{40}$")
