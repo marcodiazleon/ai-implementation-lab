@@ -140,8 +140,8 @@ class RecordTests(unittest.TestCase):
         dirty = dict(status, build_states={"git": True, "reasons": {"acceptance": reason, "deployment": reason, "independent_review": reason, "integration": "the commit is contained in main; the checkout also has uncommitted changes"},
                                            "independent_review": False, "acceptance": False, "integration": True, "deployment": False})
         rows = json.loads(run_text([NODE, "-e", NODE_ROWS, str(ROOT / "web/evidence-rules.js")], check=True, input=json.dumps([[dirty, evidence, "en"]])).stdout)[0]["rows"]
-        self.assertIn("this build is not accepted (" + reason + ")", rows[2]["value"])
-        self.assertIn("this build is contained in main (the commit is contained in main; the checkout also has uncommitted changes)", rows[3]["value"])
+        self.assertIn("this record does not cover this build (" + reason + ")", rows[2]["value"])
+        self.assertIn("contained in the recorded main revision (the commit is contained in main; the checkout also has uncommitted changes)", rows[3]["value"])
 
     @unittest.skipUnless(NODE, "node is required")
     def test_status_view_model_states_and_negatives(self):
@@ -163,8 +163,10 @@ class RecordTests(unittest.TestCase):
         self.assertIn("covers this build", rows[2]["value"]); self.assertIn("revision fb7ecf6", rows[2]["value"])
         cand = results[1]["rows"]
         self.assertEqual([r["state"] for r in cand][1:], ["OTHER_REVISION", "OTHER_REVISION", "NOT_CONTAINED", "OTHER_REVISION"])
-        self.assertIn("esta revisión no está aceptada", cand[2]["value"]); self.assertIn("Pages publica " + status["deployment"]["revision"][:7], cand[4]["value"])
-        self.assertIn("esta revisión no está publicada", cand[4]["value"])
+        self.assertIn("este registro no cubre esta revisión", cand[2]["value"]); self.assertIn("publicación registrada " + status["deployment"]["revision"][:7], cand[4]["value"])
+        self.assertIn("contenido distinto de la publicación registrada", cand[4]["value"])
+        self.assertNotIn("esta revisión no está publicada", cand[4]["value"])
+        self.assertNotIn("esta revisión no está integrada", cand[3]["value"])
         self.assertTrue(all(r["state"] == "UNKNOWN" for r in results[2]["rows"][1:]))
         self.assertIn("undetermined (Git unavailable)", results[2]["rows"][2]["value"])
         absent_rows = results[3]["rows"]

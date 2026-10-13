@@ -88,22 +88,22 @@
    state: review ? (states.independent_review === true ? "COVERED" : states.independent_review === false ? "OTHER_REVISION" : "UNKNOWN") : "NOT_RECORDED",
    value: !review ? t("No registrada", "Not recorded")
     : [review.status, review.by, review.date, t("revisión ", "revision ") + short(review.revision), scope(review.scope)].filter(Boolean).join(" · ") + " · "
-     + thisBuild("independent_review", t("cubre esta revisión", "covers this build"), t("esta revisión no está revisada", "this build is not reviewed")) });
+     + thisBuild("independent_review", t("cubre esta revisión", "covers this build"), t("este registro no cubre esta revisión", "this record does not cover this build")) });
   rows.push({ key: "acceptance", label: t("Aceptación del dueño", "Owner acceptance"),
    state: acceptance ? (states.acceptance === true ? "COVERED" : states.acceptance === false ? "OTHER_REVISION" : "UNKNOWN") : "NOT_RECORDED",
    value: !acceptance ? t("No registrada", "Not recorded")
     : [acceptance.status, acceptance.by, acceptance.date, t("revisión ", "revision ") + short(acceptance.revision), scope(acceptance.scope)].filter(Boolean).join(" · ") + " · "
-     + thisBuild("acceptance", t("mismo contenido: cubre esta revisión", "same content: covers this build"), t("esta revisión no está aceptada", "this build is not accepted")) });
+     + thisBuild("acceptance", t("mismo contenido: cubre esta revisión", "same content: covers this build"), t("este registro no cubre esta revisión", "this record does not cover this build")) });
   rows.push({ key: "integration", label: t("Integración", "Integration"),
    state: integration ? (states.integration === true ? "CONTAINED" : states.integration === false ? "NOT_CONTAINED" : "UNKNOWN") : "NOT_RECORDED",
    value: !integration ? t("No registrada", "Not recorded")
-    : [integration.state, "main " + short(integration.main), integration.merged ? t("fusionada ", "merged ") + short(integration.merged) : "", integration.pull_request ? "PR #" + integration.pull_request : ""].filter(Boolean).join(" · ") + " · "
-     + thisBuild("integration", t("esta revisión está contenida en main", "this build is contained in main"), t("esta revisión no está integrada", "this build is not integrated")) });
+    : [integration.state, t("main registrado ", "recorded main ") + short(integration.main), integration.merged ? t("fusionada ", "merged ") + short(integration.merged) : "", integration.pull_request ? "PR #" + integration.pull_request : ""].filter(Boolean).join(" · ") + " · "
+     + thisBuild("integration", t("contenido en la revisión de main registrada", "contained in the recorded main revision"), t("no contenido en la revisión de main registrada", "not contained in the recorded main revision")) });
   rows.push({ key: "deployment", label: t("Despliegue", "Deployment"),
    state: deployment ? (states.deployment === true ? "COVERED" : states.deployment === false ? "OTHER_REVISION" : "UNKNOWN") : "NOT_RECORDED",
    value: !deployment ? t("No registrado", "Not recorded")
-    : [deployment.state, t("Pages publica ", "Pages serves ") + short(deployment.revision), deployment.date, deployment.verified ? t("verificado por ", "verified by ") + deployment.verified.by + " " + (deployment.verified.date || "") : ""].filter(Boolean).join(" · ") + " · "
-     + thisBuild("deployment", t("mismo contenido que lo publicado", "same content as the published site"), t("esta revisión no está publicada", "this build is not published")) });
+    : [deployment.state, t("publicación registrada ", "recorded publication ") + short(deployment.revision), deployment.date, deployment.verified ? t("verificado por ", "verified by ") + deployment.verified.by + " " + (deployment.verified.date || "") : ""].filter(Boolean).join(" · ") + " · "
+     + thisBuild("deployment", t("mismo contenido que la publicación registrada", "same content as the recorded publication"), t("contenido distinto de la publicación registrada", "different content from the recorded publication")) });
   return { error: null, rows };
  }
  (typeof window !== "undefined" ? window : globalThis).LabEvidenceRules = { tally, badge, statusRows, validatePayload };
