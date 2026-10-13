@@ -38,7 +38,7 @@ Pending: a new-visitor test, a recorded live provider call, an owner decision on
 
 ## Published or candidate
 
-The public URL serves main at the revision recorded under `deployment` in `docs/project-status.json`. Every build's Evidence view says whether it has the same content as the published and the accepted revisions; a branch never borrows the status of main. To review an unpublished candidate, fetch its branch and compare the commit with the SHA in its pull request:
+The public URL serves a main build. `deployment` in `docs/project-status.json` records a confirmed publication, which can precede the latest documentary closeout. Evidence pins file links to the build SHA and compares content with the recorded publication and acceptance; a branch never borrows these records. To review an unpublished candidate, fetch its branch and compare the commit with the SHA in its pull request:
 
 ```sh
 git fetch origin <branch>
@@ -82,4 +82,4 @@ Public for inspection; no open-source license is granted in this version. To dis
 
 Convierto una idea de IA en una primera versión acotada: defino el problema y el alcance, fijo los criterios de aceptación, coordino la construcción y verifico el resultado. El código se escribió con asistencia de IA; las decisiones, el alcance y la verificación son trabajo mío.
 
-Primera acción: abre la demo pública y pulsa *Empezar el recorrido de 3 minutos*. La URL pública sirve main en la revisión que registra project-status.json; en Evidencia ves si la versión que miras es la publicada y la aceptada. Para revisar un candidato no publicado, sigue *Published or candidate*. En 30 segundos lees la presentación de Sesión; en 3 minutos sigues el recorrido de *Cómo está construido*; para la revisión técnica, empieza en el índice de documentación. La [guía en español](docs/START_HERE_ES.md) explica la instalación local.
+Primera acción: abre la demo pública y pulsa *Empezar el recorrido de 3 minutos*. La URL pública sirve una versión de main. En Evidencia ves su SHA y la cobertura de los registros de publicación y aceptación; estos pueden ser históricos. Para revisar un candidato no publicado, sigue *Published or candidate*. En 30 segundos lees la presentación de Sesión; en 3 minutos sigues el recorrido de *Cómo está construido*; para la revisión técnica, empieza en el índice de documentación. La [guía en español](docs/START_HERE_ES.md) explica la instalación local.

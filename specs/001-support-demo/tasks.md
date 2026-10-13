@@ -112,3 +112,5 @@ Task state describes work, not acceptance. Case states in acceptance.csv are aut
 
 ## 2026-10-13 maintenance closure
 R14/R49/R52 (existing T17/T73/T77 responsibilities): reconcile current status, integration/deployment records, book index and specification metadata; current identity and ES/EN preserved. Existing behavior tests and evidence check validate the bounded change. No new feature or expansion delivery; PR #4/#5/#6/#11 closed with branches retained. Owner/live/environment/manual cases remain pending.
+
+R49 closeout verification: stale record coverage must be described as coverage of the recorded revision, not a claim that a newly deployed build is globally unpublished or unmerged. Clarify the existing ES/EN status copy and its negative assertions; preserve states, historical records and manual cases.
