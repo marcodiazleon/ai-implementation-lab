@@ -1594,6 +1594,14 @@
   "C330": {
    "kind": "structure",
    "polarity": "positive"
+  },
+  "C331": {
+   "kind": "behavior",
+   "polarity": "negative"
+  },
+  "C332": {
+   "kind": "behavior",
+   "polarity": "positive"
   }
  },
  "overrides": {}

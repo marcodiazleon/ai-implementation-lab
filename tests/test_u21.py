@@ -988,19 +988,21 @@ class BookTests(unittest.TestCase):
         self.assertIn("the owner opens pull requests manually; the assistant only pushes branches", decisions)   # history kept
         self.assertIn("Model integration is deferred", (ROOT / "docs/engineering-guide.md").read_text(encoding="utf-8"))  # earlier wording cited
 
-    def test_pages_guard_gap_is_recorded_and_context7_copy_is_true(self):
-        """C326 (R59e): the Pages save guard gap is recorded as pending, not patched; the Context7 copy describes manual reading."""
+    def test_pages_guard_gap_is_closed_and_context7_copy_is_true(self):
+        """C326 (R59e, amended 2026-10-13 by U24/D59): the Pages save guard gap recorded on 2026-10-12 is closed, with the
+        resolution recorded; the Context7 copy describes manual reading."""
         controls = json.loads((ROOT / "specs/001-support-demo/security-controls.json").read_text(encoding="utf-8"))
-        limit = next(c for c in controls["controls"] if c["id"] == "SC-02")["limit"]
-        self.assertIn("public-demo.js saveAgent", limit); self.assertIn("pending a code decision", limit)
-        self.assertIn("Code decision on the Pages save guard (C326", DOC("capabilities.md"))
+        sc02 = next(c for c in controls["controls"] if c["id"] == "SC-02")
+        self.assertIn("closed by D59 and C331", sc02["limit"]); self.assertIn("C331", sc02["cases"])
+        self.assertNotIn("pending a code decision", sc02["limit"])
+        capabilities = DOC("capabilities.md")
+        self.assertIn("the gap of C326 was closed on 2026-10-13", capabilities)
+        self.assertNotIn("Code decision on the Pages save guard (C326", capabilities)
         public = (ROOT / "web/public-demo.js").read_text(encoding="utf-8")
-        self.assertNotIn("LabSensitive", public)                       # no silent patch in a documentation change
-        self.assertIn("PRIVATE KEY", public)
+        self.assertIn("LabSensitive.findSecretsIn(row)", public); self.assertNotIn("PRIVATE KEY", public)
         html = (ROOT / "web/index.html").read_text(encoding="utf-8")
         self.assertNotIn("El Investigador podrá usar el resultado", html); self.assertNotIn("The researcher can use the result", html)
         self.assertIn("no se reenvía a ningún agente ni a la conversación", html); self.assertIn("it is not forwarded to any agent or to the conversation", html)
-
 
     def test_diagrams_are_laid_out_for_a_phone(self):
         """C328 (R59g): vertical flowcharts with short labels; sequences of at most three participants with short messages."""
