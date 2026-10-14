@@ -116,7 +116,8 @@
   const valid = [["name", 2, 80], ["role", 3, 160], ["prompt", 20, 4000]].every(([k, lo, hi]) => row[k] && row[k].length >= lo && row[k].length <= hi)
    && ["plan", "research", "implementation", "review"].includes(row.work_mode) && row.id !== null;
   if (!valid) return [400, { error: "AGENT_DEFINITION_INVALID" }];
-  if (/sk-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/.test(JSON.stringify(row))) return [400, { error: "AGENT_SENSITIVE_INPUT" }];
+  // D59: the same named formats and the same walk as the export guards and the Python store; fail closed without them.
+  if (typeof LabSensitive === "undefined" || LabSensitive.findSecretsIn(row).length) return [400, { error: "AGENT_SENSITIVE_INPUT" }];
   const index = custom.findIndex((x) => x.id === row.id);
   if (row.id && index < 0) return [404, { error: "AGENT_NOT_FOUND" }];
   if (index >= 0) custom[index] = row;

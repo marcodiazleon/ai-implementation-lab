@@ -11,6 +11,7 @@ class PagesBuildTests(unittest.TestCase):
             out = build(Path(tmp) / "site")
             html = (out / "index.html").read_text(encoding="utf-8")
             self.assertLess(html.index('src="public-demo.js"'), html.index('src="cloud.js"'))
+            self.assertLess(html.index('src="sensitive-rules.js"'), html.index('src="public-demo.js"'))   # D59: the save guard needs the shared rules
             self.assertNotIn('src="/', html)
             self.assertNotIn('href="/', html)
             for name in ("orders.json", "policy.json", "scenarios.json", "roles.json"):
