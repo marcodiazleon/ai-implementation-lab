@@ -1602,6 +1602,10 @@
   "C332": {
    "kind": "behavior",
    "polarity": "positive"
+  },
+  "C333": {
+   "kind": "structure",
+   "polarity": "positive"
   }
  },
  "overrides": {}

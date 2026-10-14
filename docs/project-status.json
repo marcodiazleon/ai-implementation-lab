@@ -37,7 +37,7 @@
     }
   },
   "evidence": "evidence/latest.json",
-  "latest_delivery": "U20-U23 integrated through PRs #8-#10 and #12; runtime/name release 8675cac published and verified. Presentation closure accepted at 8.5/10, not production certification.",
+  "latest_delivery": "U20-U23 integrated through PRs #8-#10 and #12; runtime/name release 8675cac published and verified. Presentation closure accepted at 8.5/10, not production certification. U24 (Pages in-tab save guard, D59) and the 2026-10-13 owner decisions (U25, D60) are delivered on two stacked pull requests awaiting integration by Codex; neither is accepted.",
   "current_task": "R14/R49/R52 records reconciled; five-view ES/EN release checked; PR #4/#5/#6/#11 closed by owner instruction, branches retained",
   "live_api": "NOT_EXECUTED",
   "other_pc_runtime": "NOT_EXECUTED",
@@ -73,7 +73,7 @@
     }
   },
   "id_registry": "docs/id-registry.json",
-  "next_task": "No active implementation. Parked: D35 / remaining D19, private reporting route, ruff dependency decision, C304 owner environment evidence, C326 Pages-save guard decision, C170 real visitor and C327 render captures. Any new capability needs its own scope; four closed branches remain recoverable.",
+  "next_task": "No active implementation. Parked for the owner: the account-side settings and their read-only evidence (private vulnerability reporting, secret scanning, two-factor authentication, protection of main; C304 / SC-15), C170 real visitor, C327 render captures, and the evaluation-only license with CODEOWNERS of PR #5 (legal review runs in parallel). Decided 2026-10-13: D35 left as is, remaining D19 in force, ruff not adopted (D60), Pages save guard corrected (D59). The business case view (PR #6) and the reset and explain backend (PR #11) are recoverable on their retained branches and need their own scope; any new capability needs its own scope.",
   "evidence_fields": "Run baseline, worktree state and the source and record fingerprints are read from evidence/latest.json; they are not copied here (R42c)",
   "records_rule": "Each record names the revision it is about. The build and the local server compute from Git whether this checkout has the same content as the accepted and published revisions and whether it is contained in main (scripts/revision.py, D41). Nothing here is copied from evidence/latest.json.",
   "integration_history": [

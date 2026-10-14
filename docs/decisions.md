@@ -1,6 +1,6 @@
 # Decisions and sources
 
-Table updated 2026-10-04; the dated sections below run through 2026-10-12 and are ordered by ID in their own numbering, not by position (D59, D58 and D57 precede D56). Source IDs are defined in the active specification.
+Table updated 2026-10-04; the dated sections below run through 2026-10-12 and are ordered by ID in their own numbering, not by position (D60, D59, D58 and D57 precede D56). Source IDs are defined in the active specification.
 
 | ID | Decision / question | Alternatives and reason | Source / authority | Owner | State / revisit |
 |---|---|---|---|---|---|
@@ -19,7 +19,7 @@ Table updated 2026-10-04; the dated sections below run through 2026-10-12 and ar
 | D13 | Active spec is S01 0.4 | A later numbered spec may be planning-only | Current method, U03 | Assistant | ACTIVE; S02 remains BACKLOG |
 | D14 | Model/provider budget and destination | Local model or approved remote service, compare before enabling | No provider/cost decision supplied | Marco | PENDING for EXP-A04 only |
 | D15 | Pilot identity and users | Choose actual roles/resources with the business owner | No live pilot currently in scope | Marco | PENDING for EXP-M04/A10 only |
-| D19 | Public publication: static GitHub Pages build with rules running in the browser; chat, API-key and MCP views hidden in public; no visitor data | A hosted Python server would need hosting, identity and cost decisions; the browser port reuses the fixtures | Owner request 2026-10-04 | Marco | RESOLVED; parity checked by C113 |
+| D19 | Public publication: static GitHub Pages build with rules running in the browser; chat, API-key and MCP views hidden in public; no visitor data | A hosted Python server would need hosting, identity and cost decisions; the browser port reuses the fixtures | Owner request 2026-10-04 | Marco | RESOLVED; parity checked by C113. Amendment 2026-10-13 (Marco, U25): D29 superseded only the public refund presentation; the static build, the browser rules, the hidden chat, API-key and MCP views and the absence of visitor data remain in force |
 | D20 | PR lock against main: the owner opens pull requests manually; the assistant only pushes branches. Amended 2026-10-12: Marco, via Codex, authorized the assistant to open draft pull requests for independent review (PR #9, PR #10); merging, publication and anything on main stay the owner's | Assistant-opened PRs would bypass the owner's review step | Owner 2026-10-04 | Marco | RESOLVED |
 | D21 | Evidence view data: requirements exposed as JSON generated from the spec table (same regex as sdd_check.py); latest.json and acceptance.csv served unchanged; spec.md not published in the static build | Publishing spec.md and parsing Markdown in the browser; recalculating states client-side | Owner U10 2026-10-04 | Marco | RESOLVED; C116, C118, C119 |
 
@@ -58,6 +58,7 @@ Source: Marco, 2026-10-05, U13. Replace visible refund panels with the existing 
 
 ## D35 — Route for the deterministic refund case under U13 (U17, R35b)
 2026-10-11. U13 removes the refund exercise from the visible application and the constitution keeps it as code and CLI evidence. Authorized route here: the in-app tour describes the controls and links to their evidence; `python run.py tour` runs the case locally with receipt counts per step. Alternatives that need Marco's decision and are not implemented: (a) a read-only transcript of `run.py tour` shown in How it is built, generated from the controller; (b) an interactive exercise in a non-Session place, which would revise U13. PENDING OWNER DECISION.
+Amendment 2026-10-13 (Marco, U25): the route stays as it is, the in-app tour and `python run.py tour`; alternatives (a) and (b) are not implemented and remain documented here. RESOLVED.
 
 ## D36 — Version 1.1 and one place for the number (U17, R36c)
 2026-10-11. Open branches declare 0.10 (PR #6), 0.11 (PR #4) and 1.0 (PR #5). This branch declares 1.1 so that no number means two things. Port of PR #4 D26: spec, plan and tasks headers must equal docs/project-status.json; current guides either link to project-status or state provenance as "introduced in S01 x.y" or "written for S01 x.y"; dated reports and the notebook keep their historical numbers.
@@ -118,6 +119,9 @@ Source: Marco, 2026-10-05, U13. Replace visible refund panels with the existing 
 
 ## D55 — The deadline is enforced inside every read (U21 second review, R55a)
 2026-10-12. Codex showed that the first DeadlineReader armed the socket timeout once per call while the buffered reader could perform several receives, so a continuous trickle within one line or within the body outlived the deadline. Chosen: the reader works on the raw socket with its own buffer; each receive uses a timeout of the lesser of the inactivity limit and the time remaining, and the request line, the headers and the body all go through it; tests measure that the connection closes at the deadline while the client is still sending and that the slots are released.
+
+## D60 — Static analysis stays with the repository's own rules; ruff is not adopted (U25)
+2026-10-13. ruff 0.16.8 with the bandit-derived rules ran once in the implementer's environment (C297) and its findings were triaged; running it in CI would add a development dependency. Marco decided not to adopt it. Chosen: scripts/security_check.py keeps its named standard-library rules in verify.py and in every CI job, and the limit stays written: partial static analysis, not a full SAST; the local ruff run remains one-off evidence and is NO_PROBADO in CI. Rejected: ruff pinned to an exact version in CI (more coverage, a dependency to pin and review). It reopens only by a new owner decision with an explicit instruction to install.
 
 ## D59 — The Pages in-tab agent save uses the shared credential rules (U24, R54h)
 2026-10-13. The in-tab agent save of the public build checked two formats (an sk- key and a private-key block) while the local store and the export guards used the eleven shared formats; U22 recorded the gap on 2026-10-12 (C326) pending a code decision. Marco decided to correct it. Chosen: saveAgent in web/public-demo.js calls LabSensitive.findSecretsIn on the whole definition, the same walk as the export guards and the Python store, and refuses with AGENT_SENSITIVE_INPUT; if LabSensitive is not loaded the save is refused (fail closed); the built page loads sensitive-rules.js before public-demo.js, which a test checks. Rejected: removing the in-tab save from the public demo (it changes what a visitor sees); leaving the gap recorded. Limits: the definition never leaves the tab, so no exploitation was claimed; this closes a coverage inconsistency, raises no score and does not make the build accepted.

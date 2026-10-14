@@ -217,3 +217,9 @@ Owner authorized merge/publication; PR #13 merged as be2708c and Pages/Verify su
 - Source: Marco, 2026-10-13, answering the closing question list: correct the gap recorded as C326. Recorded first: U24, R54h, T91, D59, C331; C326 amended with a dated note and its test renamed; the SC-02 limit, capabilities.md and the book (chapters 2 and 7 and the decision register) carry dated notes that keep the historical text.
 - Scope: web/public-demo.js saveAgent only, plus the Node harness (it now loads the shared rules like the page does), a built-page order check and the records above. No new route, no storage, no visible change.
 - Not claimed: acceptance, a score change, exploitation (the definition never left the tab), publication.
+
+## 2026-10-13 · U25 owner decisions recorded (small PR, not accepted)
+- Source: Marco, 2026-10-13, closing question list. Recorded: D35 resolved (left as is), D19 remainder confirmed, D60 (ruff not adopted), the account-side settings and their evidence owed by the owner, the closed pull requests (#4, #5, #6, #11) with their branches retained, and the parked list. The records that carried the old pending wording keep it and gain dated amendments: decisions.md, supply-chain.md, capabilities.md, the runbook, the SC-11 limit and the book.
+- Correction of an earlier statement of the implementing assistant: it had said that most of PR #5 and PR #6 had already entered main under other IDs. A file-by-file check showed otherwise: the business case view of PR #6 and the license, CODEOWNERS and product documents of PR #5 are not in main. The decision to keep them closed is recorded with that fact.
+- Not recorded and still open: the fourth independent review of PR #10 (merged before it); Codex's reproduction of the security candidate; any acceptance.
+- Not claimed: acceptance, a score change, publication.

@@ -61,7 +61,7 @@ Contact: Marco's public GitHub profile is the only address this repository publi
 
 ## Pending owner evidence · Evidencia pendiente del propietario
 
-The following are settings of the owner's accounts and providers. The implementer cannot read or change them, and this repository records them as NO_PROBADO until Marco supplies read-only evidence (a screenshot or an exported setting without credentials): two-factor authentication on the GitHub account, branch protection on main (the required check names of D37 are known, the protection itself is not verified here), private vulnerability reporting, GitHub secret scanning on the repository, the Pages source and custom domain settings, and provider-side spending limits on the API keys.
+The following are settings of the owner's accounts and providers. The implementer cannot read or change them, and this repository records them as NO_PROBADO until Marco supplies read-only evidence (a screenshot or an exported setting without credentials): two-factor authentication on the GitHub account, branch protection on main (the required check names of D37 are known, the protection itself is not verified here), private vulnerability reporting, GitHub secret scanning on the repository, the Pages source and custom domain settings, and provider-side spending limits on the API keys. Owner decision 2026-10-13: Marco enables private vulnerability reporting and GitHub secret scanning, confirms two-factor authentication and the protection of main, and sends read-only evidence; until it is recorded these stay NO_PROBADO and the contact route stays his public profile.
 
 ## Synthetic drill DRILL-2026-10-12-01 · Simulacro sintético
 

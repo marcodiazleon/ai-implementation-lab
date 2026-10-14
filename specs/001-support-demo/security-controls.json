@@ -330,7 +330,7 @@
     "C297"
    ],
    "state": "PARCIAL",
-   "limit": "ruff's bandit-derived rules ran locally once; CI execution needs a dependency decision by Marco",
+   "limit": "ruff's bandit-derived rules ran locally once; Marco decided on 2026-10-13 not to adopt the dependency (D60), so CI keeps its own rules",
    "checklist": [
     "REQ138",
     "REQ139",

@@ -49,10 +49,10 @@ Entre rondas, dos carreras de CI en C284 (Windows: reset antes de leer; Ubuntu 3
 ## 6.5 Lo que sigue pendiente y no lo cierra esta documentación
 
 - Evidencia del propietario (SC-15, C304): MFA, protección de rama, reporte privado de vulnerabilidades, escaneo de secretos, ajustes de Pages. Nada lo habilita el implementador (R58c).
-- Análisis externo en CI: SAST, auditoría de dependencias, ruff; NO_PROBADO hasta una decisión de dependencia de Marco (D48).
+- Análisis externo en CI: SAST, auditoría de dependencias, ruff; NO_PROBADO en CI; Marco decidió el 2026-10-13 no adoptar ruff (D60) y la auditoría de dependencias no aplica hoy (D48).
 - Un canal privado de reporte operativo (R58a).
 - Pruebas humanas y de dispositivo: C170 (visitante nuevo), C176, C177, lector de pantalla, llamada real a un proveedor, otro PC. Casos NO_PROBADO en `a16a4e6` (nueve en el conteo de la evidencia): C045, C066, C067, C120, C151, C152, C170, C176, C177, C260, C296 y C304 figuran así en acceptance.csv; tres de ellos (C260, C296 y C120) tienen una prueba que los deja NO_PROBADO con motivo registrado.
-- Decisión de Marco sobre D35 y la conciliación de los PR #4–#6.
+- (Resuelto el 2026-10-13) D35 se deja como está; los PR #4, #5, #6 y #11 están cerrados con sus ramas conservadas.
 - SC-16 (corredor) es VERIFICADO por casos ejecutados por el implementador; no es un PASS independiente de Codex.
 
 ## Summary in English
