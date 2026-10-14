@@ -64,7 +64,8 @@
     "C310",
     "C316",
     "C317",
-    "C331"
+    "C331",
+    "C332"
    ],
    "state": "VERIFICADO",
    "limit": "Same named formats in Python and JavaScript, applied to every string value of objects and arrays raw and serialized, checked against each other with Node and on the real export form; the server is the authority where one exists, the browser guard is the only one on the static build; the Pages in-tab agent save (web/public-demo.js saveAgent) used two formats only until 2026-10-13, a coverage gap recorded on 2026-10-12 (U22, C326) and closed by D59 and C331: it now applies the shared patterns and refuses when they are not loaded",
