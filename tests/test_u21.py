@@ -1004,6 +1004,29 @@ class BookTests(unittest.TestCase):
         self.assertNotIn("El Investigador podrá usar el resultado", html); self.assertNotIn("The researcher can use the result", html)
         self.assertIn("no se reenvía a ningún agente ni a la conversación", html); self.assertIn("it is not forwarded to any agent or to the conversation", html)
 
+    def test_owner_decisions_of_2026_10_13_are_recorded(self):
+        """C333 (R52, U25): D35 and D19 carry dated amendments, D60 exists and is cited where ruff was pending, the owner's
+        evidence duty is written down, and project-status no longer lists the decided items as pending."""
+        decisions = DOC("decisions.md")
+        d35 = decisions[decisions.index("## D35"):decisions.index("## D36")]
+        self.assertIn("Amendment 2026-10-13", d35); self.assertIn("RESOLVED", d35)
+        d19 = next(line for line in decisions.splitlines() if line.startswith("| D19 |"))
+        self.assertIn("Amendment 2026-10-13", d19); self.assertIn("remain in force", d19)
+        d60 = decisions[decisions.index("## D60 "):decisions.index("## D59 ")]
+        self.assertIn("ruff", d60); self.assertIn("not adopt", d60)
+        controls = json.loads((ROOT / "specs/001-support-demo/security-controls.json").read_text(encoding="utf-8"))
+        self.assertIn("D60", next(c for c in controls["controls"] if c["id"] == "SC-11")["limit"])
+        self.assertIn("D60", DOC("supply-chain.md"))
+        self.assertNotIn("Owner decision on a visible route (D35)", DOC("capabilities.md"))
+        runbook = DOC("security-runbook.md")
+        self.assertIn("Owner decision 2026-10-13", runbook); self.assertIn("read-only evidence", runbook)
+        status = json.loads((ROOT / "docs/project-status.json").read_text(encoding="utf-8"))
+        for pending in ("D35 /", "ruff dependency decision", "C326"):
+            self.assertNotIn(pending, status["next_task"], pending)
+        self.assertIn("D60", status["next_task"]); self.assertIn("private vulnerability reporting", status["next_task"])
+        chapter = (BOOK / "05-decisiones.md").read_text(encoding="utf-8")
+        self.assertRegex(chapter, r"(?m)^\| D60 "); self.assertIn("resuelta el 2026-10-13", chapter)
+
     def test_diagrams_are_laid_out_for_a_phone(self):
         """C328 (R59g): vertical flowcharts with short labels; sequences of at most three participants with short messages."""
         seen = 0
