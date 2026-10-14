@@ -9,7 +9,7 @@ Current implementation: the S01 version in [project-status.json](project-status.
 | Presentation and tour | Session presentation; three-minute tour in How it is built | Same | Test with a new visitor (C170) | Fictional case only |
 | Refund case | Described in the tour; not executed in the interface (U13) | `python run.py tour` and the test suite | Owner decision on a visible route (D35) | Simulated receipts; reviewer without real authentication; memory-only state |
 | Session conversation | Model catalog and agent drafts; no replies | Conversation with OpenAI or Anthropic using your own key and consent | A recorded live provider call | Text only; no tools; provider charges apply locally |
-| Agents | Drafts kept in the tab (the in-tab save checks two credential formats only) | Definitions kept in the ignored `.local` folder, checked with the shared patterns | Code decision on the Pages save guard (C326, 2026-10-12) | No shell, file or deployment access |
+| Agents | Drafts kept in the tab (the in-tab save applies the shared credential patterns since 2026-10-13: D59, C331; it checked two formats before) | Definitions kept in the ignored `.local` folder, checked with the shared patterns | None recorded for the save guard (the gap of C326 was closed on 2026-10-13) | No shell, file or deployment access |
 | MCP | Configuration export only | Context7 read-only connection | Live assistant-client interoperability | Exported configuration is not a connection |
 | Evidence | Committed run, cases and project records | Same, plus `python scripts/verify.py` | Owner acceptance; integration of PRs #4–#6 | Automated checks are not owner acceptance |
 | Verification | — | Local run | CI result on the candidate revision | Named publication guard patterns |

@@ -1,6 +1,6 @@
 # Decisions and sources
 
-Table updated 2026-10-04; the dated sections below run through 2026-10-12 and are ordered by ID in their own numbering, not by position (D58 and D57 precede D56). Source IDs are defined in the active specification.
+Table updated 2026-10-04; the dated sections below run through 2026-10-12 and are ordered by ID in their own numbering, not by position (D59, D58 and D57 precede D56). Source IDs are defined in the active specification.
 
 | ID | Decision / question | Alternatives and reason | Source / authority | Owner | State / revisit |
 |---|---|---|---|---|---|
@@ -118,6 +118,9 @@ Source: Marco, 2026-10-05, U13. Replace visible refund panels with the existing 
 
 ## D55 — The deadline is enforced inside every read (U21 second review, R55a)
 2026-10-12. Codex showed that the first DeadlineReader armed the socket timeout once per call while the buffered reader could perform several receives, so a continuous trickle within one line or within the body outlived the deadline. Chosen: the reader works on the raw socket with its own buffer; each receive uses a timeout of the lesser of the inactivity limit and the time remaining, and the request line, the headers and the body all go through it; tests measure that the connection closes at the deadline while the client is still sending and that the slots are released.
+
+## D59 — The Pages in-tab agent save uses the shared credential rules (U24, R54h)
+2026-10-13. The in-tab agent save of the public build checked two formats (an sk- key and a private-key block) while the local store and the export guards used the eleven shared formats; U22 recorded the gap on 2026-10-12 (C326) pending a code decision. Marco decided to correct it. Chosen: saveAgent in web/public-demo.js calls LabSensitive.findSecretsIn on the whole definition, the same walk as the export guards and the Python store, and refuses with AGENT_SENSITIVE_INPUT; if LabSensitive is not loaded the save is refused (fail closed); the built page loads sensitive-rules.js before public-demo.js, which a test checks. Rejected: removing the in-tab save from the public demo (it changes what a visitor sees); leaving the gap recorded. Limits: the definition never leaves the tab, so no exploitation was claimed; this closes a coverage inconsistency, raises no score and does not make the build accepted.
 
 ## D58 — Un libro de ingeniería que consolida sin sustituir (U22, R59)
 2026-10-12. The spec, plan, tasks, decisions and notebook describe the system increment by increment; nobody could read the application end to end without recomposing them, and docs/architecture.md describes a view that U13 removed. Chosen: docs/book/ holds one reading route (purpose, architecture, code walk with sequences, method, decisions, validation, operation and limits) for the code of a16a4e6, in Spanish with English navigation and summaries; diagrams are Mermaid inside the Markdown, each followed by a textual equivalent, and every arrow cites a file and line; the decision chapter reuses the existing IDs and says "no registrado" where the record is silent; contradictions between older documents and the code are listed and not corrected, because changing records is the owner's call and history is not rewritten. Rejected: keeping only the per-increment records; rewriting architecture.md in place as the book. Limits: documentation is not acceptance and changes no score; the Mermaid render is GitHub's and is reported, not verified by a local tool, since nothing was installed.

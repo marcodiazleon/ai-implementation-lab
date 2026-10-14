@@ -55,6 +55,7 @@
     "src/lab/agent_store.py::def validate",
     "web/studio.js::secretLike",
     "web/sensitive-rules.js::findSecrets",
+    "web/public-demo.js::LabSensitive",
     "src/lab/sensitive.py::def find_secrets_in"
    ],
    "cases": [
@@ -62,10 +63,11 @@
     "C276",
     "C310",
     "C316",
-    "C317"
+    "C317",
+    "C331"
    ],
    "state": "VERIFICADO",
-   "limit": "Same named formats in Python and JavaScript, applied to every string value of objects and arrays raw and serialized, checked against each other with Node and on the real export form; the server is the authority where one exists, the browser guard is the only one on the static build; the Pages in-tab agent save (web/public-demo.js saveAgent) checks two formats only, while the local store and the export guards use the shared patterns: a coverage gap recorded 2026-10-12 (U22, C326), pending a code decision",
+   "limit": "Same named formats in Python and JavaScript, applied to every string value of objects and arrays raw and serialized, checked against each other with Node and on the real export form; the server is the authority where one exists, the browser guard is the only one on the static build; the Pages in-tab agent save (web/public-demo.js saveAgent) used two formats only until 2026-10-13, a coverage gap recorded on 2026-10-12 (U22, C326) and closed by D59 and C331: it now applies the shared patterns and refuses when they are not loaded",
    "checklist": [
     "REQ070",
     "REQ071",
